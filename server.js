@@ -20,11 +20,21 @@ db.con.connect(function(error) {
     });
 });
 
-
 // Chargement de la page index.html + autres pages statiques
 app.use('/static', express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
+});
+
+io.sockets.on('connection', function (socket, pseudo) {
+    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    socket.on('newcli', function(pseudo) {
+        pseudo = ent.encode(pseudo);
+        socket.pseudo = pseudo;
+        console.log(world);
+        socket.emit('mapload', world);
+    });
+
 });
 
 server.listen(8080);
