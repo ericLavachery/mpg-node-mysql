@@ -6,6 +6,7 @@ const ent = require('ent'); // Permet de bloquer les caractères HTML (sécurit�
 const fs = require('fs');
 const db = require('./db.js');
 const express = require('express');
+const numHTiles = 15;
 
 let world = [];
 // charge la carte au démarage du serveur
@@ -33,6 +34,33 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.pseudo = pseudo;
         console.log(world);
         socket.emit('mapload', world);
+    });
+
+    socket.on('add_terrain', function(terrain) {
+        let lastTile = world[world.length - 1];
+        let y = 0;
+        let x = 0;
+        let id = lastTile.id + 1;
+        if (lastTile.y >= numHTiles) {
+            y = 1;
+            x = lastTile.x + 1;
+        } else {
+            y = lastTile.y + 1;
+            x = lastTile.x;
+        }
+        let tile = {id: id, terrain: terrain, x: x, y: y};
+        world.push(tile);
+        // console.log(world);
+
+        socket.emit('new_tile', tile);
+        socket.broadcast.emit('new_tile', tile);
+
+        // enregistrer dans la db
+        var sql = "INSERT INTO world (terrain, x, y) VALUES ('" + terrain + "', '" + x + "','" + y + "')";
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log("writen in DB : " + terrain + " " + x + "." + y);
+        });
     });
 
 });

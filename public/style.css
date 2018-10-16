@@ -18,11 +18,20 @@
     background-color: #e6d391;
 }
 .hills {
-    background-color: #986b37;
+    background-color: #a88051;
+}
+.mountains {
+    background-color: #71491a;
+}
+.swamp {
+    background-color: #608f81;
 }
 #con {
     display: none;
 }
 #pascon {
     display: block;
+}
+td {
+    vertical-align: top;
 }
