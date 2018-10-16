@@ -18,10 +18,11 @@
                 <tr>
                     <td>
                         <div class="grid-container" id="zone_map">
-                            <!-- <div class="grid-item plains"></div> -->
+                            <!-- <div id="17" class="grid-item plains" onclick="changeTerrain(this)"></div> -->
                         </div>
                     </td>
                     <td>
+                        <p>Add Tile</p>
                         <input type="button" value="plains" id="plains" />
                         <input type="button" value="forest" id="forest" />
                         <input type="button" value="hills" id="hills" />
@@ -43,6 +44,7 @@
             // Connexion à socket.io
             var socket = io.connect('http://localhost:8080', {'sync disconnect on unload': true});
 
+// LOGIN ---------------------------------------------------------------
             // fonction pour Connexion
             let pseudo = 'anonymous';
             function connectMe() {
@@ -65,38 +67,44 @@
 
 
 
+// MAP CREATOR --------------------------------------------------------
             // Quand on reçoit un la carte, on l'insère dans la page
             socket.on('mapload', function(wmap) {
                 showMap(wmap);
             })
-
             // Dessine la carte
             function showMap(wmap) {
+                // reset
+                document.getElementById("zone_map").innerHTML = '';
+                // fill
                 wmap.forEach(function(tile) {
                     // console.log(tile);
-                    $('#zone_map').append('<div class="grid-item ' + tile.terrain + '">' + tile.x + '.' + tile.y + '</div>');
+                    $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="changeTerrain(this)">' + tile.x + '.' + tile.y + '</div>');
                 });
             }
-
             // Quand on reçoit un nouveau terrain, on l'insère dans la carte
             socket.on('new_tile', function(tile) {
-                showTile(tile.terrain, tile.x, tile.y);
+                showTile(tile.id, tile.terrain, tile.x, tile.y);
             })
             // afficher le terrain
-            function showTile(terrain, x, y) {
-                $('#zone_map').append('<div class="grid-item ' + terrain + '">' + x + '.' + y + '</div>');
+            function showTile(id, terrain, x, y) {
+                $('#zone_map').append('<div id="' + id + '" class="grid-item ' + terrain + '" onclick="changeTerrain(this)">' + x + '.' + y + '</div>');
             }
-
             // Les boutons du "map editor"
             $("#plains").click({terrain: "plains"}, addTerrain);
             $("#forest").click({terrain: "forest"}, addTerrain);
             $("#hills").click({terrain: "hills"}, addTerrain);
             $("#swamp").click({terrain: "swamp"}, addTerrain);
             $("#mountains").click({terrain: "mountains"}, addTerrain);
-
             // fonction pour rajouter un terrain (pour l'instant, c'est juste le terrain suivant)
             function addTerrain(go){
                 socket.emit('add_terrain', go.data.terrain);
+            }
+
+// MAP EDITOR --------------------------------------------------------------------
+            function changeTerrain(data){
+                console.log('tell the server to change tile ' + data.id);
+                socket.emit('change_terrain', data.id);
             }
 
 

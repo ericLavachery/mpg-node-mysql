@@ -32,7 +32,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('newcli', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
-        console.log(world);
+        // console.log(world);
         socket.emit('mapload', world);
     });
 
@@ -59,7 +59,38 @@ io.sockets.on('connection', function (socket, pseudo) {
         var sql = "INSERT INTO world (terrain, x, y) VALUES ('" + terrain + "', '" + x + "','" + y + "')";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log("writen in DB : " + terrain + " " + x + "." + y);
+            console.log('tile added');
+        });
+    });
+
+    socket.on('change_terrain', function(id) {
+        let num = id-1;
+        let tile = world[num];
+        // console.log(tile);
+        let newTerrain = 'plains';
+        if (tile.terrain === 'plains') {
+            newTerrain = 'forest';
+        } else if (tile.terrain === 'forest') {
+            newTerrain = 'hills';
+        } else if (tile.terrain === 'hills') {
+            newTerrain = 'mountains';
+        } else if (tile.terrain === 'mountains') {
+            newTerrain = 'swamp';
+        } else if (tile.terrain === 'swamp') {
+            newTerrain = 'plains';
+        }
+        tile.terrain = newTerrain;
+        world[num] = tile;
+        // console.log(world);
+
+        socket.emit('mapload', world);
+        socket.broadcast.emit('mapload', world);
+
+        // enregister dans la db
+        var sql = "UPDATE world SET terrain = '"+newTerrain+"' WHERE id = "+id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('tile changed');
         });
     });
 
