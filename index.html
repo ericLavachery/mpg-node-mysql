@@ -61,7 +61,7 @@
             function putHistory(wmap) {
                 wmap.forEach(function(tile) {
                     // console.log(tile);
-                    $('#zone_map').append('<div class="grid-item ' + tile.terrain + '"></div>');
+                    $('#zone_map').append('<div class="grid-item ' + tile.terrain + '">' + tile.id + '</div>');
                 });
             }
 

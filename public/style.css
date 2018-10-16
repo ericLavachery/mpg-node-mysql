@@ -7,7 +7,9 @@
 }
 .grid-item {
     border: 1px solid rgba(0, 0, 0, 0.6);
-    font-size: 20px;
+    font-size: 10px;
+    color: #000000;
+    padding: 7px 5px;
 }
 .forest {
     background-color: #1d6b1b;
