@@ -35,8 +35,19 @@
         <script src="/static/nav.js"></script>
         <script>
 
+        let world = [];
+        let selectedUnit = {
+            id: '',
+            pic: '',
+            tileId: '',
+            x: '',
+            y: ''
+        };
+        console.log(selectedUnit.pic);
+
             // Quand on reçoit un la carte, on l'insère dans la page
             socket.on('mapload', function(wmap) {
+                world = wmap;
                 showMap(wmap);
                 showUnit(7,76,'space-suit.png');
                 showUnit(9,45,'alien-bug.png');
@@ -48,7 +59,7 @@
                 // fill
                 wmap.forEach(function(tile) {
                     // console.log(tile);
-                    $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="changeTerrain(this)">' + tile.x + '.' + tile.y + '</div>');
+                    $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="selectOrMove(this)">' + tile.x + '.' + tile.y + '</div>');
                 });
             }
             // Quand on reçoit un nouveau terrain, on l'insère dans la carte
@@ -57,14 +68,71 @@
             })
             // afficher le terrain
             function showTile(id, terrain, x, y) {
-                $('#zone_map').append('<div id="' + id + '" class="grid-item ' + terrain + '" onclick="changeTerrain(this)">' + x + '.' + y + '</div>');
+                $('#zone_map').append('<div id="' + id + '" class="grid-item ' + terrain + '" onclick="selectOrMove(this)">' + x + '.' + y + '</div>');
             }
 
 
 
             // afficher l'unité
             function showUnit(unitId, tileId, pic) {
-                $('#'+tileId).empty().append('<img src="/static/img/units/'+pic+'" alt="" id="u'+unitId+'">');
+                $('#'+tileId).empty().append('<img src="/static/img/units/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
+            }
+
+            // Sélectionne une unité, ou un tile
+            function selectOrMove(gridItem) {
+                let tileId = gridItem.id;
+                let unitId = 0;
+                let imgId = 0;
+                if (Object.keys(gridItem.children).length >= 1) {
+                    unitId = gridItem.children[0].id.substring(1);
+                    imgId = gridItem.children[0].id;
+                }
+                console.log('unit '+unitId+' / tile '+tileId);
+                if (unitId >= 1) {
+                    if (selectedUnit.id === unitId) {
+                        selectedUnit = {
+                            id: '',
+                            pic: '',
+                            tileId: '',
+                            x: '',
+                            y: ''
+                        };
+                        $("#"+imgId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
+                    } else {
+                        selectedUnit.id = unitId;
+                        selectedUnit.pic = gridItem.children[0].alt;
+                        selectedUnit.tileId = tileId;
+                        selectedUnit.x = world[tileId-1].x;
+                        selectedUnit.y = world[tileId-1].y;
+                        $("#"+imgId).attr("src", gridItem.children[0].src.replace("/units/", "/sunits/"));
+                    }
+                } else {
+                    if (selectedUnit.id !== '') {
+                        moveUnit(tileId);
+                    }
+                }
+            }
+            function isAdjacent(myTileId, thatTileId) {
+                let myTileX = world[myTileId-1].x;
+                let myTileY = world[myTileId-1].y;
+                let thatTileX = world[thatTileId-1].x;
+                let thatTileY = world[thatTileId-1].y;
+                if (thatTileX == myTileX+1 || thatTileX == myTileX || thatTileX == myTileX-1) {
+                    if (thatTileY == myTileY+1 || thatTileY == myTileY || thatTileY == myTileY-1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+            function moveUnit(tileId) {
+                if (isAdjacent(selectedUnit.tileId,tileId)) {
+                    $('#'+selectedUnit.tileId).empty();
+                    $('#'+tileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+                    selectedUnit.tileId = tileId;
+                }
             }
 
 
