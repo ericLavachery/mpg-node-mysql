@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <h1>MPG <span id="pseu"></span></h1>
+        <h1>MAP EDITOR <span id="pseu"></span></h1>
 
         <div id="pascon">
             <p><input type="button" value="Connexion" id="hello" /></p>
@@ -18,13 +18,19 @@
                 <tr>
                     <td>
                         <div class="grid-container" id="zone_map">
-                            <!-- <div id="17" class="grid-item plains" onclick="changeTerrain(this)">
-                                <img src="/static/img/units/space-suit.png" alt="">
-                            </div> -->
+                            <!-- <div id="17" class="grid-item plains" onclick="changeTerrain(this)"></div> -->
                         </div>
                     </td>
                     <td>
-                        <button type="button" name="medit" id="medit">Map Editor >>></button>
+                        <button type="button" name="home" id="home">Home >>></button>
+                        <div style="display: none">
+                            <p>Add Tile</p>
+                            <input type="button" value="plains" id="plains" />
+                            <input type="button" value="forest" id="forest" />
+                            <input type="button" value="hills" id="hills" />
+                            <input type="button" value="mountains" id="mountains" />
+                            <input type="button" value="swamp" id="swamp" />
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -35,11 +41,10 @@
         <script src="/static/nav.js"></script>
         <script>
 
+// MAP CREATOR --------------------------------------------------------
             // Quand on reçoit un la carte, on l'insère dans la page
             socket.on('mapload', function(wmap) {
                 showMap(wmap);
-                showUnit(7,76,'space-suit.png');
-                showUnit(9,45,'alien-bug.png');
             })
             // Dessine la carte
             function showMap(wmap) {
@@ -59,12 +64,21 @@
             function showTile(id, terrain, x, y) {
                 $('#zone_map').append('<div id="' + id + '" class="grid-item ' + terrain + '" onclick="changeTerrain(this)">' + x + '.' + y + '</div>');
             }
+            // Les boutons du "map editor"
+            $("#plains").click({terrain: "plains"}, addTerrain);
+            $("#forest").click({terrain: "forest"}, addTerrain);
+            $("#hills").click({terrain: "hills"}, addTerrain);
+            $("#swamp").click({terrain: "swamp"}, addTerrain);
+            $("#mountains").click({terrain: "mountains"}, addTerrain);
+            // fonction pour rajouter un terrain (pour l'instant, c'est juste le terrain suivant)
+            function addTerrain(go){
+                socket.emit('add_terrain', go.data.terrain);
+            }
 
-
-
-            // afficher l'unité
-            function showUnit(unitId, tileId, pic) {
-                $('#'+tileId).empty().append('<img src="/static/img/units/'+pic+'" alt="" id="u'+unitId+'">');
+// MAP EDITOR --------------------------------------------------------------------
+            function changeTerrain(data){
+                // console.log('tell the server to change tile ' + data.id);
+                socket.emit('change_terrain', data.id);
             }
 
 

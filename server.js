@@ -21,14 +21,19 @@ db.con.connect(function(error) {
     });
 });
 
-// Chargement de la page index.html + autres pages statiques
+// pages statiques dossier public/
 app.use('/static', express.static(__dirname + '/public'));
+
+// router - ouais, on disait...
+app.get('/edit/', function (req, res) {
+    res.sendFile(__dirname + '/editor.html');
+});
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
 io.sockets.on('connection', function (socket, pseudo) {
-    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    // On LOGIN send MAP
     socket.on('newcli', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
@@ -36,6 +41,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('mapload', world);
     });
 
+    // MAP CREATE
     socket.on('add_terrain', function(terrain) {
         let lastTile = world[world.length - 1];
         let y = 0;
@@ -63,6 +69,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         });
     });
 
+    // MAP EDIT
     socket.on('change_terrain', function(id) {
         let num = id-1;
         let tile = world[num];
