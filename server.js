@@ -8,6 +8,7 @@ const db = require('./db.js');
 const express = require('express');
 const numHTiles = 15;
 
+let pop = [];
 let world = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
@@ -18,6 +19,12 @@ db.con.connect(function(error) {
         // RowDataPacket to JSON (is this the right way? - but it works...)
         world = JSON.parse(JSON.stringify(result));
         console.log('map loaded');
+    });
+    sql = "SELECT * FROM pop";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        pop = JSON.parse(JSON.stringify(result));
+        console.log('units loaded');
     });
 });
 
@@ -37,8 +44,24 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('newcli', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
-        // console.log(world);
+        // console.log(pop);
         socket.emit('mapload', world);
+        socket.emit('popload', pop);
+    });
+
+    // MOVE UNIT
+    socket.on('move_unit', function(mvi) {
+        // change pop
+        objIndex = pop.findIndex((obj => obj.id == mvi.unitId));
+        pop[objIndex].tileId = mvi.tileId;
+        // change db
+        var sql = "UPDATE pop SET tileId = '"+mvi.tileId+"' WHERE id = "+mvi.unitId;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('unit moved');
+        });
+        // broadcast
+        socket.broadcast.emit('unit_moved', mvi);
     });
 
     // MAP CREATE
@@ -57,10 +80,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         let tile = {id: id, terrain: terrain, x: x, y: y};
         world.push(tile);
         // console.log(world);
-
         socket.emit('new_tile', tile);
         socket.broadcast.emit('new_tile', tile);
-
         // enregistrer dans la db
         var sql = "INSERT INTO world (terrain, x, y) VALUES ('" + terrain + "', '" + x + "','" + y + "')";
         db.con.query(sql, function (error, result) {
@@ -89,10 +110,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         tile.terrain = newTerrain;
         world[num] = tile;
         // console.log(world);
-
         socket.emit('mapload', world);
         socket.broadcast.emit('mapload', world);
-
         // enregister dans la db
         var sql = "UPDATE world SET terrain = '"+newTerrain+"' WHERE id = "+id;
         db.con.query(sql, function (error, result) {

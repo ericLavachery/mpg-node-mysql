@@ -35,6 +35,7 @@
         <script src="/static/nav.js"></script>
         <script>
 
+        let pop = [];
         let world = [];
         let selectedUnit = {
             id: '',
@@ -49,8 +50,6 @@
             socket.on('mapload', function(wmap) {
                 world = wmap;
                 showMap(wmap);
-                showUnit(7,76,'space-suit.png');
-                showUnit(9,45,'alien-bug.png');
             })
             // Dessine la carte
             function showMap(wmap) {
@@ -62,23 +61,35 @@
                     $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="selectOrMove(this)">' + tile.x + '.' + tile.y + '</div>');
                 });
             }
-            // Quand on reçoit un nouveau terrain, on l'insère dans la carte
-            socket.on('new_tile', function(tile) {
-                showTile(tile.id, tile.terrain, tile.x, tile.y);
+
+            // Affichage des unités
+            socket.on('popload', function(wpop) {
+                pop = wpop;
+                showPop(wpop);
             })
-            // afficher le terrain
-            function showTile(id, terrain, x, y) {
-                $('#zone_map').append('<div id="' + id + '" class="grid-item ' + terrain + '" onclick="selectOrMove(this)">' + x + '.' + y + '</div>');
+            function showPop(wpop) {
+                wpop.forEach(function(unit) {
+                    showUnit(unit.id, unit.tileId, unit.pic);
+                });
             }
-
-
-
-            // afficher l'unité
             function showUnit(unitId, tileId, pic) {
                 $('#'+tileId).empty().append('<img src="/static/img/units/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
             }
+            socket.on('unit_moved', function(mvi) {
+                showOpponentMove(mvi.tileId, mvi.unitId);
+            })
+            function showOpponentMove(tileId, unitId) {
+                objIndex = pop.findIndex((obj => obj.id == unitId));
+                let movedUnitOldTileId = pop[objIndex].tileId;
+                let movedUnitPic = pop[objIndex].pic;
+                // bouge l'image sur la carte
+                $('#'+movedUnitOldTileId).empty();
+                $('#'+tileId).empty().append('<img src="/static/img/units/'+movedUnitPic+'" alt="'+movedUnitPic+'" id="u'+unitId+'">');
+                // change le tileId dans pop
+                pop[objIndex].tileId = tileId;
+            }
 
-            // Sélectionne une unité, ou un tile
+            // Click MAP : Select unit or move selected unit to that tile
             function selectOrMove(gridItem) {
                 let tileId = gridItem.id;
                 let unitId = 0;
@@ -129,9 +140,16 @@
             }
             function moveUnit(tileId) {
                 if (isAdjacent(selectedUnit.tileId,tileId)) {
+                    // bouge l'image sur la carte
                     $('#'+selectedUnit.tileId).empty();
                     $('#'+tileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+                    // change la place dans pop
+                    objIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+                    pop[objIndex].tileId = tileId;
+                    // change le tile dans selectedUnit
                     selectedUnit.tileId = tileId;
+                    // envoi au serveur
+                    socket.emit('move_unit', { tileId: tileId, unitId: selectedUnit.id});
                 }
             }
 
