@@ -10,6 +10,7 @@ const numHTiles = 15;
 
 let pop = [];
 let world = [];
+let ter = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -25,6 +26,12 @@ db.con.connect(function(error) {
         if (error) throw error;
         pop = JSON.parse(JSON.stringify(result));
         console.log('units loaded');
+    });
+    sql = "SELECT * FROM terrains";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        ter = JSON.parse(JSON.stringify(result));
+        console.log('terrains loaded');
     });
 });
 
@@ -47,6 +54,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // console.log(pop);
         socket.emit('mapload', world);
         socket.emit('popload', pop);
+        socket.emit('terload', ter);
     });
 
     // MOVE UNIT
@@ -54,14 +62,44 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change pop
         objIndex = pop.findIndex((obj => obj.id == mvi.unitId));
         pop[objIndex].tileId = mvi.tileId;
+        pop[objIndex].fatigue = mvi.fatigue;
         // change db
-        var sql = "UPDATE pop SET tileId = '"+mvi.tileId+"' WHERE id = "+mvi.unitId;
+        var sql = "UPDATE pop SET tileId = '"+mvi.tileId+"', fatigue = '"+mvi.fatigue+"' WHERE id = "+mvi.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('unit moved');
         });
         // broadcast
         socket.broadcast.emit('unit_moved', mvi);
+    });
+
+    // NEXT TURN
+    socket.on('next_turn', function(nti) {
+        // change pop
+        pop.forEach(function(unit) {
+            if (unit.player === nti.pseudo) {
+                if (unit.fatigue-unit.move >= 0) {
+                    unit.fatigue = unit.fatigue-unit.move;
+                } else {
+                    unit.fatigue = 0;
+                }
+            }
+        });
+        // récup = move
+        let sql = "UPDATE pop SET fatigue = fatigue-move WHERE player = '"+nti.pseudo+"' AND fatigue >= 0";
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('turn passed');
+        });
+        // fatigue non négative
+        sql = "UPDATE pop SET fatigue = 0 WHERE fatigue < 0";
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('turn passed');
+        });
+        // broadcast: no need?
+        // socket.broadcast.emit('turn_passed', nti);
+        console.log(nti.pseudo+' passe au tour suivant');
     });
 
     // MAP CREATE
