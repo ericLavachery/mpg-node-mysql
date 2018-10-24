@@ -143,7 +143,8 @@
                             showUnitInfos(unitId);
                             showTileInfos(tileId,true);
                         } else {
-                            showTileInfos(tileId,false);
+                            showUnitInfos(unitId);
+                            showTileInfos(tileId,true);
                         }
                     }
                 } else { // there is no unit
@@ -262,8 +263,16 @@
                 attack = Math.round(attack*(shape+300)/400);
                 $('#unitInfos').append('<h3>'+pop[unitIndex].type+'</h3>');
                 $('#unitInfos').append('<span class="paramName">Owner</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
-                $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
-                $('#unitInfos').append('<span class="paramName">HP</span><span class="paramValue">'+hpLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+pop[unitIndex].hp+'</span><br>');
+                if (shape >= 100) {
+                    $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
+                } else {
+                    $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue rouge">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
+                }
+                if (hpLeft >= pop[unitIndex].hp) {
+                    $('#unitInfos').append('<span class="paramName">HP</span><span class="paramValue">'+hpLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+pop[unitIndex].hp+'</span><br>');
+                } else {
+                    $('#unitInfos').append('<span class="paramName">HP</span><span class="paramValue rouge">'+hpLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+pop[unitIndex].hp+'</span><br>');
+                }
                 $('#unitInfos').append('<span class="paramName">Attack</span><span class="paramValue">'+attack+'&nbsp;/&nbsp;'+pop[unitIndex].attack+'</span><br>');
                 $('#unitInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+defense+'&nbsp;/&nbsp;'+pop[unitIndex].defense+'</span><br>');
                 $('#unitInfos').append('<span class="paramName">Power</span><span class="paramValue">'+pop[unitIndex].power+'</span><br>');

@@ -1,3 +1,6 @@
+body {
+    font-family: arial;
+}
 .grid-container {
     display: inline-grid;
     grid-template-columns: 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px;
@@ -37,7 +40,6 @@ td {
     padding-right: 10px;
 }
 #tileInfos, #unitInfos {
-    font-family: arial;
     font-size: 14px;
     color: #888888;
     padding: 8px 8px;
@@ -55,7 +57,7 @@ td {
 }
 h3 {
     font-size: 18px;
-    color: #d03e00;
+    color: #8d00d0;
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
@@ -64,4 +66,7 @@ h4 {
     color: #888888;
     margin: 0;
     padding: 0px 0px 5px 0px;
+}
+.rouge {
+    color: #d03e00;
 }
