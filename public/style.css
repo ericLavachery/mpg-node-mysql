@@ -2,7 +2,7 @@
     display: inline-grid;
     grid-template-columns: 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px;
     grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px 60px;
-    background-color: #2196F3;
+    background-color: #DDDDDD;
     padding: 10px;
 }
 .grid-item {
@@ -34,25 +34,34 @@
 }
 td {
     vertical-align: top;
+    padding-right: 10px;
 }
-#infos {
+#tileInfos, #unitInfos {
     font-family: arial;
     font-size: 14px;
+    color: #888888;
     padding: 8px 8px;
     border-style: solid;
     border-width: 1px;
     border-color: #DDDDDD;
 }
-#infos .paramName {
+.paramName {
     display: inline-block;
     width: 100px;
     font-weight: bold;
 }
-#infos .paramValue {
+.paramValue {
     display: inline-block;
 }
 h3 {
-    font-size: 17px;
+    font-size: 18px;
+    color: #d03e00;
     margin: 0;
-    padding: 0;
+    padding: 0px 0px 5px 0px;
+}
+h4 {
+    font-size: 18px;
+    color: #888888;
+    margin: 0;
+    padding: 0px 0px 5px 0px;
 }

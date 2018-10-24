@@ -134,24 +134,31 @@ io.sockets.on('connection', function (socket, pseudo) {
         let tile = world[num];
         // console.log(tile);
         let newTerrain = 'plains';
+        let newTerrainId = 1;
         if (tile.terrain === 'plains') {
             newTerrain = 'forest';
+            newTerrainId = 2;
         } else if (tile.terrain === 'forest') {
             newTerrain = 'hills';
+            newTerrainId = 3;
         } else if (tile.terrain === 'hills') {
             newTerrain = 'mountains';
+            newTerrainId = 4;
         } else if (tile.terrain === 'mountains') {
             newTerrain = 'swamp';
+            newTerrainId = 5;
         } else if (tile.terrain === 'swamp') {
             newTerrain = 'plains';
+            newTerrainId = 1;
         }
         tile.terrain = newTerrain;
+        tile.terrainId = newTerrainId;
         world[num] = tile;
         // console.log(world);
         socket.emit('mapload', world);
         socket.broadcast.emit('mapload', world);
         // enregister dans la db
-        var sql = "UPDATE world SET terrain = '"+newTerrain+"' WHERE id = "+id;
+        var sql = "UPDATE world SET terrain = '"+newTerrain+"', terrainId = '"+newTerrainId+"' WHERE id = "+id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('tile changed');
