@@ -4,8 +4,9 @@ const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 const ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
 const fs = require('fs');
-const db = require('./db.js');
+const db = require('./modules/dbconnect.js');
 const express = require('express');
+
 const numHTiles = 15;
 
 let pop = [];
@@ -31,7 +32,7 @@ db.con.connect(function(error) {
     db.con.query(sql, function (error, result) {
         if (error) throw error;
         ter = JSON.parse(JSON.stringify(result));
-        console.log('terrains loaded');
+        console.log('ter loaded');
     });
 });
 
