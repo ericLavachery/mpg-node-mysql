@@ -1,30 +1,4 @@
 // SHOW INFOS
-function showMovesLeftOnMouseOver(tileId,unitId) {
-    let tileIndex = world.findIndex((obj => obj.id == tileId));
-    let myTileX = world[tileIndex].x;
-    let myTileY = world[tileIndex].y;
-    let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    let move = pop[unitIndex].move;
-    let fatigue = pop[unitIndex].fatigue;
-    if (fatigue < 0) {fatigue = 0;};
-    let movesLeft = move-fatigue;
-    let moveCost = 999;
-    world.forEach(function(tile) {
-        $("#"+tile.id).attr("title", "");
-        if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
-            if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
-                if (tile.y == myTileY && tile.x == myTileX) {
-                    moveCost = 0;
-                } else {
-                    moveCost = calcMoveCost(tile.id,unitId);
-                }
-                let fml = movesLeft-moveCost;
-                let omo = fml+' moves left';
-                $("#"+tile.id).attr("title", omo);
-            }
-        }
-    });
-};
 function showUnitInfos(unitId) {
     $('#unitInfos').empty();
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
@@ -49,7 +23,7 @@ function showUnitInfos(unitId) {
     defense = Math.round(defense*(shape+300)/400);
     attack = Math.round(attack*(shape+300)/400);
     $('#unitInfos').append('<h3>'+pop[unitIndex].type+'</h3>');
-    $('#unitInfos').append('<span class="paramName">Owner</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
+    $('#unitInfos').append('<span class="paramName">Owner</span><span class="paramValue">'+pop[unitIndex].player+'*'+pop[unitIndex].id+'</span><br>');
     if (shape >= 100) {
         $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
     } else {
@@ -78,4 +52,30 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Move cost</span><span class="paramValue">'+ter[terrainIndex].moveCost+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Cover</span><span class="paramValue">'+ter[terrainIndex].cover+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
+};
+function showMovesLeftOnMouseOver(tileId,unitId) {
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let myTileX = world[tileIndex].x;
+    let myTileY = world[tileIndex].y;
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let move = pop[unitIndex].move;
+    let fatigue = pop[unitIndex].fatigue;
+    if (fatigue < 0) {fatigue = 0;};
+    let movesLeft = move-fatigue;
+    let moveCost = 999;
+    world.forEach(function(tile) {
+        $("#"+tile.id).attr("title", "");
+        if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+            if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                if (tile.y == myTileY && tile.x == myTileX) {
+                    moveCost = 0;
+                } else {
+                    moveCost = calcMoveCost(tile.id,unitId);
+                }
+                let fml = movesLeft-moveCost;
+                let omo = fml+' moves left';
+                $("#"+tile.id).attr("title", omo);
+            }
+        }
+    });
 };

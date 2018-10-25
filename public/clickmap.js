@@ -1,4 +1,4 @@
-// Click MAP : Select unit or move selected unit to that tile
+// Click MAP
 function selectOrMove(gridItem) {
     let tileId = gridItem.id;
     let unitId = 0;

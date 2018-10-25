@@ -20,7 +20,7 @@ function showMap(wmap) {
     // fill
     wmap.forEach(function(tile) {
         // console.log(tile);
-        $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="selectOrMove(this)" title="">' + tile.x + '.' + tile.y + '</div>');
+        $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="selectOrMove(this)" title=""></div>');
     });
 };
 // infos terrains
