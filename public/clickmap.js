@@ -52,3 +52,7 @@ function selectOrMove(gridItem) {
         }
     }
 };
+function selectUnitFromList(listItem) {
+    let unitSelectedFromListId = listItem.id.substring(14);
+    // console.log(unitSelectedFromListId);
+};

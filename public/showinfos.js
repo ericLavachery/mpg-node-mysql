@@ -48,10 +48,21 @@ function showTileInfos(tileId,linked) {
     } else {
         $('#tileInfos').append('<h4>'+capitalizeFirstLetter(world[tileIndex].terrain)+'</h4>');
     }
+    $('#tileInfos').append('<span class="paramName">Tile Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Map square</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Move cost</span><span class="paramValue">'+ter[terrainIndex].moveCost+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Cover</span><span class="paramValue">'+ter[terrainIndex].cover+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
+    $('#tileUnitList').empty();
+    pop.forEach(function(unit) {
+        if (unit.tileId == tileId) {
+            if (selectedUnit.id == unit.id) {
+                $('#tileUnitList').append('<span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
+            } else {
+                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromList(this)"><span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
+            }
+        }
+    });
 };
 function showMovesLeftOnMouseOver(tileId,unitId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));

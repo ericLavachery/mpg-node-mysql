@@ -39,13 +39,21 @@ td {
     vertical-align: top;
     padding-right: 10px;
 }
-#tileInfos, #unitInfos {
+#tileInfos, #unitInfos, #tileUnitList {
     font-size: 14px;
     color: #888888;
     padding: 8px 8px;
     border-style: solid;
     border-width: 1px;
     border-color: #DDDDDD;
+}
+.sidebar a {
+    text-decoration: none;
+    color: #888888;
+}
+.sidebar a:hover {
+    text-decoration: none;
+    color: #8d00d0;
 }
 .paramName {
     display: inline-block;
@@ -69,4 +77,7 @@ h4 {
 }
 .rouge {
     color: #d03e00;
+}
+.mauve {
+    color: #8d00d0;
 }
