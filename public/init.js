@@ -35,11 +35,11 @@ socket.on('popload', function(wpop) {
 });
 function showPop(wpop) {
     wpop.forEach(function(unit) {
-        showUnit(unit.id, unit.tileId, unit.pic);
+        showUnit(unit.id, unit.tileId, unit.pic, 'units');
     });
 };
-function showUnit(unitId, tileId, pic) {
-    $('#'+tileId).empty().append('<img src="/static/img/units/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
+function showUnit(unitId, tileId, pic, folder) {
+    $('#'+tileId).empty().append('<img src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
 };
 socket.on('unit_moved', function(mvi) {
     showOpponentMove(mvi.tileId, mvi.unitId);

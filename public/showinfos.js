@@ -59,7 +59,7 @@ function showTileInfos(tileId,linked) {
             if (selectedUnit.id == unit.id) {
                 $('#tileUnitList').append('<span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
             } else {
-                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromList(this)"><span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
+                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
             }
         }
     });
