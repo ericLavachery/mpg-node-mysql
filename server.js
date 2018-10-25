@@ -19,13 +19,13 @@ db.con.connect(function(error) {
         if (error) throw error;
         // RowDataPacket to JSON (is this the right way? - but it works...)
         world = JSON.parse(JSON.stringify(result));
-        console.log('map loaded');
+        console.log('world loaded');
     });
     sql = "SELECT * FROM pop";
     db.con.query(sql, function (error, result) {
         if (error) throw error;
         pop = JSON.parse(JSON.stringify(result));
-        console.log('units loaded');
+        console.log('pop loaded');
     });
     sql = "SELECT * FROM terrains";
     db.con.query(sql, function (error, result) {
