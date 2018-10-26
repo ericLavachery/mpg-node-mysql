@@ -1,3 +1,15 @@
+// Button "MOVE MODE" only needed to move where there's already a unit.
+// Once clicked, click again to quit MOVE MODE.
+$('#moveButton').click(moveMode);
+function moveMode() {
+    if (mode != 'move') {
+        mode = 'move';
+        $('#moveButton').empty().append('Quit Move Mode');
+    } else {
+        mode = 'free';
+        $('#moveButton').empty().append('Move Mode');
+    }
+}
 function moveUnit(tileId) {
     if (isAdjacent(selectedUnit.tileId,tileId)) {
         // tile move cost

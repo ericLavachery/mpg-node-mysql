@@ -7,6 +7,7 @@ let selectedUnit = {
     x: '',
     y: ''
 };
+let mode = 'free';
 
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {

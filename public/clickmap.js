@@ -22,8 +22,12 @@ function selectOrMove(gridItem) {
             $('#unitInfos').empty();
             showTileInfos(tileId,false);
         } else { // unit not selected
-            if (unitOwner === pseudo) { // select the unit
-                selectUnit(unitId);
+            if (unitOwner === pseudo) {
+                if (mode == 'move' && selectedUnit.id !== '') { // move the unit here
+                    moveUnit(tileId);
+                } else { // select this unit
+                    selectUnit(unitId);
+                }
             } else {
                 showUnitInfos(unitId);
                 showTileInfos(tileId,true);
