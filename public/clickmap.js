@@ -2,11 +2,9 @@
 function selectOrMove(gridItem) {
     let tileId = gridItem.id;
     let unitId = 0;
-    let imgId = 0;
     // Is there a unit on the tile?
     if (Object.keys(gridItem.children).length >= 1) {
         unitId = gridItem.children[0].id.substring(1);
-        imgId = gridItem.children[0].id;
         unitOwner = pop[unitId-1].player;
     }
     if (unitId >= 1) { // there is a unit
@@ -18,7 +16,7 @@ function selectOrMove(gridItem) {
                 x: '',
                 y: ''
             };
-            $("#"+imgId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
+            $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
             $('#unitInfos').empty();
             showTileInfos(tileId,false);
         } else { // unit not selected
