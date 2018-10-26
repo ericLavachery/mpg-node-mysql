@@ -23,23 +23,6 @@ function selectOrMove(gridItem) {
             showTileInfos(tileId,false);
         } else { // unit not selected
             if (unitOwner === pseudo) { // select the unit
-                // selectedUnit.id = unitId;
-                // selectedUnit.pic = gridItem.children[0].alt;
-                // selectedUnit.tileId = tileId;
-                // selectedUnit.x = world[tileId-1].x;
-                // selectedUnit.y = world[tileId-1].y;
-                // // unmark all units (from pseudo)
-                // pop.forEach(function(unit) {
-                //     if (unit.player === pseudo) {
-                //         $("#u"+unit.id).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
-                //     }
-                // });
-                // // mark the unit
-                // $("#"+imgId).attr("src", gridItem.children[0].src.replace("/units/", "/sunits/"));
-                // // show moves left for each adjacent tiles (in title)
-                // showMovesLeftOnMouseOver(tileId, unitId);
-                // showUnitInfos(unitId);
-                // showTileInfos(tileId,true);
                 selectUnit(unitId);
             } else {
                 showUnitInfos(unitId);
@@ -67,18 +50,12 @@ function selectUnit(unitId) {
     selectedUnit.y = world[tileIndex].y;
     // unmark all units (from pseudo)
     pop.forEach(function(unit) {
-        if (unit.player === pseudo) {
-            if (Object.keys(unit.tileId).length >= 1) {
-                $("#u"+unit.id).attr('src', $("#u"+unit.id).attr('src').replace('/sunits/', '/units/'));
-            }
+        if (unit.player == pseudo && unit.id != selectedUnit.id) {
+            showUnit(unit.id,unit.tileId,unit.pic,'units');
         }
     });
     // mark the unit
-    if (Object.keys(selectedUnit.tileId).length >= 1) {
-        $("#u"+unitId).attr('src', $("#u"+unitId).attr('src').replace('/units/', '/sunits/'));
-    } else {
-        showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'sunits');
-    }
+    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'sunits');
     // show moves left for each adjacent tiles (in title)
     showMovesLeftOnMouseOver(selectedUnit.tileId, unitId);
     showUnitInfos(unitId);

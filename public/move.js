@@ -25,13 +25,20 @@ function moveUnit(tileId) {
             pop[unitIndex].tileId = tileId;
             pop[unitIndex].fatigue = fatigue;
             // change le tile dans selectedUnit
+            oldTileId = selectedUnit.tileId;
             selectedUnit.tileId = tileId;
             // envoi au serveur
             socket.emit('move_unit', { tileId: tileId, unitId: selectedUnit.id, fatigue: fatigue});
-            $('#infosMovesLeft').empty().append(movesLeft);
+            // affiche les infos
             showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
+            // remettre les unités qui étaient en dessous de celle qui est partie (ouais je me comprend, quoi)
+            pop.forEach(function(unit) {
+                if (unit.tileId == oldTileId) {
+                    showUnit(unit.id,unit.tileId,unit.pic,'units');
+                }
+            });
         }
     }
 };
@@ -45,12 +52,9 @@ function calcMoveCost(targetTileId, unitId) {
     let move = pop[unitIndex].move;
     let moveAdj = pop[unitIndex].moveAdj;
     let unitTileId = pop[unitIndex].tileId;
+    moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
     if (isDiag(unitTileId,targetTileId)) {
-        let mc2 = (moveCost*moveCost)+(moveCost*moveCost);
-        moveCost = Math.round(Math.sqrt(mc2));
-        moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
-    } else {
-        moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
+        moveCost = Math.round(moveCost*1414/1000);
     }
     return moveCost;
 }

@@ -57,9 +57,9 @@ function showTileInfos(tileId,linked) {
     pop.forEach(function(unit) {
         if (unit.tileId == tileId) {
             if (selectedUnit.id == unit.id) {
-                $('#tileUnitList').append('<span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
+                $('#tileUnitList').append('<span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'*'+unit.id+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
             } else {
-                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
+                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'*'+unit.id+'</span></a><br>');
             }
         }
     });
