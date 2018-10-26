@@ -44,22 +44,26 @@ function selectUnitFromTileInfoList(listItem) {
 };
 function selectUnit(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    selectedUnit.id = unitId;
-    selectedUnit.pic = pop[unitIndex].pic;
-    selectedUnit.tileId = pop[unitIndex].tileId;
-    let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
-    selectedUnit.x = world[tileIndex].x;
-    selectedUnit.y = world[tileIndex].y;
-    // unmark all units (from pseudo)
-    pop.forEach(function(unit) {
-        if (unit.player == pseudo && unit.id != selectedUnit.id) {
-            showUnit(unit.id,unit.tileId,unit.pic,'units');
-        }
-    });
-    // mark the unit
-    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'sunits');
-    // show moves left for each adjacent tiles (in title)
-    showMovesLeftOnMouseOver(selectedUnit.tileId, unitId);
-    showUnitInfos(unitId);
-    showTileInfos(selectedUnit.tileId,true);
+    if (pop[unitIndex].player == pseudo) {
+        selectedUnit.id = unitId;
+        selectedUnit.pic = pop[unitIndex].pic;
+        selectedUnit.tileId = pop[unitIndex].tileId;
+        let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
+        selectedUnit.x = world[tileIndex].x;
+        selectedUnit.y = world[tileIndex].y;
+        // unmark all units (from pseudo)
+        pop.forEach(function(unit) {
+            if (unit.player == pseudo && unit.id != selectedUnit.id) {
+                showUnit(unit.id,unit.tileId,unit.pic,'units');
+            }
+        });
+        // mark the unit
+        showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'sunits');
+        // show moves left for each adjacent tiles (in title)
+        showMovesLeftOnMouseOver(selectedUnit.tileId, unitId);
+        showUnitInfos(unitId);
+        showTileInfos(selectedUnit.tileId,true);
+    } else {
+        showUnitInfos(unitId);
+    }
 }

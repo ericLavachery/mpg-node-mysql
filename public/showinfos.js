@@ -22,8 +22,8 @@ function showUnitInfos(unitId) {
     if (shape > 100) {shape = 100;};
     defense = Math.round(defense*(shape+300)/400);
     attack = Math.round(attack*(shape+300)/400);
-    $('#unitInfos').append('<h3>'+pop[unitIndex].type+'</h3>');
-    $('#unitInfos').append('<span class="paramName">Owner</span><span class="paramValue">'+pop[unitIndex].player+'*'+pop[unitIndex].id+'</span><br>');
+    $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3>');
+    $('#unitInfos').append('<span class="paramName">Owner</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     if (shape >= 100) {
         $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
     } else {
@@ -53,16 +53,28 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Move cost</span><span class="paramValue">'+ter[terrainIndex].moveCost+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Cover</span><span class="paramValue">'+ter[terrainIndex].cover+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
+    showTileUnitList(tileId);
+};
+function showTileUnitList(tileId) {
     $('#tileUnitList').empty();
+    let unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+    let unitType = pop[unitIndex].type;
+    let numSameType = 1;
     pop.forEach(function(unit) {
         if (unit.tileId == tileId) {
             if (selectedUnit.id == unit.id) {
-                $('#tileUnitList').append('<span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'*'+unit.id+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
+                $('#tileUnitList').append('<span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
             } else {
-                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.type+'</span><span class="paramValue">'+unit.player+'*'+unit.id+'</span></a><br>');
+                if (unit.type == unitType) {
+                    numSameType = numSameType+1;
+                }
+                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
             }
         }
     });
+    if (numSameType >= 2) {
+        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton">Join all '+unitType+'</button>');
+    }
 };
 function showMovesLeftOnMouseOver(tileId,unitId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));

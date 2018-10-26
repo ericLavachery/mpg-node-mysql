@@ -54,4 +54,10 @@ function showOpponentMove(tileId, unitId) {
     $('#'+tileId).empty().append('<img src="/static/img/units/'+movedUnitPic+'" alt="'+movedUnitPic+'" id="u'+unitId+'">');
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
+    // remettre les unités qui étaient en dessous de celle qui est partie (ouais je me comprend, quoi)
+    pop.forEach(function(unit) {
+        if (unit.tileId == movedUnitOldTileId) {
+            showUnit(unit.id,unit.tileId,unit.pic,'units');
+        }
+    });
 };
