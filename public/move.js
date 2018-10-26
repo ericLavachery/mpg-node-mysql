@@ -1,4 +1,4 @@
-// Button "MOVE MODE" only needed to move where there's already a unit.
+// Button "MOVE MODE" (only needed to move where there's already a unit).
 // Once clicked, click again to quit MOVE MODE.
 $('#moveButton').click(moveMode);
 function moveMode() {

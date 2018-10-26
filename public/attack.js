@@ -1,4 +1,4 @@
-// Button "ATTACK MODE" only needed to move where there's already a unit.
+// Button "ATTACK MODE".
 // Once clicked, click again to quit ATTACK MODE.
 $('#attackButton').click(attackMode);
 function attackMode() {
