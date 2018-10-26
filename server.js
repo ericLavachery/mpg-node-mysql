@@ -52,7 +52,6 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('newcli', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
-        // console.log(pop);
         socket.emit('mapload', world);
         socket.emit('popload', pop);
         socket.emit('terload', ter);
