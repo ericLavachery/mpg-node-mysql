@@ -49,7 +49,7 @@ function moveUnit(tileId) {
             showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
-            // remettre les unités qui étaient en dessous de celle qui est partie (ouais je me comprend, quoi)
+            // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend, quoi)
             pop.forEach(function(unit) {
                 if (unit.tileId == oldTileId) {
                     showUnit(unit.id,unit.tileId,unit.pic,'units');
