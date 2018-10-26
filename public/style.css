@@ -47,6 +47,9 @@ td {
     border-width: 1px;
     border-color: #DDDDDD;
 }
+#sidebarInfos {
+    width: 270px;
+}
 .sidebar a {
     text-decoration: none;
     color: #888888;
@@ -57,7 +60,7 @@ td {
 }
 .paramName {
     display: inline-block;
-    width: 100px;
+    width: 150px;
     font-weight: bold;
 }
 .paramValue {

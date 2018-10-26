@@ -25,17 +25,18 @@
                         <br>
                         <button type="button" name="medit" id="medit">Map Editor</button>
                     </td>
-                    <td class="sidebar">
-                        <button type="button" name="moveButton" id="moveButton">Move Mode</button>&nbsp;
-                        <button type="button" name="attackButton" id="attackButton">Attack Mode</button><br>
-                        <br>
+                    <td class="sidebar" id="sidebarInfos">
                         <div id="unitInfos">
                             <!-- <span class="paramName">Moves</span><span class="paramValue">70</span><br> -->
                         </div>
                         <div id="tileInfos"></div>
                         <div id="tileUnitList"></div>
-                        <br><br>
-                        <button type="button" name="nextTurn" id="nextButton">Next Turn</button>
+                    </td>
+                    <td class="sidebar" id="sidebarCommand">
+                        <button type="button" name="moveButton" id="moveButton">Move Mode</button><br>
+                        <button type="button" name="attackButton" id="attackButton">Attack Mode</button><br>
+                        <br>
+                        <button type="button" name="nextTurn" id="nextButton">Next Turn</button><br>
                     </td>
                 </tr>
             </table>
@@ -47,6 +48,7 @@
         <script src="/static/init.js"></script>
         <script src="/static/clickmap.js"></script>
         <script src="/static/move.js"></script>
+        <script src="/static/attack.js"></script>
         <script src="/static/showinfos.js"></script>
         <script src="/static/nextturn.js"></script>
         <script src="/static/stuff.js"></script>

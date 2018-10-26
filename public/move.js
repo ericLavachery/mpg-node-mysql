@@ -5,9 +5,13 @@ function moveMode() {
     if (mode != 'move') {
         mode = 'move';
         $('#moveButton').empty().append('Quit Move Mode');
+        $('#attackButton').empty().append('Attack Mode');
+        $('#zone_map').css("background-color", "#2b89a7");
     } else {
         mode = 'free';
         $('#moveButton').empty().append('Move Mode');
+        $('#attackButton').empty().append('Attack Mode');
+        $('#zone_map').css("background-color", "#DDDDDD");
     }
 }
 function moveUnit(tileId) {
