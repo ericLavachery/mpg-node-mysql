@@ -5,7 +5,8 @@ function selectOrMove(gridItem) {
     // Is there a unit on the tile?
     if (Object.keys(gridItem.children).length >= 1) {
         unitId = gridItem.children[0].id.substring(1);
-        unitOwner = pop[unitId-1].player;
+        let unitIndex = pop.findIndex((obj => obj.id == unitId));
+        unitOwner = pop[unitIndex].player;
     }
     if (unitId >= 1) { // there is a unit
         if (selectedUnit.id == unitId) { // unit already selected => unselect
@@ -14,7 +15,7 @@ function selectOrMove(gridItem) {
             $('#unitInfos').empty();
             showTileInfos(tileId,false);
         } else { // unit not selected
-            if (unitOwner === pseudo) {
+            if (unitOwner == pseudo) {
                 if (mode == 'move' && selectedUnit.id !== '') { // move the unit here
                     moveUnit(tileId);
                 } else { // select this unit

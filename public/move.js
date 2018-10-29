@@ -16,6 +16,7 @@ function moveMode() {
 }
 function moveUnit(tileId) {
     if (isAdjacent(selectedUnit.tileId,tileId)) {
+        oldTileId = selectedUnit.tileId;
         // tile move cost
         let tileIndex = world.findIndex((obj => obj.id == tileId));
         let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
@@ -41,7 +42,6 @@ function moveUnit(tileId) {
             pop[unitIndex].tileId = tileId;
             pop[unitIndex].fatigue = fatigue;
             // change le tile dans selectedUnit
-            oldTileId = selectedUnit.tileId;
             selectedUnit.tileId = tileId;
             // envoi au serveur
             socket.emit('move_unit', { tileId: tileId, unitId: selectedUnit.id, fatigue: fatigue});
