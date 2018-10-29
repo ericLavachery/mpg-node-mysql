@@ -53,20 +53,19 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Move cost</span><span class="paramValue">'+ter[terrainIndex].moveCost+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Cover</span><span class="paramValue">'+ter[terrainIndex].cover+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
-    showTileUnitList(tileId);
+    if (selectedUnit.id != '') {
+        showTileUnitList(tileId);
+    }
 };
 function showTileUnitList(tileId) {
     $('#tileUnitList').empty();
-    let unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
-    let unitType = pop[unitIndex].type;
-    let unitNumber = pop[unitIndex].number;
     let numSameType = 1;
     pop.forEach(function(unit) {
         if (unit.tileId == tileId) {
             if (selectedUnit.id == unit.id) {
                 $('#tileUnitList').append('<span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
             } else {
-                if (unit.type == unitType) {
+                if (unit.type == selectedUnit.type) {
                     numSameType = numSameType+1;
                 }
                 $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
@@ -74,9 +73,9 @@ function showTileUnitList(tileId) {
         }
     });
     if (numSameType >= 2) {
-        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton">Join all '+unitType+' units</button>');
+        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton">Join all '+selectedUnit.type+' units</button>');
     }
-    if (unitNumber >= 2) {
+    if (selectedUnit.number >= 2) {
         splitButtons(selectedUnit.id);
     }
 };

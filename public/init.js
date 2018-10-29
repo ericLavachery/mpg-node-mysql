@@ -1,13 +1,7 @@
 let pop = [];
 let world = [];
 let ter = [];
-let selectedUnit = {
-    id: '',
-    pic: '',
-    tileId: '',
-    x: '',
-    y: ''
-};
+let selectedUnit = [];
 let mode = 'free';
 
 // Quand on reçoit la carte, on l'insère dans la page

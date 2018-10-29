@@ -8,14 +8,8 @@ function selectOrMove(gridItem) {
         unitOwner = pop[unitId-1].player;
     }
     if (unitId >= 1) { // there is a unit
-        if (selectedUnit.id === unitId) { // unit already selected => unselect
-            selectedUnit = {
-                id: '',
-                pic: '',
-                tileId: '',
-                x: '',
-                y: ''
-            };
+        if (selectedUnit.id == unitId) { // unit already selected => unselect
+            selectedUnit = [];
             $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
             $('#unitInfos').empty();
             showTileInfos(tileId,false);
@@ -45,9 +39,8 @@ function selectUnitFromTileInfoList(listItem) {
 function selectUnit(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     if (pop[unitIndex].player == pseudo) {
-        selectedUnit.id = unitId;
-        selectedUnit.pic = pop[unitIndex].pic;
-        selectedUnit.tileId = pop[unitIndex].tileId;
+        selectedUnit = pop[unitIndex];
+        // console.log(selectedUnit);
         let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
         selectedUnit.x = world[tileIndex].x;
         selectedUnit.y = world[tileIndex].y;
