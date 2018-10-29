@@ -64,13 +64,34 @@ io.sockets.on('connection', function (socket, pseudo) {
         pop[objIndex].tileId = mvi.tileId;
         pop[objIndex].fatigue = mvi.fatigue;
         // change db
-        var sql = "UPDATE pop SET tileId = '"+mvi.tileId+"', fatigue = '"+mvi.fatigue+"' WHERE id = "+mvi.unitId;
+        let sql = "UPDATE pop SET tileId = '"+mvi.tileId+"', fatigue = '"+mvi.fatigue+"' WHERE id = "+mvi.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('unit moved');
         });
         // broadcast
         socket.broadcast.emit('unit_moved', mvi);
+    });
+
+    // JOIN UNITS
+    socket.on('join_units', function(jui) {
+        // change pop
+        // objIndex = pop.findIndex((obj => obj.id == mvi.unitId));
+        // pop[objIndex].tileId = mvi.tileId;
+        // pop[objIndex].fatigue = mvi.fatigue;
+        // // change db
+        let sql = "DELETE from pop WHERE id IN ("+jui.idsToDelete+")";
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('units deleted');
+        });
+        sql = "UPDATE pop SET number = '"+jui.totalUnits+"', fatigue = '"+jui.fatigue+"' WHERE id = "+jui.joinToId;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('units joined');
+        });
+        // broadcast
+        // socket.broadcast.emit('units_joined', jui);
     });
 
     // NEXT TURN

@@ -14,12 +14,43 @@ function showTileUnitList(tileId) {
         }
     });
     if (numSameType >= 2) {
-        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton">Join all '+selectedUnit.type+' units</button>');
+        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)">Join all '+selectedUnit.type+' units</button>');
     }
     if (selectedUnit.number >= 2) {
         splitButtons(selectedUnit.id);
     }
 };
+function joinUnits(joinToId,unitType,tileId,owner) {
+    let unitIndex = pop.findIndex((obj => obj.id == joinToId));
+    let thisMoves = pop[unitIndex].number*(pop[unitIndex].move-pop[unitIndex].fatigue);
+    let totalUnits = pop[unitIndex].number;
+    let totalMoves = thisMoves;
+    let joinToThisUnitMove = pop[unitIndex].move;
+    let idsToDelete = '';
+    pop.slice().reverse().forEach(function(unit) {
+        if (unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId) {
+            if (idsToDelete == '') {
+                idsToDelete = unit.id;
+            } else {
+                idsToDelete = idsToDelete+','+unit.id;
+            }
+            totalUnits = totalUnits+unit.number;
+            thisMoves = unit.number*(unit.move-unit.fatigue);
+            totalMoves = totalMoves+thisMoves;
+            unitIndex = pop.findIndex((obj => obj.id == unit.id));
+            pop.splice(unitIndex,1);
+        }
+    });
+    let movesLeft = Math.round(totalMoves/totalUnits);
+    let fatigue = joinToThisUnitMove-movesLeft;
+    unitIndex = pop.findIndex((obj => obj.id == joinToId));
+    pop[unitIndex].fatigue = fatigue;
+    pop[unitIndex].number = totalUnits;
+    showUnitInfos(joinToId);
+    showTileInfos(pop[unitIndex].tileId,true);
+    console.log(idsToDelete);
+    socket.emit('join_units', {joinToId: joinToId, fatigue: fatigue, totalUnits: totalUnits, idsToDelete: idsToDelete});
+}
 function splitButtons(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let unitNumber = pop[unitIndex].number;
