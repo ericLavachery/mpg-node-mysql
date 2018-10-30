@@ -37,7 +37,7 @@ function showPop(wpop) {
 function showUnit(unitId, tileId, pic, folder) {
     $('#'+tileId).empty().append('<img src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
 };
-// OPPONENTS MOVES
+// OPPONENT MOVES
 socket.on('unit_moved', function(mvi) {
     showOpponentMove(mvi.tileId, mvi.unitId);
 });
@@ -57,7 +57,7 @@ function showOpponentMove(tileId, unitId) {
         }
     });
 };
-// OPPONENTS JOINS
+// OPPONENT JOINS
 socket.on('units_joined', function(jui) {
     let allIds = ','+jui.idsToDelete+',';
     let unitIndex = pop.findIndex((obj => obj.id == jui.joinToId));
@@ -70,7 +70,11 @@ socket.on('units_joined', function(jui) {
         }
     });
 });
-// OPPONENTS (and PLAYER) SPLIT
-socket.on('units_joined', function(sui) {
-    
+// OPPONENT SPLITS
+socket.on('unit_splited', function(sui) {
+    // change pop
+});
+// PLAYER SPLITS
+socket.on('my_unit_splited', function(sui) {
+    // change pop + show infos
 });

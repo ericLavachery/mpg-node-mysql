@@ -129,7 +129,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
             pop[unitIndex].number = pop[unitIndex].number-sui.splitValue;
             // broadcast (for player and all others)
-            socket.emit('unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
+            socket.emit('my_unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
             socket.broadcast.emit('unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
         }
     });
