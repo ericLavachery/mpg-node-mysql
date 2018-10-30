@@ -75,10 +75,12 @@ function calcMoveCost(targetTileId, unitId) {
     return moveCost;
 }
 function isAdjacent(myTileId, thatTileId) {
-    let myTileX = world[myTileId-1].x;
-    let myTileY = world[myTileId-1].y;
-    let thatTileX = world[thatTileId-1].x;
-    let thatTileY = world[thatTileId-1].y;
+    let myTileIndex = world.findIndex((obj => obj.id == myTileId));
+    let myTileX = world[myTileIndex].x;
+    let myTileY = world[myTileIndex].y;
+    let thatTileIndex = world.findIndex((obj => obj.id == thatTileId));
+    let thatTileX = world[thatTileIndex].x;
+    let thatTileY = world[thatTileIndex].y;
     if (thatTileX == myTileX+1 || thatTileX == myTileX || thatTileX == myTileX-1) {
         if (thatTileY == myTileY+1 || thatTileY == myTileY || thatTileY == myTileY-1) {
             return true;
@@ -91,10 +93,12 @@ function isAdjacent(myTileId, thatTileId) {
 };
 function isDiag(myTileId, thatTileId) {
     let diag = false;
-    let myTileX = world[myTileId-1].x;
-    let myTileY = world[myTileId-1].y;
-    let thatTileX = world[thatTileId-1].x;
-    let thatTileY = world[thatTileId-1].y;
+    let myTileIndex = world.findIndex((obj => obj.id == myTileId));
+    let myTileX = world[myTileIndex].x;
+    let myTileY = world[myTileIndex].y;
+    let thatTileIndex = world.findIndex((obj => obj.id == thatTileId));
+    let thatTileX = world[thatTileIndex].x;
+    let thatTileY = world[thatTileIndex].y;
     let tot = 0;
     if (thatTileX == myTileX+1 || thatTileX == myTileX-1) {
         tot = tot+1;
