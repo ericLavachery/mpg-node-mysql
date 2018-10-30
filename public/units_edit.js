@@ -20,6 +20,7 @@ function showTileUnitList(tileId) {
         splitButtons(selectedUnit.id);
     }
 };
+// JOIN UNITS
 function joinUnits(joinToId,unitType,tileId,owner) {
     let unitIndex = pop.findIndex((obj => obj.id == joinToId));
     let thisMoves = pop[unitIndex].number*(pop[unitIndex].move-pop[unitIndex].fatigue);
@@ -51,73 +52,40 @@ function joinUnits(joinToId,unitType,tileId,owner) {
     console.log(idsToDelete);
     socket.emit('join_units', {joinToId: joinToId, fatigue: fatigue, totalUnits: totalUnits, idsToDelete: idsToDelete});
 }
+// SPLIT UNITS
 function splitButtons(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let unitNumber = pop[unitIndex].number;
-
-
-
-
-
-    $('#tileUnitList').append('<select name="split" id="splitDrop"><option value="">Split</option>');
+    $('#tileUnitList').append('<br><select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
+    let i = 1;
     let sa = 1;
     let sb = unitNumber-sa;
-    while (sa <= Math.round(unitNumber/2)) {
+    while (sa <= unitNumber-1) {
         sb = unitNumber-sa;
-        $('#tileUnitList').append('<option value="'+sa+'">'+sa+':'+sb+'</option>');
-        sa = sa+1
-        if (sa >= 100) {break;}
+        $('#splitDrop').append('<option value="'+sa+'">&nbsp;'+sa+':'+sb+'</option>');
+        if (sa >= 48) {
+            sa = sa+24;
+        } else {
+            if (sa >= 24) {
+                sa = sa+6;
+            } else {
+                sa = sa+1;
+            }
+        }
+        i = i+1;
+        if (i >= 100) {break;}
     }
-    $('#tileUnitList').append('</select>');
-
-
-    // let splitA = 1;
-    // let splitB = unitNumber-splitA;
-    // $('#tileUnitList').append('<br><button type="button" name="split1" id="split1Button">'+splitA+':'+splitB+'</button>');
-    // if (unitNumber >= 4) {
-    //     splitA = 2;
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split2" id="split2Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 6) {
-    //     splitA = 3;
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split3" id="split3Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 80) { // 5%
-    //     splitA = Math.round(unitNumber/20);
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split5" id="split5Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 40) { // 10%
-    //     splitA = Math.round(unitNumber/10);
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split10" id="split10Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 27) { // 15%
-    //     splitA = Math.round(unitNumber*15/100);
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split15" id="split15Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 20) { // 20%
-    //     splitA = Math.round(unitNumber/5);
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split20" id="split20Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 16) { // 25%
-    //     splitA = Math.round(unitNumber/4);
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split25" id="split25Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 12) { // 33%
-    //     splitA = Math.round(unitNumber/3);
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split33" id="split33Button">'+splitA+':'+splitB+'</button>');
-    // }
-    // if (unitNumber >= 8) { // 50%
-    //     splitA = Math.round(unitNumber/2);
-    //     if (splitA*2 > unitNumber) {splitA = splitA-1;};
-    //     splitB = unitNumber-splitA;
-    //     $('#tileUnitList').append('<button type="button" name="split50" id="split50Button">'+splitA+':'+splitB+'</button>');
-    // }
+}
+function splitUnits(sel,splitedUnitId) {
+    socket.emit('split_unit', {splitedUnitId: splitedUnitId, splitValue: sel.value});
+    // let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    // // deep copy unit and give it sel.value as number
+    // let newUnit = jQuery.extend(true, {}, pop[unitIndex]);
+    // newUnit.number = sel.value;
+    // // substract sel.value from original unit number
+    // pop[unitIndex].number = pop[unitIndex].number-sel.value;
+    // // add new unit to pop
+    // pop.push(newUnit);
+    // THEY BOTH HAVE THE SAME FUCKING ID !!!!!!!!!!!!!!!!!!!!!
+    // so, I suppose the solution is to socket.emit then add to db, then read the db, then emit again when I know the id???
 }

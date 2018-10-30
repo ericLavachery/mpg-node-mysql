@@ -70,3 +70,7 @@ socket.on('units_joined', function(jui) {
         }
     });
 });
+// OPPONENTS (and PLAYER) SPLIT
+socket.on('units_joined', function(sui) {
+    
+});

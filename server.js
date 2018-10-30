@@ -101,6 +101,39 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('units_joined', jui);
     });
 
+    // SPLIT UNIT
+    socket.on('split_unit', function(sui) {
+        // change db
+        let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
+        let newUnit = JSON.parse(JSON.stringify(pop[unitIndex]));
+        newUnit.number = sui.splitValue;
+        delete newUnit.id;
+        let sql = "INSERT INTO pop SET ?";
+        db.con.query(sql, newUnit, function (error, result) {
+            if (error) throw error;
+            console.log(result.insertId);
+            splitOnPop(sui,result.insertId);
+            // newUnit.id = result.insertId;
+            // pop.push(newUnit);
+        });
+        let splitedUnitNumber = pop[unitIndex].number-sui.splitValue;
+        sql = "UPDATE pop SET number = '"+splitedUnitNumber+"' WHERE id = "+sui.splitedUnitId;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('unit splited');
+        });
+        function splitOnPop(sui,newId) {
+            newUnit.id = newId;
+            newUnit.number = Number(newUnit.number);
+            pop.push(newUnit);
+            let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
+            pop[unitIndex].number = pop[unitIndex].number-sui.splitValue;
+            // broadcast (for player and all others)
+            socket.emit('unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
+            socket.broadcast.emit('unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
+        }
+    });
+
     // NEXT TURN
     socket.on('next_turn', function(nti) {
         // change pop
