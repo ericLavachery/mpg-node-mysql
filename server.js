@@ -106,7 +106,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change db
         let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
         let newUnit = JSON.parse(JSON.stringify(pop[unitIndex]));
-        newUnit.number = sui.splitValue;
+        newUnit.number = Number(sui.splitValue);
         delete newUnit.id;
         let sql = "INSERT INTO pop SET ?";
         db.con.query(sql, newUnit, function (error, result) {

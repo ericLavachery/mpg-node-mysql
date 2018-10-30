@@ -72,9 +72,19 @@ socket.on('units_joined', function(jui) {
 });
 // OPPONENT SPLITS
 socket.on('unit_splited', function(sui) {
-    // change pop
+    splitOnClientPop(sui);
 });
 // PLAYER SPLITS
 socket.on('my_unit_splited', function(sui) {
-    // change pop + show infos
+    splitOnClientPop(sui);
+    showUnitInfos(selectedUnit.id);
+    showTileInfos(selectedUnit.tileId,true);
 });
+function splitOnClientPop(sui) {
+    let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
+    let newUnit = JSON.parse(JSON.stringify(pop[unitIndex]));
+    newUnit.number = Number(sui.splitValue);
+    newUnit.id = Number(sui.newId);
+    pop.push(newUnit);
+    pop[unitIndex].number = pop[unitIndex].number-sui.splitValue;
+}
