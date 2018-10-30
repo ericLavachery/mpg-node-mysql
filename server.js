@@ -111,10 +111,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "INSERT INTO pop SET ?";
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;
-            console.log(result.insertId);
-            splitOnPop(sui,result.insertId);
-            // newUnit.id = result.insertId;
-            // pop.push(newUnit);
+            // result.insertId is the id given by sql to the last inserted record (by this client)
+            splitOnServerPop(sui,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-sui.splitValue;
         sql = "UPDATE pop SET number = '"+splitedUnitNumber+"' WHERE id = "+sui.splitedUnitId;
@@ -122,7 +120,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             if (error) throw error;
             console.log('unit splited');
         });
-        function splitOnPop(sui,newId) {
+        function splitOnServerPop(sui,newId) {
             newUnit.id = newId;
             newUnit.number = Number(newUnit.number);
             pop.push(newUnit);

@@ -78,14 +78,4 @@ function splitButtons(unitId) {
 }
 function splitUnits(sel,splitedUnitId) {
     socket.emit('split_unit', {splitedUnitId: splitedUnitId, splitValue: sel.value});
-    // let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    // // deep copy unit and give it sel.value as number
-    // let newUnit = jQuery.extend(true, {}, pop[unitIndex]);
-    // newUnit.number = sel.value;
-    // // substract sel.value from original unit number
-    // pop[unitIndex].number = pop[unitIndex].number-sel.value;
-    // // add new unit to pop
-    // pop.push(newUnit);
-    // THEY BOTH HAVE THE SAME FUCKING ID !!!!!!!!!!!!!!!!!!!!!
-    // so, I suppose the solution is to socket.emit then add to db, then read the db, then emit again when I know the id???
 }
