@@ -37,6 +37,7 @@ function showPop(wpop) {
 function showUnit(unitId, tileId, pic, folder) {
     $('#'+tileId).empty().append('<img src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
 };
+// OPPONENTS MOVES
 socket.on('unit_moved', function(mvi) {
     showOpponentMove(mvi.tileId, mvi.unitId);
 });
@@ -56,3 +57,16 @@ function showOpponentMove(tileId, unitId) {
         }
     });
 };
+// OPPONENTS JOINS
+socket.on('units_joined', function(jui) {
+    let allIds = ','+jui.idsToDelete+',';
+    let unitIndex = pop.findIndex((obj => obj.id == jui.joinToId));
+    pop[unitIndex].fatigue = jui.fatigue;
+    pop[unitIndex].number = jui.totalUnits;
+    pop.slice().reverse().forEach(function(unit) {
+        if (allIds.includes(","+unit.id+",")) {
+            unitIndex = pop.findIndex((obj => obj.id == unit.id));
+            pop.splice(unitIndex,1);
+        }
+    });
+});

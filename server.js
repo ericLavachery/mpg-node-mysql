@@ -76,9 +76,16 @@ io.sockets.on('connection', function (socket, pseudo) {
     // JOIN UNITS
     socket.on('join_units', function(jui) {
         // change pop
-        // objIndex = pop.findIndex((obj => obj.id == mvi.unitId));
-        // pop[objIndex].tileId = mvi.tileId;
-        // pop[objIndex].fatigue = mvi.fatigue;
+        let allIds = ','+jui.idsToDelete+',';
+        let unitIndex = pop.findIndex((obj => obj.id == jui.joinToId));
+        pop[unitIndex].fatigue = jui.fatigue;
+        pop[unitIndex].number = jui.totalUnits;
+        pop.slice().reverse().forEach(function(unit) {
+            if (allIds.includes(","+unit.id+",")) {
+                unitIndex = pop.findIndex((obj => obj.id == unit.id));
+                pop.splice(unitIndex,1);
+            }
+        });
         // // change db
         let sql = "DELETE from pop WHERE id IN ("+jui.idsToDelete+")";
         db.con.query(sql, function (error, result) {
@@ -91,7 +98,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             console.log('units joined');
         });
         // broadcast
-        // socket.broadcast.emit('units_joined', jui);
+        socket.broadcast.emit('units_joined', jui);
     });
 
     // NEXT TURN
