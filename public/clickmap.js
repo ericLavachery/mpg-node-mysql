@@ -62,17 +62,3 @@ function selectUnit(unitId) {
         showUnitInfos(unitId);
     }
 }
-function followSwitch(listItem) {
-    let followerId = listItem.id.substring(10);
-    let followerUnitIndex = pop.findIndex((obj => obj.id == followerId));
-    if (selectedUnit.id >= 1) {
-        if (pop[followerUnitIndex].follow == 0 || pop[followerUnitIndex].follow != selectedUnit.id) {
-            pop[followerUnitIndex].follow = selectedUnit.id;
-            let selUnitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
-            pop[selUnitIndex].follow = selectedUnit.id;
-        } else {
-            pop[followerUnitIndex].follow = 0;
-        }
-        showTileInfos(selectedUnit.tileId,true);
-    }
-};

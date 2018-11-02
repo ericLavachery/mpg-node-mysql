@@ -4,15 +4,15 @@ function showTileUnitList(tileId) {
     pop.forEach(function(unit) {
         if (unit.tileId == tileId) {
             if (selectedUnit.id == unit.id) {
-                $('#tileUnitList').append('<span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;&nbsp;<span class="mauve"><b>&laquo;&laquo;&laquo;</b></span></span><br>');
+                $('#tileUnitList').append('<span class="paramName">'+unit.number+' '+unit.type+' '+unit.id+'</span><span class="paramValue">'+unit.player+'&nbsp;&nbsp;<span class="mauve"><b>&laquo;&laquo;&laquo; '+unit.follow+'</b></span></span><br>');
             } else {
                 if (unit.type == selectedUnit.type) {
                     numSameType = numSameType+1;
                 }
-                if (unit.follow >= 1 && unit.follow == selectedUnit.id) {
-                    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="followSwitch(this)"><span class="paramValue"><b>&laquo;</b></span></a><br>');
+                if (unit.follow >= 1 && unit.follow == selectedUnit.follow) {
+                    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+' '+unit.id+'</span><span class="paramValue">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="followSwitch(this)"><span class="paramValue"><b>&laquo; '+unit.follow+'</b></span></a><br>');
                 } else {
-                    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="followSwitch(this)"><span class="paramValue"><b>&#8212;</b></span></a><br>');
+                    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+' '+unit.id+'</span><span class="paramValue">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="followSwitch(this)"><span class="paramValue"><b>&#8212;</b></span></a><br>');
                 }
             }
         }
@@ -83,3 +83,39 @@ function splitButtons(unitId) {
 function splitUnits(sel,splitedUnitId) {
     socket.emit('split_unit', {splitedUnitId: splitedUnitId, splitValue: sel.value});
 }
+function followSwitch(listItem) {
+    let followerId = listItem.id.substring(10);
+    let followerUnitIndex = pop.findIndex((obj => obj.id == followerId));
+    let selUnitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+    if (selectedUnit.id >= 1) {
+        if (selectedUnit.follow == 0) {
+            selectedUnit.follow = selectedUnit.id;
+        }
+        if (pop[followerUnitIndex].follow == 0 || pop[followerUnitIndex].follow != selectedUnit.follow) {
+            if (pop[followerUnitIndex].follow == followerId) {
+                // guru removed from another group : elect new guru
+                followShift(followerId);
+            }
+            pop[followerUnitIndex].follow = selectedUnit.follow;
+        } else {
+            if (pop[followerUnitIndex].id == selectedUnit.follow) {
+                // guru removed from the group : elect new guru
+                followShift(selectedUnit.follow);
+            }
+            pop[followerUnitIndex].follow = 0;
+        }
+        pop[selUnitIndex].follow = selectedUnit.follow;
+        showTileInfos(selectedUnit.tileId,true);
+    }
+};
+function followShift(oldFollowId) {
+    let newFollowId = 0;
+    pop.forEach(function(unit) {
+        if (unit.follow == oldFollowId) {
+            if (newFollowId == 0) {
+                newFollowId = unit.id;
+            }
+            unit.follow = newFollowId;
+        }
+    });
+};
