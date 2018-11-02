@@ -1,6 +1,7 @@
 let pop = [];
 let world = [];
 let ter = [];
+let mygroups = [];
 let selectedUnit = [];
 let mode = 'free';
 
@@ -37,3 +38,9 @@ function showPop(wpop) {
 function showUnit(unitId, tileId, pic, folder) {
     $('#'+tileId).empty().append('<img src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
 };
+
+// infos groupes
+socket.on('groupsload', function(wgroups) {
+    mygroups = wgroups;
+    console.log(mygroups);
+});

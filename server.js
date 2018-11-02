@@ -34,6 +34,12 @@ db.con.connect(function(error) {
         ter = JSON.parse(JSON.stringify(result));
         console.log('ter loaded');
     });
+    sql = "SELECT * FROM groups";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        groups = JSON.parse(JSON.stringify(result));
+        console.log('groups loaded');
+    });
 });
 
 // pages statiques dossier public/
@@ -48,13 +54,17 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket, pseudo) {
-    // On LOGIN send MAP
+    // On LOGIN send tables
     socket.on('newcli', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
         socket.emit('mapload', world);
         socket.emit('popload', pop);
         socket.emit('terload', ter);
+        var mygroups = groups.filter(function (el) {
+            return el.player == pseudo;
+        });
+        socket.emit('groupsload', mygroups);
     });
 
     // MOVE UNIT
