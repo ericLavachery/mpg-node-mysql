@@ -16,7 +16,8 @@ function selectOrMove(gridItem) {
             showTileInfos(tileId,false);
         } else { // unit not selected
             if (unitOwner == pseudo) {
-                if (mode == 'move' && selectedUnit.id !== '') { // move the unit here
+                if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
+                    console.log(selectedUnit.id);
                     moveUnit(tileId);
                 } else { // select this unit
                     selectUnit(unitId);
@@ -28,7 +29,7 @@ function selectOrMove(gridItem) {
         }
     } else { // there is no unit
         showTileInfos(tileId,false);
-        if (selectedUnit.id !== '') { // there is a selected unit => move it here
+        if (selectedUnit.id >= 1) { // there is a selected unit => move it here
             moveUnit(tileId);
         }
     }
@@ -61,3 +62,15 @@ function selectUnit(unitId) {
         showUnitInfos(unitId);
     }
 }
+function followSwitch(listItem) {
+    let followerId = listItem.id.substring(10);
+    let unitIndex = pop.findIndex((obj => obj.id == followerId));
+    if (selectedUnit.id >= 1) {
+        if (pop[unitIndex].follow == 0) {
+            pop[unitIndex].follow = selectedUnit.id;
+        } else {
+            pop[unitIndex].follow = 0;
+        }
+        showTileInfos(selectedUnit.tileId,true);
+    }
+};

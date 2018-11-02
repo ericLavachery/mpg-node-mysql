@@ -4,12 +4,16 @@ function showTileUnitList(tileId) {
     pop.forEach(function(unit) {
         if (unit.tileId == tileId) {
             if (selectedUnit.id == unit.id) {
-                $('#tileUnitList').append('<span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;<span class="mauve"><b>&laquo;</b></span></span><br>');
+                $('#tileUnitList').append('<span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'&nbsp;&nbsp;<span class="mauve"><b>&laquo;&laquo;&laquo;</b></span></span><br>');
             } else {
                 if (unit.type == selectedUnit.type) {
                     numSameType = numSameType+1;
                 }
-                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a><br>');
+                if (unit.follow >= 1 && unit.follow == selectedUnit.id) {
+                    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="followSwitch(this)"><span class="paramValue"><b>&laquo;</b></span></a><br>');
+                } else {
+                    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">'+unit.number+' '+unit.type+'</span><span class="paramValue">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="followSwitch(this)"><span class="paramValue"><b>&#8212;</b></span></a><br>');
+                }
             }
         }
     });
