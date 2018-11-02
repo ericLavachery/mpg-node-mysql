@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 02 Novembre 2018 à 10:24
+-- Généré le :  Ven 02 Novembre 2018 à 16:13
 -- Version du serveur :  5.7.24-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.32-0ubuntu0.16.04.1
 
@@ -19,6 +19,27 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `mpg`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `groups`
+--
+
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL,
+  `player` varchar(24) COLLATE utf8_bin NOT NULL,
+  `number` int(11) NOT NULL,
+  `type` varchar(12) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Contenu de la table `groups`
+--
+
+INSERT INTO `groups` (`id`, `player`, `number`, `type`) VALUES
+(1, 'Bob', 1, 'group'),
+(2, 'Bob', 5, 'group');
 
 -- --------------------------------------------------------
 
@@ -45,7 +66,7 @@ CREATE TABLE `pop` (
   `fatigue` int(11) DEFAULT NULL,
   `tileId` int(11) NOT NULL,
   `coverAdj` int(11) NOT NULL,
-  `follow` int(11) NOT NULL
+  `follow` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -53,19 +74,19 @@ CREATE TABLE `pop` (
 --
 
 INSERT INTO `pop` (`id`, `player`, `type`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`) VALUES
-(4, 'Roberta', 'Alien', 35, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 0),
-(5, 'Roberta', 'Alien Mother', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 8, 73, 75, 0),
-(9, 'Roberta', 'Alien', 12, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 0),
-(10, 'Roberta', 'Alien', 7, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 0),
-(11, 'Roberta', 'Alien', 19, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 0),
-(22, 'Bob', 'Space Marine', 189, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 0),
-(23, 'Bob', 'Space Marine', 38, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 0),
-(24, 'Bob', 'Space Marine', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 0),
-(25, 'Bob', 'Space Marine', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 0),
-(26, 'Bob', 'Space Marine', 11, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 96, 70, 100, 0),
-(27, 'Bob', 'Space Marine', 11, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 88, 69, 100, 0),
-(28, 'Bob', 'Space Marine', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 0),
-(29, 'Bob', 'Space Marine', 72, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 0);
+(4, 'Roberta', 'Alien', 35, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
+(5, 'Roberta', 'Alien Mother', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 8, 73, 75, NULL),
+(9, 'Roberta', 'Alien', 12, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
+(10, 'Roberta', 'Alien', 7, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
+(11, 'Roberta', 'Alien', 19, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
+(22, 'Bob', 'Space Marine', 189, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 1),
+(23, 'Bob', 'Space Marine', 38, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
+(24, 'Bob', 'Space Marine', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
+(25, 'Bob', 'Space Marine', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
+(26, 'Bob', 'Space Marine', 11, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 96, 70, 100, NULL),
+(27, 'Bob', 'Space Marine', 11, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 88, 69, 100, NULL),
+(28, 'Bob', 'Space Marine', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
+(29, 'Bob', 'Space Marine', 72, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 1);
 
 -- --------------------------------------------------------
 
@@ -262,6 +283,12 @@ INSERT INTO `world` (`id`, `terrain`, `terrainId`, `x`, `y`) VALUES
 --
 
 --
+-- Index pour la table `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `pop`
 --
 ALTER TABLE `pop`
@@ -294,6 +321,11 @@ ALTER TABLE `world`
 -- AUTO_INCREMENT pour les tables exportées
 --
 
+--
+-- AUTO_INCREMENT pour la table `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `pop`
 --
