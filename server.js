@@ -34,12 +34,6 @@ db.con.connect(function(error) {
         ter = JSON.parse(JSON.stringify(result));
         console.log('ter loaded');
     });
-    sql = "SELECT * FROM groups";
-    db.con.query(sql, function (error, result) {
-        if (error) throw error;
-        groups = JSON.parse(JSON.stringify(result));
-        console.log('groups loaded');
-    });
 });
 
 // pages statiques dossier public/
@@ -61,10 +55,6 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('mapload', world);
         socket.emit('popload', pop);
         socket.emit('terload', ter);
-        var mygroups = groups.filter(function (el) {
-            return el.player == pseudo;
-        });
-        socket.emit('groupsload', mygroups);
     });
 
     // MOVE UNIT
@@ -96,7 +86,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                 pop.splice(unitIndex,1);
             }
         });
-        // // change db
+        // change db
         let sql = "DELETE from pop WHERE id IN ("+jui.idsToDelete+")";
         db.con.query(sql, function (error, result) {
             if (error) throw error;

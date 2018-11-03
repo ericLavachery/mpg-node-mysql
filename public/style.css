@@ -66,6 +66,26 @@ td {
 .paramValue {
     display: inline-block;
 }
+.unitNum {
+    display: inline-block;
+    width: 30px;
+    font-weight: bold;
+    text-align: right;
+}
+.unitType {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+}
+.unitOwner {
+    display: inline-block;
+    width: 30px;
+    font-weight: normal;
+}
+.unitGroup {
+    display: inline-block;
+    font-weight: normal;
+}
 h3 {
     font-size: 18px;
     color: #8d00d0;

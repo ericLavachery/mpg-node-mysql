@@ -29,6 +29,7 @@ socket.on('terload', function(wter) {
 socket.on('popload', function(wpop) {
     pop = wpop;
     showPop(wpop);
+    loadGroups(wpop);
 });
 function showPop(wpop) {
     wpop.forEach(function(unit) {
@@ -38,9 +39,23 @@ function showPop(wpop) {
 function showUnit(unitId, tileId, pic, folder) {
     $('#'+tileId).empty().append('<img src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
 };
-
 // infos groupes
-socket.on('groupsload', function(wgroups) {
-    mygroups = wgroups;
+function loadGroups(wpop) {
+    let lastTileId = 0;
+    let lastGroupNum = 0;
+    let lastGroupCreated = 0;
+    let newGroup = {};
+    let sortedPop = _.sortBy(_.sortBy(wpop,'tileId'),'follow');
+    sortedPop.forEach(function(unit) {
+        if (unit.follow >= 1 && unit.player === pseudo) {
+            if (lastTileId == unit.tileId && lastGroupNum == unit.follow && lastGroupCreated != unit.follow) {
+                newGroup = {number: unit.follow, type: 'group'};
+                mygroups.push(newGroup);
+                lastGroupCreated = unit.follow;
+            }
+            lastGroupNum = unit.follow;
+            lastTileId = unit.tileId;
+        }
+    });
     console.log(mygroups);
-});
+}
