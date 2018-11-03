@@ -58,28 +58,41 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     // MOVE UNIT
-    socket.on('move_unit', function(mvi) {
+    socket.on('move_unit', function(data) {
         // change pop
-        objIndex = pop.findIndex((obj => obj.id == mvi.unitId));
-        pop[objIndex].tileId = mvi.tileId;
-        pop[objIndex].fatigue = mvi.fatigue;
+        objIndex = pop.findIndex((obj => obj.id == data.unitId));
+        pop[objIndex].tileId = data.tileId;
+        pop[objIndex].fatigue = data.fatigue;
         // change db
-        let sql = "UPDATE pop SET tileId = '"+mvi.tileId+"', fatigue = '"+mvi.fatigue+"' WHERE id = "+mvi.unitId;
+        let sql = "UPDATE pop SET tileId = '"+data.tileId+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('unit moved');
         });
         // broadcast
-        socket.broadcast.emit('unit_moved', mvi);
+        socket.broadcast.emit('unit_moved', data);
+    });
+
+    // GROUP CHANGE
+    socket.on('group_change', function(data) {
+        // change pop
+        objIndex = pop.findIndex((obj => obj.id == data.unitId));
+        pop[objIndex].follow = data.groupNumber;
+        // change db
+        let sql = "UPDATE pop SET follow = "+data.groupNumber+" WHERE id = "+data.unitId;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('group change');
+        });
     });
 
     // JOIN UNITS
-    socket.on('join_units', function(jui) {
+    socket.on('join_units', function(data) {
         // change pop
-        let allIds = ','+jui.idsToDelete+',';
-        let unitIndex = pop.findIndex((obj => obj.id == jui.joinToId));
-        pop[unitIndex].fatigue = jui.fatigue;
-        pop[unitIndex].number = jui.totalUnits;
+        let allIds = ','+data.idsToDelete+',';
+        let unitIndex = pop.findIndex((obj => obj.id == data.joinToId));
+        pop[unitIndex].fatigue = data.fatigue;
+        pop[unitIndex].number = data.totalUnits;
         pop.slice().reverse().forEach(function(unit) {
             if (allIds.includes(","+unit.id+",")) {
                 unitIndex = pop.findIndex((obj => obj.id == unit.id));
@@ -87,56 +100,56 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
         });
         // change db
-        let sql = "DELETE from pop WHERE id IN ("+jui.idsToDelete+")";
+        let sql = "DELETE from pop WHERE id IN ("+data.idsToDelete+")";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units deleted');
         });
-        sql = "UPDATE pop SET number = '"+jui.totalUnits+"', fatigue = '"+jui.fatigue+"' WHERE id = "+jui.joinToId;
+        sql = "UPDATE pop SET number = '"+data.totalUnits+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.joinToId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units joined');
         });
         // broadcast
-        socket.broadcast.emit('units_joined', jui);
+        socket.broadcast.emit('units_joined', data);
     });
 
     // SPLIT UNIT
-    socket.on('split_unit', function(sui) {
+    socket.on('split_unit', function(data) {
         // change db
-        let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
+        let unitIndex = pop.findIndex((obj => obj.id == data.splitedUnitId));
         let newUnit = JSON.parse(JSON.stringify(pop[unitIndex]));
-        newUnit.number = Number(sui.splitValue);
+        newUnit.number = Number(data.splitValue);
         delete newUnit.id;
         let sql = "INSERT INTO pop SET ?";
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;
             // result.insertId is the id given by sql to the last inserted record (by this client)
-            splitOnServerPop(sui,result.insertId);
+            splitOnServerPop(data,result.insertId);
         });
-        let splitedUnitNumber = pop[unitIndex].number-sui.splitValue;
-        sql = "UPDATE pop SET number = '"+splitedUnitNumber+"' WHERE id = "+sui.splitedUnitId;
+        let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
+        sql = "UPDATE pop SET number = '"+splitedUnitNumber+"' WHERE id = "+data.splitedUnitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('unit splited');
         });
-        function splitOnServerPop(sui,newId) {
+        function splitOnServerPop(data,newId) {
             newUnit.id = newId;
             newUnit.number = Number(newUnit.number);
             pop.push(newUnit);
-            let unitIndex = pop.findIndex((obj => obj.id == sui.splitedUnitId));
-            pop[unitIndex].number = pop[unitIndex].number-sui.splitValue;
+            let unitIndex = pop.findIndex((obj => obj.id == data.splitedUnitId));
+            pop[unitIndex].number = pop[unitIndex].number-data.splitValue;
             // broadcast (for player and all others)
-            socket.emit('my_unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
-            socket.broadcast.emit('unit_splited', {splitedUnitId: sui.splitedUnitId, splitValue: sui.splitValue, newId: newId});
+            socket.emit('my_unit_splited', {splitedUnitId: data.splitedUnitId, splitValue: data.splitValue, newId: newId});
+            socket.broadcast.emit('unit_splited', {splitedUnitId: data.splitedUnitId, splitValue: data.splitValue, newId: newId});
         }
     });
 
     // NEXT TURN
-    socket.on('next_turn', function(nti) {
+    socket.on('next_turn', function(data) {
         // change pop
         pop.forEach(function(unit) {
-            if (unit.player === nti.pseudo) {
+            if (unit.player === data.pseudo) {
                 if (unit.fatigue-unit.move >= 0) {
                     unit.fatigue = unit.fatigue-unit.move;
                 } else {
@@ -145,7 +158,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
         });
         // récup = move
-        let sql = "UPDATE pop SET fatigue = fatigue-move WHERE player = '"+nti.pseudo+"' AND fatigue >= 0";
+        let sql = "UPDATE pop SET fatigue = fatigue-move WHERE player = '"+data.pseudo+"' AND fatigue >= 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
@@ -157,8 +170,8 @@ io.sockets.on('connection', function (socket, pseudo) {
             // console.log('turn passed');
         });
         // broadcast: no need?
-        // socket.broadcast.emit('turn_passed', nti);
-        console.log(nti.pseudo+' passe au tour suivant');
+        // socket.broadcast.emit('turn_passed', data);
+        console.log(data.pseudo+' passe au tour suivant');
     });
 
     // MAP CREATE

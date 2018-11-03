@@ -24,13 +24,13 @@ function putInGroup(unitId, groupNumber) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     pop[unitIndex].follow = groupNumber;
     showTileInfos(selectedUnit.tileId,true);
-    // emit and save to db
+    socket.emit('group_change', {unitId: unitId, groupNumber: groupNumber});
 };
 function removeFromGroup(unitId, groupNumber) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     pop[unitIndex].follow = null;
     showTileInfos(selectedUnit.tileId,true);
-    // emit and save to db
+    socket.emit('group_change', {unitId: unitId, groupNumber: null});
 };
 function groupSwitch(unitId, groupNumber) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
