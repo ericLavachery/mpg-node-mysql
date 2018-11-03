@@ -21,12 +21,15 @@ function moveMode() {
             showTileInfos(selectedUnit.tileId,true);
         }
     }
-}
-function moveUnit(tileId) {
-    if (isAdjacent(selectedUnit.tileId,tileId)) {
+};
+function moveGroup(targetTileId, groupNumber) {
+    // something
+};
+function moveUnit(targetTileId) {
+    if (isAdjacent(selectedUnit.tileId,targetTileId)) {
         oldTileId = selectedUnit.tileId;
         // tile move cost
-        let tileIndex = world.findIndex((obj => obj.id == tileId));
+        let tileIndex = world.findIndex((obj => obj.id == targetTileId));
         let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
         let moveCost = ter[terrainIndex].moveCost;
         // unit move cost
@@ -38,22 +41,22 @@ function moveUnit(tileId) {
             fatigue = 0;
         };
         let movesLeft = move-fatigue;
-        moveCost = calcMoveCost(tileId,selectedUnit.id);
+        moveCost = calcMoveCost(targetTileId,selectedUnit.id);
         // console.log(moveCost);
         if (movesLeft*3 >= moveCost) {
             fatigue = fatigue+moveCost;
             movesLeft = move-fatigue;
             // bouge l'image sur la carte
             $('#'+selectedUnit.tileId).empty();
-            $('#'+tileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+            $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
             // change infos dans pop
-            pop[unitIndex].tileId = tileId;
+            pop[unitIndex].tileId = targetTileId;
             pop[unitIndex].fatigue = fatigue;
             // change infos dans selectedUnit
-            selectedUnit.tileId = tileId;
+            selectedUnit.tileId = targetTileId;
             selectedUnit.fatigue = fatigue;
             // envoi au serveur
-            socket.emit('move_unit', { tileId: tileId, unitId: selectedUnit.id, fatigue: fatigue});
+            socket.emit('move_unit', { tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
             // affiche les infos
             showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
             showUnitInfos(selectedUnit.id);
@@ -64,6 +67,7 @@ function moveUnit(tileId) {
                     showUnit(unit.id,unit.tileId,unit.pic,'units');
                 }
             });
+            purgeGroups(targetTileId);
         }
     }
 };
@@ -82,7 +86,7 @@ function calcMoveCost(targetTileId, unitId) {
         moveCost = Math.round(moveCost*1414/1000);
     }
     return moveCost;
-}
+};
 function isAdjacent(myTileId, thatTileId) {
     let myTileIndex = world.findIndex((obj => obj.id == myTileId));
     let myTileX = world[myTileIndex].x;

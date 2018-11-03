@@ -40,3 +40,31 @@ function groupSwitch(unitId, groupNumber) {
         putInGroup(unitId, groupNumber);
     }
 };
+function purgeGroups(tileId) {
+    // console.log('purging...');
+    lastUnitId = 0;
+    lastGroupNumber = 0;
+    lastGroupSize = 1;
+    let sortedPop = _.sortBy(pop,'follow');
+    sortedPop.forEach(function(unit) {
+        if (unit.follow >= 1 && unit.player === pseudo && unit.tileId == tileId) {
+            if (unit.follow == lastGroupNumber) {
+                lastGroupSize = lastGroupSize+1;
+            } else {
+                // console.log('group '+lastGroupNumber+' size is '+lastGroupSize);
+                if (lastGroupSize <= 1 && lastGroupNumber != 0) {
+                    removeFromGroup(lastUnitId,lastGroupNumber);
+                    // console.log('purged!');
+                }
+                lastGroupSize = 1;
+            }
+            lastUnitId = unit.id;
+            lastGroupNumber = unit.follow;
+        }
+    });
+    // console.log('group '+lastGroupNumber+' size is '+lastGroupSize);
+    if (lastGroupSize <= 1 && lastGroupNumber != 0) {
+        removeFromGroup(lastUnitId,lastGroupNumber);
+        // console.log('purged!');
+    }
+};
