@@ -17,7 +17,7 @@ function selectOrMove(gridItem) {
         } else { // unit not selected
             if (unitOwner == pseudo) {
                 if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
-                    moveUnit(tileId);
+                    moveHere(tileId);
                 } else { // select this unit
                     selectUnit(unitId);
                 }
@@ -29,7 +29,7 @@ function selectOrMove(gridItem) {
     } else { // there is no unit
         showTileInfos(tileId,false);
         if (selectedUnit.id >= 1) { // a unit is selected => move it here
-            moveUnit(tileId);
+            moveHere(tileId);
         }
     }
 };

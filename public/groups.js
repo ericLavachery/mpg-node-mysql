@@ -18,6 +18,7 @@ function createGroup(unitInGroupId) {
     newGroup.type = 'group';
     mygroups.push(newGroup);
     // put the unit in it
+    selectedUnit.follow = freeNumber;
     putInGroup(unitInGroupId,freeNumber);
 };
 function putInGroup(unitId, groupNumber) {

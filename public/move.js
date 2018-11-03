@@ -22,54 +22,123 @@ function moveMode() {
         }
     }
 };
-function moveGroup(targetTileId) {
-    // something
-};
-// OU BIEN ON FAIT UNE FONCTION "moveHere(tileId)" QUI LANCE SOIT "moveUnit" SOIT "moveGroup" ?
-function moveUnit(targetTileId) {
+function moveHere(targetTileId) {
     if (isAdjacent(selectedUnit.tileId,targetTileId)) {
-        oldTileId = selectedUnit.tileId;
-        // tile move cost
-        let tileIndex = world.findIndex((obj => obj.id == targetTileId));
-        let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-        let moveCost = ter[terrainIndex].moveCost;
-        // unit move cost
-        let unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
-        let move = pop[unitIndex].move;
-        let moveAdj = pop[unitIndex].moveAdj;
-        let fatigue = pop[unitIndex].fatigue;
-        if (fatigue < 0) {
-            fatigue = 0;
-        };
-        let movesLeft = move-fatigue;
-        moveCost = calcMoveCost(targetTileId,selectedUnit.id);
-        // console.log(moveCost);
-        if (movesLeft*3 >= moveCost) {
-            fatigue = fatigue+moveCost;
-            movesLeft = move-fatigue;
-            // bouge l'image sur la carte
-            $('#'+selectedUnit.tileId).empty();
-            $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
-            // change infos dans pop
-            pop[unitIndex].tileId = targetTileId;
-            pop[unitIndex].fatigue = fatigue;
-            // change infos dans selectedUnit
-            selectedUnit.tileId = targetTileId;
-            selectedUnit.fatigue = fatigue;
-            // envoi au serveur
-            socket.emit('move_unit', { tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
-            // affiche les infos
-            showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
-            showUnitInfos(selectedUnit.id);
-            showTileInfos(selectedUnit.tileId,true);
-            // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
+        if (mode == 'move' && selectedUnit.follow >= 1) {
+            let groupSize = 0;
             pop.forEach(function(unit) {
-                if (unit.tileId == oldTileId) {
-                    showUnit(unit.id,unit.tileId,unit.pic,'units');
+                if (unit.follow == selectedUnit.follow && unit.player == pseudo && unit.tileId == selectedUnit.tileId) {
+                    groupSize = groupSize+1;
                 }
             });
-            purgeGroups(targetTileId);
+            if (groupSize >= 2) {
+                moveGroup(targetTileId);
+            } else {
+                moveUnit(targetTileId);
+            }
+        } else {
+            moveUnit(targetTileId);
         }
+    }
+};
+function moveGroup(targetTileId) {
+    oldTileId = selectedUnit.tileId;
+    // units to be moved
+    let popToMove = _.filter(pop, function(unit) {
+        return (unit.follow == selectedUnit.follow && unit.player === pseudo && unit.tileId == selectedUnit.tileId);
+    });
+    // check if all units can move
+    let moveOK = true;
+    let moveCost = 0;
+    let fatigue = 0;
+    let movesLeft = 0;
+    popToMove.forEach(function(unit) {
+        moveCost = calcMoveCost(targetTileId,unit.id);
+        fatigue = unit.fatigue + moveCost;
+        movesLeft = unit.move - fatigue;
+        if (moveCost > movesLeft*3) {
+            moveOK = false;
+        }
+    });
+    // move all units
+    let unitIndex = 0;
+    if (moveOK) {
+        popToMove.forEach(function(unit) {
+            moveCost = calcMoveCost(targetTileId,unit.id);
+            fatigue = unit.fatigue + moveCost;
+            movesLeft = unit.move - fatigue;
+            // change infos dans pop
+            unitIndex = pop.findIndex((obj => obj.id == unit.id));
+            pop[unitIndex].tileId = targetTileId;
+            pop[unitIndex].fatigue = fatigue;
+            if (unit.id == selectedUnit.id) {
+                // bouge l'image de l'unité active sur la carte
+                $('#'+selectedUnit.tileId).empty();
+                $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+                // change infos dans selectedUnit
+                selectedUnit.tileId = targetTileId;
+                selectedUnit.fatigue = fatigue;
+            }
+            // envoi au serveur
+            socket.emit('move_unit', { tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
+        });
+        // réaffiche les infos
+        showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
+        showUnitInfos(selectedUnit.id);
+        showTileInfos(selectedUnit.tileId,true);
+        // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
+        // BUUUUUUUUUUUG !!!!!!!!
+        // Bug également pour bouger un groupe vers un tile occupé !
+        pop.forEach(function(unit) {
+            if (unit.tileId == oldTileId) {
+                showUnit(unit.id,unit.tileId,unit.pic,'units');
+            }
+        });
+        purgeGroups(targetTileId);
+    }
+};
+function moveUnit(targetTileId) {
+    oldTileId = selectedUnit.tileId;
+    // tile move cost
+    let tileIndex = world.findIndex((obj => obj.id == targetTileId));
+    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    let moveCost = ter[terrainIndex].moveCost;
+    // unit move cost
+    let unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+    let move = pop[unitIndex].move;
+    let moveAdj = pop[unitIndex].moveAdj;
+    let fatigue = pop[unitIndex].fatigue;
+    if (fatigue < 0) {
+        fatigue = 0;
+    };
+    let movesLeft = move-fatigue;
+    moveCost = calcMoveCost(targetTileId,selectedUnit.id);
+    // console.log(moveCost);
+    if (movesLeft*3 >= moveCost) {
+        fatigue = fatigue+moveCost;
+        movesLeft = move-fatigue;
+        // bouge l'image sur la carte
+        $('#'+selectedUnit.tileId).empty();
+        $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+        // change infos dans pop
+        pop[unitIndex].tileId = targetTileId;
+        pop[unitIndex].fatigue = fatigue;
+        // change infos dans selectedUnit
+        selectedUnit.tileId = targetTileId;
+        selectedUnit.fatigue = fatigue;
+        // envoi au serveur
+        socket.emit('move_unit', { tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
+        // affiche les infos
+        showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
+        showUnitInfos(selectedUnit.id);
+        showTileInfos(selectedUnit.tileId,true);
+        // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
+        pop.forEach(function(unit) {
+            if (unit.tileId == oldTileId) {
+                showUnit(unit.id,unit.tileId,unit.pic,'units');
+            }
+        });
+        purgeGroups(targetTileId);
     }
 };
 function calcMoveCost(targetTileId, unitId) {
