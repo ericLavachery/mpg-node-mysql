@@ -57,5 +57,5 @@ function loadGroups(wpop) {
             lastTileId = unit.tileId;
         }
     });
-    console.log(mygroups);
+    // console.log(mygroups);
 }

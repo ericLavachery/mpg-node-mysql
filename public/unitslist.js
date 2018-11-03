@@ -14,13 +14,13 @@ function showTileUnitList(tileId) {
                     gfollow = 0;
                 }
                 if (selectedUnit.id == unit.id) {
-                    $('#tileUnitList').append('<span class="unitNum mauve">'+unit.number+'</span> <span class="unitType mauve">'+unit.type+'</span><span class="unitOwner mauve">'+unit.player+'</span>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo;&laquo;&laquo; '+gfollow+'</b></span></a><br>');
+                    $('#tileUnitList').append('<span class="unitNum mauve">'+unit.number+'</span> <span class="unitType mauve">'+unit.type+'</span><span class="unitOwner mauve">'+unit.player+'</span>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue mauve"><b>&laquo;&laquo;&laquo; '+gfollow+'</b></span></a><br>');
                 } else {
                     if (unit.type == selectedUnit.type) {
                         numSameType = numSameType+1;
                     }
                     if (unit.follow >= 1 && unit.follow == selectedUnit.follow) {
-                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo; '+gfollow+'</b></span></a><br>');
+                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="unitNum inGroup">'+unit.number+'</span> <span class="unitType inGroup">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo; '+gfollow+'</b></span></a><br>');
                     } else {
                         $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>'+gfollow+'</b></span></a><br>');
                     }
@@ -28,6 +28,9 @@ function showTileUnitList(tileId) {
             }
         }
     });
+    if (mode == 'move' || mode == 'attack') {
+        $('.inGroup').addClass('mauve');
+    }
     if (numSameType >= 2) {
         $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)">Join all '+selectedUnit.type+' units</button>');
     }

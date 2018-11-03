@@ -7,11 +7,19 @@ function moveMode() {
         $('#moveButton').empty().append('Quit Move Mode');
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#2b89a7");
+        if (selectedUnit.id >= 1) {
+            showUnitInfos(selectedUnit.id);
+            showTileInfos(selectedUnit.tileId,true);
+        }
     } else {
         mode = 'free';
         $('#moveButton').empty().append('Move Mode');
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#DDDDDD");
+        if (selectedUnit.id >= 1) {
+            showUnitInfos(selectedUnit.id);
+            showTileInfos(selectedUnit.tileId,true);
+        }
     }
 }
 function moveUnit(tileId) {

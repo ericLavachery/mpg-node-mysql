@@ -1,0 +1,2 @@
+Supprimer le groupe des unités seules sur 1 tile
+Faire bouger tout le groupe lorsqu'on bouge une unité (en mode move seulement)
