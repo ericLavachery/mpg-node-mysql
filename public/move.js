@@ -22,9 +22,10 @@ function moveMode() {
         }
     }
 };
-function moveGroup(targetTileId, groupNumber) {
+function moveGroup(targetTileId) {
     // something
 };
+// OU BIEN ON FAIT UNE FONCTION "moveHere(tileId)" QUI LANCE SOIT "moveUnit" SOIT "moveGroup" ?
 function moveUnit(targetTileId) {
     if (isAdjacent(selectedUnit.tileId,targetTileId)) {
         oldTileId = selectedUnit.tileId;

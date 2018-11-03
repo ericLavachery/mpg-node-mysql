@@ -17,7 +17,6 @@ function selectOrMove(gridItem) {
         } else { // unit not selected
             if (unitOwner == pseudo) {
                 if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
-                    console.log(selectedUnit.id);
                     moveUnit(tileId);
                 } else { // select this unit
                     selectUnit(unitId);
@@ -29,14 +28,10 @@ function selectOrMove(gridItem) {
         }
     } else { // there is no unit
         showTileInfos(tileId,false);
-        if (selectedUnit.id >= 1) { // there is a selected unit => move it here
+        if (selectedUnit.id >= 1) { // a unit is selected => move it here
             moveUnit(tileId);
         }
     }
-};
-function selectUnitFromTileInfoList(listItem) {
-    let unitSelectedFromListId = listItem.id.substring(14);
-    selectUnit(unitSelectedFromListId);
 };
 function selectUnit(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));

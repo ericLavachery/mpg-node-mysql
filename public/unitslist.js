@@ -21,9 +21,9 @@ function showTileUnitList(tileId) {
                         numSameType = numSameType+1;
                     }
                     if (unit.follow >= 1 && unit.follow == selectedUnit.follow) {
-                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="unitNum inGroup">'+unit.number+'</span> <span class="unitType inGroup">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo; '+gfollow+'</b></span></a><br>');
+                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum inGroup">'+unit.number+'</span> <span class="unitType inGroup">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo; '+gfollow+'</b></span></a><br>');
                     } else {
-                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnitFromTileInfoList(this)"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>'+gfollow+'</b></span></a><br>');
+                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>'+gfollow+'</b></span></a><br>');
                     }
                 }
             }
@@ -41,5 +41,5 @@ function showTileUnitList(tileId) {
     if (ownUnitsHere >= 2) {
         $('#tileUnitList').append('<button type="button" name="newGroup" id="newGroup" onclick="createGroup('+selectedUnit.id+')">New Group</button>');
     }
-    $('#tileUnitList').append('<button type="button" name="purge" id="purge" onclick="purgeGroups('+selectedUnit.tileId+')">Purge Groups</button>');
+    // $('#tileUnitList').append('<button type="button" name="purge" id="purge" onclick="purgeGroups('+selectedUnit.tileId+')">Purge Groups</button>');
 };

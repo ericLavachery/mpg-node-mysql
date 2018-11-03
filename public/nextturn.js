@@ -1,6 +1,7 @@
 // NEXT TURN
 $('#nextButton').click(nextTurn);
 function nextTurn() {
+    // récup fatigue
     pop.forEach(function(unit) {
         if (unit.player === pseudo) {
             if (unit.fatigue-unit.move >= 0) {
@@ -11,8 +12,10 @@ function nextTurn() {
         }
     });
     socket.emit('next_turn', { pseudo: pseudo, turns: 1 });
+    // map
     world.forEach(function(tile) {
-        $("#"+tile.id).attr("title", "");
+        $("#"+tile.id).attr("title", ""); // erase "moves left" infos
+        purgeGroups(tile.id); // purge unused groups 
     });
     if (selectedUnit.id >= 0) {
         showUnitInfos(selectedUnit.id);
