@@ -49,8 +49,9 @@ function moveUnit(tileId) {
             // change infos dans pop
             pop[unitIndex].tileId = tileId;
             pop[unitIndex].fatigue = fatigue;
-            // change le tile dans selectedUnit
+            // change infos dans selectedUnit
             selectedUnit.tileId = tileId;
+            selectedUnit.fatigue = fatigue;
             // envoi au serveur
             socket.emit('move_unit', { tileId: tileId, unitId: selectedUnit.id, fatigue: fatigue});
             // affiche les infos
