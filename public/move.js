@@ -11,6 +11,7 @@ function moveMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
+        $('html,grid-container').css('cursor','nesw-resize');
     } else {
         mode = 'free';
         $('#moveButton').empty().append('Move Mode');
@@ -20,6 +21,7 @@ function moveMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
+        $('html,grid-container').css('cursor','default');
     }
 };
 function moveHere(targetTileId) {
@@ -47,6 +49,17 @@ function moveGroup(targetTileId) {
     let popToMove = _.filter(pop, function(unit) {
         return (unit.follow == selectedUnit.follow && unit.player === pseudo && unit.tileId == selectedUnit.tileId);
     });
+    // unit to be re-drawn
+    let redrawUnit = {};
+    let popToLeave = _.filter(pop, function(unit) {
+        return (unit.follow != selectedUnit.follow || unit.player != pseudo);
+    });
+    popToLeave.forEach(function(unit) {
+        if (unit.tileId == selectedUnit.tileId) {
+            redrawUnit = unit;
+        }
+    });
+    console.log(redrawUnit);
     // check if all units can move
     let moveOK = true;
     let moveCost = 0;
@@ -73,7 +86,7 @@ function moveGroup(targetTileId) {
             pop[unitIndex].fatigue = fatigue;
             if (unit.id == selectedUnit.id) {
                 // bouge l'image de l'unité active sur la carte
-                $('#'+selectedUnit.tileId).empty();
+                $('#'+oldTileId).empty();
                 $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
                 // change infos dans selectedUnit
                 selectedUnit.tileId = targetTileId;
@@ -86,14 +99,10 @@ function moveGroup(targetTileId) {
         showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
-        // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
-        // BUUUUUUUUUUUG !!!!!!!!
-        // Bug également pour bouger un groupe vers un tile occupé !
-        pop.forEach(function(unit) {
-            if (unit.tileId == oldTileId) {
-                showUnit(unit.id,unit.tileId,unit.pic,'units');
-            }
-        });
+        // re-draw unit if any
+        if (redrawUnit.id >= 1) {
+            showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.pic,'units');
+        }
         purgeGroups(targetTileId);
     }
 };

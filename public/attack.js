@@ -11,6 +11,7 @@ function attackMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
+        $('html,grid-container').css('cursor','crosshair');
     } else {
         mode = 'free';
         $('#attackButton').empty().append('Attack Mode');
@@ -20,5 +21,6 @@ function attackMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
+        $('html,grid-container').css('cursor','default');
     }
 }
