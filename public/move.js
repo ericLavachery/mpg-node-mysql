@@ -6,22 +6,22 @@ function moveMode() {
         mode = 'move';
         $('#moveButton').empty().append('Quit Move Mode');
         $('#attackButton').empty().append('Attack Mode');
-        $('#zone_map').css("background-color", "#2b89a7");
+        $('#zone_map').css("background-color", "#a4a700");
         if (selectedUnit.id >= 1) {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
-        $('html,grid-container').css('cursor','nesw-resize');
+        $('.grid-item').css('cursor','url(/static/img/greymove.cur),nesw-resize');
     } else {
         mode = 'free';
         $('#moveButton').empty().append('Move Mode');
         $('#attackButton').empty().append('Attack Mode');
-        $('#zone_map').css("background-color", "#DDDDDD");
+        $('#zone_map').css("background-color", "#323232");
         if (selectedUnit.id >= 1) {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
-        $('html,grid-container').css('cursor','default');
+        $('.grid-item').css('cursor','url(/static/img/pointer.cur),default');
     }
 };
 function moveHere(targetTileId) {
@@ -52,48 +52,53 @@ function moveGroup(targetTileId) {
     // unit to be re-drawn
     let redrawUnit = {};
     let popToLeave = _.filter(pop, function(unit) {
-        return (unit.follow != selectedUnit.follow || unit.player != pseudo);
+        return (unit.follow != selectedUnit.follow || unit.player != pseudo || unit.follow === null);
     });
     popToLeave.forEach(function(unit) {
-        if (unit.tileId == selectedUnit.tileId) {
+        if (unit.tileId == selectedUnit.tileId && unit.id != selectedUnit.id) {
             redrawUnit = unit;
         }
     });
-    console.log(redrawUnit);
     // check if all units can move
     let moveOK = true;
     let moveCost = 0;
     let fatigue = 0;
     let movesLeft = 0;
     popToMove.forEach(function(unit) {
-        moveCost = calcMoveCost(targetTileId,unit.id);
-        fatigue = unit.fatigue + moveCost;
-        movesLeft = unit.move - fatigue;
-        if (moveCost > movesLeft*3) {
-            moveOK = false;
+        // move the whole group only if not null
+        if (unit.follow !== null || unit.id == selectedUnit.id) {
+            moveCost = calcMoveCost(targetTileId,unit.id);
+            fatigue = unit.fatigue + moveCost;
+            movesLeft = unit.move - fatigue;
+            if (moveCost > movesLeft*3) {
+                moveOK = false;
+            }
         }
     });
     // move all units
     let unitIndex = 0;
     if (moveOK) {
         popToMove.forEach(function(unit) {
-            moveCost = calcMoveCost(targetTileId,unit.id);
-            fatigue = unit.fatigue + moveCost;
-            movesLeft = unit.move - fatigue;
-            // change infos dans pop
-            unitIndex = pop.findIndex((obj => obj.id == unit.id));
-            pop[unitIndex].tileId = targetTileId;
-            pop[unitIndex].fatigue = fatigue;
-            if (unit.id == selectedUnit.id) {
-                // bouge l'image de l'unité active sur la carte
-                $('#'+oldTileId).empty();
-                $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
-                // change infos dans selectedUnit
-                selectedUnit.tileId = targetTileId;
-                selectedUnit.fatigue = fatigue;
+            // move the whole group only if not null
+            if (unit.follow !== null || unit.id == selectedUnit.id) {
+                moveCost = calcMoveCost(targetTileId,unit.id);
+                fatigue = unit.fatigue + moveCost;
+                movesLeft = unit.move - fatigue;
+                // change infos dans pop
+                unitIndex = pop.findIndex((obj => obj.id == unit.id));
+                pop[unitIndex].tileId = targetTileId;
+                pop[unitIndex].fatigue = fatigue;
+                if (unit.id == selectedUnit.id) {
+                    // bouge l'image de l'unité active sur la carte
+                    $('#'+oldTileId).empty();
+                    $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+                    // change infos dans selectedUnit
+                    selectedUnit.tileId = targetTileId;
+                    selectedUnit.fatigue = fatigue;
+                }
+                // envoi au serveur
+                socket.emit('move_unit', { tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
             }
-            // envoi au serveur
-            socket.emit('move_unit', { tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
         });
         // réaffiche les infos
         showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
@@ -106,6 +111,7 @@ function moveGroup(targetTileId) {
         purgeGroups(targetTileId);
     }
 };
+// a améliorer!!
 function moveUnit(targetTileId) {
     oldTileId = selectedUnit.tileId;
     // tile move cost

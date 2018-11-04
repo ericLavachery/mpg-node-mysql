@@ -22,6 +22,8 @@ function selectOrMove(gridItem) {
                     selectUnit(unitId);
                 }
             } else {
+                showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'units');
+                selectedUnit = [];
                 showUnitInfos(unitId);
                 showTileInfos(tileId,true);
             }

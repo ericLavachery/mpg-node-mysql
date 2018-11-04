@@ -37,7 +37,7 @@ function showPop(wpop) {
     });
 };
 function showUnit(unitId, tileId, pic, folder) {
-    $('#'+tileId).empty().append('<img src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
+    $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
 };
 // infos groupes
 function loadGroups(wpop) {

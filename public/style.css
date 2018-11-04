@@ -1,11 +1,12 @@
 body {
     font-family: arial;
+    background-color: black;
 }
 .grid-container {
     display: inline-grid;
     grid-template-columns: 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px;
     grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px 60px;
-    background-color: #DDDDDD;
+    background-color: #323232;
     padding: 10px;
 }
 .grid-item {
@@ -13,6 +14,7 @@ body {
     font-size: 10px;
     color: #000000;
     padding: 6px 6px;
+    cursor: url(/static/img/pointer.cur),auto;
 }
 .forest {
     background-color: #1d6b1b;
@@ -40,23 +42,23 @@ td {
     padding-right: 10px;
 }
 #tileInfos, #unitInfos, #tileUnitList {
-    font-size: 14px;
+    font-size: 13px;
     color: #888888;
     padding: 8px 8px;
     border-style: solid;
     border-width: 1px;
-    border-color: #DDDDDD;
+    border-color: #323232;
 }
 #sidebarInfos {
     width: 270px;
 }
 .sidebar a {
     text-decoration: none;
-    color: #888888;
+    color: #969696;
 }
 .sidebar a:hover {
     text-decoration: none;
-    color: #8d00d0;
+    color: #8b00d6;
 }
 .paramName {
     display: inline-block;
@@ -86,24 +88,30 @@ td {
     display: inline-block;
     font-weight: normal;
 }
+h1 {
+    font-size: 20px;
+    color: #8b00d6;
+    margin: 0 0 3px 13px;
+    padding: 0;
+}
 h3 {
-    font-size: 18px;
-    color: #8d00d0;
+    font-size: 16px;
+    color: #8b00d6;
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
 h4 {
-    font-size: 18px;
-    color: #888888;
+    font-size: 16px;
+    color: #969696;
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
 .rouge {
-    color: #d03e00;
+    color: #c40000;
 }
 .mauve {
-    color: #8d00d0;
+    color: #8b00d6;
 }
-.bleu {
-    color: #2b89a7;
+.jaune {
+    color: #d6ae00;
 }

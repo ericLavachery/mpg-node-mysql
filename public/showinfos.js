@@ -53,9 +53,7 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Move cost</span><span class="paramValue">'+ter[terrainIndex].moveCost+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Cover</span><span class="paramValue">'+ter[terrainIndex].cover+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
-    if (selectedUnit.id != '') {
-        showTileUnitList(tileId);
-    }
+    showTileUnitList(tileId);
 };
 function showMovesLeftOnMouseOver(tileId,unitId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
