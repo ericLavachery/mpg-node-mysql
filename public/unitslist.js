@@ -11,7 +11,7 @@ function showTileUnitList(tileId) {
                 if (unit.follow >= 1) {
                     gfollow = unit.follow;
                 } else {
-                    gfollow = 0;
+                    gfollow = 'X';
                 }
                 if (selectedUnit.id == unit.id) {
                     $('#tileUnitList').append('<span class="unitNum jaune">'+unit.number+'</span> <span class="unitType jaune">'+unit.type+'</span><span class="unitOwner jaune">'+unit.player+'</span>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue jaune"><b>&laquo;&laquo;&laquo; '+gfollow+'</b></span></a><br>');
