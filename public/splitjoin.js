@@ -34,7 +34,7 @@ function joinUnits(joinToId,unitType,tileId,owner) {
 function splitButtons(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let unitNumber = pop[unitIndex].number;
-    $('#tileUnitList').append('<br><select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
+    $('#tileUnitList').append('<select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
     let i = 1;
     let sa = 1;
     let sb = unitNumber-sa;

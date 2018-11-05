@@ -69,7 +69,6 @@ function moveGroup(targetTileId) {
         if (unit.follow !== null || unit.id == selectedUnit.id) {
             moveCost = calcMoveCost(targetTileId,unit.id);
             movesLeft = unit.move - unit.fatigue;
-            console.log(unit.type+' '+unit.id+' mc='+moveCost+' ml='+movesLeft);
             if (moveCost > movesLeft*3) {
                 moveOK = false;
             }

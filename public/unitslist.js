@@ -34,7 +34,13 @@ function showTileUnitList(tileId) {
         $('.inGroup').addClass('jaune');
     }
     if (numSameType >= 2 && selectedUnit.id >= 1) {
-        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)">Join all '+selectedUnit.type+' units</button>');
+        let groupInfo = '';
+        if (selectedUnit.follow >= 1) {
+            groupInfo = ' of group '+selectedUnit.follow
+        } else {
+            groupInfo = '';
+        }
+        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)" title="Join all '+selectedUnit.type+' units'+groupInfo+'">Join Units</button>');
     }
     if (selectedUnit.number >= 2 && selectedUnit.id >= 1) {
         splitButtons(selectedUnit.id);
