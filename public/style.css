@@ -146,12 +146,13 @@ button, select {
 	border:1px solid #54381e;
 	display:inline-block;
 	cursor:pointer;
-	color:#ffffff;
+	color:#e1face;
 	font-family: 'Raleway', sans-serif;
 	font-size:13px;
 	padding:6px 13px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #4d3534;
+    margin: 3px 3px 0 0;
 }
 button:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #634b30), color-stop(1, #7d5d3b));

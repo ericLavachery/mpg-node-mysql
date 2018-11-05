@@ -1,13 +1,14 @@
 // JOIN UNITS
 function joinUnits(joinToId,unitType,tileId,owner) {
     let unitIndex = pop.findIndex((obj => obj.id == joinToId));
+    let group = pop[unitIndex].follow;
     let thisMoves = pop[unitIndex].number*(pop[unitIndex].move-pop[unitIndex].fatigue);
     let totalUnits = pop[unitIndex].number;
     let totalMoves = thisMoves;
     let joinToThisUnitMove = pop[unitIndex].move;
     let idsToDelete = '';
     pop.slice().reverse().forEach(function(unit) {
-        if (unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId) {
+        if (unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group) {
             if (idsToDelete == '') {
                 idsToDelete = unit.id;
             } else {

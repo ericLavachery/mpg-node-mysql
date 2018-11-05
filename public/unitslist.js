@@ -38,7 +38,7 @@ function showTileUnitList(tileId) {
         if (selectedUnit.follow >= 1) {
             groupInfo = ' of group '+selectedUnit.follow
         } else {
-            groupInfo = '';
+            groupInfo = ' not in groups';
         }
         $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)" title="Join all '+selectedUnit.type+' units'+groupInfo+'">Join Units</button>');
     }
