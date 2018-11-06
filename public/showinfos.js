@@ -55,6 +55,26 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
     showTileUnitList(tileId);
 };
+function showMovesLeftSelect(tileId,unitId) {
+    if (mode == 'free') {
+        showMovesLeftOnMouseOver(tileId, unitId);
+    } else {
+        let popToMove = _.filter(pop, function(unit) {
+            return (unit.follow == selectedUnit.follow && unit.player === pseudo && unit.tileId == selectedUnit.tileId);
+        });
+        let numToMove = 0;
+        popToMove.forEach(function(unit) {
+            if (unit.follow !== null || unit.id == selectedUnit.id) {
+                numToMove = numToMove + 1;
+            }
+        });
+        if (numToMove >= 2) {
+            showMovesLeftOnMouseOver(tileId, popToMove);
+        } else {
+            showMovesLeftOnMouseOver(tileId, unitId);
+        }
+    }
+}
 function showMovesLeftOnMouseOver(tileId,unitId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
@@ -64,7 +84,10 @@ function showMovesLeftOnMouseOver(tileId,unitId) {
     let fatigue = pop[unitIndex].fatigue;
     if (fatigue < 0) {fatigue = 0;};
     let movesLeft = move-fatigue;
+    let movesLeftAfter = 0;
     let moveCost = 999;
+    let titleString = '';
+    let moveOK = true;
     world.forEach(function(tile) {
         $("#"+tile.id).attr("title", "");
         if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
@@ -74,9 +97,67 @@ function showMovesLeftOnMouseOver(tileId,unitId) {
                 } else {
                     moveCost = calcMoveCost(tile.id,unitId);
                 }
-                let fml = movesLeft-moveCost;
-                let omo = fml+' moves left';
-                $("#"+tile.id).attr("title", omo);
+                if (moveCost > movesLeft*3) {
+                    moveOK = false;
+                } else {
+                    moveOK = true;
+                }
+                movesLeftAfter = movesLeft-moveCost;
+                titleString = movesLeftAfter+' moves left';
+                if (!moveOK) {
+                    titleString = titleString+' | NO WAY';
+                }
+                $("#"+tile.id).attr("title", titleString);
+            }
+        }
+    });
+};
+function showGroupMovesLeftOnMouseOver(tileId,popToMove) {
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let myTileX = world[tileIndex].x;
+    let myTileY = world[tileIndex].y;
+    let unitIndex = 0;
+    let move = 0;
+    let fatigue = 0;
+    let movesLeft = 0;
+    let movesLeftAfter = 0;
+    let moveCost = 999;
+    let worstML = 999;
+    let titleString = '';
+    let moveOK = true;
+    world.forEach(function(tile) {
+        worstML = 999;
+        $("#"+tile.id).attr("title", "");
+        if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+            if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                if (tile.y == myTileY && tile.x == myTileX) {
+                    moveCost = 0;
+                } else {
+                    popToMove.forEach(function(unit) {
+                        if (unit.follow !== null || unit.id == selectedUnit.id) {
+                            unitIndex = pop.findIndex((obj => obj.id == unit.id));
+                            move = pop[unitIndex].move;
+                            fatigue = pop[unitIndex].fatigue;
+                            if (fatigue < 0) {fatigue = 0;};
+                            movesLeft = move-fatigue;
+                            moveCost = calcMoveCost(tile.id,unit.id);
+                            if (moveCost > movesLeft*3) {
+                                moveOK = false;
+                            } else {
+                                moveOK = true;
+                            }
+                            movesLeftAfter = movesLeft-moveCost;
+                            if (movesLeftAfter < worstML) {
+                                worstML = movesLeftAfter;
+                            }
+                        }
+                    });
+                }
+                titleString = worstML+' moves left';
+                if (!moveOK) {
+                    titleString = titleString+' | NO WAY';
+                }
+                $("#"+tile.id).attr("title", titleString);
             }
         }
     });

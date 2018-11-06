@@ -100,7 +100,7 @@ function moveGroup(targetTileId) {
             }
         });
         // réaffiche les infos
-        showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
+        showGroupMovesLeftOnMouseOver(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         // re-draw unit if any
