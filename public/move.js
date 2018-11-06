@@ -8,6 +8,7 @@ function moveMode() {
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#a4a700");
         if (selectedUnit.id >= 1) {
+            showMovesLeftSelect(selectedUnit.tileId,selectedUnit.id);
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
@@ -18,6 +19,7 @@ function moveMode() {
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#323232");
         if (selectedUnit.id >= 1) {
+            showMovesLeftSelect(selectedUnit.tileId,selectedUnit.id);
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
@@ -100,7 +102,7 @@ function moveGroup(targetTileId) {
             }
         });
         // réaffiche les infos
-        showGroupMovesLeftOnMouseOver(selectedUnit.tileId, popToMove);
+        showGroupMovesLeft(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         // re-draw unit if any
@@ -143,7 +145,7 @@ function moveUnit(targetTileId) {
         // envoi au serveur
         socket.emit('move_unit', { tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
         // affiche les infos
-        showMovesLeftOnMouseOver(selectedUnit.tileId, selectedUnit.id);
+        showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)

@@ -55,9 +55,9 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
     showTileUnitList(tileId);
 };
-function showMovesLeftSelect(tileId,unitId) {
+function showMovesLeft(tileId,unitId) {
     if (mode == 'free') {
-        showMovesLeftOnMouseOver(tileId, unitId);
+        showUnitMovesLeft(tileId, unitId);
     } else {
         let popToMove = _.filter(pop, function(unit) {
             return (unit.follow == selectedUnit.follow && unit.player === pseudo && unit.tileId == selectedUnit.tileId);
@@ -69,13 +69,13 @@ function showMovesLeftSelect(tileId,unitId) {
             }
         });
         if (numToMove >= 2) {
-            showMovesLeftOnMouseOver(tileId, popToMove);
+            showGroupMovesLeft(tileId, popToMove);
         } else {
-            showMovesLeftOnMouseOver(tileId, unitId);
+            showUnitMovesLeft(tileId, unitId);
         }
     }
 }
-function showMovesLeftOnMouseOver(tileId,unitId) {
+function showUnitMovesLeft(tileId,unitId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
     let myTileY = world[tileIndex].y;
@@ -112,7 +112,7 @@ function showMovesLeftOnMouseOver(tileId,unitId) {
         }
     });
 };
-function showGroupMovesLeftOnMouseOver(tileId,popToMove) {
+function showGroupMovesLeft(tileId,popToMove) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
     let myTileY = world[tileIndex].y;
