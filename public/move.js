@@ -8,7 +8,7 @@ function moveMode() {
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#a4a700");
         if (selectedUnit.id >= 1) {
-            showMovesLeftSelect(selectedUnit.tileId,selectedUnit.id);
+            showMovesLeft(selectedUnit.tileId,selectedUnit.id);
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
@@ -19,7 +19,7 @@ function moveMode() {
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#323232");
         if (selectedUnit.id >= 1) {
-            showMovesLeftSelect(selectedUnit.tileId,selectedUnit.id);
+            showMovesLeft(selectedUnit.tileId,selectedUnit.id);
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }

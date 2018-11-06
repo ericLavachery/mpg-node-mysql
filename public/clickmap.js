@@ -2,13 +2,13 @@
 function selectOrMove(gridItem) {
     let tileId = gridItem.id;
     let unitId = 0;
-    // Is there a unit on the tile?
+    // Is there a VISIBLE unit on the tile?
     if (Object.keys(gridItem.children).length >= 1) {
         unitId = gridItem.children[0].id.substring(1);
         let unitIndex = pop.findIndex((obj => obj.id == unitId));
         unitOwner = pop[unitIndex].player;
     }
-    if (unitId >= 1) { // there is a unit
+    if (unitId >= 1) { // there is a VISIBLE unit
         if (selectedUnit.id == unitId) { // unit already selected => unselect
             selectedUnit = [];
             $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
@@ -22,13 +22,17 @@ function selectOrMove(gridItem) {
                     selectUnit(unitId);
                 }
             } else {
-                showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'units');
-                selectedUnit = [];
-                showUnitInfos(unitId);
-                showTileInfos(tileId,true);
+                if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
+                    moveHere(tileId);
+                } else { // only show tile infos
+                    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'units');
+                    selectedUnit = [];
+                    showUnitInfos(unitId);
+                    showTileInfos(tileId,true);
+                }
             }
         }
-    } else { // there is no unit
+    } else { // there is no VISIBLE unit
         showTileInfos(tileId,false);
         if (selectedUnit.id >= 1) { // a unit is selected => move it here
             moveHere(tileId);

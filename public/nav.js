@@ -27,7 +27,7 @@ function connectMe(pseudo) {
     document.getElementById('pascon').style.display = 'none';
     // change le titre du doc
     document.title = pseudo + ' - MPG';
-    document.getElementById("pseu").innerHTML = '(' + pseudo + ')';
+    document.getElementById("pseu").innerHTML = pseudo;
 }
 
 $('#hello').click(promptMe);

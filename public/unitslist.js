@@ -1,11 +1,13 @@
 function showTileUnitList(tileId) {
     $('#tileUnitList').empty();
+    let ownerShort = '';
     let ownUnitsHere = 0;
     let numSameType = 1;
     let gfollow = null;
-    let sortedPop = _.sortBy(_.sortBy(_.sortBy(pop,'number'),'type'),'follow');
+    let sortedPop = _.sortBy(_.sortBy(_.sortBy(_.sortBy(pop,'number'),'type'),'follow'),'player');
     sortedPop.forEach(function(unit) {
         if (unit.tileId == tileId) {
+            ownerShort = unit.player.substring(0,4);
             if (unit.player == pseudo) {
                 ownUnitsHere = ownUnitsHere+1;
                 if (unit.follow >= 1) {
@@ -14,19 +16,19 @@ function showTileUnitList(tileId) {
                     gfollow = '&times;';
                 }
                 if (selectedUnit.id == unit.id) {
-                    $('#tileUnitList').append('<span class="unitNum jaune">'+unit.number+'</span> <span class="unitType jaune">'+unit.type+'</span><span class="unitOwner jaune">'+unit.player+'</span>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue jaune"><b>&laquo;&laquo;&laquo; '+gfollow+'</b></span></a><br>');
+                    $('#tileUnitList').append('<span class="unitNum jaune">'+unit.number+'</span> <span class="unitType jaune">'+unit.type+'</span><span class="unitOwner jaune">'+ownerShort+'</span>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue jaune"><b>&laquo;&laquo;&laquo; '+gfollow+'</b></span></a><br>');
                 } else {
                     if (unit.type == selectedUnit.type) {
                         numSameType = numSameType+1;
                     }
                     if (unit.follow >= 1 && unit.follow == selectedUnit.follow) {
-                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum inGroup">'+unit.number+'</span> <span class="unitType inGroup">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo; '+gfollow+'</b></span></a><br>');
+                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum inGroup">'+unit.number+'</span> <span class="unitType inGroup">'+unit.type+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>&laquo; '+gfollow+'</b></span></a><br>');
                     } else {
-                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>'+gfollow+'</b></span></a><br>');
+                        $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b>'+gfollow+'</b></span></a><br>');
                     }
                 }
             } else {
-                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+unit.type+'</span><span class="unitOwner">'+unit.player+'</span></a><br>');
+                $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf">'+unit.type+'</span><span class="unitOwner grisf">'+ownerShort+'</span></a><br>');
             }
         }
     });
