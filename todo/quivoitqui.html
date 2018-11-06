@@ -24,8 +24,10 @@ TAGS (array of players)
 world :
     $view - stay/out (10% out per turn)
     $carto (better move and detect) - stay
+    (ici on pourrait stoquer dans le tableau players - array of world.id)
 pop :
     $view
     $ident
     for units : out after turn (of player or owner)
     for buildings : stay
+    (ici aussi, a condition que les bâtiments ne puissent pas être join/split -> ils garderaient leur id -> array of pop.id)
