@@ -25,7 +25,7 @@ function selectOrMove(gridItem) {
                 if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
                     moveHere(tileId);
                 } else { // only show tile infos
-                    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'units');
+                    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'units');
                     selectedUnit = [];
                     showUnitInfos(unitId);
                     showTileInfos(tileId,true);
@@ -50,11 +50,11 @@ function selectUnit(unitId) {
         // unmark all units (from pseudo)
         pop.forEach(function(unit) {
             if (unit.player == pseudo && unit.id != selectedUnit.id) {
-                showUnit(unit.id,unit.tileId,unit.pic,'units');
+                showUnit(unit.id,unit.tileId,unit.icon,'units');
             }
         });
         // mark the unit
-        showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'sunits');
+        showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'sunits');
         // show moves left for each adjacent tiles (in title)
         // showUnitMovesLeft(selectedUnit.tileId, unitId);
         showMovesLeft(selectedUnit.tileId, unitId);

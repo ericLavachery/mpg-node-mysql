@@ -5,16 +5,16 @@ socket.on('unit_moved', function(data) {
 function showOpponentMove(tileId, unitId) {
     objIndex = pop.findIndex((obj => obj.id == unitId));
     let movedUnitOldTileId = pop[objIndex].tileId;
-    let movedUnitPic = pop[objIndex].pic;
+    let movedUnitIcon = pop[objIndex].icon;
     // bouge l'image sur la carte
     $('#'+movedUnitOldTileId).empty();
-    $('#'+tileId).empty().append('<img src="/static/img/units/'+movedUnitPic+'" alt="'+movedUnitPic+'" id="u'+unitId+'">');
+    $('#'+tileId).empty().append('<img src="/static/img/units/'+movedUnitIcon+'.png" alt="'+movedUnitIcon+'" id="u'+unitId+'">');
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
     // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
     pop.forEach(function(unit) {
         if (unit.tileId == movedUnitOldTileId) {
-            showUnit(unit.id,unit.tileId,unit.pic,'units');
+            showUnit(unit.id,unit.tileId,unit.icon,'units');
         }
     });
 };

@@ -33,11 +33,11 @@ socket.on('popload', function(wpop) {
 });
 function showPop(wpop) {
     wpop.forEach(function(unit) {
-        showUnit(unit.id, unit.tileId, unit.pic, 'units');
+        showUnit(unit.id, unit.tileId, unit.icon, 'units');
     });
 };
-function showUnit(unitId, tileId, pic, folder) {
-    $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+pic+'" alt="'+pic+'" id="u'+unitId+'">');
+function showUnit(unitId, tileId, icon, folder) {
+    $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
 };
 // infos groupes
 function loadGroups(wpop) {

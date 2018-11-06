@@ -94,6 +94,10 @@ td {
     display: inline-block;
     font-weight: normal;
 }
+.espace {
+    margin: 4px;
+    padding: 0;
+}
 h1 {
     font-family: 'Uncial Antiqua', cursive;
     font-weight: normal;

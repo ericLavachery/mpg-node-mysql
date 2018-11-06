@@ -35,6 +35,7 @@ function showTileUnitList(tileId) {
     if (mode == 'move' || mode == 'attack') {
         $('.inGroup').addClass('jaune');
     }
+    $('#tileUnitList').append('<div class="espace"></div>');
     if (numSameType >= 2 && selectedUnit.id >= 1) {
         let groupInfo = '';
         if (selectedUnit.follow >= 1) {
@@ -42,7 +43,7 @@ function showTileUnitList(tileId) {
         } else {
             groupInfo = ' not in groups';
         }
-        $('#tileUnitList').append('<br><button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)" title="Join all '+selectedUnit.type+' units'+groupInfo+'">Join Units</button>');
+        $('#tileUnitList').append('<button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)" title="Join all '+selectedUnit.type+' units'+groupInfo+'">Join Units</button>');
     }
     if (selectedUnit.number >= 2 && selectedUnit.id >= 1) {
         splitButtons(selectedUnit.id);

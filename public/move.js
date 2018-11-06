@@ -92,7 +92,7 @@ function moveGroup(targetTileId) {
                 if (unit.id == selectedUnit.id) {
                     // bouge l'image de l'unité active sur la carte
                     $('#'+oldTileId).empty();
-                    $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+                    $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.icon+'.png" alt="'+selectedUnit.icon+'" id="u'+selectedUnit.id+'">');
                     // change infos dans selectedUnit
                     selectedUnit.tileId = targetTileId;
                     selectedUnit.fatigue = fatigue;
@@ -107,7 +107,7 @@ function moveGroup(targetTileId) {
         showTileInfos(selectedUnit.tileId,true);
         // re-draw unit if any
         if (redrawUnit.id >= 1) {
-            showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.pic,'units');
+            showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.icon,'units');
         }
         purgeGroups(targetTileId);
     }
@@ -135,7 +135,7 @@ function moveUnit(targetTileId) {
         movesLeft = move-fatigue;
         // bouge l'image sur la carte
         $('#'+selectedUnit.tileId).empty();
-        $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.pic+'" alt="'+selectedUnit.pic+'" id="u'+selectedUnit.id+'">');
+        $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.icon+'.png" alt="'+selectedUnit.icon+'" id="u'+selectedUnit.id+'">');
         // change infos dans pop
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;
@@ -151,7 +151,7 @@ function moveUnit(targetTileId) {
         // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
         pop.forEach(function(unit) {
             if (unit.tileId == oldTileId) {
-                showUnit(unit.id,unit.tileId,unit.pic,'units');
+                showUnit(unit.id,unit.tileId,unit.icon,'units');
             }
         });
         purgeGroups(targetTileId);
