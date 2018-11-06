@@ -50,5 +50,4 @@ function showTileUnitList(tileId) {
     if (ownUnitsHere >= 2 && selectedUnit.id >= 1) {
         $('#tileUnitList').append('<button type="button" name="newGroup" id="newGroup" onclick="createGroup('+selectedUnit.id+')">New Group</button>');
     }
-    // $('#tileUnitList').append('<button type="button" name="purge" id="purge" onclick="purgeGroups('+selectedUnit.tileId+')">Purge Groups</button>');
 };
