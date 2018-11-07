@@ -11,12 +11,7 @@ function showOpponentMove(tileId, unitId) {
     $('#'+tileId).empty().append('<img src="/static/img/ounits/'+movedUnitIcon+'.png" alt="'+movedUnitIcon+'" id="u'+unitId+'">');
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
-    // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
-    pop.forEach(function(unit) {
-        if (unit.tileId == movedUnitOldTileId) {
-            showUnit(unit.id,unit.tileId,unit.icon,'ounits');
-        }
-    });
+    drawTileUnit(movedUnitOldTileId);
 };
 // OPPONENT JOINS
 socket.on('units_joined', function(data) {

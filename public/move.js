@@ -95,7 +95,6 @@ function moveGroup(targetTileId) {
         showGroupMovesLeft(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
-        // re-draw unit if any
         drawTileUnit(oldTileId);
         purgeGroups(targetTileId);
     }
@@ -136,7 +135,6 @@ function moveUnit(targetTileId) {
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
-        // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
         drawTileUnit(oldTileId);
         purgeGroups(targetTileId);
     }
