@@ -38,11 +38,13 @@ function showPop(wpop) {
     let sortedPop = _.sortBy(_.sortBy(wpop,'icon'),'tileId');
     sortedPop.forEach(function(unit) {
         if (unit.player != pseudo) {
-            if (unit.icon != lastIcon || unit.tileId != lastTileId) {
-                showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+            if (unit.icon != 'spy' && unit.icon != 'bsp') {
+                if (unit.icon != lastIcon || unit.tileId != lastTileId) {
+                    showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+                }
+                lastTileId = unit.tileId;
+                lastIcon = unit.icon;
             }
-            lastTileId = unit.tileId;
-            lastIcon = unit.icon;
         }
     });
     sortedPop.forEach(function(unit) {

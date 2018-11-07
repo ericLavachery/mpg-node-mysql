@@ -51,16 +51,6 @@ function moveGroup(targetTileId) {
     let popToMove = _.filter(pop, function(unit) {
         return (unit.follow == selectedUnit.follow && unit.player === pseudo && unit.tileId == selectedUnit.tileId);
     });
-    // unit to be re-drawn
-    let redrawUnit = {};
-    let popToLeave = _.filter(pop, function(unit) {
-        return (unit.follow != selectedUnit.follow || unit.player != pseudo || unit.follow === null);
-    });
-    popToLeave.forEach(function(unit) {
-        if (unit.tileId == selectedUnit.tileId && unit.id != selectedUnit.id) {
-            redrawUnit = unit;
-        }
-    });
     // check if all units can move
     let moveOK = true;
     let moveCost = 0;
@@ -106,13 +96,7 @@ function moveGroup(targetTileId) {
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         // re-draw unit if any
-        if (redrawUnit.id >= 1) {
-            if (redrawUnit.player == pseudo) {
-                showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.icon,'units');
-            } else {
-                showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.icon,'ounits');
-            }
-        }
+        drawTileUnit(oldTileId);
         purgeGroups(targetTileId);
     }
 };
@@ -153,17 +137,35 @@ function moveUnit(targetTileId) {
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
-        pop.forEach(function(unit) {
-            if (unit.tileId == oldTileId) {
-                if (unit.player == pseudo) {
-                    showUnit(unit.id,unit.unit,unit.icon,'units');
-                } else {
-                    showUnit(unit.id,unit.tileId,unit.icon,'ounits');
-                }
-            }
-        });
+        drawTileUnit(oldTileId);
         purgeGroups(targetTileId);
     }
+};
+function drawTileUnit(tileId) {
+    let folder = 'units';
+    let lastIcon = '';
+    let tilePop = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId);
+    });
+    let sortedTilePop = _.sortBy(tilePop,'icon');
+    sortedTilePop.forEach(function(unit) {
+        if (unit.player != pseudo) {
+            if (unit.icon != 'spy' && unit.icon != 'bsp') {
+                if (unit.icon != lastIcon) {
+                    showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+                }
+                lastIcon = unit.icon;
+            }
+        }
+    });
+    sortedTilePop.forEach(function(unit) {
+        if (unit.player == pseudo) {
+            if (unit.icon != lastIcon) {
+                showUnit(unit.id, unit.tileId, unit.icon, 'units');
+            }
+            lastIcon = unit.icon;
+        }
+    });
 };
 function calcMoveCost(targetTileId, unitId) {
     // tile move cost
