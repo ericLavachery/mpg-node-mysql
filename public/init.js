@@ -33,7 +33,11 @@ socket.on('popload', function(wpop) {
 });
 function showPop(wpop) {
     wpop.forEach(function(unit) {
-        showUnit(unit.id, unit.tileId, unit.icon, 'units');
+        if (unit.player == pseudo) {
+            showUnit(unit.id, unit.tileId, unit.icon, 'units');
+        } else {
+            showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+        }
     });
 };
 function showUnit(unitId, tileId, icon, folder) {

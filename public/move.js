@@ -107,7 +107,11 @@ function moveGroup(targetTileId) {
         showTileInfos(selectedUnit.tileId,true);
         // re-draw unit if any
         if (redrawUnit.id >= 1) {
-            showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.icon,'units');
+            if (redrawUnit.player == pseudo) {
+                showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.icon,'units');
+            } else {
+                showUnit(redrawUnit.id,redrawUnit.tileId,redrawUnit.icon,'ounits');
+            }
         }
         purgeGroups(targetTileId);
     }
@@ -151,7 +155,11 @@ function moveUnit(targetTileId) {
         // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
         pop.forEach(function(unit) {
             if (unit.tileId == oldTileId) {
-                showUnit(unit.id,unit.tileId,unit.icon,'units');
+                if (unit.player == pseudo) {
+                    showUnit(unit.id,unit.unit,unit.icon,'units');
+                } else {
+                    showUnit(unit.id,unit.tileId,unit.icon,'ounits');
+                }
             }
         });
         purgeGroups(targetTileId);

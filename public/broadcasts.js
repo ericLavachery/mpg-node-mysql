@@ -14,7 +14,7 @@ function showOpponentMove(tileId, unitId) {
     // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
     pop.forEach(function(unit) {
         if (unit.tileId == movedUnitOldTileId) {
-            showUnit(unit.id,unit.tileId,unit.icon,'units');
+            showUnit(unit.id,unit.tileId,unit.icon,'ounits');
         }
     });
 };
