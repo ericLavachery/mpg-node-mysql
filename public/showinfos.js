@@ -111,6 +111,8 @@ function adjacentTileInfos(tileId,moveOK) {
         if (!here) {
             if (ownUnitsHere === true) {
                 cursorSwitch('#',tileId,'pointer');
+            } else if (!moveOK) {
+                cursorSwitch('#',tileId,'stop');
             } else {
                 cursorSwitch('#',tileId,'freemove');
             }
