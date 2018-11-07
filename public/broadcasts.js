@@ -8,7 +8,7 @@ function showOpponentMove(tileId, unitId) {
     let movedUnitIcon = pop[objIndex].icon;
     // bouge l'image sur la carte
     $('#'+movedUnitOldTileId).empty();
-    $('#'+tileId).empty().append('<img src="/static/img/units/'+movedUnitIcon+'.png" alt="'+movedUnitIcon+'" id="u'+unitId+'">');
+    $('#'+tileId).empty().append('<img src="/static/img/ounits/'+movedUnitIcon+'.png" alt="'+movedUnitIcon+'" id="u'+unitId+'">');
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
     // montrer les unités qui étaient en dessous de celle qui est partie (ouais je me comprend)
