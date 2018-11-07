@@ -32,11 +32,26 @@ socket.on('popload', function(wpop) {
     loadGroups(wpop);
 });
 function showPop(wpop) {
-    wpop.forEach(function(unit) {
+    let folder = 'units';
+    let lastIcon = '';
+    let lastTileId = 0;
+    let sortedPop = _.sortBy(_.sortBy(wpop,'icon'),'tileId');
+    sortedPop.forEach(function(unit) {
+        if (unit.player != pseudo) {
+            if (unit.icon != lastIcon || unit.tileId != lastTileId) {
+                showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+            }
+            lastTileId = unit.tileId;
+            lastIcon = unit.icon;
+        }
+    });
+    sortedPop.forEach(function(unit) {
         if (unit.player == pseudo) {
-            showUnit(unit.id, unit.tileId, unit.icon, 'units');
-        } else {
-            showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+            if (unit.icon != lastIcon || unit.tileId != lastTileId) {
+                showUnit(unit.id, unit.tileId, unit.icon, 'units');
+            }
+            lastTileId = unit.tileId;
+            lastIcon = unit.icon;
         }
     });
 };
@@ -61,5 +76,4 @@ function loadGroups(wpop) {
             lastTileId = unit.tileId;
         }
     });
-    // console.log(mygroups);
-}
+};
