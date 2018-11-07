@@ -10,10 +10,11 @@ function selectOrMove(gridItem) {
     }
     if (unitId >= 1) { // there is a VISIBLE unit
         if (selectedUnit.id == unitId) { // unit already selected => unselect
-            selectedUnit = [];
-            $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
-            $('#unitInfos').empty();
-            showTileInfos(tileId,false);
+            // selectedUnit = [];
+            // $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
+            // $('#unitInfos').empty();
+            // showTileInfos(tileId,false);
+            unSelectUnit(selectedUnit.id);
         } else { // unit not selected
             if (unitOwner == pseudo) {
                 if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
@@ -25,10 +26,11 @@ function selectOrMove(gridItem) {
                 if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
                     moveHere(tileId);
                 } else { // only show tile infos
-                    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'units');
-                    selectedUnit = [];
-                    showUnitInfos(unitId);
-                    showTileInfos(tileId,true);
+                    // showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'units');
+                    // selectedUnit = [];
+                    // showUnitInfos(unitId);
+                    // showTileInfos(tileId,true);
+                    unSelectUnit(selectedUnit.id);
                 }
             }
         }
@@ -62,4 +64,12 @@ function selectUnit(unitId) {
     } else {
         showUnitInfos(unitId);
     }
-}
+};
+function unSelectUnit(unitId) {
+    // $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
+    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'units');
+    $('#unitInfos').empty();
+    // showTileInfos(selectedUnit.tileId,false);
+    cursorSwitch('.','grid-item','pointer');
+    selectedUnit = [];
+};
