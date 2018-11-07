@@ -4,6 +4,7 @@ $('#moveButton').click(moveMode);
 function moveMode() {
     if (mode != 'move') {
         mode = 'move';
+        cursorSwitch('.','grid-item','move');
         $('#moveButton').empty().append('Quit Move Mode');
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#a4a700");
@@ -12,9 +13,9 @@ function moveMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
-        $('.grid-item').css('cursor','url(/static/img/greymove.cur),nesw-resize');
     } else {
         mode = 'free';
+        cursorSwitch('.','grid-item','pointer');
         $('#moveButton').empty().append('Move Mode');
         $('#attackButton').empty().append('Attack Mode');
         $('#zone_map').css("background-color", "#323232");
@@ -23,7 +24,6 @@ function moveMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
-        $('.grid-item').css('cursor','url(/static/img/pointer.cur),default');
     }
 };
 function moveHere(targetTileId) {

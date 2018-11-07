@@ -25,9 +25,9 @@ function showUnitInfos(unitId) {
     $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3>');
     $('#unitInfos').append('<span class="paramName">Owner</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     if (shape >= 100) {
-        $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
+        $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue">'+Math.round(movesLeft/10)+'</span><span class="paramValue">&nbsp;/&nbsp;'+Math.round(move/10)+'</span><br>');
     } else {
-        $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue rouge">'+movesLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+move+'</span><br>');
+        $('#unitInfos').append('<span class="paramName">Moves</span><span id="infosMovesLeft" class="paramValue rouge">'+Math.round(movesLeft/10)+'</span><span class="paramValue">&nbsp;/&nbsp;'+Math.round(move/10)+'</span><br>');
     }
     if (hpLeft >= pop[unitIndex].hp) {
         $('#unitInfos').append('<span class="paramName">HP</span><span class="paramValue">'+hpLeft+'</span><span class="paramValue">&nbsp;/&nbsp;'+pop[unitIndex].hp+'</span><br>');
@@ -55,6 +55,70 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Defense</span><span class="paramValue">'+ter[terrainIndex].defense+'</span><br>');
     showTileUnitList(tileId);
 };
+function cursorSwitch(seltype,selvalue,kur) {
+    let defkur = 'default';
+    if (kur == 'move') {
+        defkur = 'nesw-resize';
+    } else if (kur == 'sword') {
+        defkur = 'crosshair';
+    } else if (kur == 'stop') {
+        defkur = 'not-allowed';
+    } else if (kur == 'freemove') {
+        defkur = 'ew-resize';
+    }
+    $(seltype+selvalue).css('cursor','url(/static/img/'+kur+'.cur),'+defkur);
+};
+function cursorsToMode() {
+    let kur = 'pointer';
+    let defkur = 'default';
+    let seltype = '.';
+    let selvalue = 'grid-item';
+    if (mode == 'move') {
+        defkur = 'nesw-resize';
+        kur = 'move';
+    } else if (mode == 'attack') {
+        defkur = 'crosshair';
+        kur = 'sword';
+    }
+    zel = seltype+selvalue;
+    $(zel).css('cursor','url(/static/img/'+kur+'.cur),'+defkur);
+};
+function adjacentTileInfos(tileId,moveOK) {
+    let here = false;
+    let ownUnitsHere = false;
+    let popHere = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId);
+    });
+    popHere.forEach(function(unit) {
+        if (unit.id == selectedUnit.id) {
+            here = true;
+        }
+        if (unit.player == pseudo) {
+            ownUnitsHere = true;
+        }
+    });
+    if (mode == 'move') {
+        if (here) {
+            cursorSwitch('#',tileId,'pointer');
+        } else if (!moveOK) {
+            cursorSwitch('#',tileId,'stop');
+        } else {
+            cursorSwitch('#',tileId,'move');
+        }
+    } else if (mode == 'attack') {
+        cursorSwitch('#',tileId,'sword');
+    } else {
+        if (!here) {
+            if (ownUnitsHere === true) {
+                cursorSwitch('#',tileId,'pointer');
+            } else {
+                cursorSwitch('#',tileId,'freemove');
+            }
+        } else {
+            cursorSwitch('#',tileId,'pointer');
+        }
+    }
+};
 function showMovesLeft(tileId,unitId) {
     if (mode == 'free') {
         showUnitMovesLeft(tileId, unitId);
@@ -74,8 +138,9 @@ function showMovesLeft(tileId,unitId) {
             showUnitMovesLeft(tileId, unitId);
         }
     }
-}
+};
 function showUnitMovesLeft(tileId,unitId) {
+    cursorsToMode();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
     let myTileY = world[tileIndex].y;
@@ -103,16 +168,18 @@ function showUnitMovesLeft(tileId,unitId) {
                     moveOK = true;
                 }
                 movesLeftAfter = movesLeft-moveCost;
-                titleString = movesLeftAfter+' moves left';
-                if (!moveOK) {
-                    titleString = titleString+' | NO WAY';
-                }
+                titleString = Math.round(movesLeftAfter/10)+' moves left';
+                // if (!moveOK) {
+                //     titleString = titleString+' | NO WAY';
+                // }
                 $("#"+tile.id).attr("title", titleString);
+                adjacentTileInfos(tile.id,moveOK);
             }
         }
     });
 };
 function showGroupMovesLeft(tileId,popToMove) {
+    cursorsToMode();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
     let myTileY = world[tileIndex].y;
@@ -153,11 +220,16 @@ function showGroupMovesLeft(tileId,popToMove) {
                         }
                     });
                 }
-                titleString = worstML+' moves left';
-                if (!moveOK) {
-                    titleString = titleString+' | NO WAY';
+                if (moveCost >= 1) {
+                    titleString = Math.round(worstML/10)+' moves left';
+                    // if (!moveOK) {
+                    //     titleString = titleString+' | NO WAY';
+                    // }
+                } else {
+                    titleString = '';
                 }
                 $("#"+tile.id).attr("title", titleString);
+                adjacentTileInfos(tile.id,moveOK);
             }
         }
     });

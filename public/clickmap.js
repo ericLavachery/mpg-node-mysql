@@ -56,7 +56,6 @@ function selectUnit(unitId) {
         // mark the unit
         showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'sunits');
         // show moves left for each adjacent tiles (in title)
-        // showUnitMovesLeft(selectedUnit.tileId, unitId);
         showMovesLeft(selectedUnit.tileId, unitId);
         showUnitInfos(unitId);
         showTileInfos(selectedUnit.tileId,true);

@@ -4,6 +4,7 @@ $('#attackButton').click(attackMode);
 function attackMode() {
     if (mode != 'attack') {
         mode = 'attack';
+        cursorSwitch('.','grid-item','sword');
         $('#attackButton').empty().append('Quit Attack Mode');
         $('#moveButton').empty().append('Move Mode');
         $('#zone_map').css("background-color", "#c40000");
@@ -12,7 +13,6 @@ function attackMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
-        $('.grid-item').css('cursor','url(/static/img/sword.cur),crosshair');
     } else {
         mode = 'free';
         $('#attackButton').empty().append('Attack Mode');
@@ -23,6 +23,6 @@ function attackMode() {
             showUnitInfos(selectedUnit.id);
             showTileInfos(selectedUnit.tileId,true);
         }
-        $('.grid-item').css('cursor','url(/static/img/pointer.cur),default');
+        cursorSwitch('.','grid-item','pointer');
     }
 }
