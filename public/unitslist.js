@@ -2,6 +2,7 @@ function showTileUnitList(tileId) {
     $('#tileUnitList').empty();
     let ownerShort = '';
     let ownUnitsHere = 0;
+    let ownNonBldUnitsHere = 0;
     let numSameType = 1;
     let gfollow = null;
     let popHere = _.filter(pop, function(unit) {
@@ -11,6 +12,9 @@ function showTileUnitList(tileId) {
     sortedPopHere.forEach(function(unit) {
         ownerShort = unit.player.substring(0,4);
         if (unit.player == pseudo) {
+            if (unit.icon != 'bld' && unit.icon != 'bsp') {
+                ownNonBldUnitsHere = ownNonBldUnitsHere+1;
+            }
             ownUnitsHere = ownUnitsHere+1;
             if (unit.follow >= 1) {
                 gfollow = unit.follow;
@@ -39,7 +43,7 @@ function showTileUnitList(tileId) {
     }
     $('#tileUnitList').append('<div class="espace"></div>');
     // bouton JOIN
-    if (numSameType >= 2 && selectedUnit.id >= 1) {
+    if (numSameType >= 2 && selectedUnit.id >= 1 && selectedUnit.icon != 'bld' && selectedUnit.icon != 'bsp') {
         let groupInfo = '';
         if (selectedUnit.follow >= 1) {
             groupInfo = ' of group '+selectedUnit.follow
@@ -49,7 +53,7 @@ function showTileUnitList(tileId) {
         $('#tileUnitList').append('<button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)" title="Join all '+selectedUnit.type+' units'+groupInfo+'">Join Units</button>');
     }
     // bouton SPLIT
-    if (selectedUnit.number >= 2 && selectedUnit.id >= 1) {
+    if (selectedUnit.number >= 2 && selectedUnit.id >= 1 && selectedUnit.icon != 'bld' && selectedUnit.icon != 'bsp') {
         splitButtons(selectedUnit.id);
     }
     // bouton NEW GROUP

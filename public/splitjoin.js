@@ -8,7 +8,7 @@ function joinUnits(joinToId,unitType,tileId,owner) {
     let joinToThisUnitMove = pop[unitIndex].move;
     let idsToDelete = '';
     pop.slice().reverse().forEach(function(unit) {
-        if (unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group) {
+        if (unit.icon != 'bld' && unit.icon != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group) {
             if (idsToDelete == '') {
                 idsToDelete = unit.id;
             } else {
@@ -35,24 +35,27 @@ function joinUnits(joinToId,unitType,tileId,owner) {
 function splitButtons(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let unitNumber = pop[unitIndex].number;
-    $('#tileUnitList').append('<select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
-    let i = 1;
-    let sa = 1;
-    let sb = unitNumber-sa;
-    while (sa <= unitNumber-1) {
-        sb = unitNumber-sa;
-        $('#splitDrop').append('<option value="'+sa+'">&nbsp;'+sa+':'+sb+'</option>');
-        if (sa >= 48) {
-            sa = sa+24;
-        } else {
-            if (sa >= 24) {
-                sa = sa+6;
+    let unitIcon = pop[unitIndex].icon;
+    if (unitIcon != 'bld' && unitIcon != 'bsp') {
+        $('#tileUnitList').append('<select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
+        let i = 1;
+        let sa = 1;
+        let sb = unitNumber-sa;
+        while (sa <= unitNumber-1) {
+            sb = unitNumber-sa;
+            $('#splitDrop').append('<option value="'+sa+'">&nbsp;'+sa+':'+sb+'</option>');
+            if (sa >= 48) {
+                sa = sa+24;
             } else {
-                sa = sa+1;
+                if (sa >= 24) {
+                    sa = sa+6;
+                } else {
+                    sa = sa+1;
+                }
             }
+            i = i+1;
+            if (i >= 100) {break;}
         }
-        i = i+1;
-        if (i >= 100) {break;}
     }
 };
 function splitUnits(sel,splitedUnitId) {
