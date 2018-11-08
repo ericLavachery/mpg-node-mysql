@@ -236,3 +236,7 @@ function showGroupMovesLeft(tileId,popToMove) {
         }
     });
 };
+function clearMovesLeft() {
+    cursorsToMode();
+    $('.grid-item').attr("title", "");
+};

@@ -61,7 +61,7 @@ function unSelectUnit(unitId) {
     // $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
     showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'units');
     $('#unitInfos').empty();
-    // showTileInfos(selectedUnit.tileId,false);
     cursorSwitch('.','grid-item','pointer');
+    clearMovesLeft();
     selectedUnit = [];
 };

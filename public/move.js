@@ -1,31 +1,3 @@
-// Button "MOVE MODE" (only needed to move where there's already a unit).
-// Once clicked, click again to quit MOVE MODE.
-$('#moveButton').click(moveMode);
-function moveMode() {
-    if (mode != 'move') {
-        mode = 'move';
-        cursorSwitch('.','grid-item','move');
-        $('#moveButton').empty().append('Quit Move Mode');
-        $('#attackButton').empty().append('Attack Mode');
-        $('#zone_map').css("background-color", "#a4a700");
-        if (selectedUnit.id >= 1) {
-            showMovesLeft(selectedUnit.tileId,selectedUnit.id);
-            showUnitInfos(selectedUnit.id);
-            showTileInfos(selectedUnit.tileId,true);
-        }
-    } else {
-        mode = 'free';
-        cursorSwitch('.','grid-item','pointer');
-        $('#moveButton').empty().append('Move Mode');
-        $('#attackButton').empty().append('Attack Mode');
-        $('#zone_map').css("background-color", "#323232");
-        if (selectedUnit.id >= 1) {
-            showMovesLeft(selectedUnit.tileId,selectedUnit.id);
-            showUnitInfos(selectedUnit.id);
-            showTileInfos(selectedUnit.tileId,true);
-        }
-    }
-};
 function moveHere(targetTileId) {
     if (isAdjacent(selectedUnit.tileId,targetTileId)) {
         if (mode == 'move' && selectedUnit.follow >= 1) {

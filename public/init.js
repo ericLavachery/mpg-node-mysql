@@ -3,7 +3,7 @@ let world = [];
 let ter = [];
 let mygroups = [];
 let selectedUnit = [];
-let mode = 'free';
+let mode = 'move';
 
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
