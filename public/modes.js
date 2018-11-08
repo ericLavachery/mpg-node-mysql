@@ -1,15 +1,17 @@
 $('#moveButton').click(moveMode);
 function moveMode() {
     mode = 'move';
-    cursorSwitch('.','grid-item','move');
     $('#moveButton').empty().append('||&nbsp; Move &nbsp;||');
     $('#freeButton').empty().append('Free');
     $('#attackButton').empty().append('Attack');
     $('#zone_map').css("background-color", "#a4a700");
     if (selectedUnit.id >= 1) {
+        cursorSwitch('.','grid-item','move');
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
+    } else {
+        cursorSwitch('.','grid-item','pointer');
     }
 };
 $('#freeButton').click(freeMode);

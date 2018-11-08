@@ -34,6 +34,8 @@ function selectOrMove(gridItem) {
     }
 };
 function selectUnit(unitId) {
+    // unmark old selected unit
+    drawTileUnit(selectedUnit.tileId);
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     if (pop[unitIndex].player == pseudo) {
         selectedUnit = pop[unitIndex];
@@ -41,12 +43,6 @@ function selectUnit(unitId) {
         let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
         selectedUnit.x = world[tileIndex].x;
         selectedUnit.y = world[tileIndex].y;
-        // unmark all units (from pseudo)
-        pop.forEach(function(unit) {
-            if (unit.player == pseudo && unit.id != selectedUnit.id) {
-                showUnit(unit.id,unit.tileId,unit.icon,'units');
-            }
-        });
         // mark the unit
         showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'sunits');
         // show moves left for each adjacent tiles (in title)
@@ -58,10 +54,9 @@ function selectUnit(unitId) {
     }
 };
 function unSelectUnit(unitId) {
-    // $("#u"+unitId).attr("src", gridItem.children[0].src.replace("/sunits/", "/units/"));
-    showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'units');
+    drawTileUnit(selectedUnit.tileId);
     $('#unitInfos').empty();
-    cursorSwitch('.','grid-item','pointer');
     clearMovesLeft();
     selectedUnit = [];
+    cursorSwitch('.','grid-item','pointer');
 };

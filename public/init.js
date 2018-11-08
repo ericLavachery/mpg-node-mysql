@@ -30,35 +30,31 @@ socket.on('popload', function(wpop) {
     pop = wpop;
     showPop(wpop);
     loadGroups(wpop);
+    moveMode();
+    cursorSwitch('.','grid-item','pointer');
 });
 function showPop(wpop) {
-    let folder = 'units';
-    let lastIcon = '';
     let lastTileId = 0;
     let sortedPop = _.sortBy(_.sortBy(wpop,'icon'),'tileId');
     sortedPop.forEach(function(unit) {
         if (unit.player != pseudo) {
             if (unit.icon != 'spy' && unit.icon != 'bsp') {
-                if (unit.icon != lastIcon || unit.tileId != lastTileId) {
+                if (unit.tileId != lastTileId) {
                     showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
                 }
                 lastTileId = unit.tileId;
-                lastIcon = unit.icon;
             }
         }
     });
+    lastTileId = 0;
     sortedPop.forEach(function(unit) {
         if (unit.player == pseudo) {
-            if (unit.icon != lastIcon || unit.tileId != lastTileId) {
+            if (unit.tileId != lastTileId) {
                 showUnit(unit.id, unit.tileId, unit.icon, 'units');
             }
             lastTileId = unit.tileId;
-            lastIcon = unit.icon;
         }
     });
-};
-function showUnit(unitId, tileId, icon, folder) {
-    $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
 };
 // infos groupes
 function loadGroups(wpop) {

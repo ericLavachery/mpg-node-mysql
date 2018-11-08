@@ -164,16 +164,13 @@ function showUnitMovesLeft(tileId,unitId) {
                 } else {
                     moveCost = calcMoveCost(tile.id,unitId);
                 }
-                if (moveCost > movesLeft*3) {
+                if (moveCost > movesLeft*3 || move <= 0) {
                     moveOK = false;
                 } else {
                     moveOK = true;
                 }
                 movesLeftAfter = movesLeft-moveCost;
                 titleString = Math.round(movesLeftAfter/10)+' moves left';
-                // if (!moveOK) {
-                //     titleString = titleString+' | NO WAY';
-                // }
                 $("#"+tile.id).attr("title", titleString);
                 adjacentTileInfos(tile.id,moveOK);
             }
@@ -199,6 +196,7 @@ function showGroupMovesLeft(tileId,popToMove) {
         $("#"+tile.id).attr("title", "");
         if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
             if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                moveOK = true;
                 if (tile.y == myTileY && tile.x == myTileX) {
                     moveCost = 0;
                 } else {
@@ -210,10 +208,8 @@ function showGroupMovesLeft(tileId,popToMove) {
                             if (fatigue < 0) {fatigue = 0;};
                             movesLeft = move-fatigue;
                             moveCost = calcMoveCost(tile.id,unit.id);
-                            if (moveCost > movesLeft*3) {
+                            if (moveCost > movesLeft*3 || move <= 0) {
                                 moveOK = false;
-                            } else {
-                                moveOK = true;
                             }
                             movesLeftAfter = movesLeft-moveCost;
                             if (movesLeftAfter < worstML) {
@@ -224,9 +220,6 @@ function showGroupMovesLeft(tileId,popToMove) {
                 }
                 if (moveCost >= 1) {
                     titleString = Math.round(worstML/10)+' moves left';
-                    // if (!moveOK) {
-                    //     titleString = titleString+' | NO WAY';
-                    // }
                 } else {
                     titleString = '';
                 }
@@ -239,4 +232,32 @@ function showGroupMovesLeft(tileId,popToMove) {
 function clearMovesLeft() {
     cursorsToMode();
     $('.grid-item').attr("title", "");
+};
+function showUnit(unitId, tileId, icon, folder) {
+    $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
+};
+function drawTileUnit(tileId) {
+    let drawn = false;
+    let tilePop = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId);
+    });
+    let sortedTilePop = _.sortBy(tilePop,'icon');
+    sortedTilePop.forEach(function(unit) {
+        if (unit.player != pseudo) {
+            if (unit.icon != 'spy' && unit.icon != 'bsp') {
+                if (!drawn) {
+                    showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+                    drawn = true;
+                }
+            }
+        }
+    });
+    sortedTilePop.forEach(function(unit) {
+        if (unit.player == pseudo) {
+            if (!drawn) {
+                showUnit(unit.id, unit.tileId, unit.icon, 'units');
+                drawn = true;
+            }
+        }
+    });
 };

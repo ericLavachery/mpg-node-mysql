@@ -111,32 +111,6 @@ function moveUnit(targetTileId) {
         purgeGroups(targetTileId);
     }
 };
-function drawTileUnit(tileId) {
-    let folder = 'units';
-    let lastIcon = '';
-    let tilePop = _.filter(pop, function(unit) {
-        return (unit.tileId == tileId);
-    });
-    let sortedTilePop = _.sortBy(tilePop,'icon');
-    sortedTilePop.forEach(function(unit) {
-        if (unit.player != pseudo) {
-            if (unit.icon != 'spy' && unit.icon != 'bsp') {
-                if (unit.icon != lastIcon) {
-                    showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
-                }
-                lastIcon = unit.icon;
-            }
-        }
-    });
-    sortedTilePop.forEach(function(unit) {
-        if (unit.player == pseudo) {
-            if (unit.icon != lastIcon) {
-                showUnit(unit.id, unit.tileId, unit.icon, 'units');
-            }
-            lastIcon = unit.icon;
-        }
-    });
-};
 function calcMoveCost(targetTileId, unitId) {
     // tile move cost
     let tileIndex = world.findIndex((obj => obj.id == targetTileId));
@@ -145,11 +119,15 @@ function calcMoveCost(targetTileId, unitId) {
     // unit move cost
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let move = pop[unitIndex].move;
-    let moveAdj = pop[unitIndex].moveAdj;
-    let unitTileId = pop[unitIndex].tileId;
-    moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
-    if (isDiag(unitTileId,targetTileId)) {
-        moveCost = Math.round(moveCost*1414/1000);
+    if (move >= 1) {
+        let moveAdj = pop[unitIndex].moveAdj;
+        let unitTileId = pop[unitIndex].tileId;
+        moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
+        if (isDiag(unitTileId,targetTileId)) {
+            moveCost = Math.round(moveCost*1414/1000);
+        }
+    } else {
+        moveCost = 999;
     }
     return moveCost;
 };
