@@ -8,7 +8,7 @@ function joinUnits(joinToId,unitType,tileId,owner) {
     let joinToThisUnitMove = pop[unitIndex].move;
     let idsToDelete = '';
     pop.slice().reverse().forEach(function(unit) {
-        if (unit.icon != 'bld' && unit.icon != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group) {
+        if (unit.cat != 'bld' && unit.cat != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group) {
             if (idsToDelete == '') {
                 idsToDelete = unit.id;
             } else {
@@ -35,8 +35,8 @@ function joinUnits(joinToId,unitType,tileId,owner) {
 function splitButtons(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let unitNumber = pop[unitIndex].number;
-    let unitIcon = pop[unitIndex].icon;
-    if (unitIcon != 'bld' && unitIcon != 'bsp') {
+    let unitCat = pop[unitIndex].cat;
+    if (unitCat != 'bld' && unitCat != 'bsp') {
         $('#tileUnitList').append('<select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
         let i = 1;
         let sa = 1;

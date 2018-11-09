@@ -35,10 +35,10 @@ socket.on('popload', function(wpop) {
 });
 function showPop(wpop) {
     let lastTileId = 0;
-    let sortedPop = _.sortBy(_.sortBy(wpop,'icon'),'tileId');
+    let sortedPop = _.sortBy(_.sortBy(wpop,'cat'),'tileId');
     sortedPop.forEach(function(unit) {
         if (unit.player != pseudo) {
-            if (unit.icon != 'spy' && unit.icon != 'bsp') {
+            if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (unit.tileId != lastTileId) {
                     showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
                 }

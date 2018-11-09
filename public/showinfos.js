@@ -241,10 +241,10 @@ function drawTileUnit(tileId) {
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);
     });
-    let sortedTilePop = _.sortBy(tilePop,'icon');
+    let sortedTilePop = _.sortBy(tilePop,'cat');
     sortedTilePop.forEach(function(unit) {
         if (unit.player != pseudo) {
-            if (unit.icon != 'spy' && unit.icon != 'bsp') {
+            if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (!drawn) {
                     showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
                     drawn = true;
