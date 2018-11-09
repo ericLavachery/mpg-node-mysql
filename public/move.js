@@ -1,6 +1,6 @@
 function moveHere(targetTileId) {
     if (isAdjacent(selectedUnit.tileId,targetTileId)) {
-        if (mode == 'move' && selectedUnit.follow >= 1) {
+        if (mode == 'g_move' && selectedUnit.follow >= 1) {
             let groupSize = 0;
             pop.forEach(function(unit) {
                 if (unit.follow == selectedUnit.follow && unit.player == pseudo && unit.tileId == selectedUnit.tileId) {

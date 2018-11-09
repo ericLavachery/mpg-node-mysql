@@ -3,7 +3,7 @@ let world = [];
 let ter = [];
 let mygroups = [];
 let selectedUnit = [];
-let mode = 'move';
+let mode = 'g_move';
 
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
@@ -30,7 +30,7 @@ socket.on('popload', function(wpop) {
     pop = wpop;
     showPop(wpop);
     loadGroups(wpop);
-    moveMode();
+    gmoveMode();
     cursorSwitch('.','grid-item','pointer');
 });
 function showPop(wpop) {

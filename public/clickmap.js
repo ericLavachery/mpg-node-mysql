@@ -13,13 +13,13 @@ function selectOrMove(gridItem) {
             unSelectUnit(selectedUnit.id);
         } else { // unit not selected
             if (unitOwner == pseudo) {
-                if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
+                if (mode == 'g_move' && selectedUnit.id >= 1) { // move the unit here
                     moveHere(tileId);
                 } else { // select this unit
                     selectUnit(unitId);
                 }
             } else {
-                if (mode == 'move' && selectedUnit.id >= 1) { // move the unit here
+                if (mode == 'g_move' && selectedUnit.id >= 1) { // move the unit here
                     moveHere(tileId);
                 } else { // only show tile infos
                     unSelectUnit(selectedUnit.id);

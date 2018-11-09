@@ -38,7 +38,7 @@ function showTileUnitList(tileId) {
         }
     });
     // all active group in yellow when in move mode
-    if (mode == 'move' || mode == 'attack') {
+    if (mode == 'g_move') {
         $('.inGroup').addClass('jaune');
     }
     $('#tileUnitList').append('<div class="espace"></div>');

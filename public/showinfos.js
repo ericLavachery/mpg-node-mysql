@@ -59,8 +59,8 @@ function cursorSwitch(seltype,selvalue,kur) {
     let defkur = 'default';
     if (kur == 'move') {
         defkur = 'nesw-resize';
-    } else if (kur == 'sword') {
-        defkur = 'crosshair';
+    } else if (kur == 'insp') {
+        defkur = 'help';
     } else if (kur == 'stop') {
         defkur = 'not-allowed';
     } else if (kur == 'freemove') {
@@ -73,12 +73,12 @@ function cursorsToMode() {
     let defkur = 'default';
     let seltype = '.';
     let selvalue = 'grid-item';
-    if (mode == 'move') {
-        defkur = 'nesw-resize';
-        kur = 'move';
-    } else if (mode == 'attack') {
-        defkur = 'crosshair';
-        kur = 'sword';
+    if (mode == 'g_move') {
+        defkur = 'default';
+        kur = 'pointer';
+    } else if (mode == 'inspect') {
+        defkur = 'help';
+        kur = 'insp';
     }
     zel = seltype+selvalue;
     $(zel).css('cursor','url(/static/img/'+kur+'.cur),'+defkur);
@@ -97,7 +97,7 @@ function adjacentTileInfos(tileId,moveOK) {
             ownUnitsHere = true;
         }
     });
-    if (mode == 'move') {
+    if (mode == 'g_move') { // GROUP MOVE
         if (here) {
             cursorSwitch('#',tileId,'pointer');
         } else if (!moveOK) {
@@ -105,24 +105,20 @@ function adjacentTileInfos(tileId,moveOK) {
         } else {
             cursorSwitch('#',tileId,'move');
         }
-    } else if (mode == 'attack') {
-        cursorSwitch('#',tileId,'sword');
-    } else {
-        if (!here) {
-            if (ownUnitsHere === true) {
-                cursorSwitch('#',tileId,'pointer');
-            } else if (!moveOK) {
-                cursorSwitch('#',tileId,'stop');
-            } else {
-                cursorSwitch('#',tileId,'freemove');
-            }
-        } else {
+    } else if (mode == 'inspect') { // INSPECT
+        cursorSwitch('#',tileId,'insp');
+    } else { // SINGLE MOVE
+        if (here) {
             cursorSwitch('#',tileId,'pointer');
+        } else if (!moveOK) {
+            cursorSwitch('#',tileId,'stop');
+        } else {
+            cursorSwitch('#',tileId,'freemove');
         }
     }
 };
 function showMovesLeft(tileId,unitId) {
-    if (mode == 'free') {
+    if (mode == 's_move') {
         showUnitMovesLeft(tileId, unitId);
     } else {
         let popToMove = _.filter(pop, function(unit) {

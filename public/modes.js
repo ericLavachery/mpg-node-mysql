@@ -1,26 +1,24 @@
-$('#moveButton').click(moveMode);
-function moveMode() {
-    mode = 'move';
-    $('#moveButton').empty().append('||&nbsp; Move &nbsp;||');
-    $('#freeButton').empty().append('Free');
-    $('#attackButton').empty().append('Attack');
+$('#gmoveButton').click(gmoveMode);
+function gmoveMode() {
+    mode = 'g_move';
+    cursorSwitch('.','grid-item','pointer');
+    $('#gmoveButton').empty().append('||&nbsp; Group Move &nbsp;||');
+    $('#smoveButton').empty().append('Single Move');
+    $('#inspectButton').empty().append('Inspect');
     $('#zone_map').css("background-color", "#a4a700");
     if (selectedUnit.id >= 1) {
-        cursorSwitch('.','grid-item','move');
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
-    } else {
-        cursorSwitch('.','grid-item','pointer');
     }
 };
-$('#freeButton').click(freeMode);
-function freeMode() {
-    mode = 'free';
+$('#smoveButton').click(smoveMode);
+function smoveMode() {
+    mode = 's_move';
     cursorSwitch('.','grid-item','pointer');
-    $('#moveButton').empty().append('Move');
-    $('#freeButton').empty().append('||&nbsp; Free &nbsp;||');
-    $('#attackButton').empty().append('Attack');
+    $('#gmoveButton').empty().append('Group Move');
+    $('#smoveButton').empty().append('||&nbsp; Single Move &nbsp;||');
+    $('#inspectButton').empty().append('Inspect');
     $('#zone_map').css("background-color", "#323232");
     if (selectedUnit.id >= 1) {
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
@@ -28,14 +26,14 @@ function freeMode() {
         showTileInfos(selectedUnit.tileId,true);
     }
 };
-$('#attackButton').click(attackMode);
-function attackMode() {
-    mode = 'attack';
-    cursorSwitch('.','grid-item','sword');
-    $('#freeButton').empty().append('Free');
-    $('#moveButton').empty().append('Move');
-    $('#attackButton').empty().append('||&nbsp; Attack &nbsp;||');
-    $('#zone_map').css("background-color", "#c40000");
+$('#inspectButton').click(inspectMode);
+function inspectMode() {
+    mode = 'inspect';
+    cursorSwitch('.','grid-item','insp');
+    $('#smoveButton').empty().append('Single Move');
+    $('#gmoveButton').empty().append('Group Move');
+    $('#inspectButton').empty().append('||&nbsp; Inspect &nbsp;||');
+    $('#zone_map').css("background-color", "#338e8b");
     if (selectedUnit.id >= 1) {
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
         showUnitInfos(selectedUnit.id);
