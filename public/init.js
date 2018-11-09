@@ -30,6 +30,7 @@ socket.on('popload', function(wpop) {
     pop = wpop;
     showPop(wpop);
     loadGroups(wpop);
+    loadTileBarsInfos(wpop);
     gmoveMode();
     cursorSwitch('.','grid-item','pointer');
 });
@@ -74,4 +75,56 @@ function loadGroups(wpop) {
             lastTileId = unit.tileId;
         }
     });
+};
+// infos tileBars
+function loadTileBarsInfos(wpop) {
+    let ownUnitsHere = 0;
+    let otherUnitsHere = 0;
+    let ownSquadsHere = 0;
+    let otherSquadsHere = 0;
+    let lastTileId = 0;
+    let tileIndex = 0;
+    let sortedPop = _.sortBy(wpop,'tileId');
+    sortedPop.forEach(function(unit) {
+        if (unit.id != lastTileId && lastTileId != 0) {
+            tileIndex = world.findIndex((obj => obj.id == unit.tileId));
+            if (otherSquadsHere >= 1) {
+                world[tileIndex].omore = true;
+            }
+            if (ownSquadsHere >= 2) {
+                world[tileIndex].more = true;
+            }
+            if (otherUnitsHere >= 150) {
+                world[tileIndex].oarmy = true;
+            }
+            if (ownUnitsHere >= 150) {
+                world[tileIndex].army = true;
+            }
+            ownUnitsHere = 0;
+            otherUnitsHere = 0;
+            ownSquadsHere = 0;
+            otherSquadsHere = 0;
+        }
+        if (unit.player == pseudo) {
+            ownUnitsHere = ownUnitsHere+unit.number;
+            ownSquadsHere = ownSquadsHere+1;
+        } else {
+            otherUnitsHere = otherUnitsHere+unit.number;
+            otherSquadsHere = otherSquadsHere+1;
+        }
+        lastTileId = unit.tileId;
+    });
+    tileIndex = world.findIndex((obj => obj.id == lastTileId));
+    if (otherSquadsHere >= 1) {
+        world[tileIndex].omore = true;
+    }
+    if (ownSquadsHere >= 2) {
+        world[tileIndex].more = true;
+    }
+    if (otherUnitsHere >= 150) {
+        world[tileIndex].oarmy = true;
+    }
+    if (ownUnitsHere >= 150) {
+        world[tileIndex].army = true;
+    }
 };

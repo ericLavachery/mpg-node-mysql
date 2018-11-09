@@ -241,18 +241,33 @@ function showUnit(unitId, tileId, icon, folder) {
     showTileBar(tileId);
 };
 function showTileBar(tileId) {
-    $('#'+tileId).append('<div class="tileBar">&FilledSmallSquare; &EmptySmallSquare; <span class="blanc">&FilledSmallSquare; &EmptySmallSquare;</span></div>');
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let tbIcons = '';
+    if (world[tileIndex].army) {
+        tbIcons = tbIcons+'&FilledSmallSquare;';
+    }
+    if (world[tileIndex].more) {
+        tbIcons = tbIcons+'&EmptySmallSquare;';
+    }
+    if (world[tileIndex].oarmy) {
+        tbIcons = tbIcons+'<span class="blanc">&FilledSmallSquare;</span>';
+    }
+    if (world[tileIndex].omore) {
+        tbIcons = tbIcons+'<span class="blanc">&EmptySmallSquare;</span>';
+    }
+    $('#'+tileId).append('<div class="tileBar" id="bar'+tileId+'">'+tbIcons+'</div>');
 };
 function drawTileDefaultUnit(tileId) {
-    let unitsHere = 0;
+    let ownUnitsHere = 0;
+    let otherUnitsHere = 0;
     let drawn = false;
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);
     });
     let sortedTilePop = _.sortBy(tilePop,'cat');
     sortedTilePop.forEach(function(unit) {
-        unitsHere = unitsHere+1;
         if (unit.player != pseudo) {
+            otherUnitsHere = otherUnitsHere+1;
             if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (!drawn) {
                     showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
@@ -264,6 +279,7 @@ function drawTileDefaultUnit(tileId) {
     drawn = false;
     sortedTilePop.forEach(function(unit) {
         if (unit.player == pseudo) {
+            ownUnitsHere = ownUnitsHere+1;
             if (!drawn) {
                 showUnit(unit.id, unit.tileId, unit.icon, 'units');
                 drawn = true;
