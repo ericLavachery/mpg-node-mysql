@@ -3,22 +3,42 @@ font-family: 'Raleway', sans-serif;
 font-family: 'Uncial Antiqua', cursive;
 */
 body {
-    font-family: arial;
+    font-family: 'Raleway', sans-serif;
     background-color: black;
 }
 .grid-container {
     display: inline-grid;
-    grid-template-columns: 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px 60px;
-    grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px 60px;
+    grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px;
+    grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px;
     background-color: #323232;
     padding: 10px;
 }
 .grid-item {
     border: 1px solid rgba(0, 0, 0, 0.6);
-    font-size: 10px;
     color: #000000;
-    padding: 6px 6px;
+    padding: 2px 0 0 0;
+    margin: 0;
+    text-align: center;
     cursor: url(/static/img/pointer.cur),auto;
+}
+.tileBar {
+    /* background-color: black; */
+    /* opacity: 0.4; */
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    /* border-width: 1px;
+    border-style: solid none none none; */
+    border-color: #000000;
+    border-top:
+    padding: 0;
+    margin: 0;
+    height: 18px;
+    text-align: center;
+}
+.uicon {
+    margin: 0;
+    padding: 0;
 }
 .forest {
     background-color: #1d6b1b;
@@ -137,7 +157,9 @@ h4 {
 .gris {
     color: #a5b896;
 }
-
+.blanc {
+    color: #FFFFFF;
+}
 button, select {
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #a6827e;

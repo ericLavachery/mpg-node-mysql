@@ -237,15 +237,21 @@ function clearMovesLeft() {
     $('.grid-item').attr("title", "");
 };
 function showUnit(unitId, tileId, icon, folder) {
-    $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
+    $('#'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
+    showTileBar(tileId);
+};
+function showTileBar(tileId) {
+    $('#'+tileId).append('<div class="tileBar">&FilledSmallSquare; &EmptySmallSquare; <span class="blanc">&FilledSmallSquare; &EmptySmallSquare;</span></div>');
 };
 function drawTileDefaultUnit(tileId) {
+    let unitsHere = 0;
     let drawn = false;
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);
     });
     let sortedTilePop = _.sortBy(tilePop,'cat');
     sortedTilePop.forEach(function(unit) {
+        unitsHere = unitsHere+1;
         if (unit.player != pseudo) {
             if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (!drawn) {

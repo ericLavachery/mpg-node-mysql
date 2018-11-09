@@ -1,6 +1,7 @@
 function showTileUnitList(tileId) {
     $('#tileUnitList').empty();
     let ownerShort = '';
+    let unitsHere = 0;
     let ownUnitsHere = 0;
     let ownNonBldUnitsHere = 0;
     let numSameType = 1;
@@ -10,6 +11,7 @@ function showTileUnitList(tileId) {
     });
     let sortedPopHere = _.sortBy(_.sortBy(_.sortBy(_.sortBy(popHere,'number'),'type'),'follow'),'player');
     sortedPopHere.forEach(function(unit) {
+        unitsHere = unitsHere+1;
         ownerShort = unit.player.substring(0,4);
         if (unit.player == pseudo) {
             if (unit.cat != 'bld' && unit.cat != 'bsp') {
