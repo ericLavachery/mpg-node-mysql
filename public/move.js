@@ -55,7 +55,7 @@ function moveGroup(targetTileId) {
                     // bouge l'image de l'unité active sur la carte
                     $('#'+oldTileId).empty();
                     // $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.icon+'.png" alt="'+selectedUnit.icon+'" id="u'+selectedUnit.id+'">');
-                    showUnit(unit.id, targetTileId, unit.icon, 'sunits');
+                    drawUnit(unit.id, targetTileId, unit.icon, 'sunits');
                     // change infos dans selectedUnit
                     selectedUnit.tileId = targetTileId;
                     selectedUnit.fatigue = fatigue;
@@ -96,7 +96,7 @@ function moveUnit(targetTileId) {
         // bouge l'image sur la carte
         $('#'+selectedUnit.tileId).empty();
         // $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.icon+'.png" alt="'+selectedUnit.icon+'" id="u'+selectedUnit.id+'">');
-        showUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'sunits');
+        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'sunits');
         // change infos dans pop
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;

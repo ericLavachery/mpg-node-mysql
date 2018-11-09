@@ -25,6 +25,7 @@ body {
     color: black;
     font-size: 12px;
     font-weight: bold;
+    /* text-shadow: 0 0 2px #FFFFFF; */
     border-width: 1px;
     border-style: solid none none none;
     border-color: #000000;
@@ -33,6 +34,10 @@ body {
     margin: 0;
     height: 15px;
     text-align: center;
+}
+.tbblanc {
+    color: #FFFFFF;
+    text-shadow: 0 0 3px #000000;
 }
 .uicon {
     margin: 0;

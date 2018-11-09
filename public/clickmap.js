@@ -50,7 +50,7 @@ function selectUnit(unitId) {
         selectedUnit.x = world[tileIndex].x;
         selectedUnit.y = world[tileIndex].y;
         // mark the unit
-        showUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'sunits');
+        drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'sunits');
         // show moves left for each adjacent tiles (in title)
         showMovesLeft(selectedUnit.tileId, unitId);
         showUnitInfos(unitId);

@@ -238,37 +238,42 @@ function clearMovesLeft() {
 };
 function showUnit(unitId, tileId, icon, folder) {
     $('#'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
-    showTileBar(tileId);
 };
-function showTileBar(tileId) {
-    let tileIndex = world.findIndex((obj => obj.id == tileId));
-    let tbIcons = '';
-    if (world[tileIndex].city) {
-        tbIcons = tbIcons+'<i class="fas fa-university"></i> ';
-    } else {
-        if (world[tileIndex].ocity) {
-            tbIcons = tbIcons+'<i class="fas fa-university blanc"></i> ';
+function drawUnit(unitId, tileId, icon, folder) {
+    let puh = 0;
+    let ouh = 0;
+    let psh = 0;
+    let osh = 0;
+    let pbh = 0;
+    let obh = 0;
+    let tilePop = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId);
+    });
+    tilePop.forEach(function(unit) {
+        if (unit.player != pseudo) {
+            osh = osh+1;
+            ouh = ouh+unit.number;
+            if (unit.cat == 'bld') {
+                obh = obh+1;
+            }
+        } else {
+            psh = psh+1;
+            puh = puh+unit.number;
+            if (unit.cat == 'bld') {
+                pbh = pbh+1;
+            }
         }
-    }
-    if (world[tileIndex].army) {
-        tbIcons = tbIcons+'<i class="far fa-life-ring"></i> ';
-    } else {
-        if (world[tileIndex].more) {
-            tbIcons = tbIcons+'<i class="fas fa-circle-notch"></i> ';
-        }
-    }
-    if (world[tileIndex].oarmy) {
-        tbIcons = tbIcons+'<i class="far fa-life-ring blanc"></i> ';
-    } else {
-        if (world[tileIndex].omore) {
-            tbIcons = tbIcons+'<i class="fas fa-circle-notch blanc"></i> ';
-        }
-    }
-    $('#'+tileId).append('<div class="tileBar" id="bar'+tileId+'">'+tbIcons+'</div>');
+    });
+    showUnit(unitId, tileId, icon, folder);
+    showTileBar(tileId,pbh,obh,puh,ouh,psh,osh);
 };
 function drawTileDefaultUnit(tileId) {
-    let ownUnitsHere = 0;
-    let otherUnitsHere = 0;
+    let puh = 0;
+    let ouh = 0;
+    let psh = 0;
+    let osh = 0;
+    let pbh = 0;
+    let obh = 0;
     let drawn = false;
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);
@@ -276,7 +281,11 @@ function drawTileDefaultUnit(tileId) {
     let sortedTilePop = _.sortBy(tilePop,'cat');
     sortedTilePop.forEach(function(unit) {
         if (unit.player != pseudo) {
-            otherUnitsHere = otherUnitsHere+1;
+            osh = osh+1;
+            ouh = ouh+unit.number;
+            if (unit.cat == 'bld') {
+                obh = obh+1;
+            }
             if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (!drawn) {
                     showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
@@ -288,11 +297,42 @@ function drawTileDefaultUnit(tileId) {
     drawn = false;
     sortedTilePop.forEach(function(unit) {
         if (unit.player == pseudo) {
-            ownUnitsHere = ownUnitsHere+1;
+            psh = psh+1;
+            puh = puh+unit.number;
+            if (unit.cat == 'bld') {
+                pbh = pbh+1;
+            }
             if (!drawn) {
                 showUnit(unit.id, unit.tileId, unit.icon, 'units');
                 drawn = true;
             }
         }
     });
+    showTileBar(tileId,pbh,obh,puh,ouh,psh,osh);
+};
+function showTileBar(tileId,pbh,obh,puh,ouh,psh,osh) {
+    if (puh >= 1 || ouh >=1) {
+        let tbIcons = '';
+        if (pbh >= 1) {
+            tbIcons = tbIcons+'<i class="fas fa-university"></i> ';
+        }
+        if (obh >= 1) {
+            tbIcons = tbIcons+'<i class="fas fa-university tbblanc"></i> ';
+        }
+        if (puh >= 150) {
+            tbIcons = tbIcons+'<i class="far fa-life-ring"></i> ';
+        } else {
+            if (psh >= 2) {
+                tbIcons = tbIcons+'<i class="fas fa-circle-notch"></i> ';
+            }
+        }
+        if (ouh >= 150) {
+            tbIcons = tbIcons+'<i class="far fa-life-ring tbblanc"></i> ';
+        } else {
+            if (osh >= 1) {
+                tbIcons = tbIcons+'<i class="fas fa-circle-notch tbblanc"></i> ';
+            }
+        }
+        $('#'+tileId).append('<div class="tileBar" id="bar'+tileId+'">'+tbIcons+'</div>');
+    }
 };
