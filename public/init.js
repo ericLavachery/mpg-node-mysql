@@ -87,7 +87,7 @@ function loadTileBarsInfos(wpop) {
     let sortedPop = _.sortBy(wpop,'tileId');
     sortedPop.forEach(function(unit) {
         if (unit.tileId != lastTileId && lastTileId != 0) {
-            tileIndex = world.findIndex((obj => obj.id == unit.tileId));
+            tileIndex = world.findIndex((obj => obj.id == lastTileId));
             if (otherSquadsHere >= 1) {
                 world[tileIndex].omore = true;
             }
