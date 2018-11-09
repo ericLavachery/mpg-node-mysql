@@ -12,16 +12,20 @@ function selectOrMove(gridItem) {
         if (selectedUnit.id == unitId) { // unit already selected => unselect
             unSelectUnit(selectedUnit.id);
         } else { // unit not selected
-            if (unitOwner == pseudo) {
-                if (mode == 'g_move' && selectedUnit.id >= 1) { // move the unit here
+            if (mode == 'g_move' || mode == 's_move') {
+                if (selectedUnit.id >= 1) { // a unit is selected => move it here
                     moveHere(tileId);
-                } else { // select this unit
-                    selectUnit(unitId);
+                } else { // no unit selected => select this one
+                    if (unitOwner == pseudo) {
+                        selectUnit(unitId);
+                    } else {
+                        unSelectUnit(selectedUnit.id);
+                    }
                 }
-            } else {
-                if (mode == 'g_move' && selectedUnit.id >= 1) { // move the unit here
-                    moveHere(tileId);
-                } else { // only show tile infos
+            } else if (mode == 'inspect') {
+                if (unitOwner == pseudo) {
+                    selectUnit(unitId);
+                } else {
                     unSelectUnit(selectedUnit.id);
                 }
             }
@@ -29,13 +33,15 @@ function selectOrMove(gridItem) {
     } else { // there is no VISIBLE unit
         showTileInfos(tileId,false);
         if (selectedUnit.id >= 1) { // a unit is selected => move it here
-            moveHere(tileId);
+            if (mode == 'g_move' || mode == 's_move') {
+                moveHere(tileId);
+            }
         }
     }
 };
 function selectUnit(unitId) {
     // unmark old selected unit
-    drawTileUnit(selectedUnit.tileId);
+    drawTileDefaultUnit(selectedUnit.tileId);
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     if (pop[unitIndex].player == pseudo) {
         selectedUnit = pop[unitIndex];
@@ -54,7 +60,7 @@ function selectUnit(unitId) {
     }
 };
 function unSelectUnit(unitId) {
-    drawTileUnit(selectedUnit.tileId);
+    drawTileDefaultUnit(selectedUnit.tileId);
     $('#unitInfos').empty();
     clearMovesLeft();
     selectedUnit = [];

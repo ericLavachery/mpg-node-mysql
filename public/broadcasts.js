@@ -11,7 +11,7 @@ function showOpponentMove(tileId, unitId) {
     $('#'+tileId).empty().append('<img src="/static/img/ounits/'+movedUnitIcon+'.png" alt="'+movedUnitIcon+'" id="u'+unitId+'">');
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
-    drawTileUnit(movedUnitOldTileId);
+    drawTileDefaultUnit(movedUnitOldTileId);
 };
 // OPPONENT JOINS
 socket.on('units_joined', function(data) {

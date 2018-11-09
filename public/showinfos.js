@@ -73,12 +73,19 @@ function cursorsToMode() {
     let defkur = 'default';
     let seltype = '.';
     let selvalue = 'grid-item';
-    if (mode == 'g_move') {
-        defkur = 'default';
-        kur = 'pointer';
-    } else if (mode == 'inspect') {
+    if (mode == 'inspect') {
         defkur = 'help';
         kur = 'insp';
+    } else {
+        if (selectedUnit.id >= 1) {
+            if (mode.includes("move")) {
+                defkur = 'not-allowed';
+                kur = 'stop';
+            }
+        } else {
+            defkur = 'default';
+            kur = 'pointer';
+        }
     }
     zel = seltype+selvalue;
     $(zel).css('cursor','url(/static/img/'+kur+'.cur),'+defkur);
@@ -232,7 +239,7 @@ function clearMovesLeft() {
 function showUnit(unitId, tileId, icon, folder) {
     $('#'+tileId).empty().append('<img class="unit" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
 };
-function drawTileUnit(tileId) {
+function drawTileDefaultUnit(tileId) {
     let drawn = false;
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);

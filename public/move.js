@@ -68,7 +68,7 @@ function moveGroup(targetTileId) {
         showGroupMovesLeft(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
-        drawTileUnit(oldTileId);
+        drawTileDefaultUnit(oldTileId);
         purgeGroups(targetTileId);
     }
 };
@@ -109,7 +109,7 @@ function moveUnit(targetTileId) {
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
-        drawTileUnit(oldTileId);
+        drawTileDefaultUnit(oldTileId);
         purgeGroups(targetTileId);
     }
 };

@@ -1,29 +1,34 @@
 $('#gmoveButton').click(gmoveMode);
 function gmoveMode() {
     mode = 'g_move';
-    cursorSwitch('.','grid-item','pointer');
     $('#gmoveButton').empty().append('||&nbsp; Group Move &nbsp;||');
     $('#smoveButton').empty().append('Single Move');
     $('#inspectButton').empty().append('Inspect');
     $('#zone_map').css("background-color", "#a4a700");
     if (selectedUnit.id >= 1) {
+        cursorSwitch('.','grid-item','stop');
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
+    } else {
+        cursorSwitch('.','grid-item','pointer');
     }
 };
 $('#smoveButton').click(smoveMode);
 function smoveMode() {
     mode = 's_move';
-    cursorSwitch('.','grid-item','pointer');
+    cursorSwitch('.','grid-item','stop');
     $('#gmoveButton').empty().append('Group Move');
     $('#smoveButton').empty().append('||&nbsp; Single Move &nbsp;||');
     $('#inspectButton').empty().append('Inspect');
     $('#zone_map').css("background-color", "#323232");
     if (selectedUnit.id >= 1) {
+        cursorSwitch('.','grid-item','stop');
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
+    } else {
+        cursorSwitch('.','grid-item','pointer');
     }
 };
 $('#inspectButton').click(inspectMode);
