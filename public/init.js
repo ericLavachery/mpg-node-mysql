@@ -28,9 +28,9 @@ socket.on('terload', function(wter) {
 // Affichage des unités
 socket.on('popload', function(wpop) {
     pop = wpop;
+    loadTileBarsInfos(wpop);
     showPop(wpop);
     loadGroups(wpop);
-    loadTileBarsInfos(wpop);
     gmoveMode();
     cursorSwitch('.','grid-item','pointer');
 });
@@ -86,7 +86,7 @@ function loadTileBarsInfos(wpop) {
     let tileIndex = 0;
     let sortedPop = _.sortBy(wpop,'tileId');
     sortedPop.forEach(function(unit) {
-        if (unit.id != lastTileId && lastTileId != 0) {
+        if (unit.tileId != lastTileId && lastTileId != 0) {
             tileIndex = world.findIndex((obj => obj.id == unit.tileId));
             if (otherSquadsHere >= 1) {
                 world[tileIndex].omore = true;

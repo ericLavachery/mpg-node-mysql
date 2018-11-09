@@ -243,17 +243,26 @@ function showUnit(unitId, tileId, icon, folder) {
 function showTileBar(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let tbIcons = '';
-    if (world[tileIndex].army) {
-        tbIcons = tbIcons+'&FilledSmallSquare;';
+    if (world[tileIndex].city) {
+        tbIcons = tbIcons+'<i class="fas fa-university"></i> ';
+    } else {
+        if (world[tileIndex].ocity) {
+            tbIcons = tbIcons+'<i class="fas fa-university blanc"></i> ';
+        }
     }
-    if (world[tileIndex].more) {
-        tbIcons = tbIcons+'&EmptySmallSquare;';
+    if (world[tileIndex].army) {
+        tbIcons = tbIcons+'<i class="far fa-life-ring"></i> ';
+    } else {
+        if (world[tileIndex].more) {
+            tbIcons = tbIcons+'<i class="fas fa-circle-notch"></i> ';
+        }
     }
     if (world[tileIndex].oarmy) {
-        tbIcons = tbIcons+'<span class="blanc">&FilledSmallSquare;</span>';
-    }
-    if (world[tileIndex].omore) {
-        tbIcons = tbIcons+'<span class="blanc">&EmptySmallSquare;</span>';
+        tbIcons = tbIcons+'<i class="far fa-life-ring blanc"></i> ';
+    } else {
+        if (world[tileIndex].omore) {
+            tbIcons = tbIcons+'<i class="fas fa-circle-notch blanc"></i> ';
+        }
     }
     $('#'+tileId).append('<div class="tileBar" id="bar'+tileId+'">'+tbIcons+'</div>');
 };
