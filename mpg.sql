@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 09 Novembre 2018 à 14:42
+-- Généré le :  Ven 09 Novembre 2018 à 16:28
 -- Version du serveur :  5.7.24-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.32-0ubuntu0.16.04.1
 
@@ -56,22 +56,22 @@ CREATE TABLE `pop` (
 
 INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`) VALUES
 (5, 'Zorglub', 'Shaman', 'spy', 'spy', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 8, 73, 75, 1),
-(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 73, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 1),
+(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 239, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 1),
 (31, 'Bob', 'Pikemen', 'sld', 'sld', 109, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
 (37, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
 (38, 'Bob', 'Castle', 'bld', 'bld', 1, '', 6, 1, 2000, NULL, 100, 8, 0, 20, 0, 100, 0, 41, 0, NULL),
 (39, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
-(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 27, 100, 1),
-(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 26, 100, NULL),
+(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 92, 58, 100, 1),
+(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 30, 41, 100, 4),
 (42, 'Bob', 'Pikemen', 'sld', 'sld', 23, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, 2),
 (43, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, 2),
-(44, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 43, 100, NULL),
+(44, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 42, 100, NULL),
 (45, 'Bob', 'Spy', 'spy', 'spy', 4, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL),
 (46, 'Bob', 'Pikemen', 'sld', 'sld', 120, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
 (47, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
-(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 0, 26, 100, NULL),
-(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 27, 100, 1),
-(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 27, 100, 1),
+(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 30, 41, 100, 4),
+(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 92, 58, 100, 1),
+(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 92, 58, 100, 1),
 (51, 'Bob', 'Spy', 'spy', 'spy', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 38, 73, 150, 3),
 (52, 'Bob', 'Spy', 'spy', 'spy', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL);
 
