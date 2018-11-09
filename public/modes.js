@@ -44,4 +44,5 @@ function inspectMode() {
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
     }
+    clearMovesLeft();
 };

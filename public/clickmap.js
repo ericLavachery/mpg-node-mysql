@@ -64,5 +64,9 @@ function unSelectUnit(unitId) {
     $('#unitInfos').empty();
     clearMovesLeft();
     selectedUnit = [];
-    cursorSwitch('.','grid-item','pointer');
+    if (mode == 'inspect') {
+        cursorSwitch('.','grid-item','insp');
+    } else {
+        cursorSwitch('.','grid-item','pointer');
+    }
 };
