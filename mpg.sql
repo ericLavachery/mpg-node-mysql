@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 02 Novembre 2018 à 16:13
+-- Généré le :  Ven 09 Novembre 2018 à 14:42
 -- Version du serveur :  5.7.24-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.32-0ubuntu0.16.04.1
 
@@ -23,27 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `groups`
---
-
-CREATE TABLE `groups` (
-  `id` int(11) NOT NULL,
-  `player` varchar(24) COLLATE utf8_bin NOT NULL,
-  `number` int(11) NOT NULL,
-  `type` varchar(12) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `groups`
---
-
-INSERT INTO `groups` (`id`, `player`, `number`, `type`) VALUES
-(1, 'Bob', 1, 'group'),
-(2, 'Bob', 5, 'group');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `pop`
 --
 
@@ -51,6 +30,8 @@ CREATE TABLE `pop` (
   `id` int(11) NOT NULL,
   `player` varchar(12) COLLATE utf8_bin NOT NULL,
   `type` varchar(20) COLLATE utf8_bin NOT NULL,
+  `icon` varchar(12) COLLATE utf8_bin NOT NULL,
+  `cat` varchar(3) COLLATE utf8_bin NOT NULL,
   `number` int(11) NOT NULL,
   `pic` varchar(20) COLLATE utf8_bin NOT NULL,
   `x` int(11) DEFAULT NULL,
@@ -73,20 +54,26 @@ CREATE TABLE `pop` (
 -- Contenu de la table `pop`
 --
 
-INSERT INTO `pop` (`id`, `player`, `type`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`) VALUES
-(4, 'Roberta', 'Alien', 35, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
-(5, 'Roberta', 'Alien Mother', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 8, 73, 75, NULL),
-(9, 'Roberta', 'Alien', 12, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
-(10, 'Roberta', 'Alien', 7, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
-(11, 'Roberta', 'Alien', 19, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, NULL),
-(22, 'Bob', 'Space Marine', 189, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 1),
-(23, 'Bob', 'Space Marine', 38, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
-(24, 'Bob', 'Space Marine', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
-(25, 'Bob', 'Space Marine', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
-(26, 'Bob', 'Space Marine', 11, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 96, 70, 100, NULL),
-(27, 'Bob', 'Space Marine', 11, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 88, 69, 100, NULL),
-(28, 'Bob', 'Space Marine', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
-(29, 'Bob', 'Space Marine', 72, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 1);
+INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`) VALUES
+(5, 'Zorglub', 'Shaman', 'spy', 'spy', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 8, 73, 75, 1),
+(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 73, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 1),
+(31, 'Bob', 'Pikemen', 'sld', 'sld', 109, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
+(37, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
+(38, 'Bob', 'Castle', 'bld', 'bld', 1, '', 6, 1, 2000, NULL, 100, 8, 0, 20, 0, 100, 0, 41, 0, NULL),
+(39, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
+(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 27, 100, 1),
+(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 26, 100, NULL),
+(42, 'Bob', 'Pikemen', 'sld', 'sld', 23, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, 2),
+(43, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, 2),
+(44, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 43, 100, NULL),
+(45, 'Bob', 'Spy', 'spy', 'spy', 4, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL),
+(46, 'Bob', 'Pikemen', 'sld', 'sld', 120, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
+(47, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
+(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 0, 26, 100, NULL),
+(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 27, 100, 1),
+(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 27, 100, 1),
+(51, 'Bob', 'Spy', 'spy', 'spy', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 38, 73, 150, 3),
+(52, 'Bob', 'Spy', 'spy', 'spy', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL);
 
 -- --------------------------------------------------------
 
@@ -283,12 +270,6 @@ INSERT INTO `world` (`id`, `terrain`, `terrainId`, `x`, `y`) VALUES
 --
 
 --
--- Index pour la table `groups`
---
-ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `pop`
 --
 ALTER TABLE `pop`
@@ -322,15 +303,10 @@ ALTER TABLE `world`
 --
 
 --
--- AUTO_INCREMENT pour la table `groups`
---
-ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
 -- AUTO_INCREMENT pour la table `pop`
 --
 ALTER TABLE `pop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT pour la table `terrains`
 --
