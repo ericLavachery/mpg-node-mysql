@@ -8,7 +8,7 @@ function showOpponentMove(tileId, unitId) {
     let movedUnitIcon = pop[objIndex].icon;
     // bouge l'image sur la carte
     $('#'+movedUnitOldTileId).empty();
-    $('#'+tileId).empty().append('<img src="/static/img/ounits/'+movedUnitIcon+'.png" alt="'+movedUnitIcon+'" id="u'+unitId+'">');
+    drawTileDefaultUnit(tileId);
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
     drawTileDefaultUnit(movedUnitOldTileId);
