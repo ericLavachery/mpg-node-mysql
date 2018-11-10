@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Ven 09 Novembre 2018 à 16:28
--- Version du serveur :  5.7.24-0ubuntu0.16.04.1
--- Version de PHP :  7.0.32-0ubuntu0.16.04.1
+-- Host: localhost:3306
+-- Generation Time: Nov 10, 2018 at 03:38 PM
+-- Server version: 5.7.24-0ubuntu0.18.04.1
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,39 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `mpg`
+-- Database: `mpg`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pop`
+-- Table structure for table `players`
+--
+
+CREATE TABLE `players` (
+  `id` int(11) NOT NULL,
+  `pseudo` varchar(12) COLLATE utf8_bin NOT NULL,
+  `pshort` varchar(4) COLLATE utf8_bin NOT NULL,
+  `bldView` json DEFAULT NULL,
+  `bldIdent` json DEFAULT NULL,
+  `unitView` json DEFAULT NULL,
+  `unitIdent` json DEFAULT NULL,
+  `mapView` json DEFAULT NULL,
+  `mapCarto` json DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `players`
+--
+
+INSERT INTO `players` (`id`, `pseudo`, `pshort`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`) VALUES
+(1, 'Bob', 'Bob', NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 'Zorglub', 'Zorg', NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pop`
 --
 
 CREATE TABLE `pop` (
@@ -51,34 +77,43 @@ CREATE TABLE `pop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `pop`
+-- Dumping data for table `pop`
 --
 
 INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`) VALUES
-(5, 'Zorglub', 'Shaman', 'spy', 'spy', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 8, 73, 75, 1),
-(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 239, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 42, 73, 150, 1),
-(31, 'Bob', 'Pikemen', 'sld', 'sld', 109, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
-(37, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
+(5, 'Zorglub', 'Shaman', 'spy', 'spy', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 0, 73, 75, 1),
+(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 58, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 75, 73, 150, NULL),
+(31, 'Bob', 'Pikemen', 'sld', 'sld', 109, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
+(37, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
 (38, 'Bob', 'Castle', 'bld', 'bld', 1, '', 6, 1, 2000, NULL, 100, 8, 0, 20, 0, 100, 0, 41, 0, NULL),
-(39, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
-(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 92, 58, 100, 1),
-(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 30, 41, 100, 4),
-(42, 'Bob', 'Pikemen', 'sld', 'sld', 23, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, 2),
-(43, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, 2),
-(44, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 42, 100, NULL),
-(45, 'Bob', 'Spy', 'spy', 'spy', 4, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL),
-(46, 'Bob', 'Pikemen', 'sld', 'sld', 120, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
-(47, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 38, 73, 100, 3),
-(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 30, 41, 100, 4),
-(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 92, 58, 100, 1),
-(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 92, 58, 100, 1),
-(51, 'Bob', 'Spy', 'spy', 'spy', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 38, 73, 150, 3),
-(52, 'Bob', 'Spy', 'spy', 'spy', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL);
+(39, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
+(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1),
+(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 41, 100, 4),
+(42, 'Bob', 'Pikemen', 'sld', 'sld', 13, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 43, 100, NULL),
+(44, 'Bob', 'Pikemen', 'sld', 'sld', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 58, 100, NULL),
+(45, 'Bob', 'Spy', 'spy', 'spy', 2, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL),
+(46, 'Bob', 'Pikemen', 'sld', 'sld', 120, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
+(47, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
+(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 0, 41, 100, 4),
+(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1),
+(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1),
+(51, 'Bob', 'Spy', 'spy', 'spy', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 90, 71, 150, 3),
+(52, 'Bob', 'Spy', 'spy', 'spy', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 43, 150, NULL),
+(53, 'Zorglub', 'Barbarian', 'sld', 'sld', 13, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 58, 150, NULL),
+(54, 'Zorglub', 'Barbarian', 'sld', 'sld', 226, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1),
+(55, 'Zorglub', 'Barbarian', 'sld', 'sld', 164, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 102, 150, NULL),
+(56, 'Bob', 'Spy', 'spy', 'spy', 2, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 43, 150, NULL),
+(57, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, NULL),
+(58, 'Zorglub', 'Barbarian', 'sld', 'sld', 3, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 30, 85, 150, NULL),
+(59, 'Zorglub', 'Barbarian', 'sld', 'sld', 1, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 86, 150, NULL),
+(60, 'Bob', 'Pikemen', 'sld', 'sld', 10, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
+(61, 'Bob', 'Pikemen', 'sld', 'sld', 10, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 58, 100, NULL),
+(62, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `terrains`
+-- Table structure for table `terrains`
 --
 
 CREATE TABLE `terrains` (
@@ -90,7 +125,7 @@ CREATE TABLE `terrains` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `terrains`
+-- Dumping data for table `terrains`
 --
 
 INSERT INTO `terrains` (`id`, `name`, `moveCost`, `cover`, `defense`) VALUES
@@ -103,7 +138,7 @@ INSERT INTO `terrains` (`id`, `name`, `moveCost`, `cover`, `defense`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `units`
+-- Table structure for table `units`
 --
 
 CREATE TABLE `units` (
@@ -113,7 +148,7 @@ CREATE TABLE `units` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `world`
+-- Table structure for table `world`
 --
 
 CREATE TABLE `world` (
@@ -125,7 +160,7 @@ CREATE TABLE `world` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `world`
+-- Dumping data for table `world`
 --
 
 INSERT INTO `world` (`id`, `terrain`, `terrainId`, `x`, `y`) VALUES
@@ -266,18 +301,27 @@ INSERT INTO `world` (`id`, `terrain`, `terrainId`, `x`, `y`) VALUES
 (135, 'plains', 1, 9, 15);
 
 --
--- Index pour les tables exportées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `pop`
+-- Indexes for table `players`
+--
+ALTER TABLE `players`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `pseudo` (`pseudo`),
+  ADD UNIQUE KEY `pshort` (`pshort`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `pop`
 --
 ALTER TABLE `pop`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Index pour la table `terrains`
+-- Indexes for table `terrains`
 --
 ALTER TABLE `terrains`
   ADD PRIMARY KEY (`id`),
@@ -285,40 +329,45 @@ ALTER TABLE `terrains`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Index pour la table `units`
+-- Indexes for table `units`
 --
 ALTER TABLE `units`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Index pour la table `world`
+-- Indexes for table `world`
 --
 ALTER TABLE `world`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `pop`
+-- AUTO_INCREMENT for table `players`
+--
+ALTER TABLE `players`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `pop`
 --
 ALTER TABLE `pop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
--- AUTO_INCREMENT pour la table `terrains`
+-- AUTO_INCREMENT for table `terrains`
 --
 ALTER TABLE `terrains`
   MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT pour la table `units`
+-- AUTO_INCREMENT for table `units`
 --
 ALTER TABLE `units`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT pour la table `world`
+-- AUTO_INCREMENT for table `world`
 --
 ALTER TABLE `world`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
