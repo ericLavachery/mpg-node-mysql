@@ -52,13 +52,13 @@ function moveGroup(targetTileId) {
                 pop[unitIndex].tileId = targetTileId;
                 pop[unitIndex].fatigue = fatigue;
                 if (unit.id == selectedUnit.id) {
-                    // bouge l'image de l'unité active sur la carte
+                    // clear old tile
                     $('#'+oldTileId).empty();
-                    // $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.icon+'.png" alt="'+selectedUnit.icon+'" id="u'+selectedUnit.id+'">');
-                    drawUnit(unit.id, targetTileId, unit.icon, 'sunits');
                     // change infos dans selectedUnit
                     selectedUnit.tileId = targetTileId;
                     selectedUnit.fatigue = fatigue;
+                    // draw on new tile
+                    drawUnit(unit.id, targetTileId, unit.icon, 'sunits');
                 }
                 // envoi au serveur
                 socket.emit('move_unit', { tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
@@ -93,13 +93,13 @@ function moveUnit(targetTileId) {
     if (movesLeft*3 >= moveCost) {
         fatigue = fatigue+moveCost;
         movesLeft = move-fatigue;
-        // bouge l'image sur la carte
+        // clear old tile
         $('#'+selectedUnit.tileId).empty();
-        // $('#'+targetTileId).empty().append('<img src="/static/img/sunits/'+selectedUnit.icon+'.png" alt="'+selectedUnit.icon+'" id="u'+selectedUnit.id+'">');
-        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'sunits');
         // change infos dans pop
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;
+        // draw on new tile
+        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'sunits');
         // change infos dans selectedUnit
         selectedUnit.tileId = targetTileId;
         selectedUnit.fatigue = fatigue;

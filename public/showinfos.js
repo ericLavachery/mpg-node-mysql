@@ -236,9 +236,6 @@ function clearMovesLeft() {
     cursorsToMode();
     $('.grid-item').attr("title", "");
 };
-function showUnit(unitId, tileId, icon, folder) {
-    $('#'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
-};
 function drawUnit(unitId, tileId, icon, folder) {
     let puh = 0;
     let ouh = 0;
@@ -309,6 +306,9 @@ function drawTileDefaultUnit(tileId) {
         }
     });
     showTileBar(tileId,pbh,obh,puh,ouh,psh,osh);
+};
+function showUnit(unitId, tileId, icon, folder) {
+    $('#'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
 };
 function showTileBar(tileId,pbh,obh,puh,ouh,psh,osh) {
     if (puh >= 1 || ouh >=1) {

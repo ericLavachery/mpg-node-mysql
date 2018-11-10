@@ -15,9 +15,10 @@ function nextTurn() {
     // map
     world.forEach(function(tile) {
         $("#"+tile.id).attr("title", ""); // erase "moves left" infos
-        purgeGroups(tile.id); // purge unused groups 
+        purgeGroups(tile.id); // purge unused groups
     });
-    if (selectedUnit.id >= 0) {
+    if (selectedUnit.id >= 1) {
+        showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
     };

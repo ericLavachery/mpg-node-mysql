@@ -1,6 +1,7 @@
 let pop = [];
 let world = [];
 let ter = [];
+let perso = {};
 let mygroups = [];
 let selectedUnit = [];
 let mode = 'g_move';
@@ -23,6 +24,11 @@ function showMap(wmap) {
 // infos terrains
 socket.on('terload', function(wter) {
     ter = wter;
+});
+
+// infos persos
+socket.on('persoload', function(wperso) {
+    perso = wperso;
 });
 
 // Affichage des unités

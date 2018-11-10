@@ -12,6 +12,7 @@ const numHTiles = 15;
 let pop = [];
 let world = [];
 let ter = [];
+let play = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -34,6 +35,12 @@ db.con.connect(function(error) {
         ter = JSON.parse(JSON.stringify(result));
         console.log('ter loaded');
     });
+    sql = "SELECT * FROM players";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        players = JSON.parse(JSON.stringify(result));
+        console.log('players loaded');
+    });
 });
 
 // pages statiques dossier public/
@@ -55,6 +62,9 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('mapload', world);
         socket.emit('popload', pop);
         socket.emit('terload', ter);
+        let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
+        let perso = players[playerIndex];
+        socket.emit('persoload', perso);
     });
 
     // MOVE UNIT
