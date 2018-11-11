@@ -35,6 +35,7 @@ socket.on('my_unit_splited', function(data) {
     splitOnClientPop(data);
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
+    showTileUnitList(selectedUnit.tileId);
 });
 function splitOnClientPop(data) {
     let unitIndex = pop.findIndex((obj => obj.id == data.splitedUnitId));

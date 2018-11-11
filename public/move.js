@@ -68,6 +68,7 @@ function moveGroup(targetTileId) {
         showGroupMovesLeft(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
+        showTileUnitList(selectedUnit.tileId);
         drawTileDefaultUnit(oldTileId);
         purgeGroups(targetTileId);
     }
@@ -109,6 +110,7 @@ function moveUnit(targetTileId) {
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
+        showTileUnitList(selectedUnit.tileId);
         drawTileDefaultUnit(oldTileId);
         purgeGroups(targetTileId);
     }

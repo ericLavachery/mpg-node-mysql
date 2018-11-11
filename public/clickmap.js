@@ -55,6 +55,7 @@ function selectUnit(unitId) {
         showMovesLeft(selectedUnit.tileId, unitId);
         showUnitInfos(unitId);
         showTileInfos(selectedUnit.tileId,true);
+        showTileUnitList(selectedUnit.tileId);
     } else {
         showUnitInfos(unitId);
     }
@@ -62,6 +63,7 @@ function selectUnit(unitId) {
 function unSelectUnit(unitId) {
     drawTileDefaultUnit(selectedUnit.tileId);
     $('#unitInfos').empty();
+    $('#tileUnitList').empty();
     clearMovesLeft();
     selectedUnit = [];
     if (mode == 'inspect') {

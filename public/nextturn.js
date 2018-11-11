@@ -21,5 +21,6 @@ function nextTurn() {
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
+        showTileUnitList(selectedUnit.tileId);
     };
 }

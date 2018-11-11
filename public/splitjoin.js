@@ -28,7 +28,8 @@ function joinUnits(joinToId,unitType,tileId,owner) {
     pop[unitIndex].number = totalUnits;
     showUnitInfos(joinToId);
     showTileInfos(pop[unitIndex].tileId,true);
-    console.log(idsToDelete);
+    showTileUnitList(selectedUnit.tileId);
+    // console.log(idsToDelete);
     socket.emit('join_units', {joinToId: joinToId, fatigue: fatigue, totalUnits: totalUnits, idsToDelete: idsToDelete});
 };
 // SPLIT UNITS
