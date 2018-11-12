@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 10, 2018 at 03:38 PM
+-- Generation Time: Nov 12, 2018 at 10:48 PM
 -- Server version: 5.7.24-0ubuntu0.18.04.1
 -- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
@@ -35,16 +35,17 @@ CREATE TABLE `players` (
   `unitView` json DEFAULT NULL,
   `unitIdent` json DEFAULT NULL,
   `mapView` json DEFAULT NULL,
-  `mapCarto` json DEFAULT NULL
+  `mapCarto` json DEFAULT NULL,
+  `exploredTiles` json DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `players`
 --
 
-INSERT INTO `players` (`id`, `pseudo`, `pshort`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`) VALUES
-(1, 'Bob', 'Bob', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'Zorglub', 'Zorg', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `players` (`id`, `pseudo`, `pshort`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`) VALUES
+(1, 'Bob', 'Bob', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 'Zorglub', 'Zorg', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -73,42 +74,56 @@ CREATE TABLE `pop` (
   `fatigue` int(11) DEFAULT NULL,
   `tileId` int(11) NOT NULL,
   `coverAdj` int(11) NOT NULL,
-  `follow` int(11) DEFAULT NULL
+  `follow` int(11) DEFAULT NULL,
+  `detection` int(11) NOT NULL,
+  `discretion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `pop`
 --
 
-INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`) VALUES
-(5, 'Zorglub', 'Shaman', 'spy', 'spy', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 0, 73, 75, 1),
-(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 58, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 75, 73, 150, NULL),
-(31, 'Bob', 'Pikemen', 'sld', 'sld', 109, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
-(37, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
-(38, 'Bob', 'Castle', 'bld', 'bld', 1, '', 6, 1, 2000, NULL, 100, 8, 0, 20, 0, 100, 0, 41, 0, NULL),
-(39, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
-(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1),
-(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 41, 100, 4),
-(42, 'Bob', 'Pikemen', 'sld', 'sld', 13, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 43, 100, NULL),
-(44, 'Bob', 'Pikemen', 'sld', 'sld', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 58, 100, NULL),
-(45, 'Bob', 'Spy', 'spy', 'spy', 2, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 28, 150, NULL),
-(46, 'Bob', 'Pikemen', 'sld', 'sld', 120, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 90, 71, 100, 3),
-(47, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL),
-(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 0, 41, 100, 4),
-(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1),
-(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1),
-(51, 'Bob', 'Spy', 'spy', 'spy', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 90, 71, 150, 3),
-(52, 'Bob', 'Spy', 'spy', 'spy', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 43, 150, NULL),
-(53, 'Zorglub', 'Barbarian', 'sld', 'sld', 13, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 58, 150, NULL),
-(54, 'Zorglub', 'Barbarian', 'sld', 'sld', 226, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1),
-(55, 'Zorglub', 'Barbarian', 'sld', 'sld', 164, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 102, 150, NULL),
-(56, 'Bob', 'Spy', 'spy', 'spy', 2, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 43, 150, NULL),
-(57, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, NULL),
-(58, 'Zorglub', 'Barbarian', 'sld', 'sld', 3, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 30, 85, 150, NULL),
-(59, 'Zorglub', 'Barbarian', 'sld', 'sld', 1, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 86, 150, NULL),
-(60, 'Bob', 'Pikemen', 'sld', 'sld', 10, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, NULL),
-(61, 'Bob', 'Pikemen', 'sld', 'sld', 10, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 58, 100, NULL),
-(62, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, NULL);
+INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `damage`, `ammo`, `power`, `attack`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`, `detection`, `discretion`) VALUES
+(5, 'Zorglub', 'Shaman', 'spy', 'spy', 1, 'metroid.png', 3, 15, 190, NULL, -1, 6, 15, 20, 45, 150, 0, 73, 75, 1, 85, 70),
+(11, 'Zorglub', 'Barbarian', 'sld', 'sld', 48, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 120, 88, 150, NULL, 65, 45),
+(31, 'Bob', 'Pikemen', 'sld', 'sld', 126, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 72, 100, 2, 65, 35),
+(38, 'Bob', 'Castle', 'bld', 'bld', 1, '', 6, 1, 2000, NULL, 100, 8, 0, 20, 0, 100, 0, 41, 0, NULL, 0, 0),
+(40, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1, 65, 35),
+(41, 'Bob', 'Pikemen', 'sld', 'sld', 8, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 41, 100, 4, 65, 35),
+(42, 'Bob', 'Pikemen', 'sld', 'sld', 13, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 43, 100, NULL, 65, 35),
+(44, 'Bob', 'Pikemen', 'sld', 'sld', 14, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 58, 100, 5, 65, 35),
+(45, 'Bob', 'Spy', 'spy', 'spy', 1, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 42, 150, 3, 100, 120),
+(47, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 73, 100, NULL, 65, 35),
+(48, 'Bob', 'Blacksmith', 'wrk', 'wrk', 1, 'space-suit.png', 6, 1, 18, NULL, 100, 3, 3, 6, 60, 100, 0, 41, 100, 4, 65, 35),
+(49, 'Bob', 'Pikemen', 'sld', 'sld', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1, 65, 35),
+(50, 'Bob', 'Pikemen', 'sld', 'sld', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 74, 100, 1, 65, 35),
+(51, 'Bob', 'Spy', 'spy', 'spy', 7, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 72, 150, NULL, 100, 120),
+(52, 'Bob', 'Spy', 'spy', 'spy', 6, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 43, 150, 6, 100, 120),
+(53, 'Zorglub', 'Barbarian', 'sld', 'sld', 13, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 58, 150, NULL, 65, 45),
+(54, 'Zorglub', 'Barbarian', 'sld', 'sld', 138, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45),
+(55, 'Zorglub', 'Barbarian', 'sld', 'sld', 127, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 102, 150, 2, 65, 45),
+(56, 'Bob', 'Spy', 'spy', 'spy', 2, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 43, 150, 6, 100, 120),
+(57, 'Bob', 'Pikemen', 'sld', 'sld', 3, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, NULL, 65, 35),
+(58, 'Zorglub', 'Barbarian', 'sld', 'sld', 3, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 30, 85, 150, NULL, 65, 45),
+(59, 'Zorglub', 'Barbarian', 'sld', 'sld', 1, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 86, 150, NULL, 65, 45),
+(60, 'Bob', 'Pikemen', 'sld', 'sld', 10, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 42, 100, 3, 65, 35),
+(61, 'Bob', 'Pikemen', 'sld', 'sld', 10, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 58, 100, 5, 65, 35),
+(62, 'Bob', 'Pikemen', 'sld', 'sld', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 56, 100, NULL, 65, 35),
+(63, 'Zorglub', 'Barbarian', 'sld', 'sld', 7, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 102, 150, NULL, 65, 45),
+(64, 'Zorglub', 'Barbarian', 'sld', 'sld', 30, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 102, 150, 2, 65, 45),
+(65, 'Bob', 'Spy', 'spy', 'spy', 5, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 72, 150, 2, 100, 120),
+(66, 'Bob', 'Pikemen', 'sld', 'sld', 24, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 72, 100, 7, 65, 35),
+(67, 'Bob', 'Pikemen', 'sld', 'sld', 36, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 86, 100, NULL, 65, 35),
+(68, 'Bob', 'Pikemen', 'sld', 'sld', 60, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 72, 100, 2, 65, 35),
+(74, 'Bob', 'Pikemen', 'sld', 'sld', 12, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 12, 12, 70, 50, 0, 72, 100, 2, 65, 35),
+(75, 'Bob', 'Spy', 'spy', 'spy', 2, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 0, 72, 150, 7, 100, 120),
+(76, 'Bob', 'Spy', 'spy', 'spy', 1, 'space-suit.png', 6, 1, 20, NULL, 100, 3, 10, 7, 70, 25, 68, 28, 150, NULL, 100, 120),
+(77, 'Zorglub', 'Barbarian', 'sld', 'sld', 8, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 75, 73, 150, NULL, 65, 45),
+(78, 'Zorglub', 'Barbarian', 'sld', 'sld', 10, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45),
+(79, 'Zorglub', 'Barbarian', 'sld', 'sld', 13, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45),
+(80, 'Zorglub', 'Barbarian', 'sld', 'sld', 42, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45),
+(81, 'Zorglub', 'Barbarian', 'sld', 'sld', 23, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45),
+(82, 'Zorglub', 'Barbarian', 'sld', 'sld', 2, 'alien-bug.png', 3, 15, 35, NULL, -1, 4, 15, 7, 90, 100, 75, 73, 150, NULL, 65, 45);
 
 -- --------------------------------------------------------
 
@@ -355,7 +370,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `pop`
 --
 ALTER TABLE `pop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `terrains`
 --
