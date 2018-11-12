@@ -1,4 +1,13 @@
 // JOIN UNITS
+function joinButton() {
+    let groupInfo = '';
+    if (selectedUnit.follow >= 1) {
+        groupInfo = ' of group '+selectedUnit.follow
+    } else {
+        groupInfo = ' not in groups';
+    }
+    $('#tileUnitList').append('<button type="button" name="join" id="joinButton" onclick="joinUnits('+selectedUnit.id+',`'+selectedUnit.type+'`,'+selectedUnit.tileId+',`'+pseudo+'`)" title="Join all '+selectedUnit.type+' units'+groupInfo+'">Join Squads</button>');
+};
 function joinUnits(joinToId,unitType,tileId,owner) {
     let unitIndex = pop.findIndex((obj => obj.id == joinToId));
     let group = pop[unitIndex].follow;
@@ -33,12 +42,12 @@ function joinUnits(joinToId,unitType,tileId,owner) {
     socket.emit('join_units', {joinToId: joinToId, fatigue: fatigue, totalUnits: totalUnits, idsToDelete: idsToDelete});
 };
 // SPLIT UNITS
-function splitButtons(unitId) {
+function splitButton(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let unitNumber = pop[unitIndex].number;
     let unitCat = pop[unitIndex].cat;
     if (unitCat != 'bld' && unitCat != 'bsp') {
-        $('#tileUnitList').append('<select name="split" id="splitDrop" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split</option></select>');
+        $('#tileUnitList').append('<select name="split" id="splitDrop" title="Split '+selectedUnit.number+' '+selectedUnit.type+' into 2 squads" onchange="splitUnits(this,'+selectedUnit.id+');"><option value="">&nbsp;Split Squad</option></select>');
         let i = 1;
         let sa = 1;
         let sb = unitNumber-sa;

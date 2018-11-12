@@ -29,6 +29,24 @@ socket.on('terload', function(wter) {
 // infos persos
 socket.on('persoload', function(wperso) {
     perso = wperso;
+    if (perso.bldIdent === null) {
+        perso.bldIdent = [];
+    }
+    if (perso.bldView === null) {
+        perso.bldView = [];
+    }
+    if (perso.unitView === null) {
+        perso.unitView = [];
+    }
+    if (perso.unitIdent === null) {
+        perso.unitIdent = [];
+    }
+    if (perso.mapView === null) {
+        perso.mapView = [];
+    }
+    if (perso.mapCarto === null) {
+        perso.mapCarto = [];
+    }
 });
 
 // Affichage des unités
