@@ -4,6 +4,7 @@ function nextTurn() {
     // perd de vue les unités adverses
     perso.unitView = [];
     perso.unitIdent = [];
+    perso.exploredTiles = [];
     // récup fatigue
     pop.forEach(function(unit) {
         if (unit.player === pseudo) {

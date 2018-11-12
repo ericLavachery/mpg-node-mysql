@@ -56,6 +56,7 @@ function selectUnit(unitId) {
         showUnitInfos(unitId);
         showTileInfos(selectedUnit.tileId,true);
         showTileUnitList(selectedUnit.tileId);
+        explore(true);
     } else {
         showUnitInfos(unitId);
     }

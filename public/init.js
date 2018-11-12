@@ -47,6 +47,9 @@ socket.on('persoload', function(wperso) {
     if (perso.mapCarto === null) {
         perso.mapCarto = [];
     }
+    if (perso.exploredTiles === null) {
+        perso.exploredTiles = [];
+    }
 });
 
 // Affichage des unités
