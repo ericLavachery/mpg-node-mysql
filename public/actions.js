@@ -52,7 +52,7 @@ function explore(free) {
                     if (unit.detection > bestDetect) {
                         bestDetect = unit.detection;
                     }
-                    loseMove(unit.id,'perc',65);
+                    moveLossPerc(unit.id,75);
                 }
             });
             groupDetection = Math.round((totalDetect+(bestDetect*4))/(numDetectUnits+4));
@@ -61,7 +61,7 @@ function explore(free) {
         } else {
             numDetectUnits = selectedUnit.number;
             groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
-            loseMove(selectedUnit.id,'perc',65);
+            moveLossPerc(selectedUnit.id,75);
         }
         let numAdj = Math.round((Math.sqrt(numDetectUnits)-5)*8);
         if (numAdj >= 75) {
@@ -157,6 +157,8 @@ function explore(free) {
     }
     perso.unitView = unitView;
     perso.bldView = bldView;
+    showUnitInfos(selectedUnit.id);
+    showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);
 };
 function identify() {

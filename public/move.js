@@ -1,13 +1,13 @@
-function loseMove(unitId,style,number) {
-    let num10 = Math.round(number/aleat);
-    let anum = Math.floor((Math.random() * (num10*2)) + 1)+number-num10;
+function moveLoss(unitId,number) {
+    let anum = about(number,15);
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    let moveLost = 0;
-    if (style == 'perc') {
-        moveLost = Math.round(pop[unitIndex].move*anum/100);
-    } else {
-        moveLost = anum;
-    }
+    let moveLost = anum;
+    pop[unitIndex].fatigue = pop[unitIndex].fatigue+moveLost;
+};
+function moveLossPerc(unitId,number) {
+    let anum = about(number,15);
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let moveLost = Math.round(pop[unitIndex].move*anum/100);
     pop[unitIndex].fatigue = pop[unitIndex].fatigue+moveLost;
 };
 function moveHere(targetTileId) {
@@ -59,7 +59,7 @@ function moveGroup(targetTileId) {
             // move the whole group only if not null
             if (unit.follow !== null || unit.id == selectedUnit.id) {
                 moveCost = calcMoveCost(targetTileId,unit.id);
-                fatigue = unit.fatigue + moveCost;
+                fatigue = unit.fatigue + about(moveCost,10);
                 movesLeft = unit.move - fatigue;
                 // change infos dans pop
                 unitIndex = pop.findIndex((obj => obj.id == unit.id));
@@ -104,7 +104,7 @@ function moveUnit(targetTileId) {
     moveCost = calcMoveCost(targetTileId,selectedUnit.id);
     // console.log(moveCost);
     if (movesLeft*3 >= moveCost) {
-        fatigue = fatigue+moveCost;
+        fatigue = fatigue + about(moveCost,15);
         movesLeft = move-fatigue;
         // clear old tile
         $('#'+selectedUnit.tileId).empty();
