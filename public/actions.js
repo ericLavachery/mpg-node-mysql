@@ -23,17 +23,19 @@ function actionsButtons() {
 };
 function explore(free) {
     // manque : perte de move / jet de détection / save DB / broadcast?
+    // coût de 2/3 move, augmente si petit groupe
     let exploredTiles = perso.exploredTiles;
     let tileId = selectedUnit.tileId;
     // détermine la détection
     let groupDetection = 0;
     if (free) {
-        groupDetection = 40;
+        groupDetection = 70;
     } else {
+        let numDetectUnits = 0;
         if (mode == 'g_move' && selectedUnit.follow >= 1) {
-            let numDetectUnits = 0;
             let totalDetect = 0;
             let bestDetect = 0;
+            let totalMove = 0;
             let ownPopHere = _.filter(pop, function(unit) {
                 return (unit.tileId == tileId && unit.player == pseudo);
             });
@@ -41,16 +43,24 @@ function explore(free) {
                 if (unit.follow == selectedUnit.follow) {
                     numDetectUnits = numDetectUnits+unit.number;
                     totalDetect = totalDetect+(unit.detection*unit.number);
+                    totalMove = totalMove+(unit.move*unit.number);
                     if (unit.detection > bestDetect) {
                         bestDetect = unit.detection;
                     }
                 }
             });
             groupDetection = Math.round((totalDetect+(bestDetect*4))/(numDetectUnits+4));
+            let avMove = Math.round(totalMove/numDetectUnits);
+            groupDetection = Math.round(groupDetection*(avMove+50)/120);
         } else {
-            groupDetection = selectedUnit.detection;
+            numDetectUnits = selectedUnit.number;
+            groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
         }
+        let numAdj = Math.round((Math.sqrt(numDetectUnits)-5)*8);
+        groupDetection = groupDetection+numAdj;
     }
+    console.log('groupDetection '+groupDetection);
+
     // détecte les unités sur place
     let unitView = perso.unitView;
     let bldView = perso.bldView;
@@ -58,7 +68,10 @@ function explore(free) {
     let new_bldView = [];
     let detList = [];
     let detItem = '';
+    let lastDetItem = 'rien';
     let thisGroup = 'xxx';
+    let bonus = 0;
+    let adjDetection = 0;
     let otherPopHere = _.filter(pop, function(unit) {
         return (unit.tileId == tileId && unit.player !== pseudo);
     });
@@ -71,11 +84,18 @@ function explore(free) {
             thisGroup = 'xxx';
         }
         detItem = unit.player+thisGroup+unit.cat;
+        if (detItem == lastDetItem && !detItem.includes('xxx')) {
+            bonus = bonus+10;
+        } else {
+            bonus = 0;
+        }
         if (!detList.includes(detItem)) {
-            if (isDetected(free,groupDetection,unit.discretion,unit.number)) {
+            adjDetection = groupDetection+bonus;
+            if (isDetected(free,adjDetection,unit.discretion,unit.number)) {
                 detList.push(detItem);
             }
         }
+        lastDetItem = detItem;
     });
     console.log(detList);
     sortedOtherPopHere.forEach(function(unit) {
@@ -143,18 +163,13 @@ function eat() {
 
 };
 function isDetected(free,detect,disc,number) {
-    // bonus pour grandes bandes qui cherchent 
+    // bonus disc pour terrain cover !!!
     let adjDisc = Math.round(Math.sqrt(number)*10)-10;
     let discretion = disc-adjDisc;
     if (discretion < 0) {
         discretion = 0;
     }
     let chances = discretion+detect;
-    if (!free) {
-        console.log('>>> discretion '+discretion);
-        console.log('detect '+detect);
-        console.log('chances '+chances);
-    }
     if (discretion*3 <= detect) {
         return true;
     } else {
@@ -162,7 +177,6 @@ function isDetected(free,detect,disc,number) {
             return false;
         } else {
             let roll = Math.floor((Math.random() * chances) + 1);
-            console.log(roll+'/'+chances+' d='+detect);
             if (detect >= roll) {
                 return true;
             } else {
