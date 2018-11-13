@@ -1,10 +1,12 @@
 function loseMove(unitId,style,number) {
+    let num10 = Math.round(number/aleat);
+    let anum = Math.floor((Math.random() * (num10*2)) + 1)+number-num10;
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let moveLost = 0;
     if (style == 'perc') {
-        moveLost = Math.round(pop[unitIndex].move*number/100);
+        moveLost = Math.round(pop[unitIndex].move*anum/100);
     } else {
-        moveLost = number;
+        moveLost = anum;
     }
     pop[unitIndex].fatigue = pop[unitIndex].fatigue+moveLost;
 };

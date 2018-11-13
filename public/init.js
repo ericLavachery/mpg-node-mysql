@@ -5,6 +5,7 @@ let perso = {};
 let mygroups = [];
 let selectedUnit = [];
 let mode = 'g_move';
+let aleat = 15; // % au dessus et en dessous, genre fatigue +40 = +(34-46) avec 15 
 
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
