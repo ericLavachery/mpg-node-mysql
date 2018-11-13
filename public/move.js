@@ -1,3 +1,13 @@
+function loseMove(unitId,style,number) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let moveLost = 0;
+    if (style == 'perc') {
+        moveLost = Math.round(pop[unitIndex].move*number/100);
+    } else {
+        moveLost = number;
+    }
+    pop[unitIndex].fatigue = pop[unitIndex].fatigue+moveLost;
+};
 function moveHere(targetTileId) {
     if (isAdjacent(selectedUnit.tileId,targetTileId)) {
         if (mode == 'g_move' && selectedUnit.follow >= 1) {

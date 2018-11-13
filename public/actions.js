@@ -1,13 +1,18 @@
 function actionsButtons() {
     // EXPLORE
     if (!perso.exploredTiles.includes(selectedUnit.tileId)) {
-        let buttonInfos = 'Explore : Search whole area for units (with ';
-        if (mode == 'g_move' && selectedUnit.follow >= 1) {
-            buttonInfos = buttonInfos+'GROUP '+selectedUnit.follow+')';
+        if (selectedUnit.move > selectedUnit.fatigue) {
+            let buttonInfos = 'Explore : Search whole area for units (with ';
+            if (mode == 'g_move' && selectedUnit.follow >= 1) {
+                buttonInfos = buttonInfos+'GROUP '+selectedUnit.follow+')';
+            } else {
+                buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
+            }
+            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore" onclick="explore(false)"><i class="far fa-eye"></i></button>');
         } else {
-            buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
+            buttonInfos = 'Explore : Units with no moves left cannot explore !';
+            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
         }
-        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore" onclick="explore(false)"><i class="far fa-eye"></i></button>');
     } else {
         buttonInfos = 'Explore : You cannot explore more than once per day !';
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
@@ -40,13 +45,14 @@ function explore(free) {
                 return (unit.tileId == tileId && unit.player == pseudo);
             });
             ownPopHere.forEach(function(unit) {
-                if (unit.follow == selectedUnit.follow) {
+                if (unit.follow == selectedUnit.follow && unit.move > unit.fatigue) {
                     numDetectUnits = numDetectUnits+unit.number;
                     totalDetect = totalDetect+(unit.detection*unit.number);
                     totalMove = totalMove+(unit.move*unit.number);
                     if (unit.detection > bestDetect) {
                         bestDetect = unit.detection;
                     }
+                    loseMove(unit.id,'perc',65);
                 }
             });
             groupDetection = Math.round((totalDetect+(bestDetect*4))/(numDetectUnits+4));
@@ -55,12 +61,15 @@ function explore(free) {
         } else {
             numDetectUnits = selectedUnit.number;
             groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
+            loseMove(selectedUnit.id,'perc',65);
         }
         let numAdj = Math.round((Math.sqrt(numDetectUnits)-5)*8);
+        if (numAdj >= 75) {
+            numAdj = 75;
+        }
         groupDetection = groupDetection+numAdj;
     }
-    console.log('groupDetection '+groupDetection);
-
+    // console.log('groupDetection '+groupDetection);
     // détecte les unités sur place
     let unitView = perso.unitView;
     let bldView = perso.bldView;
@@ -91,13 +100,13 @@ function explore(free) {
         }
         if (!detList.includes(detItem)) {
             adjDetection = groupDetection+bonus;
-            if (isDetected(free,adjDetection,unit.discretion,unit.number)) {
+            if (isDetected(free,adjDetection,unit)) {
                 detList.push(detItem);
             }
         }
         lastDetItem = detItem;
     });
-    console.log(detList);
+    // console.log(detList);
     sortedOtherPopHere.forEach(function(unit) {
         if (unit.follow >= 1) {
             thisGroup = unit.follow;
@@ -108,7 +117,7 @@ function explore(free) {
         if (unit.cat == 'bld') {
             new_bldView.push(unit.id);
         } else if (unit.cat == 'bsp' || unit.cat == 'ssp' || unit.cat == 'spy') {
-            if (isDetected(free,groupDetection,unit.discretion,unit.number)) {
+            if (isDetected(free,groupDetection,unit)) {
                 new_unitView.push(unit.id);
             }
         } else {
@@ -116,7 +125,7 @@ function explore(free) {
                 if (!detItem.includes('xxx')) {
                     new_unitView.push(unit.id);
                 } else {
-                    if (isDetected(free,groupDetection,unit.discretion,unit.number)) {
+                    if (isDetected(free,groupDetection,unit)) {
                         new_unitView.push(unit.id);
                     }
                 }
@@ -162,10 +171,18 @@ function guard() {
 function eat() {
 
 };
-function isDetected(free,detect,disc,number) {
-    // bonus disc pour terrain cover !!!
-    let adjDisc = Math.round(Math.sqrt(number)*10)-10;
-    let discretion = disc-adjDisc;
+function isDetected(free,detect,unit) {
+    // bonus disc CITY !!!
+    // console.log(unit.number+' '+unit.type);
+    // console.log('disc base '+unit.discretion);
+    let adjDisc = Math.round(Math.sqrt(unit.number)*10)-10;
+    let discretion = unit.discretion-adjDisc;
+    // console.log(dadj num '+discretion);
+    let tileIndex = world.findIndex((obj => obj.id == unit.tileId));
+    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    let cover = Math.round(unit.coverAdj*ter[terrainIndex].cover/100);
+    discretion = discretion+(Math.round(discretion*cover/100));
+    // console.log(adj terrain '+discretion);
     if (discretion < 0) {
         discretion = 0;
     }

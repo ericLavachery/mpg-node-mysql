@@ -2,6 +2,7 @@
 $('#nextButton').click(nextTurn);
 function nextTurn() {
     // perd de vue les unités adverses
+    // (à changer : perd de vue quand adv bouge !)
     perso.unitView = [];
     perso.unitIdent = [];
     perso.exploredTiles = [];
