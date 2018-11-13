@@ -67,6 +67,22 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('persoload', perso);
     });
 
+    // SINGLE PROPERTY POP CHANGE
+    socket.on('single_pop_change', function(data) {
+        // change pop
+        let prop = data.prop;
+        let objIndex = pop.findIndex((obj => obj.id == data.id));
+        pop[objIndex].prop = data.value;
+        // change db
+        let sql = "UPDATE pop SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('single pop changed');
+        });
+        // broadcast
+        socket.broadcast.emit('single_pop_changed', data);
+    });
+
     // MOVE UNIT
     socket.on('move_unit', function(data) {
         // change pop

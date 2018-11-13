@@ -71,7 +71,7 @@ function moveGroup(targetTileId) {
                     selectedUnit.fatigue = fatigue;
                 }
                 // envoi au serveur
-                socket.emit('move_unit', { tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
+                socket.emit('move_unit', {tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
             }
         });
         // draw on new tile
@@ -117,7 +117,7 @@ function moveUnit(targetTileId) {
         selectedUnit.tileId = targetTileId;
         selectedUnit.fatigue = fatigue;
         // envoi au serveur
-        socket.emit('move_unit', { tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
+        socket.emit('move_unit', {tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
         // affiche les infos
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);

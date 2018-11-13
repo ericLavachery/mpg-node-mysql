@@ -1,3 +1,11 @@
+// OPPONENT SINGLE POP CHANGE
+socket.on('single_pop_changed', function(data) {
+    // change pop
+    let prop = data.prop;
+    let objIndex = pop.findIndex((obj => obj.id == data.id));
+    pop[objIndex].prop = data.value;
+});
+
 // OPPONENT MOVES
 socket.on('unit_moved', function(data) {
     showOpponentMove(data.tileId, data.unitId);

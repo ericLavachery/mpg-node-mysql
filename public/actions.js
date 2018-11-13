@@ -31,6 +31,7 @@ function explore(free) {
     // coût de 2/3 move, augmente si petit groupe
     let exploredTiles = perso.exploredTiles;
     let tileId = selectedUnit.tileId;
+    let unitIndex = 0;
     // détermine la détection
     let groupDetection = 0;
     if (free) {
@@ -53,6 +54,8 @@ function explore(free) {
                         bestDetect = unit.detection;
                     }
                     moveLossPerc(unit.id,75);
+                    unitIndex = pop.findIndex((obj => obj.id == unit.id));
+                    emitSinglePopChange(unit.id,'fatigue',pop[unitIndex].fatigue);
                 }
             });
             groupDetection = Math.round((totalDetect+(bestDetect*4))/(numDetectUnits+4));
@@ -62,6 +65,8 @@ function explore(free) {
             numDetectUnits = selectedUnit.number;
             groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
             moveLossPerc(selectedUnit.id,75);
+            unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+            emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
         }
         let numAdj = Math.round((Math.sqrt(numDetectUnits)-5)*8);
         if (numAdj >= 75) {
