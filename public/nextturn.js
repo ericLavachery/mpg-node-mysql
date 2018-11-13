@@ -2,17 +2,32 @@
 $('#nextButton').click(nextTurn);
 function nextTurn() {
     // perd de vue les unités adverses
-    // (à changer : perd de vue quand adv bouge !)
-    perso.unitView = [];
-    perso.unitIdent = [];
+    // (à changer : perd de vue quand plus d'unités sur la même case)
+    // perso.unitView = [];
+    // perso.unitIdent = [];
     perso.exploredTiles = [];
-    // récup fatigue
+    let occupiedTiles = [];
     pop.forEach(function(unit) {
         if (unit.player === pseudo) {
+            // récup fatigue
             if (unit.fatigue-unit.move >= 0) {
                 unit.fatigue = unit.fatigue-unit.move;
             } else {
                 unit.fatigue = 0;
+            }
+            // note les tiles occupés
+            if (!occupiedTiles.includes(unit.tileId)) {
+                occupiedTiles.push(unit.tileId);
+            }
+        }
+    });
+    console.log(occupiedTiles);
+    // vire (de perso.unitView) les unités adverses qui ne sont pas sur des tiles occupés
+    pop.forEach(function(unit) {
+        if (unit.player !== pseudo) {
+            if (!occupiedTiles.includes(unit.tileId)) {
+                perso.unitView = _.without(perso.unitView, unit.id);
+                perso.unitIdent = _.without(perso.unitIdent, unit.id);
             }
         }
     });
