@@ -21,7 +21,7 @@ function nextTurn() {
             }
         }
     });
-    console.log(occupiedTiles);
+    // console.log(occupiedTiles);
     // vire (de perso.unitView) les unités adverses qui ne sont pas sur des tiles occupés
     pop.forEach(function(unit) {
         if (unit.player !== pseudo) {

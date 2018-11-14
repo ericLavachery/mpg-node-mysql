@@ -64,6 +64,13 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('terload', ter);
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
+        perso.bldView = JSON.parse(perso.bldView);
+        perso.bldIdent = JSON.parse(perso.bldIdent);
+        perso.unitView = JSON.parse(perso.unitView);
+        perso.unitIdent = JSON.parse(perso.unitIdent);
+        perso.mapCarto = JSON.parse(perso.mapCarto);
+        perso.mapView = JSON.parse(perso.mapView);
+        perso.exploredTiles = JSON.parse(perso.exploredTiles);
         socket.emit('persoload', perso);
     });
 

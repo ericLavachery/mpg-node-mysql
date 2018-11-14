@@ -157,6 +157,7 @@ function explore(free) {
         }
     }
     if (!free) {
+        // console.log(exploredTiles);
         exploredTiles.push(tileId);
         perso.exploredTiles = exploredTiles;
     }
@@ -168,18 +169,6 @@ function explore(free) {
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);
-};
-function identify() {
-
-};
-function attack() {
-
-};
-function guard() {
-
-};
-function eat() {
-
 };
 function isDetected(free,detect,unit) {
     // bonus disc CITY !!!
@@ -211,4 +200,16 @@ function isDetected(free,detect,unit) {
             }
         }
     }
+};
+function identify() {
+
+};
+function attack() {
+
+};
+function guard() {
+
+};
+function eat() {
+
 };
