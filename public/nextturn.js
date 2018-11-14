@@ -32,6 +32,7 @@ function nextTurn() {
         }
     });
     socket.emit('next_turn', { pseudo: pseudo, turns: 1 });
+    emitPlayersChange(perso);
     // map
     world.forEach(function(tile) {
         $("#"+tile.id).attr("title", ""); // erase "moves left" infos

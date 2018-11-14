@@ -162,6 +162,9 @@ function explore(free) {
     }
     perso.unitView = unitView;
     perso.bldView = bldView;
+    if (!free) {
+        emitPlayersChange(perso);
+    }
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);

@@ -83,6 +83,26 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('single_pop_changed', data);
     });
 
+    // PLAYERS PERSO CHANGE
+    socket.on('player_change', function(data) {
+        // change pop
+        let objIndex = players.findIndex((obj => obj.id == data.id));
+        players.splice(objIndex, 1, data);
+        // change db
+        let bldView = JSON.stringify(data.bldView);
+        let bldIdent = JSON.stringify(data.bldIdent);
+        let unitView = JSON.stringify(data.unitView);
+        let unitIdent = JSON.stringify(data.unitIdent);
+        let mapCarto = JSON.stringify(data.mapCarto);
+        let mapView = JSON.stringify(data.mapView);
+        let exploredTiles = JSON.stringify(data.exploredTiles);
+        let sql = "UPDATE players SET bldView = '"+bldView+"', bldIdent = '"+bldIdent+"', unitView = '"+unitView+"', unitIdent = '"+unitIdent+"', mapView = '"+mapView+"', mapCarto = '"+mapCarto+"', exploredTiles = '"+exploredTiles+"' WHERE id = "+data.id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('perso updated');
+        });
+    });
+
     // MOVE UNIT
     socket.on('move_unit', function(data) {
         // change pop
