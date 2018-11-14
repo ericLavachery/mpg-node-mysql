@@ -1,8 +1,9 @@
 function actionsButtons() {
+    let buttonInfos = '';
     // EXPLORE
     if (!perso.exploredTiles.includes(selectedUnit.tileId)) {
         if (selectedUnit.move > selectedUnit.fatigue) {
-            let buttonInfos = 'Explore : Search whole area for units (with ';
+            buttonInfos = 'Explore : Search whole area for units (with ';
             if (mode == 'g_move' && selectedUnit.follow >= 1) {
                 buttonInfos = buttonInfos+'GROUP '+selectedUnit.follow+')';
             } else {
@@ -18,7 +19,9 @@ function actionsButtons() {
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
     }
     // IDENTIFY
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Identify units owners" id="identify" onclick="identify('+selectedUnit.id+')"><i class="fas fa-fingerprint"></i></button>');
+    buttonInfos = 'Identify units owners (with ';
+    buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify" onclick="identify()"><i class="fas fa-fingerprint"></i></button>');
     // ATTACK
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attack" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button>');
     // GUARD
@@ -27,8 +30,6 @@ function actionsButtons() {
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Eat" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button>');
 };
 function explore(free) {
-    // manque : perte de move / jet de détection / save DB / broadcast?
-    // coût de 2/3 move, augmente si petit groupe
     let exploredTiles = perso.exploredTiles;
     let tileId = selectedUnit.tileId;
     let unitIndex = 0;
@@ -80,6 +81,10 @@ function explore(free) {
     let bldView = perso.bldView;
     let new_unitView = [];
     let new_bldView = [];
+    let unitIdent = perso.unitIdent;
+    let bldIdent = perso.bldIdent;
+    let new_unitIdent = [];
+    let new_bldIdent = [];
     let detList = [];
     let detItem = '';
     let lastDetItem = 'rien';
@@ -121,6 +126,9 @@ function explore(free) {
         detItem = unit.player+thisGroup+unit.cat;
         if (unit.cat == 'bld') {
             new_bldView.push(unit.id);
+            if (unit.skills.includes('regular_')) {
+                new_bldIdent.push(unit.id);
+            }
         } else if (unit.cat == 'bsp' || unit.cat == 'ssp' || unit.cat == 'spy') {
             if (isDetected(free,groupDetection,unit)) {
                 new_unitView.push(unit.id);
@@ -129,9 +137,15 @@ function explore(free) {
             if (detList.includes(detItem)) {
                 if (!detItem.includes('xxx')) {
                     new_unitView.push(unit.id);
+                    if (unit.skills.includes('regular_')) {
+                        new_unitIdent.push(unit.id);
+                    }
                 } else {
                     if (isDetected(free,groupDetection,unit)) {
                         new_unitView.push(unit.id);
+                        if (unit.skills.includes('regular_')) {
+                            new_unitIdent.push(unit.id);
+                        }
                     }
                 }
             }
@@ -156,6 +170,24 @@ function explore(free) {
             }
         }
     }
+    if (bldIdent === null) {
+        bldIdent = new_bldIdent;
+    } else {
+        for (var i = 0; i < new_bldIdent.length; i++) {
+            if (!bldIdent.includes(new_bldIdent[i])) {
+                bldIdent.push(new_bldIdent[i]);
+            }
+        }
+    }
+    if (unitIdent === null) {
+        unitIdent = new_unitIdent;
+    } else {
+        for (var i = 0; i < new_unitIdent.length; i++) {
+            if (!unitIdent.includes(new_unitIdent[i])) {
+                unitIdent.push(new_unitIdent[i]);
+            }
+        }
+    }
     if (!free) {
         // console.log(exploredTiles);
         exploredTiles.push(tileId);
@@ -163,6 +195,8 @@ function explore(free) {
     }
     perso.unitView = unitView;
     perso.bldView = bldView;
+    perso.unitIdent = unitIdent;
+    perso.bldIdent = bldIdent;
     if (!free) {
         emitPlayersChange(perso);
     }
@@ -202,7 +236,88 @@ function isDetected(free,detect,unit) {
     }
 };
 function identify() {
-
+    let tileId = selectedUnit.tileId;
+    let unitIndex = 0;
+    let searchSkills = selectedUnit.skills;
+    let numToIdent = 0;
+    let unitIdent = perso.unitIdent;
+    let bldIdent = perso.bldIdent;
+    let new_unitIdent = [];
+    let new_bldIdent = [];
+    let otherPopHere = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId && unit.player !== pseudo);
+    });
+    let sortedOtherPopHere = _.sortBy(_.sortBy(_.sortBy(otherPopHere,'type'),'follow'),'player');
+    sortedOtherPopHere.forEach(function(unit) {
+        if (perso.unitView.includes(unit.id) || perso.bldView.includes(unit.id)) {
+            if (!perso.unitIdent.includes(unit.id) && !perso.bldIdent.includes(unit.id)) {
+                numToIdent = numToIdent+1;
+            }
+            if (isIdentified(searchSkills,unit.skills)) {
+                if (unit.cat == 'bld' || unit.cat == 'bsp') {
+                    new_bldIdent.push(unit.id);
+                } else {
+                    new_unitIdent.push(unit.id);
+                }
+            }
+        }
+    });
+    // move loss
+    let moveLossFactor = Math.round((numToIdent+4)*65/(selectedUnit.number+4));
+    moveLossPerc(selectedUnit.id,moveLossFactor);
+    unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+    emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
+    // rajoute les unités détectées dans la liste (sauf celles qui y sont déjà)
+    if (bldIdent === null) {
+        bldIdent = new_bldIdent;
+    } else {
+        for (var i = 0; i < new_bldIdent.length; i++) {
+            if (!bldIdent.includes(new_bldIdent[i])) {
+                bldIdent.push(new_bldIdent[i]);
+            }
+        }
+    }
+    if (unitIdent === null) {
+        unitIdent = new_unitIdent;
+    } else {
+        for (var i = 0; i < new_unitIdent.length; i++) {
+            if (!unitIdent.includes(new_unitIdent[i])) {
+                unitIdent.push(new_unitIdent[i]);
+            }
+        }
+    }
+    perso.unitIdent = unitIdent;
+    perso.bldIdent = bldIdent;
+    emitPlayersChange(perso);
+    showUnitInfos(selectedUnit.id);
+    showTileInfos(selectedUnit.tileId,true);
+    showTileUnitList(tileId);
+};
+function isIdentified(searchSkills,targetSkills) {
+    let free = false;
+    if (targetSkills.includes('regulars')) {
+        return true;
+    } else {
+        if (free) {
+            return false;
+        } else {
+            if (targetSkills.includes('spy')) {
+                if (searchSkills.includes('spy')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (targetSkills.includes('undercover')) {
+                if (searchSkills.includes('spy') || searchSkills.includes('informer')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+    }
 };
 function attack() {
 

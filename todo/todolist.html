@@ -33,11 +33,15 @@ Montrer la couleur adverse seulement si "ident"!
 <!-- explore : barré si pas de move pour la selectedUnit -->
 <!-- explore en group : exclure les unités sans move  -->
 <!-- move unit : add a dice roll for fatigue!  -->
-identify function
-    soldats réguliers : d'office
-    autres non-spy : simple
-    spy : difficile
-    skill pour le cacher
-    skill pour montrer un autre
-    skill pour trouver si caché
-faire un champ skills (dans pop et units) datatype JSON
+<!-- identify function -->
+    <!-- auto when explore (mais ne compte pas les skills de l'identifieur) -->
+    <!-- en fonction des skills (pas de jet de dés) - 1 seul bataillon identifieur -->
+    <!-- FAIRE LA FONCTION IDENTIFY (en utilisant isIdentified)
+    seulement sur les unités vues
+    perte de move en fonction du nombre d'identifieurs et de squads a identifier -->
+    <!-- skill x : vu par skill y
+    regulars : all/explo
+    none : all
+    undercover : informer
+    spy : spy -->
+<!-- faire un champ skills (dans pop et units) -->
