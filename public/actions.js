@@ -37,6 +37,7 @@ function actionsButtons() {
 function explore(free) {
     let exploredTiles = perso.exploredTiles;
     let tileId = selectedUnit.tileId;
+    let unitId = selectedUnit.id;
     let unitIndex = 0;
     // détermine la détection
     let groupDetection = 0;
@@ -206,11 +207,11 @@ function explore(free) {
     perso.bldIdent = bldIdent;
     if (!free) {
         emitPlayersChange(perso);
+        showMovesLeft(tileId, unitId);
     }
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);
-    showMovesLeft(selectedUnit.tileId, selectedUnit.Id);
 };
 function isDetected(free,detect,unit) {
     // bonus disc CITY !!!
@@ -245,6 +246,7 @@ function isDetected(free,detect,unit) {
 };
 function identify() {
     let tileId = selectedUnit.tileId;
+    let unitId = selectedUnit.id;
     let unitIndex = 0;
     let searchSkills = selectedUnit.skills;
     let numToIdent = 0;
@@ -304,10 +306,10 @@ function identify() {
     perso.unitIdent = unitIdent;
     perso.bldIdent = bldIdent;
     emitPlayersChange(perso);
+    showMovesLeft(tileId, unitId);
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);
-    showMovesLeft(selectedUnit.tileId, selectedUnit.Id);
 };
 function isIdentified(searchSkills,targetSkills) {
     let free = false;
