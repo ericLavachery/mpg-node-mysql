@@ -3,8 +3,6 @@ $('#nextButton').click(nextTurn);
 function nextTurn() {
     // perd de vue les unités adverses
     // (à changer : perd de vue quand plus d'unités sur la même case)
-    // perso.unitView = [];
-    // perso.unitIdent = [];
     perso.exploredTiles = [];
     let occupiedTiles = [];
     pop.forEach(function(unit) {
