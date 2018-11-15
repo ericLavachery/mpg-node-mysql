@@ -244,6 +244,7 @@ function identify() {
     let bldIdent = perso.bldIdent;
     let new_unitIdent = [];
     let new_bldIdent = [];
+    let lastGroup = 'xxx';
     let otherPopHere = _.filter(pop, function(unit) {
         return (unit.tileId == tileId && unit.player !== pseudo);
     });
@@ -251,7 +252,10 @@ function identify() {
     sortedOtherPopHere.forEach(function(unit) {
         if (perso.unitView.includes(unit.id) || perso.bldView.includes(unit.id)) {
             if (!perso.unitIdent.includes(unit.id) && !perso.bldIdent.includes(unit.id)) {
-                numToIdent = numToIdent+1;
+                if (unit.follow != lastGroup || unit.follow === null || unit.follow == '') {
+                    numToIdent = numToIdent+1;
+                }
+                lastGroup = unit.follow;
             }
             if (isIdentified(searchSkills,unit.skills)) {
                 if (unit.cat == 'bld' || unit.cat == 'bsp') {
@@ -263,7 +267,9 @@ function identify() {
         }
     });
     // move loss
-    let moveLossFactor = Math.round((numToIdent+4)*65/(selectedUnit.number+4));
+    let numDetUnits = selectedUnit.number;
+    if (numDetUnits >= 12) {numDetUnits = 12;};
+    let moveLossFactor = Math.round((numToIdent+4)*65/(numDetUnits+4));
     moveLossPerc(selectedUnit.id,moveLossFactor);
     unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
     emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
