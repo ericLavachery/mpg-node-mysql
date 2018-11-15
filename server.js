@@ -64,13 +64,25 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('terload', ter);
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
-        perso.bldView = JSON.parse(perso.bldView);
-        perso.bldIdent = JSON.parse(perso.bldIdent);
-        perso.unitView = JSON.parse(perso.unitView);
-        perso.unitIdent = JSON.parse(perso.unitIdent);
-        perso.mapCarto = JSON.parse(perso.mapCarto);
-        perso.mapView = JSON.parse(perso.mapView);
-        perso.exploredTiles = JSON.parse(perso.exploredTiles);
+        if (isJSON(perso.unitView)) {
+            perso.bldView = JSON.parse(perso.bldView);
+            perso.bldIdent = JSON.parse(perso.bldIdent);
+            perso.unitView = JSON.parse(perso.unitView);
+            perso.unitIdent = JSON.parse(perso.unitIdent);
+            perso.mapCarto = JSON.parse(perso.mapCarto);
+            perso.mapView = JSON.parse(perso.mapView);
+            perso.exploredTiles = JSON.parse(perso.exploredTiles);
+        } else {
+            console.log('Error : perso.unitView is not a valid JSON file');
+        }
+        function isJSON(string) {
+            try {
+                JSON.parse(string);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        };
         socket.emit('persoload', perso);
     });
 

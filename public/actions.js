@@ -19,9 +19,14 @@ function actionsButtons() {
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
     }
     // IDENTIFY
-    buttonInfos = 'Identify units owners (with ';
-    buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify" onclick="identify()"><i class="fas fa-fingerprint"></i></button>');
+    if (selectedUnit.move > selectedUnit.fatigue) {
+        buttonInfos = 'Identify units owners (with ';
+        buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
+        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify" onclick="identify()"><i class="fas fa-fingerprint"></i></button>');
+    } else {
+        buttonInfos = 'Identify : Units with no moves left cannot do this !';
+        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-fingerprint"></i></button>');
+    }
     // ATTACK
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attack" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button>');
     // GUARD
@@ -152,40 +157,42 @@ function explore(free) {
         }
     });
     // rajoute les unités détectées dans la liste (sauf celles qui y sont déjà)
+    let toPush;
     if (unitView === null) {
-        unitView = new_unitView;
-    } else {
-        for (var i = 0; i < new_unitView.length; i++) {
-            if (!unitView.includes(new_unitView[i])) {
-                unitView.push(new_unitView[i]);
-            }
+        unitView = [];
+    }
+    for (var i = 0; i < new_unitView.length; i++) {
+        toPush = Number(new_unitView[i]);
+        if (!unitView.includes(toPush)) {
+            unitView.push(toPush);
         }
     }
     if (bldView === null) {
-        bldView = new_bldView;
-    } else {
-        for (var i = 0; i < new_bldView.length; i++) {
-            if (!bldView.includes(new_bldView[i])) {
-                bldView.push(new_bldView[i]);
-            }
+        bldView = [];
+    }
+    for (var i = 0; i < new_bldView.length; i++) {
+        toPush = Number(new_bldView[i]);
+        if (!bldView.includes(toPush)) {
+            bldView.push(toPush);
         }
     }
+
     if (bldIdent === null) {
-        bldIdent = new_bldIdent;
-    } else {
-        for (var i = 0; i < new_bldIdent.length; i++) {
-            if (!bldIdent.includes(new_bldIdent[i])) {
-                bldIdent.push(new_bldIdent[i]);
-            }
+        bldIdent = [];
+    }
+    for (var i = 0; i < new_bldIdent.length; i++) {
+        toPush = Number(new_bldIdent[i]);
+        if (!bldIdent.includes(toPush)) {
+            bldIdent.push(toPush);
         }
     }
     if (unitIdent === null) {
-        unitIdent = new_unitIdent;
-    } else {
-        for (var i = 0; i < new_unitIdent.length; i++) {
-            if (!unitIdent.includes(new_unitIdent[i])) {
-                unitIdent.push(new_unitIdent[i]);
-            }
+        unitIdent = [];
+    }
+    for (var i = 0; i < new_unitIdent.length; i++) {
+        toPush = Number(new_unitIdent[i]);
+        if (!unitIdent.includes(toPush)) {
+            unitIdent.push(toPush);
         }
     }
     if (!free) {
@@ -203,6 +210,7 @@ function explore(free) {
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);
+    showMovesLeft(selectedUnit.tileId, selectedUnit.Id);
 };
 function isDetected(free,detect,unit) {
     // bonus disc CITY !!!
@@ -274,22 +282,23 @@ function identify() {
     unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
     emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
     // rajoute les unités détectées dans la liste (sauf celles qui y sont déjà)
+    let toPush;
     if (bldIdent === null) {
-        bldIdent = new_bldIdent;
-    } else {
-        for (var i = 0; i < new_bldIdent.length; i++) {
-            if (!bldIdent.includes(new_bldIdent[i])) {
-                bldIdent.push(new_bldIdent[i]);
-            }
+        bldIdent = [];
+    }
+    for (var i = 0; i < new_bldIdent.length; i++) {
+        toPush = Number(new_bldIdent[i]);
+        if (!bldIdent.includes(toPush)) {
+            bldIdent.push(toPush);
         }
     }
     if (unitIdent === null) {
-        unitIdent = new_unitIdent;
-    } else {
-        for (var i = 0; i < new_unitIdent.length; i++) {
-            if (!unitIdent.includes(new_unitIdent[i])) {
-                unitIdent.push(new_unitIdent[i]);
-            }
+        unitIdent = [];
+    }
+    for (var i = 0; i < new_unitIdent.length; i++) {
+        toPush = Number(new_unitIdent[i]);
+        if (!unitIdent.includes(toPush)) {
+            unitIdent.push(toPush);
         }
     }
     perso.unitIdent = unitIdent;
@@ -298,6 +307,7 @@ function identify() {
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(tileId);
+    showMovesLeft(selectedUnit.tileId, selectedUnit.Id);
 };
 function isIdentified(searchSkills,targetSkills) {
     let free = false;
