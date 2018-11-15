@@ -106,7 +106,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE players SET bldView = '"+bldView+"', bldIdent = '"+bldIdent+"', unitView = '"+unitView+"', unitIdent = '"+unitIdent+"', mapView = '"+mapView+"', mapCarto = '"+mapCarto+"', exploredTiles = '"+exploredTiles+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log('perso updated');
+            // console.log('perso updated');
         });
     });
 

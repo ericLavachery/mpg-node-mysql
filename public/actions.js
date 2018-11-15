@@ -269,7 +269,7 @@ function identify() {
     // move loss
     let numDetUnits = selectedUnit.number;
     if (numDetUnits >= 12) {numDetUnits = 12;};
-    let moveLossFactor = Math.round((numToIdent+4)*65/(numDetUnits+4));
+    let moveLossFactor = Math.round((numToIdent+4)*75/(numDetUnits+4));
     moveLossPerc(selectedUnit.id,moveLossFactor);
     unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
     emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
