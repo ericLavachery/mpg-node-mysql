@@ -8,6 +8,7 @@ const db = require('./modules/dbconnect.js');
 const express = require('express');
 
 const numHTiles = 15;
+const numVTiles = 8;
 
 let pop = [];
 let world = [];
@@ -73,7 +74,8 @@ io.sockets.on('connection', function (socket, pseudo) {
             perso.mapView = JSON.parse(perso.mapView);
             perso.exploredTiles = JSON.parse(perso.exploredTiles);
         } else {
-            console.log('Error : perso.unitView is not a valid JSON file');
+            console.log('Error : perso.unitView is not a valid JSON string');
+            console.log(perso.unitView);
         }
         function isJSON(string) {
             try {
