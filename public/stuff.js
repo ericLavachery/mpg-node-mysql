@@ -2,14 +2,6 @@
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
-function isJSON(string) {
-    try {
-        JSON.parse(string);
-    } catch (e) {
-        return false;
-    }
-    return true;
-};
 function about(number,aleat) {
     let numAleat = Math.round(number*aleat/100);
     let aboutNum = Math.floor((Math.random() * (numAleat*2)) + 1)+number-numAleat;
@@ -20,4 +12,14 @@ function emitSinglePopChange(id,prop,value) {
 };
 function emitPlayersChange(perso) {
     socket.emit('player_change', perso);
+};
+
+$('#testmenow').click(shareTest);
+function shareTest() {
+    if (isJSON.isJSON(perso.unitView)) {
+        console.log('yes it is');
+    } else {
+        console.log('no it is not');
+    }
+    // mmd.makeMyDay(4,3);
 };

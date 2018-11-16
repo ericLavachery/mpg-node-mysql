@@ -6,6 +6,7 @@ const ent = require('ent'); // Permet de bloquer les caractères HTML (sécurit�
 const fs = require('fs');
 const db = require('./modules/dbconnect.js');
 const express = require('express');
+const isJSON = require('./public/share.js');
 
 const numHTiles = 15;
 const numVTiles = 8;
@@ -65,7 +66,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('terload', ter);
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
-        if (isJSON(perso.unitView)) {
+        if (isJSON.isJSON(perso.unitView)) {
             perso.bldView = JSON.parse(perso.bldView);
             perso.bldIdent = JSON.parse(perso.bldIdent);
             perso.unitView = JSON.parse(perso.unitView);
@@ -76,15 +77,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         } else {
             console.log('Error : perso.unitView is not a valid JSON string');
             console.log(perso.unitView);
+            console.log(JSON.parse(perso.unitView));
         }
-        function isJSON(string) {
-            try {
-                JSON.parse(string);
-            } catch (e) {
-                return false;
-            }
-            return true;
-        };
         socket.emit('persoload', perso);
     });
 
