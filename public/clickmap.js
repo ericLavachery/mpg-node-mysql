@@ -7,15 +7,15 @@ function selectOrMove(tileId) {
     let sortedOwnPopHere = _.sortBy(ownPopHere,'number');
     let unitId = 0;
     let unitOwner = pseudo;
-    ownPopHere.forEach(function(unit) {
+    sortedOwnPopHere.forEach(function(unit) {
         unitId = unit.id;
         unitOwner = unit.player;
     });
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     if (unitId >= 1) { // there is a unit
-        if (selectedUnit.id == unitId) { // unit already selected => unselect
+        if (selectedUnit.tileId == tileId) { // a unit is selected here => unselect
             unSelectUnit(selectedUnit.id);
-        } else { // unit not selected
+        } else { // no selected unit here
             if (mode == 'g_move' || mode == 's_move') {
                 if (selectedUnit.id >= 1) { // a unit is selected => move it here
                     moveHere(tileId);
@@ -34,7 +34,7 @@ function selectOrMove(tileId) {
                 }
             }
         }
-    } else { // there is no VISIBLE unit
+    } else { // there is no unit
         showTileInfos(tileId,false);
         if (selectedUnit.id >= 1) { // a unit is selected => move it here
             if (mode == 'g_move' || mode == 's_move') {
