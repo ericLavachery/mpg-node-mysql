@@ -23,7 +23,7 @@ function showMap(wmap) {
     // fill
     wmap.forEach(function(tile) {
         // console.log(tile);
-        $('#zone_map').append('<div id="' + tile.id + '" class="grid-item ' + tile.terrain + '" onclick="selectOrMove(this)" title=""></div>');
+        $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
     });
 };
 // infos terrains
@@ -60,34 +60,41 @@ socket.on('persoload', function(wperso) {
 // Affichage des unités
 socket.on('popload', function(wpop) {
     pop = wpop;
-    showPop(wpop);
+    // showPop(wpop);
+    showVisiblePop(world);
     loadGroups(wpop);
     gmoveMode();
     cursorSwitch('.','grid-item','pointer');
 });
-function showPop(wpop) {
-    let lastTileId = 0;
-    let sortedPop = _.sortBy(_.sortBy(wpop,'cat'),'tileId');
-    sortedPop.forEach(function(unit) {
-        if (unit.player != pseudo) {
-            if (unit.cat != 'spy' && unit.cat != 'bsp') {
-                if (unit.tileId != lastTileId) {
-                    drawUnit(unit.id, unit.tileId, unit.icon, 'icon-other');
-                }
-                lastTileId = unit.tileId;
-            }
-        }
-    });
-    lastTileId = 0;
-    sortedPop.forEach(function(unit) {
-        if (unit.player == pseudo) {
-            if (unit.tileId != lastTileId) {
-                drawUnit(unit.id, unit.tileId, unit.icon, 'icon-player');
-            }
-            lastTileId = unit.tileId;
-        }
+function showVisiblePop(wmap) {
+    wmap.forEach(function(tile) {
+        drawTileDefaultUnit(tile.id)
     });
 };
+// function showPop(wpop) {
+//     let lastTileId = 0;
+//     let sortedPop = _.sortBy(_.sortBy(wpop,'cat'),'tileId');
+//     sortedPop.forEach(function(unit) {
+//         if (unit.player != pseudo) {
+//             if (unit.cat != 'spy' && unit.cat != 'bsp') {
+//                 if (unit.tileId != lastTileId) {
+//                     drawUnit(unit.id, unit.tileId, unit.pic, 'icon-other');
+//                 }
+//                 lastTileId = unit.tileId;
+//             }
+//         }
+//     });
+//     lastTileId = 0;
+//     sortedPop.forEach(function(unit) {
+//         if (unit.player == pseudo) {
+//             if (unit.tileId != lastTileId) {
+//                 drawUnit(unit.id, unit.tileId, unit.pic, 'icon-player');
+//             }
+//             lastTileId = unit.tileId;
+//         }
+//     });
+// };
+
 // infos groupes
 function loadGroups(wpop) {
     let lastTileId = 0;

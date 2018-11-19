@@ -54,7 +54,8 @@ function moveGroup(targetTileId) {
     let unitIndex = 0;
     if (moveOK) {
         // clear old tile
-        $('#'+oldTileId).empty();
+        $('#b'+oldTileId).empty();
+        $('#s'+oldTileId).empty();
         popToMove.forEach(function(unit) {
             // move the whole group only if not null
             if (unit.follow !== null || unit.id == selectedUnit.id) {
@@ -75,7 +76,7 @@ function moveGroup(targetTileId) {
             }
         });
         // draw on new tile
-        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'icon-selected');
+        drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // réaffiche les infos
         showGroupMovesLeft(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
@@ -107,12 +108,13 @@ function moveUnit(targetTileId) {
         fatigue = fatigue + about(moveCost,15);
         movesLeft = move-fatigue;
         // clear old tile
-        $('#'+selectedUnit.tileId).empty();
+        $('#b'+selectedUnit.tileId).empty();
+        $('#s'+selectedUnit.tileId).empty();
         // change infos dans pop
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;
         // draw on new tile
-        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'icon-selected');
+        drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // change infos dans selectedUnit
         selectedUnit.tileId = targetTileId;
         selectedUnit.fatigue = fatigue;

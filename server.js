@@ -62,7 +62,6 @@ io.sockets.on('connection', function (socket, pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
         socket.emit('mapload', world);
-        socket.emit('popload', pop);
         socket.emit('terload', ter);
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
@@ -74,12 +73,15 @@ io.sockets.on('connection', function (socket, pseudo) {
             perso.mapCarto = JSON.parse(perso.mapCarto);
             perso.mapView = JSON.parse(perso.mapView);
             perso.exploredTiles = JSON.parse(perso.exploredTiles);
+            perso.enemies = JSON.parse(perso.enemies);
+            perso.allies = JSON.parse(perso.allies);
         } else {
             console.log('Error : perso.unitView is not a valid JSON string');
             console.log(perso.unitView);
             console.log(JSON.parse(perso.unitView));
         }
         socket.emit('persoload', perso);
+        socket.emit('popload', pop);
     });
 
     // SINGLE PROPERTY POP CHANGE

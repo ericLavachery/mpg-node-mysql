@@ -1,14 +1,18 @@
 // Click MAP
-function selectOrMove(gridItem) {
-    let tileId = gridItem.id;
+function selectOrMove(tileId) {
+    // Squad on the tile?
+    let ownPopHere = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId && unit.player === pseudo);
+    });
+    let sortedOwnPopHere = _.sortBy(ownPopHere,'number');
     let unitId = 0;
-    // Is there a VISIBLE unit on the tile?
-    if (Object.keys(gridItem.children).length >= 1) {
-        unitId = gridItem.children[0].id.substring(1);
-        let unitIndex = pop.findIndex((obj => obj.id == unitId));
-        unitOwner = pop[unitIndex].player;
-    }
-    if (unitId >= 1) { // there is a VISIBLE unit
+    let unitOwner = pseudo;
+    ownPopHere.forEach(function(unit) {
+        unitId = unit.id;
+        unitOwner = unit.player;
+    });
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    if (unitId >= 1) { // there is a unit
         if (selectedUnit.id == unitId) { // unit already selected => unselect
             unSelectUnit(selectedUnit.id);
         } else { // unit not selected
@@ -50,7 +54,7 @@ function selectUnit(unitId) {
         selectedUnit.x = world[tileIndex].x;
         selectedUnit.y = world[tileIndex].y;
         // mark the unit
-        drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.icon,'icon-selected');
+        drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'icon-selected');
         // show moves left for each adjacent tiles (in title)
         showMovesLeft(selectedUnit.tileId, unitId);
         showUnitInfos(unitId);
