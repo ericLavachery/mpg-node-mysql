@@ -70,7 +70,7 @@ function drawTileDefaultUnit(tileId) {
     showTileBar(tileId,pbh,obh,puh,ouh,psh,osh);
 };
 function showUnit(unitId, tileId, icon, folder) {
-    $('#'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'" id="u'+unitId+'">');
+    $('#b'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'.png" alt="'+icon+'">');
 };
 function showTileBar(tileId,pbh,obh,puh,ouh,psh,osh) {
     if (puh >= 1 || ouh >=1) {
@@ -95,6 +95,6 @@ function showTileBar(tileId,pbh,obh,puh,ouh,psh,osh) {
                 tbIcons = tbIcons+'<i class="fas fa-circle-notch tbblanc"></i> ';
             }
         }
-        $('#'+tileId).append('<div class="tileBar" id="bar'+tileId+'">'+tbIcons+'</div>');
+        $('#s'+tileId).append('<div class="tileBar" id="bar'+tileId+'">'+tbIcons+'</div>');
     }
 };
