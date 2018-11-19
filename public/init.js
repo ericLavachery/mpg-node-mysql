@@ -72,7 +72,7 @@ function showPop(wpop) {
         if (unit.player != pseudo) {
             if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (unit.tileId != lastTileId) {
-                    drawUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+                    drawUnit(unit.id, unit.tileId, unit.icon, 'icon-other');
                 }
                 lastTileId = unit.tileId;
             }
@@ -82,7 +82,7 @@ function showPop(wpop) {
     sortedPop.forEach(function(unit) {
         if (unit.player == pseudo) {
             if (unit.tileId != lastTileId) {
-                drawUnit(unit.id, unit.tileId, unit.icon, 'units');
+                drawUnit(unit.id, unit.tileId, unit.icon, 'icon-player');
             }
             lastTileId = unit.tileId;
         }

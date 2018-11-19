@@ -47,7 +47,7 @@ function drawTileDefaultUnit(tileId) {
             }
             if (unit.cat != 'spy' && unit.cat != 'bsp') {
                 if (!drawn) {
-                    showUnit(unit.id, unit.tileId, unit.icon, 'ounits');
+                    showUnit(unit.id, unit.tileId, unit.icon, 'icon-other');
                     drawn = true;
                 }
             }
@@ -62,7 +62,7 @@ function drawTileDefaultUnit(tileId) {
                 pbh = pbh+1;
             }
             if (!drawn) {
-                showUnit(unit.id, unit.tileId, unit.icon, 'units');
+                showUnit(unit.id, unit.tileId, unit.icon, 'icon-player');
                 drawn = true;
             }
         }

@@ -6,21 +6,6 @@ body {
     font-family: 'Raleway', sans-serif;
     background-color: black;
 }
-.grid-container {
-    display: inline-grid;
-    grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px;
-    grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px;
-    background-color: #323232;
-    padding: 10px;
-}
-.grid-item {
-    border: 1px solid rgba(0, 0, 0, 0.6);
-    color: #000000;
-    padding: 2px 0 0 0;
-    margin: 0;
-    text-align: center;
-    cursor: url(/static/img/pointer.cur),auto;
-}
 .bigIcon {
     text-align: center;
     vertical-align: middle;
@@ -34,6 +19,22 @@ body {
     vertical-align: middle;
     width: 66px;
     display: inline-block;
+}
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px;
+    grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px;
+    background-color: #323232;
+    padding: 10px;
+}
+.grid-item {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color: #000000;
+    padding: 0 0 0 0;
+    margin: 0;
+    text-align: center;
+    line-height: 1px;
+    cursor: url(/static/img/pointer.cur),auto;
 }
 .tileBar {
     color: black;
@@ -71,16 +72,6 @@ body {
 }
 .swamp {
     background-color: #679172;
-}
-#con {
-    display: none;
-}
-#pascon {
-    display: block;
-}
-td {
-    vertical-align: top;
-    padding-right: 10px;
 }
 #tileInfos, #unitInfos, #tileUnitList {
     font-family: 'Raleway', sans-serif;
@@ -121,7 +112,7 @@ td {
 }
 .unitType {
     display: inline-block;
-    width: 100px;
+    width: 72px;
     font-weight: bold;
 }
 .unitOwner {

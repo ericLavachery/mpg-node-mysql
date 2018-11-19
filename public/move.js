@@ -75,7 +75,7 @@ function moveGroup(targetTileId) {
             }
         });
         // draw on new tile
-        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'sunits');
+        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'icon-selected');
         // réaffiche les infos
         showGroupMovesLeft(selectedUnit.tileId, popToMove);
         showUnitInfos(selectedUnit.id);
@@ -112,7 +112,7 @@ function moveUnit(targetTileId) {
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;
         // draw on new tile
-        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'sunits');
+        drawUnit(selectedUnit.id, targetTileId, selectedUnit.icon, 'icon-selected');
         // change infos dans selectedUnit
         selectedUnit.tileId = targetTileId;
         selectedUnit.fatigue = fatigue;
