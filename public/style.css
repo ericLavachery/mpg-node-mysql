@@ -91,6 +91,9 @@ td {
     margin: 0 0 5px 0;
     border-radius: 4px;
 }
+#vuPriority {
+    padding: 0 7px 0 7px;
+}
 #sidebarInfos {
     width: 270px;
 }

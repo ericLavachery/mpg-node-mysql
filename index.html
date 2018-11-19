@@ -27,10 +27,18 @@
                         <button type="button" id="testmenow">Test!</button>
                     </td>
                     <td class="sidebar" id="sidebarInfos">
+                        <div id="vuPriority">
+                            <img src="/static/img/cat-player/wrk.png" alt="" onclick="catPriorityChange('wrk')" id="wrk-button">
+                            <img src="/static/img/cat-player/spy.png" alt="" onclick="catPriorityChange('spy')" id="spy-button">
+                            <img src="/static/img/cat-player/sld.png" alt="" onclick="catPriorityChange('sld')" id="sld-button">
+                            <img src="/static/img/cat-player/shp.png" alt="" onclick="catPriorityChange('shp')" id="shp-button">
+                            <img src="/static/img/cat-player/bsp.png" alt="" onclick="catPriorityChange('bsp')" id="bsp-button">
+                            <img src="/static/img/cat-player/bld.png" alt="" onclick="catPriorityChange('bld')" id="bld-button">
+                        </div>
                         <div id="tileInfos"></div>
                         <div id="unitInfos">
                             <!-- <span class="paramName">Moves</span><span class="paramValue">70</span><br> -->
-                        </div>                        
+                        </div>
                         <div id="tileUnitList">
                             <!-- <a href="#" id="tileUnitListId23" onclick="selectUnitFromTileInfoList(this)"><span class="paramName">12 Space Marine</span><span class="paramValue">Bob</span></a>
                             <a href="#" id="followerId23" onclick="followSelected(this)"><span class="paramValue">follow</span></a>

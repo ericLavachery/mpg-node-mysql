@@ -10,14 +10,35 @@ function visibleUnitsOnTile(tileId) {
     let lastId = 0;
     let pNumUnits = 0;
     let bestNumUnits = 0;
+    let prioStop = false;
     sortedTilePop.forEach(function(unit) {
         if (unit.cat == 'bld') {
             vuHere.numBld = vuHere.numBld+1;
         }
         if (unit.player === pseudo) {
             vuHere.numPlayer = vuHere.numPlayer+unit.number;
-            if (catToPriority(unit.cat) > vuHere.catPlayer) {
-                vuHere.catPlayer = catToPriority(unit.cat);
+            if (uvp == 'wrk' && unit.cat == 'wrk') {
+                vuHere.catPlayer = 1;
+                prioStop = true;
+            } else if (uvp == 'spy' && unit.cat == 'spy') {
+                vuHere.catPlayer = 2;
+                prioStop = true;
+            } else if (uvp == 'bsp' && unit.cat == 'bsp') {
+                vuHere.catPlayer = 5;
+                prioStop = true;
+            } else if (uvp == 'shp' && unit.cat == 'shp') {
+                vuHere.catPlayer = 4;
+                prioStop = true;
+            } else if (uvp == 'sld' && unit.cat == 'sld') {
+                vuHere.catPlayer = 3;
+                prioStop = true;
+            } else if (uvp == 'bld' && unit.cat == 'bld') {
+                vuHere.catPlayer = 6;
+                prioStop = true;
+            } else if (!prioStop) {
+                if (catToPriority(unit.cat) > vuHere.catPlayer) {
+                    vuHere.catPlayer = catToPriority(unit.cat);
+                }
             }
         } else {
             if (perso.unitView.includes(unit.id) || perso.bldView.includes(unit.id)) {
@@ -168,4 +189,15 @@ function priorityToIcon(prio) {
         case 9: return 'army';
         default: return '';
     }
+};
+function catPriorityChange(cat) {
+    let folder = 'cat-selected'
+    if (uvp == cat) {
+        uvp = '';
+        folder = 'cat-player'
+    } else {
+        uvp = cat;
+    }
+    showVisiblePop(world);
+    $('#'+cat+'-button').attr("src","/static/img/"+folder+"/"+cat+".png");
 };
