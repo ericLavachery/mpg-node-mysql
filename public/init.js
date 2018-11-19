@@ -10,6 +10,7 @@ let perso = {};
 let mygroups = [];
 let selectedUnit = [];
 let mode = 'g_move';
+let uvp = ''; // unit view priority 
 
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
