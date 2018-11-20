@@ -23,9 +23,18 @@ function showMap(wmap) {
     document.getElementById("zone_map").innerHTML = '';
     // fill
     wmap.forEach(function(tile) {
-        // console.log(tile);
-        $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+        if (perso.mapView.includes(tile.id)) {
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+        } else {
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+        }
     });
+};
+function showTile(tileId,tileTerrain) {
+    if ( $('#'+tileId).hasClass('fog') ) {
+        $('#'+tileId).removeClass('fog').addClass(tileTerrain);
+    }
+    $('#'+tileId).empty().append('<span class="bigIcon" id="b'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
 };
 // infos terrains
 socket.on('terload', function(wter) {

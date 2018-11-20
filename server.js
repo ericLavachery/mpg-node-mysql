@@ -61,8 +61,6 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('newcli', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
-        socket.emit('mapload', world);
-        socket.emit('terload', ter);
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
         if (isJSON.isJSON(perso.unitView)) {
@@ -80,6 +78,8 @@ io.sockets.on('connection', function (socket, pseudo) {
             console.log('re-login : '+pseudo);
         }
         socket.emit('persoload', perso);
+        socket.emit('mapload', world);
+        socket.emit('terload', ter);
         socket.emit('popload', pop);
     });
 

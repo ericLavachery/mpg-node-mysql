@@ -121,6 +121,11 @@ function visibleUnitsOnTile(tileId) {
                 vuHere.domUnitId = 0;
                 vuHere.domPic = 'ppp';
             }
+            if (!perso.mapView.includes(tileId)) {
+                vuHere.domLogin = 'xxx';
+                vuHere.domUnitId = 0;
+                vuHere.domPic = 'ppp';
+            }
         }
     }
     return vuHere;

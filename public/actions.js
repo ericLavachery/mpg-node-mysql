@@ -27,12 +27,14 @@ function actionsButtons() {
         buttonInfos = 'Identify : Units with no moves left cannot do this !';
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-fingerprint"></i></button>');
     }
+    // CARTO
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Cartographier" id="attack" onclick="cartography('+selectedUnit.id+')"><i class="far fa-map"></i></button>');
     // ATTACK
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attack" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button>');
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button>');
     // GUARD
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Guard" id="guard" onclick="guard('+selectedUnit.id+')"><i class="fas fa-shield-alt"></i></button>');
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Garder" id="guard" onclick="guard('+selectedUnit.id+')"><i class="fas fa-shield-alt"></i></button>');
     // EAT
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Eat" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button>');
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Manger" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button>');
 };
 function explore(free) {
     let exploredTiles = perso.exploredTiles;
@@ -216,6 +218,8 @@ function explore(free) {
     if (!free) {
         emitPlayersChange(perso);
         showMovesLeft(tileId, unitId);
+    } else {
+        unfogTile(tileId);
     }
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
@@ -343,6 +347,19 @@ function isIdentified(searchSkills,targetSkills) {
                 return true;
             }
         }
+    }
+};
+function cartography(unitId) {
+
+};
+function unfogTile(tileId) {
+    // montrer les routes et rivières adjacentes !!!
+    if (!perso.mapView.includes(tileId)) {
+        perso.mapView.push(tileId);
+        emitPlayersChange(perso);
+        let tileIndex = world.findIndex((obj => obj.id == tileId));
+        let tileTerrain = world[tileIndex].terrain;
+        showTile(tileId,tileTerrain);
     }
 };
 function attack() {
