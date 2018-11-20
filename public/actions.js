@@ -1,53 +1,3 @@
-function actionsButtons() {
-    let buttonInfos = '';
-    // EXPLORE
-    if (!perso.exploredTiles.includes(selectedUnit.tileId)) {
-        if (selectedUnit.move > selectedUnit.fatigue) {
-            buttonInfos = 'Exploration : Rechercher les unités présentes (avec ';
-            if (mode == 'g_move' && selectedUnit.follow >= 1) {
-                buttonInfos = buttonInfos+'le GROUPE '+selectedUnit.follow+')';
-            } else {
-                buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
-            }
-            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore" onclick="explore(false)"><i class="far fa-eye"></i></button>');
-        } else {
-            buttonInfos = "Exploration : Vous n'avez plus assez d'unités de mouvement !";
-            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
-        }
-    } else {
-        buttonInfos = "Exploration : Vous ne pouvez explorer qu'une seule fois par jour (par terrain) !";
-        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
-    }
-    // IDENTIFY
-    if (selectedUnit.move > selectedUnit.fatigue) {
-        buttonInfos = 'Identifier les propriétaires des unités (avec ';
-        buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
-        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify" onclick="identify()"><i class="fas fa-fingerprint"></i></button>');
-    } else {
-        buttonInfos = "Identifier : Vous n'avez plus assez d'unités de mouvement !";
-        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-fingerprint"></i></button>');
-    }
-    // CARTO
-    if (!perso.mapCarto.includes(selectedUnit.tileId)) {
-        if (selectedUnit.move > selectedUnit.fatigue) {
-            buttonInfos = 'Cartographier ce terrain (avec ';
-            buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
-            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="attack" onclick="cartography()"><i class="far fa-map"></i></button>');
-        } else {
-            buttonInfos = "Cartographier : Vous n'avez plus assez d'unités de mouvement !";
-            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map"></i></button>');
-        }
-    } else {
-        buttonInfos = "Ce terrain est déjà cartographié !";
-        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map-marked-alt"></i></button>');
-    }
-    // ATTACK
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button>');
-    // GUARD
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Garder" id="guard" onclick="guard('+selectedUnit.id+')"><i class="fas fa-shield-alt"></i></button>');
-    // EAT
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Manger" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button>');
-};
 function explore(free) {
     let exploredTiles = perso.exploredTiles;
     let tileId = selectedUnit.tileId;
@@ -362,30 +312,33 @@ function isIdentified(searchSkills,targetSkills) {
     }
 };
 function cartography() {
-    let tileId = selectedUnit.tileId;
-    let ml = 80;
-    let moveCost = calcMoveCost(selectedUnit.tileId, selectedUnit.id);
-    ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*5000/selectedUnit.detection);
-    if (selectedUnit.skills.includes('carto_')) {
-        ml = Math.round(ml/3);
-    } else if (selectedUnit.skills.includes('explo_')) {
-        ml = Math.round(ml*3/5);
-    }
-    if (ml < selectedUnit.move) {
-        ml = selectedUnit.move;
-    }
+    let ml = cartoMoveLoss();
     // console.log(ml);
-    if (!perso.mapCarto.includes(tileId) && selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
+    if (!perso.mapCarto.includes(selectedUnit.tileId) && selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
         moveLoss(selectedUnit.id,ml);
         unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
         emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
-        cartoTile(tileId,true);
+        cartoTile(selectedUnit.tileId,true);
         drawUnit(selectedUnit.id, selectedUnit.tileId, selectedUnit.pic, 'icon-selected');
         showMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         showTileUnitList(selectedUnit.tileId);
     }
+};
+function cartoMoveLoss() {
+    let ml = 110;
+    let moveCost = calcMoveCost(selectedUnit.tileId, selectedUnit.id);
+    ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*10000/selectedUnit.detection);
+    if (selectedUnit.skills.includes('carto_')) {
+        ml = Math.round(ml/16);
+    } else if (selectedUnit.skills.includes('explo_')) {
+        ml = Math.round(ml/4);
+    }
+    if (ml < selectedUnit.move) {
+        ml = selectedUnit.move;
+    }
+    return ml;
 };
 function cartoTile(tileId,save) {
     // montrer les terrains adjacents !!!

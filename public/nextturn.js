@@ -41,7 +41,27 @@ function nextTurn() {
         $("#"+tile.id).attr("title", ""); // erase "moves left" infos
         purgeGroups(tile.id); // purge unused groups
     });
+    // unfog tiles around carto
+    world.forEach(function(tile) {
+        if (perso.mapCarto.includes(tile.id)) {
+            let tileIndex = world.findIndex((obj => obj.id == tile.id));
+            let myTileX = world[tileIndex].x;
+            let myTileY = world[tileIndex].y;
+            world.forEach(function(tile) {
+                if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+                    if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                        if (tile.y != myTileY || tile.x != myTileX) {
+                            unfogTile(tile.id,false);
+                        }
+                    }
+                }
+            });
+        }
+    });
+    showMap(world);
+    showVisiblePop(world);
     if (selectedUnit.id >= 1) {
+        drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'icon-selected');
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
