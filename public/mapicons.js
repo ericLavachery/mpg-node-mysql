@@ -1,6 +1,6 @@
 function visibleUnitsOnTile(tileId) {
     let vuHere = {domLogin:'xxx',domUnitId:0,domPic:'ppp',numPlayer:0,numAllies:0,numEnemies:0,numOthers:0,catPlayer:0,catAllies:0,catEnemies:0,catOthers:0,numBld:0};
-    let auHere = {numAllies:0,numEnemies:0,numOthers:0};
+    let auHere = {numAllies:0,numEnemies:0,numOthers:0,numBld:0};
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);
     });
@@ -13,7 +13,12 @@ function visibleUnitsOnTile(tileId) {
     let prioStop = false;
     sortedTilePop.forEach(function(unit) {
         if (unit.cat == 'bld') {
-            vuHere.numBld = vuHere.numBld+1;
+            if (perso.bldView.includes(unit.id)) {
+                if (perso.bldIdent.includes(unit.id)) {
+                    vuHere.numBld = vuHere.numBld+1;
+                }
+            }
+            auHere.numBld = auHere.numBld+1;
         }
         if (unit.player === pseudo) {
             vuHere.numPlayer = vuHere.numPlayer+unit.number;
@@ -111,7 +116,7 @@ function visibleUnitsOnTile(tileId) {
     // On ne voit que les armées si on a pas d'unités sur place
     if (vuHere.domLogin != pseudo) {
         if (vuHere.numPlayer < 1) {
-            if (vuHere.catOthers < 9 && vuHere.catAllies < 9 && vuHere.catEnemies < 9) {
+            if (vuHere.catOthers < 9 && vuHere.catAllies < 9 && vuHere.catEnemies < 9 && vuHere.numBld < 1) {
                 vuHere.domLogin = 'xxx';
                 vuHere.domUnitId = 0;
                 vuHere.domPic = 'ppp';

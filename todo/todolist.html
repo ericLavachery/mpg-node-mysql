@@ -1,56 +1,19 @@
-<!-- Supprimer le groupe des unités seules sur 1 tile -->
-<!-- Faire bouger tout le groupe lorsqu'on bouge une unité (en mode move seulement) -->
-<!-- Join => Only in Group! -->
-https://game-icons.net/
-<!-- Redéfinir le système d'icônes pour les unités sur la carte (Voir avec Bruno) -->
-<!-- showMovesLeftSelect BUG -->
-<!-- Unités des autres joueurs dans une autre couleur (tous la même) -->
-Montrer la couleur adverse seulement si "ident"!
-<!-- Curseur move différent si move impossible! -->
-<!-- Si aucune unité select : pas de cursor "move" -->
-<!-- Priorité dans l'affichage des icônes :
-    owner,other
-    bld,war,pce -->
-<!-- Ne pas afficher les spy sur la carte (sauf les siens) -->
-<!-- Fonction pour afficher 1 unité sur 1 tile en fonction des priorités -->
-<!-- icon stop in free mode  -->
-<!-- BUG : units moved by other players are black instead of orange  -->
-
-<!-- BUG : move mode : bord jaune / cursor pointer when no select? -->
-<!-- BUG : move mode : move group with 0 moves unit  -->
-<!-- Pas de join/split pour les bld et bsp  -->
-<!-- MODES: group move / single move / observe? -->
-<!-- ATTENTION, changer les actions aussi !!! -->
-<!-- cursor stop on whole map when no selected unit  -->
-<!-- show moves left after next turn -->
-<!-- re-calc tileBars after moves -->
-<!-- and for other players too! -->
-<!-- save db perso (exploredTiles, unitView etc...)
-    sur exploration
-    sur next turn -->
-<!-- change system of forget for unitView etc... (when unit move!) -->
-<!-- save db pop after loseMove (and broadcast) -->
-<!-- explore : barré si pas de move pour la selectedUnit -->
-<!-- explore en group : exclure les unités sans move  -->
-<!-- move unit : add a dice roll for fatigue!  -->
-<!-- identify function -->
-    <!-- auto when explore (mais ne compte pas les skills de l'identifieur) -->
-    <!-- en fonction des skills (pas de jet de dés) - 1 seul bataillon identifieur -->
-    <!-- FAIRE LA FONCTION IDENTIFY (en utilisant isIdentified)
-    seulement sur les unités vues
-    perte de move en fonction du nombre d'identifieurs et de squads a identifier -->
-    <!-- skill x : vu par skill y
-    regulars : all/explo -->
-    none : all (explo si allié) !!!
-    <!-- undercover : informer
-    spy : spy -->
-    capture!
-<!-- faire un champ skills (dans pop et units) -->
 <!-- BUG : exploredTiles = ["41"] - OK, en principe... -->
 <!-- BUG : server crash JSON parse players.unitView at LOGIN (line 67) -->
 <!-- BUG : showMoves after explore or identify  -->
 <!-- BUG : server crash on re-login !!! -->
 <!-- BUG : unités bougent sur place !!! -->
 lastSelectedUnit : pour pouvoir la reprendre quand on clique sur son tile?
-SPY CHARS :
-    Quand quelqu'un le voit, on est prévenu
+SPY CHARS : Quand quelqu'un le voit, on est prévenu
+<!-- Bâtiments vus restent visibles sans besoin d'unité sur le tile !!!
+    ajouter un numBld (vus)
+    si 1+ => Visible -->
+FOG OF WAR :
+    Vue : Ajouter les tiles vus dans perso.mapView (dans explo free?)
+    Vue : Afficher uniquement les tiles vus
+    Vue : Retirer les tiles vus (5% par jour sauf si carto ou unité dessus) dans nextTurn()
+    Carto : Bouton carto + ajout dans perso.mapCarto
+    Carto : Vue des tiles adjacents au momment de la carto
+    Vue : Vue des tiles adjacents si route ou rivière (si ship)
+    Carto : Bonus moveCost
+    Carto : Bonus discretion/detection
