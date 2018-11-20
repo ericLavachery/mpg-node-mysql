@@ -9,12 +9,8 @@
     };
 }(typeof exports === 'undefined' ? this.isJSON = {} : exports));
 
-// (function(exports){
-//     exports.makeMyDay = function(a,b){
-//         if (a+b == 7) {
-//             console.log('cacaboudin!');
-//         } else {
-//             console.log(a+'+'+b+' ça fait pas 7, ducon!');
-//         }
-//     };
-// }(typeof exports === 'undefined' ? this.mmd = {} : exports));
+(function(exports){
+    exports.rand = function(min,max){
+        return Math.floor(Math.random()*(max-min+1)+min);
+    };
+}(typeof exports === 'undefined' ? this.rand = {} : exports));

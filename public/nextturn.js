@@ -29,12 +29,12 @@ function nextTurn() {
         }
     });
     // map
-    let rand = 0;
+    let check = 0;
     world.forEach(function(tile) {
         // erase viewed tiles
         if (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id)) {
-            rand = Math.floor(Math.random() * 100) + 1;
-            if (rand <= 5) {
+            check = rand.rand(1,100);
+            if (check <= 5) {
                 perso.mapView = _.without(perso.mapView, tile.id);
             }
         }

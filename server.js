@@ -7,6 +7,7 @@ const fs = require('fs');
 const db = require('./modules/dbconnect.js');
 const express = require('express');
 const isJSON = require('./public/share.js');
+const rand = require('./public/share.js');
 
 const numHTiles = 15;
 const numVTiles = 8;

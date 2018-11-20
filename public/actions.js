@@ -3,32 +3,44 @@ function actionsButtons() {
     // EXPLORE
     if (!perso.exploredTiles.includes(selectedUnit.tileId)) {
         if (selectedUnit.move > selectedUnit.fatigue) {
-            buttonInfos = 'Explore : Search whole area for units (with ';
+            buttonInfos = 'Exploration : Rechercher les unités présentes (avec ';
             if (mode == 'g_move' && selectedUnit.follow >= 1) {
-                buttonInfos = buttonInfos+'GROUP '+selectedUnit.follow+')';
+                buttonInfos = buttonInfos+'le GROUPE '+selectedUnit.follow+')';
             } else {
                 buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
             }
             $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore" onclick="explore(false)"><i class="far fa-eye"></i></button>');
         } else {
-            buttonInfos = 'Explore : Units with no moves left cannot explore !';
+            buttonInfos = "Exploration : Vous n'avez plus assez d'unités de mouvement !";
             $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
         }
     } else {
-        buttonInfos = 'Explore : You cannot explore more than once per day !';
+        buttonInfos = "Exploration : Vous ne pouvez explorer qu'une seule fois par jour (par terrain) !";
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="explore"><i class="far fa-eye-slash"></i></button>');
     }
     // IDENTIFY
     if (selectedUnit.move > selectedUnit.fatigue) {
-        buttonInfos = 'Identify units owners (with ';
+        buttonInfos = 'Identifier les propriétaires des unités (avec ';
         buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify" onclick="identify()"><i class="fas fa-fingerprint"></i></button>');
     } else {
-        buttonInfos = 'Identify : Units with no moves left cannot do this !';
+        buttonInfos = "Identifier : Vous n'avez plus assez d'unités de mouvement !";
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-fingerprint"></i></button>');
     }
     // CARTO
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Cartographier" id="attack" onclick="cartography('+selectedUnit.id+')"><i class="far fa-map"></i></button>');
+    if (!perso.mapCarto.includes(selectedUnit.tileId)) {
+        if (selectedUnit.move > selectedUnit.fatigue) {
+            buttonInfos = 'Cartographier ce terrain (avec ';
+            buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+')';
+            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="attack" onclick="cartography()"><i class="far fa-map"></i></button>');
+        } else {
+            buttonInfos = "Cartographier : Vous n'avez plus assez d'unités de mouvement !";
+            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map"></i></button>');
+        }
+    } else {
+        buttonInfos = "Ce terrain est déjà cartographié !";
+        $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map-marked-alt"></i></button>');
+    }
     // ATTACK
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button>');
     // GUARD
@@ -349,8 +361,31 @@ function isIdentified(searchSkills,targetSkills) {
         }
     }
 };
-function cartography(unitId) {
+function cartography() {
+    let tileId = selectedUnit.tileId;
+    if (!perso.mapCarto.includes(tileId) && selectedUnit.move > selectedUnit.fatigue) {
+        // move loss en fonction de :
+        // nombre
+        // move
+        // skill carto
+        // moveCost 
+        moveLossPerc(selectedUnit.id,75);
+        unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
+        emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
 
+        cartoTile(tileId);
+        drawUnit(selectedUnit.id, selectedUnit.tileId, selectedUnit.pic, 'icon-selected');
+    }
+};
+function cartoTile(tileId) {
+    // montrer les terrains adjacents !!!
+    if (!perso.mapCarto.includes(tileId)) {
+        perso.mapCarto.push(tileId);
+        emitPlayersChange(perso);
+        let tileIndex = world.findIndex((obj => obj.id == tileId));
+        let tileTerrain = world[tileIndex].terrain;
+        showTile(tileId,tileTerrain);
+    }
 };
 function unfogTile(tileId) {
     // montrer les routes et rivières adjacentes !!!
