@@ -2,7 +2,6 @@
 $('#nextButton').click(nextTurn);
 function nextTurn() {
     // perd de vue les unités adverses
-    // (à changer : perd de vue quand plus d'unités sur la même case)
     perso.exploredTiles = [];
     let occupiedTiles = [];
     pop.forEach(function(unit) {
@@ -29,10 +28,16 @@ function nextTurn() {
             }
         }
     });
-    socket.emit('next_turn', { pseudo: pseudo, turns: 1 });
-    emitPlayersChange(perso);
     // map
+    let rand = 0;
     world.forEach(function(tile) {
+        // erase viewed tiles
+        if (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id)) {
+            rand = Math.floor(Math.random() * 100) + 1;
+            if (rand <= 5) {
+                perso.mapView = _.without(perso.mapView, tile.id);
+            }
+        }
         $("#"+tile.id).attr("title", ""); // erase "moves left" infos
         purgeGroups(tile.id); // purge unused groups
     });
@@ -42,4 +47,6 @@ function nextTurn() {
         showTileInfos(selectedUnit.tileId,true);
         showTileUnitList(selectedUnit.tileId);
     };
+    socket.emit('next_turn', { pseudo: pseudo, turns: 1 });
+    emitPlayersChange(perso);
 }
