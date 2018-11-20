@@ -81,7 +81,6 @@ function explore(free) {
         }
         groupDetection = groupDetection+numAdj;
     }
-    // console.log('groupDetection '+groupDetection);
     // détecte les unités sur place
     let unitView = perso.unitView;
     let bldView = perso.bldView;
@@ -134,6 +133,9 @@ function explore(free) {
             new_bldView.push(unit.id);
             if (unit.skills.includes('regular_')) {
                 new_bldIdent.push(unit.id);
+            } else if (!unit.skills.includes('spy_') && !unit.skills.includes('undercover_') && perso.allies.includes(unit.player)) {
+                // identifie les alliés
+                new_bldIdent.push(unit.id);
             }
         } else if (unit.cat == 'bsp' || unit.cat == 'ssp' || unit.cat == 'spy') {
             if (isDetected(free,groupDetection,unit)) {
@@ -145,11 +147,17 @@ function explore(free) {
                     new_unitView.push(unit.id);
                     if (unit.skills.includes('regular_')) {
                         new_unitIdent.push(unit.id);
+                    } else if (!unit.skills.includes('spy_') && !unit.skills.includes('undercover_') && perso.allies.includes(unit.player)) {
+                        // identifie les alliés
+                        new_unitIdent.push(unit.id);
                     }
                 } else {
                     if (isDetected(free,groupDetection,unit)) {
                         new_unitView.push(unit.id);
                         if (unit.skills.includes('regular_')) {
+                            new_unitIdent.push(unit.id);
+                        } else if (!unit.skills.includes('spy_') && !unit.skills.includes('undercover_') && perso.allies.includes(unit.player)) {
+                            // identifie les alliés
                             new_unitIdent.push(unit.id);
                         }
                     }
