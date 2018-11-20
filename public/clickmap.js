@@ -35,7 +35,9 @@ function selectOrMove(tileId) {
             }
         }
     } else { // there is no unit
-        showTileInfos(tileId,false);
+        if (perso.mapView.includes(tileId)) {
+            showTileInfos(tileId,false);
+        }
         if (selectedUnit.id >= 1) { // a unit is selected => move it here
             if (mode == 'g_move' || mode == 's_move') {
                 moveHere(tileId);

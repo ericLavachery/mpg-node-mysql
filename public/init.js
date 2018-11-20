@@ -9,7 +9,7 @@ let ter = [];
 let perso = {};
 let mygroups = [];
 let selectedUnit = [];
-let mode = 'g_move';
+let mode = 'inspect';
 let uvp = ''; // unit view priority
 
 // Quand on reçoit la carte, on l'insère dans la page
@@ -78,8 +78,7 @@ socket.on('popload', function(wpop) {
     pop = wpop;
     showVisiblePop(world);
     loadGroups(wpop);
-    gmoveMode();
-    cursorSwitch('.','grid-item','pointer');
+    inspectMode();
 });
 function showVisiblePop(wmap) {
     wmap.forEach(function(tile) {

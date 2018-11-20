@@ -89,5 +89,5 @@ function uListOthersIdentified(unit,ownerShort,gfollow) {
     $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf">'+unit.type+'</span><span class="unitOwner grisf">'+ownerShort+'</span></a><br>');
 };
 function newGroupButton() {
-    $('#tileUnitList').append('<button type="button" name="newGroup" title="Put selected squad in a new group" id="newGroup" onclick="createGroup('+selectedUnit.id+')">New Group</button>');
+    $('#tileUnitList').append('<button type="button" name="newGroup" title="Mettre le bataillon sélectionné dans un nouveau groupe" id="newGroup" onclick="createGroup('+selectedUnit.id+')">Créer Groupe</button>');
 };

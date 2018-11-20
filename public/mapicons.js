@@ -121,7 +121,7 @@ function visibleUnitsOnTile(tileId) {
                 vuHere.domUnitId = 0;
                 vuHere.domPic = 'ppp';
             }
-            if (!perso.mapView.includes(tileId)) {
+            if (!perso.mapCarto.includes(tileId)) {
                 vuHere.domLogin = 'xxx';
                 vuHere.domUnitId = 0;
                 vuHere.domPic = 'ppp';
