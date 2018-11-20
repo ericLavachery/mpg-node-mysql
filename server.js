@@ -75,10 +75,9 @@ io.sockets.on('connection', function (socket, pseudo) {
             perso.exploredTiles = JSON.parse(perso.exploredTiles);
             perso.enemies = JSON.parse(perso.enemies);
             perso.allies = JSON.parse(perso.allies);
+            console.log('login : '+pseudo);
         } else {
-            console.log('Error : perso.unitView is not a valid JSON string');
-            console.log(perso.unitView);
-            console.log(JSON.parse(perso.unitView));
+            console.log('re-login : '+pseudo);
         }
         socket.emit('persoload', perso);
         socket.emit('popload', pop);

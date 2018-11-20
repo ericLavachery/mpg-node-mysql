@@ -10,7 +10,7 @@ let perso = {};
 let mygroups = [];
 let selectedUnit = [];
 let mode = 'g_move';
-let uvp = ''; // unit view priority 
+let uvp = ''; // unit view priority
 
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
@@ -56,12 +56,17 @@ socket.on('persoload', function(wperso) {
     if (perso.exploredTiles === null) {
         perso.exploredTiles = [];
     }
+    if (perso.enemies === null) {
+        perso.enemies = [];
+    }
+    if (perso.allies === null) {
+        perso.allies = [];
+    }
 });
 
 // Affichage des unités
 socket.on('popload', function(wpop) {
     pop = wpop;
-    // showPop(wpop);
     showVisiblePop(world);
     loadGroups(wpop);
     gmoveMode();
@@ -72,30 +77,6 @@ function showVisiblePop(wmap) {
         drawTileDefaultUnit(tile.id)
     });
 };
-// function showPop(wpop) {
-//     let lastTileId = 0;
-//     let sortedPop = _.sortBy(_.sortBy(wpop,'cat'),'tileId');
-//     sortedPop.forEach(function(unit) {
-//         if (unit.player != pseudo) {
-//             if (unit.cat != 'spy' && unit.cat != 'bsp') {
-//                 if (unit.tileId != lastTileId) {
-//                     drawUnit(unit.id, unit.tileId, unit.pic, 'icon-other');
-//                 }
-//                 lastTileId = unit.tileId;
-//             }
-//         }
-//     });
-//     lastTileId = 0;
-//     sortedPop.forEach(function(unit) {
-//         if (unit.player == pseudo) {
-//             if (unit.tileId != lastTileId) {
-//                 drawUnit(unit.id, unit.tileId, unit.pic, 'icon-player');
-//             }
-//             lastTileId = unit.tileId;
-//         }
-//     });
-// };
-
 // infos groupes
 function loadGroups(wpop) {
     let lastTileId = 0;
