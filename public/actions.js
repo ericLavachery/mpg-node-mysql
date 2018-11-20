@@ -231,7 +231,7 @@ function explore(free) {
         emitPlayersChange(perso);
         showMovesLeft(tileId, unitId);
     } else {
-        unfogTile(tileId);
+        unfogTile(tileId,true);
     }
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
@@ -374,12 +374,12 @@ function cartography() {
     if (ml < selectedUnit.move) {
         ml = selectedUnit.move;
     }
-    console.log(ml);
+    // console.log(ml);
     if (!perso.mapCarto.includes(tileId) && selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
         moveLoss(selectedUnit.id,ml);
         unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
         emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
-        cartoTile(tileId);
+        cartoTile(tileId,true);
         drawUnit(selectedUnit.id, selectedUnit.tileId, selectedUnit.pic, 'icon-selected');
         showMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
@@ -387,21 +387,38 @@ function cartography() {
         showTileUnitList(selectedUnit.tileId);
     }
 };
-function cartoTile(tileId) {
+function cartoTile(tileId,save) {
     // montrer les terrains adjacents !!!
     if (!perso.mapCarto.includes(tileId)) {
         perso.mapCarto.push(tileId);
-        emitPlayersChange(perso);
         let tileIndex = world.findIndex((obj => obj.id == tileId));
         let tileTerrain = world[tileIndex].terrain;
         showTile(tileId,tileTerrain);
+        // unfog adjacent tiles
+        let myTileX = world[tileIndex].x;
+        let myTileY = world[tileIndex].y;
+        world.forEach(function(tile) {
+            if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+                if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                    if (tile.y != myTileY || tile.x != myTileX) {
+                        unfogTile(tile.id,false);
+                    }
+                }
+            }
+        });
+        // save
+        if (save) {
+            emitPlayersChange(perso);
+        }
     }
 };
-function unfogTile(tileId) {
+function unfogTile(tileId,save) {
     // montrer les routes et rivières adjacentes !!!
     if (!perso.mapView.includes(tileId)) {
         perso.mapView.push(tileId);
-        emitPlayersChange(perso);
+        if (save) {
+            emitPlayersChange(perso);
+        }
         let tileIndex = world.findIndex((obj => obj.id == tileId));
         let tileTerrain = world[tileIndex].terrain;
         showTile(tileId,tileTerrain);
