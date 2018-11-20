@@ -363,18 +363,28 @@ function isIdentified(searchSkills,targetSkills) {
 };
 function cartography() {
     let tileId = selectedUnit.tileId;
-    if (!perso.mapCarto.includes(tileId) && selectedUnit.move > selectedUnit.fatigue) {
-        // move loss en fonction de :
-        // nombre
-        // move
-        // skill carto
-        // moveCost 
-        moveLossPerc(selectedUnit.id,75);
+    let ml = 80;
+    let moveCost = calcMoveCost(selectedUnit.tileId, selectedUnit.id);
+    ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*5000/selectedUnit.detection);
+    if (selectedUnit.skills.includes('carto_')) {
+        ml = Math.round(ml/3);
+    } else if (selectedUnit.skills.includes('explo_')) {
+        ml = Math.round(ml*3/5);
+    }
+    if (ml < selectedUnit.move) {
+        ml = selectedUnit.move;
+    }
+    console.log(ml);
+    if (!perso.mapCarto.includes(tileId) && selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
+        moveLoss(selectedUnit.id,ml);
         unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
         emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
-
         cartoTile(tileId);
         drawUnit(selectedUnit.id, selectedUnit.tileId, selectedUnit.pic, 'icon-selected');
+        showMovesLeft(selectedUnit.tileId, selectedUnit.id);
+        showUnitInfos(selectedUnit.id);
+        showTileInfos(selectedUnit.tileId,true);
+        showTileUnitList(selectedUnit.tileId);
     }
 };
 function cartoTile(tileId) {
