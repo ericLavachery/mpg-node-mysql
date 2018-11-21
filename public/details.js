@@ -12,6 +12,11 @@ function showUnitInfos(unitId) {
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let terCover = ter[terrainIndex].cover;
     let terDefense = ter[terrainIndex].defense;
+    // ajustement carto
+    if (perso.mapCarto.includes(pop[unitIndex].tileId)) {
+        terCover = Math.round((terCover*110/100)+15);
+        terDefense = Math.round((terDefense*110/100)+15);
+    }
     let defense = pop[unitIndex].defense;
     defense = Math.round((defense*terDefense/100)+defense);
     let cover = Math.round(terCover*pop[unitIndex].coverAdj/100);
@@ -22,6 +27,7 @@ function showUnitInfos(unitId) {
     if (shape > 100) {shape = 100;};
     defense = Math.round(defense*(shape+300)/400);
     attack = Math.round(attack*(shape+300)/400);
+
     $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3>');
     $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     if (shape >= 100) {

@@ -31,7 +31,7 @@ function nextTurn() {
     // map
     let check = 0;
     world.forEach(function(tile) {
-        // erase viewed tiles
+        // re-fog some viewed tiles
         if (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id)) {
             check = rand.rand(1,100);
             if (check <= 5) {

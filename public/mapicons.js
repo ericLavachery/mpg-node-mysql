@@ -209,5 +209,11 @@ function catPriorityChange(cat) {
         uvp = cat;
     }
     showVisiblePop(world);
+    $('#wrk-button').attr("src","/static/img/cat-player/wrk.png");
+    $('#spy-button').attr("src","/static/img/cat-player/spy.png");
+    $('#bsp-button').attr("src","/static/img/cat-player/bsp.png");
+    $('#bld-button').attr("src","/static/img/cat-player/bld.png");
+    $('#sld-button').attr("src","/static/img/cat-player/sld.png");
+    $('#shp-button').attr("src","/static/img/cat-player/shp.png");
     $('#'+cat+'-button').attr("src","/static/img/"+folder+"/"+cat+".png");
 };
