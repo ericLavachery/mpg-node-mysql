@@ -192,6 +192,7 @@ function explore(free) {
 };
 function isDetected(free,detect,unit) {
     // bonus disc CITY !!!
+    let discretion = unit.discretion;
     // console.log(unit.number+' '+unit.type);
     // console.log('disc base '+unit.discretion);
     let tileIndex = world.findIndex((obj => obj.id == unit.tileId));
@@ -203,7 +204,7 @@ function isDetected(free,detect,unit) {
         discretion = Math.round(discretion*115/100);
     }
     let adjDisc = Math.round(Math.sqrt(unit.number)*10)-10;
-    let discretion = unit.discretion-adjDisc;
+    discretion = discretion-adjDisc;
     // console.log(adj num '+discretion);
     if (discretion < 0) {
         discretion = 0;

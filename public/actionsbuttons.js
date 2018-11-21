@@ -33,7 +33,7 @@ function actionsButtons() {
         if (selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
             buttonInfos = 'Cartographier ce terrain (avec ';
             buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+' : '+Math.round(ml/10)+' mv)';
-            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="attack" onclick="cartography()"><i class="far fa-map"></i></button>');
+            $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="carto" onclick="cartography()"><i class="far fa-map"></i></button>');
         } else {
             if (selectedUnit.move <= selectedUnit.fatigue) {
                 buttonInfos = "Cartographier : Vous n'avez plus assez d'unités de mouvement !";
