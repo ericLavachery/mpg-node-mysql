@@ -49,6 +49,14 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    let terMvCost = ter[terrainIndex].moveCost;
+    let terCover = ter[terrainIndex].cover;
+    let terDefense = ter[terrainIndex].defense;
+    if (perso.mapCarto.includes(targetTileId)) {
+        terMvCost = Math.round(terMvCost*80/100);
+        terCover = Math.round((terCover*110/100)+15);
+        terDefense = Math.round((terDefense*110/100)+15);
+    }
     if (linked) {
         $('#tileInfos').append('<h3>'+capitalizeFirstLetter(world[tileIndex].terrain)+'</h3>');
     } else {
@@ -59,7 +67,7 @@ function showTileInfos(tileId,linked) {
     }
     $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
-    $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+ter[terrainIndex].moveCost+'</span><br>');
-    $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+ter[terrainIndex].cover+'%</span><br>');
-    $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+ter[terrainIndex].defense+'%</span><br>');
+    $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+terMvCost+'</span><br>');
+    $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
+    $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
 };
