@@ -45,6 +45,9 @@ function explore(free) {
         }
         groupDetection = groupDetection+numAdj;
     }
+    if (perso.mapCarto.includes(tileId)) {
+        groupDetection = Math.round(groupDetection*115/100);
+    }
     // détecte les unités sur place
     let unitView = perso.unitView;
     let bldView = perso.bldView;
@@ -191,14 +194,17 @@ function isDetected(free,detect,unit) {
     // bonus disc CITY !!!
     // console.log(unit.number+' '+unit.type);
     // console.log('disc base '+unit.discretion);
-    let adjDisc = Math.round(Math.sqrt(unit.number)*10)-10;
-    let discretion = unit.discretion-adjDisc;
-    // console.log(dadj num '+discretion);
     let tileIndex = world.findIndex((obj => obj.id == unit.tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let cover = Math.round(unit.coverAdj*ter[terrainIndex].cover/100);
     discretion = discretion+(Math.round(discretion*cover/100));
     // console.log(adj terrain '+discretion);
+    if (perso.mapCarto.includes(unit.tileId)) {
+        discretion = Math.round(discretion*115/100);
+    }
+    let adjDisc = Math.round(Math.sqrt(unit.number)*10)-10;
+    let discretion = unit.discretion-adjDisc;
+    // console.log(adj num '+discretion);
     if (discretion < 0) {
         discretion = 0;
     }

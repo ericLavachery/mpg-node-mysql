@@ -146,6 +146,9 @@ function calcMoveCost(targetTileId, unitId) {
         if (isDiag(unitTileId,targetTileId)) {
             moveCost = Math.round(moveCost*1414/1000);
         }
+        if (perso.mapCarto.includes(targetTileId)) {
+            moveCost = Math.round(moveCost*80/100);
+        }
     } else {
         moveCost = 999;
     }
