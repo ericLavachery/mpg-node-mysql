@@ -14,6 +14,10 @@ function calcBaseDefense(unitId) {
     defense = Math.round((defense*terDefense/100)+defense);
     defense = Math.round((defense*cover/100)+defense);
     // effects of fatigue
+    let move = pop[unitIndex].move;
+    let fatigue = pop[unitIndex].fatigue;
+    if (fatigue < 0) {fatigue = 0;};
+    let movesLeft = move-fatigue;
     let shape = Math.round(movesLeft/(move/2)*100);
     if (shape > 100) {shape = 100;};
     defense = Math.round(defense*(shape+300)/400);
@@ -32,6 +36,10 @@ function calcBaseAttaque(unitId) {
     let cover = Math.round(terCover*pop[unitIndex].coverAdj/100);
     attaque = Math.round((attaque*cover/100)+attaque);
     // effects of fatigue
+    let move = pop[unitIndex].move;
+    let fatigue = pop[unitIndex].fatigue;
+    if (fatigue < 0) {fatigue = 0;};
+    let movesLeft = move-fatigue;
     let shape = Math.round(movesLeft/(move/2)*100);
     if (shape > 100) {shape = 100;};
     attaque = Math.round(attaque*(shape+300)/400);

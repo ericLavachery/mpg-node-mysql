@@ -14,7 +14,7 @@ body {
     padding: 10px;
 }
 .grid-item {
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.6);
     color: #000000;
     padding: 0;
     margin: 0;
@@ -34,6 +34,16 @@ body {
     text-align: center;
     vertical-align: middle;
     width: 66px;
+    display: inline-block;
+}
+.mapNote {
+    font-size: 11px;
+    line-height: 13px;
+    color: rgba(0, 0, 0, 0.6);
+    padding: 2px 0 0 0;
+    text-align: center;
+    vertical-align: top;
+    width: 10px;
     display: inline-block;
 }
 .tileBar {
@@ -181,6 +191,9 @@ h4 {
 }
 .blanc {
     color: #FFFFFF;
+}
+.ciel {
+    color: #00e8ff;
 }
 button, select {
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;

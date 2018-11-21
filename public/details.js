@@ -7,7 +7,9 @@ function showUnitInfos(unitId) {
     let fatigue = pop[unitIndex].fatigue;
     if (fatigue < 0) {fatigue = 0;};
     let movesLeft = move-fatigue;
-    let hpLeft = pop[unitIndex].hp-pop[unitIndex].damage;
+    let shape = Math.round(movesLeft/(move/2)*100);
+    if (shape > 100) {shape = 100;};
+    let hpLeft = pop[unitIndex].hp-pop[unitIndex].blessures;
     let defense = calcBaseDefense(unitId);
     let attaque = calcBaseAttaque(unitId);
     $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3>');
@@ -24,7 +26,7 @@ function showUnitInfos(unitId) {
     }
     $('#unitInfos').append('<span class="paramName">Attaque</span><span class="paramValue">'+attaque+'&nbsp;/&nbsp;'+pop[unitIndex].attaque+'</span><br>');
     $('#unitInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+defense+'&nbsp;/&nbsp;'+pop[unitIndex].defense+'</span><br>');
-    $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramValue">'+pop[unitIndex].power+'</span><br>');
+    $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
     $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
 };
 function showTileInfos(tileId,linked) {
