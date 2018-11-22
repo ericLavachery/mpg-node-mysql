@@ -34,6 +34,7 @@ function showTileInfos(tileId,linked) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let terMvCost = ter[terrainIndex].moveCost;
+    let terMvCostRoad = ter[terrainIndex].moveCostRoad;
     let terCover = ter[terrainIndex].cover;
     let terDefense = ter[terrainIndex].defense;
     if (perso.mapCarto.includes(tileId)) {
@@ -51,7 +52,11 @@ function showTileInfos(tileId,linked) {
     }
     $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
-    $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+terMvCost+'</span><br>');
+    if (world[tileIndex].flags.includes('road_')) {
+        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+terMvCost+' ('+terMvCostRoad+')</span><br>');
+    } else {
+        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+terMvCost+'</span><br>');
+    }
     $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
     $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
 };

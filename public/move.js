@@ -136,8 +136,19 @@ function calcMoveCost(targetTileId, unitId) {
     let tileIndex = world.findIndex((obj => obj.id == targetTileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let moveCost = ter[terrainIndex].moveCost;
-    // unit move cost
+    let moveCostRoad = ter[terrainIndex].moveCostRoad;
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let oldTileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
+    let oldTileFlags = world[oldTileIndex].flags;
+    let tileFlags = world[tileIndex].flags;
+    if (tileFlags.includes('road_') && oldTileFlags.includes('road_')) {
+        moveCost = ter[terrainIndex].moveCostRoad;
+    } else {
+        if (perso.mapCarto.includes(targetTileId)) {
+            moveCost = Math.round(moveCost*80/100);
+        }
+    }
+    // unit move cost
     let move = pop[unitIndex].move;
     if (move >= 1) {
         let moveAdj = pop[unitIndex].moveAdj;
@@ -145,9 +156,6 @@ function calcMoveCost(targetTileId, unitId) {
         moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
         if (isDiag(unitTileId,targetTileId)) {
             moveCost = Math.round(moveCost*1414/1000);
-        }
-        if (perso.mapCarto.includes(targetTileId)) {
-            moveCost = Math.round(moveCost*80/100);
         }
     } else {
         moveCost = 999;

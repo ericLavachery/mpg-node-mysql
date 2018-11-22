@@ -372,13 +372,12 @@ function cartoTile(tileId,save) {
     }
 };
 function unfogTile(tileId,save,fromMove) {
-    // unfog adjacent tiles if road or river
+    // unfog adjacent tiles if road or river (if fromMove=true)
     let someChanges = false;
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
     let myTileY = world[tileIndex].y;
     let myTileFlags = world[tileIndex].flags;
-    console.log(myTileFlags+' '+fromMove);
     if (fromMove) {
         if (myTileFlags.includes('road_') || myTileFlags.includes('river_')) {
             world.forEach(function(tile) {
