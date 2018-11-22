@@ -145,7 +145,14 @@ function calcMoveCost(targetTileId, unitId) {
         moveCost = ter[terrainIndex].moveCostRoad;
     } else {
         if (perso.mapCarto.includes(targetTileId)) {
+            if (tileFlags.includes('river_')) {
+                moveCost = moveCost+20;
+            }
             moveCost = Math.round(moveCost*80/100);
+        } else {
+            if (tileFlags.includes('river_')) {
+                moveCost = moveCost+40;
+            }
         }
     }
     // unit move cost

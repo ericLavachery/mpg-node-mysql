@@ -38,9 +38,16 @@ function showTileInfos(tileId,linked) {
     let terCover = ter[terrainIndex].cover;
     let terDefense = ter[terrainIndex].defense;
     if (perso.mapCarto.includes(tileId)) {
+        if (world[tileIndex].flags.includes('river_')) {
+            terMvCost = terMvCost+20;
+        }
         terMvCost = Math.round(terMvCost*80/100);
         terCover = Math.round((terCover*110/100)+10);
         terDefense = Math.round((terDefense*110/100)+10);
+    } else {
+        if (world[tileIndex].flags.includes('river_')) {
+            terMvCost = terMvCost+40;
+        }
     }
     if (linked) {
         $('#tileInfos').append('<h3>'+capitalizeFirstLetter(world[tileIndex].terrain)+'</h3>');
