@@ -60,9 +60,9 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
     if (world[tileIndex].flags.includes('road_')) {
-        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+terMvCost+' ('+terMvCostRoad+')</span><br>');
+        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
     } else {
-        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+terMvCost+'</span><br>');
+        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+'</span><br>');
     }
     $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
     $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
