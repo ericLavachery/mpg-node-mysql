@@ -24,11 +24,8 @@ function showMap(wmap) {
     // fill
     wmap.forEach(function(tile) {
         if (perso.mapView.includes(tile.id)) {
-            if (perso.mapCarto.includes(tile.id)) {
-                $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"><i class="far fa-map"></i></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
-            } else {
-                $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
-            }
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            showTileTags(tile.id);
         } else {
             $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
         }
@@ -38,10 +35,20 @@ function showTile(tileId,tileTerrain) {
     if ( $('#'+tileId).hasClass('fog') ) {
         $('#'+tileId).removeClass('fog').addClass(tileTerrain);
     }
+    $('#'+tileId).empty().append('<span class="mapNote" id="r'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNote" id="c'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
+    showTileTags(tileId);
+};
+function showTileTags(tileId) {
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let tileFlags = world[tileIndex].flags;
     if (perso.mapCarto.includes(tileId)) {
-        $('#'+tileId).empty().append('<span class="mapNote" id="r'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNote" id="c'+tileId+'"><i class="far fa-map"></i></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
-    } else {
-        $('#'+tileId).empty().append('<span class="mapNote" id="r'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNote" id="c'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
+        $('#c'+tileId).append('<i class="far fa-map karto"></i>');
+    }
+    if (tileFlags.includes('river_')) {
+        $('#r'+tileId).append('<i class="fas fa-water river"></i>');
+    }
+    if (tileFlags.includes('road_')) {
+        $('#r'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
     }
 };
 // infos terrains

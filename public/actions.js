@@ -184,7 +184,7 @@ function explore(free) {
         emitPlayersChange(perso);
         showMovesLeft(tileId, unitId);
     } else {
-        unfogTile(tileId,true);
+        unfogTile(tileId,true,true);
     }
     showUnitInfos(selectedUnit.id);
     showTileInfos(selectedUnit.tileId,true);
@@ -348,7 +348,6 @@ function cartoMoveLoss() {
     return ml;
 };
 function cartoTile(tileId,save) {
-    // montrer les terrains adjacents !!!
     if (!perso.mapCarto.includes(tileId)) {
         perso.mapCarto.push(tileId);
         let tileIndex = world.findIndex((obj => obj.id == tileId));
@@ -361,7 +360,7 @@ function cartoTile(tileId,save) {
             if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
                 if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
                     if (tile.y != myTileY || tile.x != myTileX) {
-                        unfogTile(tile.id,false);
+                        unfogTile(tile.id,false,false);
                     }
                 }
             }
@@ -372,16 +371,42 @@ function cartoTile(tileId,save) {
         }
     }
 };
-function unfogTile(tileId,save) {
-    // montrer les routes et rivières adjacentes !!!
+function unfogTile(tileId,save,fromMove) {
+    // unfog adjacent tiles if road or river
+    let someChanges = false;
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let myTileX = world[tileIndex].x;
+    let myTileY = world[tileIndex].y;
+    let myTileFlags = world[tileIndex].flags;
+    console.log(myTileFlags+' '+fromMove);
+    if (fromMove) {
+        if (myTileFlags.includes('road_') || myTileFlags.includes('river_')) {
+            world.forEach(function(tile) {
+                if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+                    if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                        if (tile.y != myTileY || tile.x != myTileX) {
+                            if (myTileFlags.includes('road_') && tile.flags.includes('road_')) {
+                                someChanges = true;
+                                unfogTile(tile.id,false,false);
+                            } else if (myTileFlags.includes('river_') && tile.flags.includes('river_')) {
+                                someChanges = true;
+                                unfogTile(tile.id,false,false);
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+    }
     if (!perso.mapView.includes(tileId)) {
         perso.mapView.push(tileId);
-        if (save) {
-            emitPlayersChange(perso);
-        }
-        let tileIndex = world.findIndex((obj => obj.id == tileId));
+        someChanges = true;
         let tileTerrain = world[tileIndex].terrain;
         showTile(tileId,tileTerrain);
+    }
+    if (save && someChanges) {
+        emitPlayersChange(perso);
     }
 };
 function attack() {

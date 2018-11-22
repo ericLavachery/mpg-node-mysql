@@ -75,7 +75,7 @@ function moveGroup(targetTileId) {
                 socket.emit('move_unit', {tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
             }
         });
-        unfogTile(targetTileId,true);
+        unfogTile(targetTileId,true,true);
         // draw on new tile
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // réaffiche les infos
@@ -114,7 +114,7 @@ function moveUnit(targetTileId) {
         // change infos dans pop
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;
-        unfogTile(targetTileId,true);
+        unfogTile(targetTileId,true,true);
         // draw on new tile
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // change infos dans selectedUnit

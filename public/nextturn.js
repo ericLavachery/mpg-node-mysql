@@ -51,7 +51,7 @@ function nextTurn() {
                 if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
                     if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
                         if (tile.y != myTileY || tile.x != myTileX) {
-                            unfogTile(tile.id,false);
+                            unfogTile(tile.id,false,false);
                         }
                     }
                 }

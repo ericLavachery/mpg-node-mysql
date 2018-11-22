@@ -39,12 +39,25 @@ body {
 .mapNote {
     font-size: 11px;
     line-height: 13px;
-    color: rgba(0, 0, 0, 0.6);
+    color: black;
     padding: 2px 0 0 0;
     text-align: center;
     vertical-align: top;
     width: 10px;
     display: inline-block;
+}
+.road {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.karto {
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.river {
+    font-size: 9px;
+    color: #00c2ff;
+    text-shadow: 0 1px black;
 }
 .tileBar {
     color: black;
@@ -191,9 +204,6 @@ h4 {
 }
 .blanc {
     color: #FFFFFF;
-}
-.ciel {
-    color: #00e8ff;
 }
 button, select {
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;
