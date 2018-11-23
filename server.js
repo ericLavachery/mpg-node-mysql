@@ -238,7 +238,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     // MAP CREATE
-    socket.on('add_terrain', function(terrain) {
+    socket.on('add_terrain', function(tile) {
         let lastTile = world[world.length - 1];
         let y = 0;
         let x = 0;
@@ -250,13 +250,13 @@ io.sockets.on('connection', function (socket, pseudo) {
             y = lastTile.y + 1;
             x = lastTile.x;
         }
-        let tile = {id: id, terrain: terrain, x: x, y: y};
+        let tile = {id: id, tile.terrain: tile.terrainId, x: x, y: y};
         world.push(tile);
         // console.log(world);
         socket.emit('new_tile', tile);
         socket.broadcast.emit('new_tile', tile);
         // enregistrer dans la db
-        var sql = "INSERT INTO world (terrain, x, y) VALUES ('" + terrain + "', '" + x + "','" + y + "')";
+        var sql = "INSERT INTO world (terrain, terrainId, x, y) VALUES ('" + tile.terrain + "', '" + tile.terrainId + "', '" + x + "','" + y + "')";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('tile added');

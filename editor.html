@@ -65,11 +65,11 @@
                 $('#zone_map').append('<div id="' + id + '" class="grid-item ' + terrain + '" onclick="changeTerrain(this)">' + x + '.' + y + '</div>');
             }
             // Les boutons du "map editor"
-            $("#plains").click({terrain: "plains"}, addTerrain);
-            $("#forest").click({terrain: "forest"}, addTerrain);
-            $("#hills").click({terrain: "hills"}, addTerrain);
-            $("#swamp").click({terrain: "swamp"}, addTerrain);
-            $("#mountains").click({terrain: "mountains"}, addTerrain);
+            $("#plains").click({terrain: "plains", terrainId: 1}, addTerrain);
+            $("#forest").click({terrain: "forest", terrainId: 2}, addTerrain);
+            $("#hills").click({terrain: "hills", terrainId: 3}, addTerrain);
+            $("#swamp").click({terrain: "swamp", terrainId: 5}, addTerrain);
+            $("#mountains").click({terrain: "mountains", terrainId: 4}, addTerrain);
             // fonction pour rajouter un terrain (pour l'instant, c'est juste le terrain suivant)
             function addTerrain(go){
                 socket.emit('add_terrain', go.data.terrain);
