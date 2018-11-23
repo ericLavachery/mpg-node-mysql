@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Jeu 22 Novembre 2018 à 14:55
+-- Généré le :  Ven 23 Novembre 2018 à 14:40
 -- Version du serveur :  5.7.24-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.32-0ubuntu0.16.04.1
 
@@ -46,7 +46,7 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`) VALUES
-(1, 'Bob', 'Bob', '[]', '[]', '[54, 78, 79, 80, 81, 91, 83, 77, 82, 89, 96, 53]', '[91, 83, 78, 79, 80, 81, 54, 77, 82, 89, 96, 53]', '[56, 41, 42, 43, 28, 58, 72, 70, 87, 102, 101, 74, 89, 73, 86, 40, 26, 27, 55, 11, 25, 54, 69, 71, 39, 85]', '[55]', '[]', '["Zorglub"]', '["Madrigal"]'),
+(1, 'Bob', 'Bob', '[]', '[]', '[54, 78, 79, 80, 81, 91, 83, 77, 82, 89, 96, 53]', '[91, 83, 78, 79, 80, 81, 54, 77, 82, 89, 96, 53]', '[56, 41, 42, 43, 28, 58, 72, 70, 87, 102, 101, 74, 89, 73, 86, 55, 11, 69, 39, 85, 53, 54, 71, 23, 40, 24, 26, 27, 44, 57, 59, 25, 38]', '[55, 39, 58]', '[]', '["Zorglub"]', '["Madrigal"]'),
 (2, 'Zorglub', 'Zorg', '[]', '[]', '[47, 40, 49, 61, 44, 93]', '[47, 40, 49, 61, 44]', '[58, 73, 74, 88, 104, 116, 86, 85, 57, 59, 72, 87, 89, 100, 101, 102, 117, 130, 131, 132, 103, 115]', '[73, 116, 88]', '[]', '["Bob"]', '[]'),
 (3, 'Morpheus', 'Mrph', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]'),
 (4, 'Madrigal', 'Madr', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]');
@@ -82,6 +82,7 @@ CREATE TABLE `pop` (
   `moveAdj` smallint(6) NOT NULL,
   `fatigue` smallint(6) NOT NULL,
   `tileId` int(11) NOT NULL,
+  `prevTileId` int(11) NOT NULL,
   `coverAdj` smallint(6) NOT NULL,
   `follow` int(11) DEFAULT NULL,
   `detection` smallint(6) NOT NULL,
@@ -93,56 +94,56 @@ CREATE TABLE `pop` (
 -- Contenu de la table `pop`
 --
 
-INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `blessures`, `armure`, `esquive`, `parade`, `ammo`, `rapidite`, `actions`, `puissance`, `attaque`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `coverAdj`, `follow`, `detection`, `discretion`, `skills`) VALUES
-(5, 'Zorglub', 'Chamane', 'spy', 'spy', 1, 'demon.png', 3, 15, 190, 0, 20, 6, 8, -1, 40, 1, 6, 15, 20, 45, 150, 0, 74, 75, NULL, 85, 70, ''),
-(11, 'Zorglub', 'Barbares', 'sld', 'sld', 48, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 88, 150, NULL, 65, 45, ''),
-(31, 'Bob', 'Piquiers', 'sld', 'sld', 126, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 72, 100, 2, 65, 35, 'regular_'),
-(38, 'Bob', 'Château', 'bld', 'bld', 1, 'dragon.png', 6, 1, 2000, 0, 120, 0, 0, 100, 40, 1, 8, 0, 20, 0, 100, 0, 41, 0, NULL, 0, 0, 'regular_'),
-(41, 'Bob', 'Piquiers', 'sld', 'sld', 8, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 41, 100, NULL, 65, 35, 'regular_'),
-(42, 'Bob', 'Piquiers', 'sld', 'sld', 13, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 43, 100, NULL, 65, 35, 'regular_'),
-(44, 'Bob', 'Piquiers', 'sld', 'sld', 14, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 74, 100, NULL, 65, 35, 'regular_'),
-(45, 'Bob', 'Espion', 'spy', 'spy', 1, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 42, 150, 3, 100, 120, 'spy_'),
-(47, 'Bob', 'Piquiers', 'sld', 'sld', 15, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 73, 100, NULL, 65, 35, 'regular_'),
-(48, 'Bob', 'Forgeron', 'wrk', 'wrk', 1, 'dragon.png', 6, 1, 18, 0, 20, 6, 8, 100, 40, 1, 3, 3, 6, 60, 100, 0, 41, 100, NULL, 65, 35, ''),
-(50, 'Bob', 'Piquiers', 'sld', 'sld', 13, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 89, 100, NULL, 65, 35, 'regular_'),
-(51, 'Bob', 'Espion', 'spy', 'spy', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 73, 150, NULL, 100, 120, 'spy_'),
-(52, 'Bob', 'Eclaireurs', 'spy', 'spy', 6, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 43, 150, 6, 100, 120, 'undercover_explo_informer_'),
-(53, 'Zorglub', 'Barbares', 'sld', 'sld', 13, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 58, 150, NULL, 65, 45, ''),
-(54, 'Zorglub', 'Pisteur', 'spy', 'spy', 61, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 73, 150, 1, 110, 75, 'undercover_explo_informer_'),
-(55, 'Zorglub', 'Barbares', 'sld', 'sld', 127, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 116, 150, 2, 65, 45, ''),
-(56, 'Bob', 'Espion', 'spy', 'spy', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 43, 150, 6, 100, 120, 'spy_'),
-(58, 'Zorglub', 'Barbares', 'sld', 'sld', 3, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 85, 150, NULL, 65, 45, ''),
-(59, 'Zorglub', 'Barbares', 'sld', 'sld', 1, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 86, 150, NULL, 65, 45, ''),
-(60, 'Bob', 'Piquiers', 'sld', 'sld', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 42, 100, 3, 65, 35, 'regular_'),
-(61, 'Bob', 'Piquiers', 'sld', 'sld', 10, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 72, 100, NULL, 65, 35, 'regular_'),
-(62, 'Bob', 'Piquiers', 'sld', 'sld', 8, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 56, 100, NULL, 65, 35, 'regular_'),
-(63, 'Zorglub', 'Barbares', 'sld', 'sld', 7, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 104, 150, NULL, 65, 45, ''),
-(64, 'Zorglub', 'Barbares', 'sld', 'sld', 30, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 116, 150, 2, 65, 45, ''),
-(65, 'Bob', 'Eclaireurs', 'spy', 'spy', 5, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 70, 150, NULL, 100, 120, 'undercover_explo_informer_'),
-(66, 'Bob', 'Piquiers', 'sld', 'sld', 36, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 86, 100, NULL, 65, 35, 'regular_'),
-(67, 'Bob', 'Piquiers', 'sld', 'sld', 18, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 101, 100, NULL, 65, 35, 'regular_'),
-(68, 'Bob', 'Piquiers', 'sld', 'sld', 60, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 72, 100, 2, 65, 35, 'regular_'),
-(75, 'Bob', 'Espion', 'spy', 'spy', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 87, 150, NULL, 100, 120, 'spy_'),
-(76, 'Bob', 'Espion', 'spy', 'spy', 1, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 28, 150, NULL, 100, 120, 'spy_'),
-(77, 'Zorglub', 'Barbares', 'sld', 'sld', 8, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 74, 150, NULL, 65, 45, ''),
-(78, 'Zorglub', 'Barbares', 'sld', 'sld', 10, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45, ''),
-(79, 'Zorglub', 'Barbares', 'sld', 'sld', 13, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45, ''),
-(80, 'Zorglub', 'Barbares', 'sld', 'sld', 42, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45, ''),
-(81, 'Zorglub', 'Barbares', 'sld', 'sld', 23, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 150, 1, 65, 45, ''),
-(82, 'Zorglub', 'Barbares', 'sld', 'sld', 2, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 150, NULL, 65, 45, ''),
-(83, 'Zorglub', 'Pisteur', 'spy', 'spy', 12, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 73, 150, NULL, 110, 75, 'undercover_explo_informer_'),
-(89, 'Zorglub', 'Pisteur', 'spy', 'spy', 17, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 73, 150, 1, 110, 75, 'undercover_explo_informer_'),
-(90, 'Zorglub', 'Pisteur', 'spy', 'spy', 48, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 88, 150, NULL, 110, 75, 'undercover_explo_informer_'),
-(91, 'Morpheus', 'Piquiers', 'sld', 'sld', 7, 'minotaur.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 58, 100, NULL, 65, 35, 'regular_'),
-(92, 'Morpheus', 'Espion', 'spy', 'spy', 2, 'minotaur.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 43, 150, 6, 100, 120, 'spy_'),
-(93, 'Morpheus', 'Pisteur', 'spy', 'spy', 150, 'minotaur.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 106, 88, 150, NULL, 110, 75, 'undercover_explo_informer_'),
-(94, 'Bob', 'Piquiers', 'sld', 'sld', 6, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 102, 100, NULL, 65, 35, 'regular_'),
-(95, 'Bob', 'Piquiers', 'sld', 'sld', 5, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 70, 100, NULL, 65, 35, 'regular_'),
-(96, 'Morpheus', 'Piquiers', 'sld', 'sld', 3, 'minotaur.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 42, 73, 100, NULL, 65, 35, 'regular_'),
-(97, 'Bob', 'Eclaireurs', 'spy', 'spy', 5, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 58, 150, NULL, 100, 120, 'undercover_explo_informer_'),
-(98, 'Bob', 'Piquiers', 'sld', 'sld', 8, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 41, 100, NULL, 65, 35, 'regular_'),
-(99, 'Bob', 'Piquiers', 'sld', 'sld', 1, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 41, 100, NULL, 65, 35, 'regular_'),
-(100, 'Bob', 'Cartographe', 'wrk', 'wrk', 4, 'dragon.png', 6, 1, 18, 0, 20, 6, 8, 100, 40, 1, 3, 3, 6, 60, 75, 0, 69, 100, NULL, 65, 35, 'carto_');
+INSERT INTO `pop` (`id`, `player`, `type`, `icon`, `cat`, `number`, `pic`, `x`, `y`, `hp`, `blessures`, `armure`, `esquive`, `parade`, `ammo`, `rapidite`, `actions`, `puissance`, `attaque`, `defense`, `move`, `moveAdj`, `fatigue`, `tileId`, `prevTileId`, `coverAdj`, `follow`, `detection`, `discretion`, `skills`) VALUES
+(5, 'Zorglub', 'Chamane', 'spy', 'spy', 1, 'demon.png', 3, 15, 190, 0, 20, 6, 8, -1, 40, 1, 6, 15, 20, 45, 150, 0, 74, 74, 75, NULL, 85, 70, ''),
+(11, 'Zorglub', 'Barbares', 'sld', 'sld', 48, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 88, 88, 150, NULL, 65, 45, ''),
+(31, 'Bob', 'Piquiers', 'sld', 'sld', 126, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 72, 72, 100, 2, 65, 35, 'regular_'),
+(38, 'Bob', 'Château', 'bld', 'bld', 1, 'dragon.png', 6, 1, 2000, 0, 120, 0, 0, 100, 40, 1, 8, 0, 20, 0, 100, 0, 41, 41, 0, NULL, 0, 0, 'regular_'),
+(41, 'Bob', 'Piquiers', 'sld', 'sld', 8, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 41, 41, 100, NULL, 65, 35, 'regular_'),
+(42, 'Bob', 'Piquiers', 'sld', 'sld', 13, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 43, 43, 100, NULL, 65, 35, 'regular_'),
+(44, 'Bob', 'Piquiers', 'sld', 'sld', 14, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 74, 74, 100, NULL, 65, 35, 'regular_'),
+(45, 'Bob', 'Espion', 'spy', 'spy', 1, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 42, 42, 150, 3, 100, 120, 'spy_'),
+(47, 'Bob', 'Piquiers', 'sld', 'sld', 15, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 73, 73, 100, NULL, 65, 35, 'regular_'),
+(48, 'Bob', 'Forgeron', 'wrk', 'wrk', 1, 'dragon.png', 6, 1, 18, 0, 20, 6, 8, 100, 40, 1, 3, 3, 6, 60, 100, 0, 41, 41, 100, NULL, 65, 35, ''),
+(50, 'Bob', 'Piquiers', 'sld', 'sld', 13, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 89, 89, 100, NULL, 65, 35, 'regular_'),
+(51, 'Bob', 'Espion', 'spy', 'spy', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 73, 73, 150, NULL, 100, 120, 'spy_'),
+(52, 'Bob', 'Eclaireurs', 'spy', 'spy', 6, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 43, 43, 150, 6, 100, 120, 'undercover_explo_informer_'),
+(53, 'Zorglub', 'Barbares', 'sld', 'sld', 13, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 58, 58, 150, NULL, 65, 45, ''),
+(54, 'Zorglub', 'Pisteur', 'spy', 'spy', 61, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 73, 73, 150, 1, 110, 75, 'undercover_explo_informer_'),
+(55, 'Zorglub', 'Barbares', 'sld', 'sld', 127, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 116, 116, 150, 2, 65, 45, ''),
+(56, 'Bob', 'Espion', 'spy', 'spy', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 43, 43, 150, 6, 100, 120, 'spy_'),
+(58, 'Zorglub', 'Barbares', 'sld', 'sld', 3, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 85, 85, 150, NULL, 65, 45, ''),
+(59, 'Zorglub', 'Barbares', 'sld', 'sld', 1, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 86, 86, 150, NULL, 65, 45, ''),
+(60, 'Bob', 'Piquiers', 'sld', 'sld', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 42, 42, 100, 3, 65, 35, 'regular_'),
+(61, 'Bob', 'Piquiers', 'sld', 'sld', 10, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 72, 72, 100, NULL, 65, 35, 'regular_'),
+(62, 'Bob', 'Piquiers', 'sld', 'sld', 8, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 56, 56, 100, NULL, 65, 35, 'regular_'),
+(63, 'Zorglub', 'Barbares', 'sld', 'sld', 7, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 104, 104, 150, NULL, 65, 45, ''),
+(64, 'Zorglub', 'Barbares', 'sld', 'sld', 30, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 116, 116, 150, 2, 65, 45, ''),
+(65, 'Bob', 'Eclaireurs', 'spy', 'spy', 5, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 70, 70, 150, NULL, 100, 120, 'undercover_explo_informer_'),
+(66, 'Bob', 'Piquiers', 'sld', 'sld', 36, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 86, 86, 100, NULL, 65, 35, 'regular_'),
+(67, 'Bob', 'Piquiers', 'sld', 'sld', 18, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 101, 101, 100, NULL, 65, 35, 'regular_'),
+(68, 'Bob', 'Piquiers', 'sld', 'sld', 60, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 72, 72, 100, 2, 65, 35, 'regular_'),
+(75, 'Bob', 'Espion', 'spy', 'spy', 2, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 87, 87, 150, NULL, 100, 120, 'spy_'),
+(76, 'Bob', 'Espion', 'spy', 'spy', 1, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 28, 28, 150, NULL, 100, 120, 'spy_'),
+(77, 'Zorglub', 'Barbares', 'sld', 'sld', 8, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 74, 74, 150, NULL, 65, 45, ''),
+(78, 'Zorglub', 'Barbares', 'sld', 'sld', 10, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 73, 150, 1, 65, 45, ''),
+(79, 'Zorglub', 'Barbares', 'sld', 'sld', 13, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 73, 150, 1, 65, 45, ''),
+(80, 'Zorglub', 'Barbares', 'sld', 'sld', 42, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 73, 150, 1, 65, 45, ''),
+(81, 'Zorglub', 'Barbares', 'sld', 'sld', 23, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 73, 150, 1, 65, 45, ''),
+(82, 'Zorglub', 'Barbares', 'sld', 'sld', 2, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 4, 15, 7, 90, 100, 0, 73, 73, 150, NULL, 65, 45, ''),
+(83, 'Zorglub', 'Pisteur', 'spy', 'spy', 12, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 73, 73, 150, NULL, 110, 75, 'undercover_explo_informer_'),
+(89, 'Zorglub', 'Pisteur', 'spy', 'spy', 17, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 73, 73, 150, 1, 110, 75, 'undercover_explo_informer_'),
+(90, 'Zorglub', 'Pisteur', 'spy', 'spy', 48, 'demon.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 0, 88, 88, 150, NULL, 110, 75, 'undercover_explo_informer_'),
+(91, 'Morpheus', 'Piquiers', 'sld', 'sld', 7, 'minotaur.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 58, 58, 100, NULL, 65, 35, 'regular_'),
+(92, 'Morpheus', 'Espion', 'spy', 'spy', 2, 'minotaur.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 43, 43, 150, 6, 100, 120, 'spy_'),
+(93, 'Morpheus', 'Pisteur', 'spy', 'spy', 150, 'minotaur.png', 3, 15, 35, 0, 20, 6, 8, -1, 40, 1, 3, 14, 12, 100, 25, 106, 88, 88, 150, NULL, 110, 75, 'undercover_explo_informer_'),
+(94, 'Bob', 'Piquiers', 'sld', 'sld', 6, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 102, 102, 100, NULL, 65, 35, 'regular_'),
+(95, 'Bob', 'Piquiers', 'sld', 'sld', 5, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 70, 70, 100, NULL, 65, 35, 'regular_'),
+(96, 'Morpheus', 'Piquiers', 'sld', 'sld', 3, 'minotaur.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 42, 73, 73, 100, NULL, 65, 35, 'regular_'),
+(97, 'Bob', 'Eclaireurs', 'spy', 'spy', 5, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 10, 7, 70, 25, 0, 58, 58, 150, NULL, 100, 120, 'undercover_explo_informer_'),
+(98, 'Bob', 'Piquiers', 'sld', 'sld', 8, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 41, 41, 100, NULL, 65, 35, 'regular_'),
+(99, 'Bob', 'Piquiers', 'sld', 'sld', 1, 'dragon.png', 6, 1, 20, 0, 20, 6, 8, 100, 40, 1, 3, 12, 12, 70, 50, 0, 41, 41, 100, NULL, 65, 35, 'regular_'),
+(100, 'Bob', 'Cartographe', 'wrk', 'wrk', 4, 'dragon.png', 6, 1, 18, 0, 20, 6, 8, 100, 40, 1, 3, 3, 6, 60, 75, 0, 39, 39, 100, NULL, 65, 35, 'carto_');
 
 -- --------------------------------------------------------
 
@@ -164,11 +165,11 @@ CREATE TABLE `terrains` (
 --
 
 INSERT INTO `terrains` (`id`, `name`, `moveCost`, `moveCostRoad`, `cover`, `defense`) VALUES
-(1, 'plains', 30, 20, 0, 0),
-(2, 'forest', 45, 25, 50, 15),
-(3, 'hills', 60, 40, 20, 30),
-(4, 'mountains', 140, 90, 40, 60),
-(5, 'swamp', 100, 50, 0, 30);
+(1, 'plaine', 30, 20, 0, 0),
+(2, 'forêt', 45, 25, 50, 15),
+(3, 'collines', 60, 40, 20, 30),
+(4, 'montagnes', 140, 90, 40, 60),
+(5, 'marécages', 100, 50, 0, 30);
 
 -- --------------------------------------------------------
 
