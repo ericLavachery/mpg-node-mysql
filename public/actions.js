@@ -192,17 +192,29 @@ function explore(free) {
 };
 function isDetected(free,detect,unit) {
     // bonus disc CITY !!!
+    // malus disc ROAD !!!
     let discretion = unit.discretion;
     // console.log(unit.number+' '+unit.type);
     // console.log('disc base '+unit.discretion);
+    // TERRAIN COVER ----------------------------------
     let tileIndex = world.findIndex((obj => obj.id == unit.tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let cover = Math.round(unit.coverAdj*ter[terrainIndex].cover/100);
     discretion = discretion+(Math.round(discretion*cover/100));
     // console.log(adj terrain '+discretion);
+    // CARTO ------------------------------------------
     if (perso.mapCarto.includes(unit.tileId)) {
         discretion = Math.round(discretion*115/100);
     }
+    // ROAD -------------------------------------------
+    let prevTileIndex = world.findIndex((obj => obj.id == unit.prevTileId));
+    let prevTileFlags = world[prevTileIndex].flags;
+    let tileFlags = world[tileIndex].flags;
+    if (tileFlags.includes('road_') && prevTileFlags.includes('road_')) {
+        // le bataillon est sur la route
+        discretion = Math.round(discretion/2);
+    }
+    // NUMBER -----------------------------------------
     let adjDisc = Math.round(Math.sqrt(unit.number)*10)-10;
     discretion = discretion-adjDisc;
     // console.log(adj num '+discretion);

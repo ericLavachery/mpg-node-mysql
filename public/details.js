@@ -49,14 +49,15 @@ function showTileInfos(tileId,linked) {
             terMvCost = terMvCost+40;
         }
     }
-    if (linked) {
-        $('#tileInfos').append('<h3>'+capitalizeFirstLetter(world[tileIndex].terrain)+'</h3>');
-    } else {
-        $('#tileInfos').append('<h4>'+capitalizeFirstLetter(world[tileIndex].terrain)+'</h4>');
-    }
+    let showCarto = ''
     if (perso.mapCarto.includes(tileId)) {
-        $('#tileInfos').append('<span class="paramName">Cartographié</span><span class="paramValue">Oui</span><br>');
+        showCarto = '&nbsp; <i class="far fa-map"></i>'
     }
+    let linkH = 'h4'
+    if (linked) {
+        linkH = 'h3';
+    }
+    $('#tileInfos').append('<'+linkH+'>'+capitalizeFirstLetter(world[tileIndex].terrain)+showCarto+'</'+linkH+'>');
     $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
     if (world[tileIndex].flags.includes('road_')) {

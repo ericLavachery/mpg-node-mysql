@@ -22,7 +22,15 @@ function showMap(wmap) {
     // reset
     document.getElementById("zone_map").innerHTML = '';
     // fill
-    wmap.forEach(function(tile) {
+    let minX = xOffset+1;
+    let maxX = xOffset+numVTiles;
+    let minY = yOffset+1;
+    let maxY = yOffset+numHTiles;
+    let visiMap = _.filter(wmap, function(tile) {
+        return (tile.x >= minX && tile.x <= maxX && tile.y >= minY && tile.y <= maxY);
+    });
+    let sortedVisMap = _.sortBy(_.sortBy(visiMap,'y'),'x');
+    sortedVisMap.forEach(function(tile) {
         if (perso.mapView.includes(tile.id)) {
             $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
             showTileTags(tile.id);
