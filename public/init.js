@@ -1,5 +1,5 @@
 let numHTiles = 15;
-let numVTiles = 8;
+let numVTiles = 9;
 let xOffset = 0;
 let yOffset = 0;
 
