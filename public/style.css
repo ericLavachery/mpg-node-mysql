@@ -48,11 +48,13 @@ body {
 }
 .road {
     font-size: 13px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 1);
+    /* text-shadow: 0 1px white; */
 }
 .karto {
     font-size: 11px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 1);
+    /* text-shadow: 0 1px white; */
 }
 .river {
     font-size: 9px;
@@ -79,18 +81,23 @@ body {
 }
 .forest {
     background-color: #1d6b1b;
+    /* background-image: url(/static/img/tiles/woods.png); */
 }
 .plains {
     background-color: #c8b678;
+    /* background-image: url(/static/img/tiles/grass.png); */
 }
 .hills {
     background-color: #a88051;
+    /* background-image: url(/static/img/tiles/hills_low.png); */
 }
 .mountains {
     background-color: #71491a;
+    /* background-image: url(/static/img/tiles/mountains.png); */
 }
 .swamp {
     background-color: #679172;
+    /* background-image: url(/static/img/tiles/swamp.png); */
 }
 .fog {
     background-color: #141414;
