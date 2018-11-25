@@ -1,0 +1,92 @@
+/*
+font-family: 'Raleway', sans-serif;
+font-family: 'Uncial Antiqua', cursive;
+*/
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: black;
+}
+#terrains {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: #a5b896;
+    padding: 8px 8px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #323232;
+    margin: 0 0 5px 0;
+    border-radius: 4px;
+}
+td {
+    text-align: center;
+}
+.colTitle {
+    font-size: 15px;
+    color: #7bbd46;
+}
+.name {
+    color: #4687bd;
+}
+.evi {
+    color: #bd7146;
+}
+.move {
+    color: #bd4682;
+}
+.cover {
+    color: #bdbc46;
+}
+.defense {
+    color: #805ec1;
+}
+.paramName {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+.paramValue {
+    display: inline-block;
+}
+h1 {
+    font-family: 'Uncial Antiqua', cursive;
+    font-weight: normal;
+    font-size: 20px;
+    color: #de0000;
+    margin: 0 0 3px 13px;
+    padding: 0;
+}
+h3 {
+    font-family: 'Uncial Antiqua', cursive;
+    font-weight: normal;
+    font-size: 18px;
+    color: #e000e4;
+    margin: 0;
+    padding: 0px 0px 5px 0px;
+}
+h4 {
+    font-family: 'Uncial Antiqua', cursive;
+    font-weight: normal;
+    font-size: 18px;
+    color: #a5b896;
+    margin: 0;
+    padding: 0px 0px 5px 0px;
+}
+.rouge {
+    color: #de0000;
+}
+.mauve {
+    color: #e000e4;
+}
+.jaune {
+    color: #f1e001;
+}
+.grisf {
+    color: #59664e;
+}
+.gris {
+    color: #a5b896;
+}
+.blanc {
+    color: #FFFFFF;
+}

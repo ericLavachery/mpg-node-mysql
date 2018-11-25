@@ -15,7 +15,8 @@ const numVTiles = 8;
 let pop = [];
 let world = [];
 let ter = [];
-let play = [];
+let players = [];
+let unitTypes = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -44,12 +45,21 @@ db.con.connect(function(error) {
         players = JSON.parse(JSON.stringify(result));
         console.log('players loaded');
     });
+    sql = "SELECT * FROM unitTypes";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        unitTypes = JSON.parse(JSON.stringify(result));
+        console.log('unitTypes loaded');
+    });
 });
 
 // pages statiques dossier public/
 app.use('/static', express.static(__dirname + '/public'));
 
 // router - ouais, on disait...
+app.get('/terrains/', function (req, res) {
+    res.sendFile(__dirname + '/terrains.html');
+});
 app.get('/edit/', function (req, res) {
     res.sendFile(__dirname + '/editor.html');
 });
@@ -81,8 +91,42 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('persoload', perso);
         socket.emit('mapload', world);
         socket.emit('terload', ter);
+        populatePop();
         socket.emit('popload', pop);
     });
+
+    function populatePop() {
+        let pIndex = 0;
+        let uIndex = 0;
+        pop.forEach(function(squad) {
+            pIndex = players.findIndex((obj => obj.pseudo == squad.player));
+            squad.pic = players[pIndex].pic;
+            uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
+            squad.move = unitTypes[uIndex].move;
+            squad.type = unitTypes[uIndex].type;
+            squad.icon = unitTypes[uIndex].icon;
+            squad.cat = unitTypes[uIndex].cat;
+            squad.illu = unitTypes[uIndex].illu;
+            squad.hp = unitTypes[uIndex].hp;
+            squad.armure = unitTypes[uIndex].armure;
+            squad.esquive = unitTypes[uIndex].esquive;
+            squad.parade = unitTypes[uIndex].parade;
+            squad.ammo = unitTypes[uIndex].ammo;
+            squad.rapidite = unitTypes[uIndex].rapidite;
+            squad.actions = unitTypes[uIndex].actions;
+            squad.puissance = unitTypes[uIndex].puissance;
+            squad.attaque = unitTypes[uIndex].attaque;
+            squad.defense = unitTypes[uIndex].defense;
+            squad.move = unitTypes[uIndex].move;
+            squad.moveAdj = unitTypes[uIndex].moveAdj;
+            squad.moveType = unitTypes[uIndex].moveType;
+            squad.coverAdj = unitTypes[uIndex].coverAdj;
+            squad.detection = unitTypes[uIndex].detection;
+            squad.discretion = unitTypes[uIndex].discretion;
+            squad.skills = unitTypes[uIndex].skills;
+        });
+        // console.log(pop);
+    };
 
     // SINGLE PROPERTY POP CHANGE
     socket.on('single_pop_change', function(data) {
