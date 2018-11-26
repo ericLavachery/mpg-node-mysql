@@ -131,7 +131,8 @@ function moveUnit(targetTileId) {
         purgeGroups(targetTileId);
     }
 };
-function terMoveCost(tileId) {
+function terMoveCost(tileId,unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let moveCost = 30;
@@ -140,16 +141,29 @@ function terMoveCost(tileId) {
     moveCost = moveCost+ter[terIndex].moveCostAdj;
     // vegetation
     vegetMoveAdj = Math.round(ter[terIndex].vegetation*ter[terIndex].vegetation/50);
-    moveCost = moveCost+vegetMoveAdj;
+    if (unitId >= 1) {
+        moveCost = moveCost+Math.round(vegetMoveAdj*pop[unitIndex].vegetAdj/100);
+    } else {
+        moveCost = moveCost+vegetMoveAdj;
+    }
     // escarpement
     escarpMoveAdj = Math.round(ter[terIndex].escarpement*ter[terIndex].escarpement/16);
-    moveCost = moveCost+escarpMoveAdj;
+    if (unitId >= 1) {
+        moveCost = moveCost+Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
+    } else {
+        moveCost = moveCost+escarpMoveAdj;
+    }
     // innondation
     innondMoveAdj = ter[terIndex].innondation*2;
-    moveCost = moveCost+innondMoveAdj;
+    if (unitId >= 1) {
+        moveCost = moveCost+Math.round(innondMoveAdj*pop[unitIndex].innondAdj/100);
+    } else {
+        moveCost = moveCost+innondMoveAdj;
+    }
     return moveCost;
 };
-function roadMoveCost(tileId) {
+function roadMoveCost(tileId,unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let moveCostRoad = 20;
@@ -158,23 +172,33 @@ function roadMoveCost(tileId) {
     moveCostRoad = moveCostRoad+Math.round(ter[terIndex].moveCostAdj*70/100);
     // vegetation
     vegetMoveAdj = Math.round(ter[terIndex].vegetation*ter[terIndex].vegetation/50);
+    if (unitId >= 1) {
+        vegetMoveAdj = Math.round(vegetMoveAdj*pop[unitIndex].vegetAdj/100);
+    }
     moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
     // escarpement
     escarpMoveAdj = Math.round(ter[terIndex].escarpement*ter[terIndex].escarpement/16);
+    if (unitId >= 1) {
+        escarpMoveAdj = Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
+    }
     if (escarpMoveAdj >= 10) {
         moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
     }
     // innondation
     innondMoveAdj = ter[terIndex].innondation*2;
+    if (unitId >= 1) {
+        innondMoveAdj = Math.round(innondMoveAdj*pop[unitIndex].innondAdj/100);
+    }
     moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
     return moveCostRoad;
 };
 function calcMoveCost(targetTileId, unitId) {
+    // voir le moveCost a utiliser en fonction de moveType (ter,air,alt...)
     // tile move cost
     let tileIndex = world.findIndex((obj => obj.id == targetTileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let moveCost = terMoveCost(targetTileId);
-    let moveCostRoad = roadMoveCost(targetTileId);
+    let moveCost = terMoveCost(targetTileId, unitId);
+    let moveCostRoad = roadMoveCost(targetTileId, unitId);
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let oldTileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
     let oldTileFlags = world[oldTileIndex].flags;

@@ -33,10 +33,10 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let terMvCost = terMoveCost(tileId);
-    let terMvCostRoad = roadMoveCost(tileId);
-    let terCover = ter[terrainIndex].cover;
-    let terDefense = ter[terrainIndex].defense;
+    let terMvCost = terMoveCost(tileId,0);
+    let terMvCostRoad = roadMoveCost(tileId,0);
+    let terCover = calcTerCover(tileId);
+    let terDefense = calcTerDefense(tileId);
     if (perso.mapCarto.includes(tileId)) {
         if (world[tileIndex].flags.includes('river_')) {
             terMvCost = terMvCost+20;

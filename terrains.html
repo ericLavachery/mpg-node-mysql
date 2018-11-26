@@ -27,7 +27,7 @@
             terrainsTable();
         });
         function terrainsTable() {
-            $('#terTable').append('<tr><td class="colTitle">Terrain</td><td class="colTitle">Escarp</td><td class="colTitle">Veget</td><td class="colTitle">Innond</td><td>MoveCost</td><td class="colTitle">MoveCost</td><td class="colTitle">Road</td><td>Cover</td><td class="colTitle">Cover</td><td>Defense</td><td class="colTitle">Defense</td></tr>');
+            $('#terTable').append('<tr><td class="colTitle">Terrain</td><td class="colTitle">Escarp</td><td class="colTitle">Veget</td><td class="colTitle">Innond</td><td class="colTitle">MoveCost</td><td class="colTitle">Road</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
             let moveCost = 30;
             let moveCostRoad = 20;
             let vegetMoveAdj = 0;
@@ -74,7 +74,7 @@
                 if (biome.innondation >= 10) {
                     defense = defense+Math.round((biome.innondation-5)*4/5);
                 }
-                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="move soft">'+biome.moveCost+'</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover soft">'+biome.cover+'</td><td class="cover">'+cover+'</td><td class="defense soft">'+biome.defense+'</td><td class="defense">'+defense+'</td></tr>');
+                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
             });
         };
         </script>

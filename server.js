@@ -121,6 +121,9 @@ io.sockets.on('connection', function (socket, pseudo) {
             squad.moveAdj = unitTypes[uIndex].moveAdj;
             squad.moveType = unitTypes[uIndex].moveType;
             squad.coverAdj = unitTypes[uIndex].coverAdj;
+            squad.escarpAdj = unitTypes[uIndex].escarpAdj;
+            squad.innondAdj = unitTypes[uIndex].innondAdj;
+            squad.vegetAdj = unitTypes[uIndex].vegetAdj;
             squad.detection = unitTypes[uIndex].detection;
             squad.discretion = unitTypes[uIndex].discretion;
             squad.skills = unitTypes[uIndex].skills;
