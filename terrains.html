@@ -19,27 +19,8 @@
         <script src="/socket.io/socket.io.js"></script>
         <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> -->
         <script src="/static/libs/underscore-min.js"></script>
+        <script src="/static/baseinit.js"></script>
         <script type="text/javascript">
-        // Connexion à socket.io
-        var socket = io.connect('http://localhost:8080', {'sync disconnect on unload': true});
-        let pseudo = new URLSearchParams(document.location.search).get("pseudo");
-        if (pseudo != '' && pseudo != null && pseudo != undefined) {
-            connectMe(pseudo);
-        } else {
-            pseudo = 'anonymous';
-        }
-        function promptMe() {
-            // On demande le pseudo, on l'envoie au serveur
-            pseudo = prompt('Quel est votre pseudo ?');
-            if (pseudo == '' || pseudo == null || pseudo == undefined) {
-                pseudo = 'anonymous';
-                socket.disconnect();
-            }
-            connectMe(pseudo);
-        }
-        function connectMe(pseudo) {
-            socket.emit('newcli', pseudo);
-        }
         let ter = [];
         socket.on('terload', function(wter) {
             ter = wter;
@@ -57,10 +38,17 @@
                 defense = 0;
                 // vegetation
                 moveCost = moveCost+Math.round(biome.vegetation*biome.vegetation/50);
+                defense = defense+Math.round(biome.vegetation*biome.vegetation/123);
                 // escarpement
                 moveCost = moveCost+Math.round(biome.escarpement*biome.escarpement/16);
+                if (biome.escarpement >= 15) {
+                    defense = defense+Math.round((biome.escarpement-10)*5/4)+1;
+                }
                 // innondation
                 moveCost = moveCost+(biome.innondation*2);
+                if (biome.innondation >= 10) {
+                    defense = defense+Math.round((biome.innondation-5)*4/5);
+                }
                 $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="move">'+biome.moveCost+'</td><td class="move">'+moveCost+'</td><td class="cover">'+biome.cover+'</td><td class="cover">'+cover+'</td><td class="defense">'+biome.defense+'</td><td class="defense">'+defense+'</td></tr>');
             });
         };
