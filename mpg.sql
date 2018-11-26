@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Lun 26 Novembre 2018 à 15:32
--- Version du serveur :  5.7.24-0ubuntu0.16.04.1
--- Version de PHP :  7.0.32-0ubuntu0.16.04.1
+-- Host: localhost:3306
+-- Generation Time: Nov 26, 2018 at 09:28 PM
+-- Server version: 5.7.24-0ubuntu0.18.04.1
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `mpg`
+-- Database: `mpg`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `players`
+-- Table structure for table `players`
 --
 
 CREATE TABLE `players` (
@@ -43,19 +43,19 @@ CREATE TABLE `players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `players`
+-- Dumping data for table `players`
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`) VALUES
-(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 78, 79, 80, 81, 91, 83, 77, 82, 89, 96, 53]', '[91, 83, 78, 79, 80, 81, 54, 77, 82, 89, 96, 53]', '[56, 41, 42, 43, 28, 58, 72, 70, 87, 102, 101, 74, 89, 73, 86, 55, 11, 39, 53, 54, 71, 23, 40, 24, 26, 44, 57, 59, 25, 38, 69, 10, 9]', '[55, 39, 58]', '[]', '["Zorglub"]', '["Madrigal"]'),
-(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 44, 93]', '[47, 40, 49, 61, 44]', '[58, 73, 74, 88, 104, 116, 86, 85, 57, 59, 72, 87, 89, 100, 101, 102, 117, 130, 131, 132, 103, 115]', '[73, 116, 88]', '[]', '["Bob"]', '[]'),
+(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 78, 79, 80, 81, 91, 83, 77, 82, 89, 96, 53]', '[91, 83, 78, 79, 80, 81, 54, 77, 82, 89, 96, 53]', '[56, 41, 42, 43, 28, 58, 72, 70, 87, 102, 101, 74, 89, 73, 86, 55, 11, 39, 53, 54, 71, 23, 40, 24, 26, 44, 57, 59, 25, 38, 69, 10, 9, 27]', '[55, 39, 58]', '[]', '[\"Zorglub\"]', '[\"Madrigal\"]'),
+(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 44, 93]', '[47, 40, 49, 61, 44]', '[58, 73, 74, 88, 104, 116, 86, 85, 57, 59, 72, 87, 89, 100, 101, 102, 117, 130, 131, 132, 103, 115]', '[73, 116, 88]', '[]', '[\"Bob\"]', '[]'),
 (3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]'),
-(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]');
+(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[\"Zorglub\"]', '[\"Bob\"]');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pop`
+-- Table structure for table `pop`
 --
 
 CREATE TABLE `pop` (
@@ -74,7 +74,7 @@ CREATE TABLE `pop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `pop`
+-- Dumping data for table `pop`
 --
 
 INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessures`, `fatigue`, `tileId`, `prevTileId`, `follow`) VALUES
@@ -131,22 +131,17 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 -- --------------------------------------------------------
 
 --
--- Structure de la table `terrains`
+-- Table structure for table `terrains`
 --
 
 CREATE TABLE `terrains` (
   `id` tinyint(4) NOT NULL,
   `name` varchar(20) COLLATE utf8_bin NOT NULL,
   `moveCostAdj` tinyint(4) NOT NULL,
-  `moveCost` smallint(6) NOT NULL,
-  `moveCostRoad` smallint(6) NOT NULL,
   `moveCostCab` smallint(6) NOT NULL,
   `moveCostMix` smallint(6) NOT NULL,
   `moveCostMer` smallint(6) NOT NULL,
   `moveCostAir` smallint(6) NOT NULL,
-  `moveCostAlt` smallint(6) NOT NULL,
-  `cover` smallint(6) NOT NULL,
-  `defense` smallint(6) NOT NULL,
   `escarpement` tinyint(4) NOT NULL,
   `vegetation` tinyint(4) NOT NULL,
   `innondation` tinyint(4) NOT NULL,
@@ -156,64 +151,64 @@ CREATE TABLE `terrains` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `terrains`
+-- Dumping data for table `terrains`
 --
 
-INSERT INTO `terrains` (`id`, `name`, `moveCostAdj`, `moveCost`, `moveCostRoad`, `moveCostCab`, `moveCostMix`, `moveCostMer`, `moveCostAir`, `moveCostAlt`, `cover`, `defense`, `escarpement`, `vegetation`, `innondation`, `humidite`, `tempMin`, `tempMax`) VALUES
-(1, 'plaine', 0, 30, 20, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0),
-(2, 'forêt mixte', 0, 45, 25, 0, 0, 0, 0, 0, 50, 15, 10, 35, 0, 0, 0, 0),
-(3, 'collines arides', 0, 50, 35, 0, 0, 0, 0, 0, 20, 30, 25, 5, 0, 0, 0, 0),
-(4, 'montagnes', 0, 140, 90, 0, 0, 0, 0, 0, 40, 60, 40, 10, 0, 0, 0, 0),
-(5, 'marécages', 0, 100, 50, 0, 0, 0, 0, 0, 0, 30, 0, 10, 35, 0, 0, 0),
-(6, 'prairie', 0, 35, 20, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0),
-(7, 'pâturages', 0, 35, 20, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0),
-(8, 'steppe', 0, 30, 20, 0, 0, 0, 0, 0, 0, 0, 10, 5, 0, 0, 0, 0),
-(9, 'tundra', 0, 30, 20, 0, 0, 0, 0, 0, 0, 0, 10, 5, 0, 0, 0, 0),
-(10, 'pampa', 0, 30, 20, 0, 0, 0, 0, 0, 0, 0, 10, 5, 0, 0, 0, 0),
-(11, 'veld', 0, 35, 20, 0, 0, 0, 0, 0, 10, 0, 0, 10, 0, 0, 0, 0),
-(12, 'savane', 0, 35, 20, 0, 0, 0, 0, 0, 10, 0, 0, 10, 0, 0, 0, 0),
-(13, 'banquise', 20, 50, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(14, 'désert polaire', 0, 30, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(15, 'désert de sable', 25, 70, 35, 0, 0, 0, 0, 0, 10, 0, 15, 0, 0, 0, 0, 0),
-(26, 'oasis', 25, 70, 35, 0, 0, 0, 0, 0, 25, 15, 0, 25, 0, 0, 0, 0),
-(27, 'haut plateau', 0, 30, 20, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0),
-(28, 'fagne', 0, 80, 45, 0, 0, 0, 0, 0, 10, 25, 0, 20, 25, 0, 0, 0),
-(29, 'pantanal', 0, 90, 50, 0, 0, 0, 0, 0, 0, 25, 0, 5, 50, 0, 0, 0),
-(30, 'pré-salé', 0, 90, 50, 0, 0, 0, 0, 0, 0, 25, 0, 10, 40, 0, 0, 0),
-(31, 'tourbière', 0, 110, 50, 0, 0, 0, 0, 0, 10, 30, 0, 20, 35, 0, 0, 0),
-(32, 'palud', 0, 120, 60, 0, 0, 0, 0, 0, 50, 35, 0, 30, 40, 0, 0, 0),
-(33, 'bayou', 0, 130, 65, 0, 0, 0, 0, 0, 55, 35, 0, 30, 50, 0, 0, 0),
-(34, 'mangrove', 0, 140, 70, 0, 0, 0, 0, 0, 65, 35, 0, 40, 50, 0, 0, 0),
-(35, 'futaie', 0, 40, 20, 0, 0, 0, 0, 0, 35, 10, 10, 30, 0, 0, 0, 0),
-(36, 'pinède', 0, 45, 25, 0, 0, 0, 0, 0, 50, 15, 10, 30, 0, 0, 0, 0),
-(37, 'taïga', 0, 45, 25, 0, 0, 0, 0, 0, 50, 15, 15, 30, 0, 0, 0, 0),
-(38, 'forêt sèche', 0, 55, 25, 0, 0, 0, 0, 0, 55, 15, 10, 35, 0, 0, 0, 0),
-(39, 'jungle', 0, 80, 30, 0, 0, 0, 0, 0, 65, 15, 10, 50, 0, 0, 0, 0),
-(40, 'laurisylve', 0, 155, 95, 0, 0, 0, 0, 0, 60, 50, 30, 35, 0, 0, 0, 0),
-(41, 'forêt de nuages', 0, 170, 100, 0, 0, 0, 0, 0, 75, 50, 30, 50, 0, 0, 0, 0),
-(42, 'inlandsis', 20, 50, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(43, 'lande', 0, 35, 20, 0, 0, 0, 0, 0, 20, 0, 10, 20, 0, 0, 0, 0),
-(44, 'bush', 0, 35, 20, 0, 0, 0, 0, 0, 20, 0, 10, 20, 0, 0, 0, 0),
-(45, 'garrigue', 0, 35, 20, 0, 0, 0, 0, 0, 20, 0, 10, 20, 0, 0, 0, 0),
-(46, 'brousse', 0, 35, 20, 0, 0, 0, 0, 0, 25, 0, 15, 20, 0, 0, 0, 0),
-(47, 'maquis', 0, 60, 35, 0, 0, 0, 0, 0, 35, 30, 20, 20, 0, 0, 0, 0),
-(48, 'chaparral', 0, 55, 35, 0, 0, 0, 0, 0, 25, 30, 20, 20, 0, 0, 0, 0),
-(49, 'miombo', 0, 60, 35, 0, 0, 0, 0, 0, 35, 30, 20, 25, 0, 0, 0, 0),
-(50, 'caatinga', 0, 70, 35, 0, 0, 0, 0, 0, 40, 30, 20, 30, 0, 0, 0, 0),
-(51, 'piémont', 0, 55, 35, 0, 0, 0, 0, 0, 25, 30, 25, 15, 0, 0, 0, 0),
-(52, 'mer', 0, 999, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
-(53, 'lac', 0, 999, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
-(54, 'océan', 0, 999, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
-(55, 'récifs', 0, 999, 999, 0, 0, 0, 0, 0, 30, 20, 0, 10, 80, 0, 0, 0),
-(56, 'abysses', 0, 999, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
-(57, 'neiges éternelles', 0, 180, 120, 0, 0, 0, 0, 0, 40, 70, 50, 0, 0, 0, 0, 0),
-(58, 'collines boisées', 0, 75, 40, 0, 0, 0, 0, 0, 50, 35, 25, 30, 0, 0, 0, 0),
-(59, 'collines vertes', 0, 50, 35, 0, 0, 0, 0, 0, 20, 30, 25, 10, 0, 0, 0, 0);
+INSERT INTO `terrains` (`id`, `name`, `moveCostAdj`, `moveCostCab`, `moveCostMix`, `moveCostMer`, `moveCostAir`, `escarpement`, `vegetation`, `innondation`, `humidite`, `tempMin`, `tempMax`) VALUES
+(1, 'plaine', 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0),
+(2, 'forêt mixte', 0, 0, 0, 0, 0, 10, 35, 0, 0, 0, 0),
+(3, 'collines arides', 0, 0, 0, 0, 0, 25, 5, 0, 0, 0, 0),
+(4, 'montagnes', 0, 0, 0, 0, 0, 40, 10, 0, 0, 0, 0),
+(5, 'marécages', 0, 0, 0, 0, 0, 0, 10, 35, 0, 0, 0),
+(6, 'prairie', 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0),
+(7, 'pâturages', 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0),
+(8, 'steppe', 0, 0, 0, 0, 0, 10, 5, 0, 0, 0, 0),
+(9, 'tundra', 0, 0, 0, 0, 0, 10, 5, 0, 0, 0, 0),
+(10, 'pampa', 0, 0, 0, 0, 0, 10, 5, 0, 0, 0, 0),
+(11, 'veld', 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0),
+(12, 'savane', 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0),
+(13, 'banquise', 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(14, 'désert polaire', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(15, 'désert de sable', 25, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0),
+(26, 'oasis', 25, 0, 0, 0, 0, 0, 25, 0, 0, 0, 0),
+(27, 'haut plateau', 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0),
+(28, 'fagne', 0, 0, 0, 0, 0, 0, 20, 25, 0, 0, 0),
+(29, 'pantanal', 0, 0, 0, 0, 0, 0, 5, 50, 0, 0, 0),
+(30, 'pré-salé', 0, 0, 0, 0, 0, 0, 10, 40, 0, 0, 0),
+(31, 'tourbière', 0, 0, 0, 0, 0, 0, 20, 35, 0, 0, 0),
+(32, 'palud', 0, 0, 0, 0, 0, 0, 30, 40, 0, 0, 0),
+(33, 'bayou', 0, 0, 0, 0, 0, 0, 30, 50, 0, 0, 0),
+(34, 'mangrove', 0, 0, 0, 0, 0, 0, 40, 50, 0, 0, 0),
+(35, 'futaie', 0, 0, 0, 0, 0, 10, 30, 0, 0, 0, 0),
+(36, 'pinède', 0, 0, 0, 0, 0, 10, 30, 0, 0, 0, 0),
+(37, 'taïga', 0, 0, 0, 0, 0, 15, 30, 0, 0, 0, 0),
+(38, 'forêt sèche', 0, 0, 0, 0, 0, 10, 35, 0, 0, 0, 0),
+(39, 'jungle', 0, 0, 0, 0, 0, 10, 50, 0, 0, 0, 0),
+(40, 'laurisylve', 0, 0, 0, 0, 0, 30, 35, 0, 0, 0, 0),
+(41, 'forêt de nuages', 0, 0, 0, 0, 0, 30, 50, 0, 0, 0, 0),
+(42, 'inlandsis', 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(43, 'lande', 0, 0, 0, 0, 0, 10, 20, 0, 0, 0, 0),
+(44, 'bush', 0, 0, 0, 0, 0, 10, 20, 0, 0, 0, 0),
+(45, 'garrigue', 0, 0, 0, 0, 0, 10, 20, 0, 0, 0, 0),
+(46, 'brousse', 0, 0, 0, 0, 0, 15, 20, 0, 0, 0, 0),
+(47, 'maquis', 0, 0, 0, 0, 0, 20, 20, 0, 0, 0, 0),
+(48, 'chaparral', 0, 0, 0, 0, 0, 20, 20, 0, 0, 0, 0),
+(49, 'miombo', 0, 0, 0, 0, 0, 20, 25, 0, 0, 0, 0),
+(50, 'caatinga', 0, 0, 0, 0, 0, 20, 30, 0, 0, 0, 0),
+(51, 'piémont', 0, 0, 0, 0, 0, 25, 15, 0, 0, 0, 0),
+(52, 'mer', 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
+(53, 'lac', 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
+(54, 'océan', 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
+(55, 'récifs', 0, 0, 0, 0, 0, 0, 10, 80, 0, 0, 0),
+(56, 'abysses', 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0),
+(57, 'neiges éternelles', 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0),
+(58, 'collines boisées', 0, 0, 0, 0, 0, 25, 30, 0, 0, 0, 0),
+(59, 'collines vertes', 0, 0, 0, 0, 0, 25, 10, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `unitTypes`
+-- Table structure for table `unitTypes`
 --
 
 CREATE TABLE `unitTypes` (
@@ -235,6 +230,9 @@ CREATE TABLE `unitTypes` (
   `move` smallint(6) NOT NULL,
   `moveAdj` smallint(6) NOT NULL,
   `moveType` enum('ter','air','alt','cab','mix','mer') COLLATE utf8_bin NOT NULL,
+  `escarpAdj` smallint(6) NOT NULL DEFAULT '100',
+  `innondAdj` smallint(6) NOT NULL DEFAULT '100',
+  `vegetAdj` smallint(6) NOT NULL DEFAULT '100',
   `coverAdj` smallint(6) NOT NULL,
   `detection` smallint(6) NOT NULL,
   `discretion` smallint(6) NOT NULL,
@@ -242,24 +240,24 @@ CREATE TABLE `unitTypes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `unitTypes`
+-- Dumping data for table `unitTypes`
 --
 
-INSERT INTO `unitTypes` (`id`, `type`, `icon`, `cat`, `illu`, `hp`, `armure`, `esquive`, `parade`, `ammo`, `rapidite`, `actions`, `puissance`, `attaque`, `defense`, `move`, `moveAdj`, `moveType`, `coverAdj`, `detection`, `discretion`, `skills`) VALUES
-(1, 'Barbares', 'sld', 'sld', NULL, 10, 20, 8, 8, -1, 40, 3, 6, 15, 10, 70, 50, 'ter', 150, 65, 45, ''),
-(2, 'Piquiers', 'sld', 'sld', NULL, 10, 35, 6, 9, -1, 35, 3, 5, 10, 12, 60, 100, 'ter', 75, 60, 25, 'pole_regular_'),
-(3, 'Pisteurs', 'spy', 'spy', NULL, 10, 20, 9, 7, -1, 45, 3, 5, 12, 10, 70, 30, 'ter', 150, 110, 85, 'undercover_explo_informer_'),
-(4, 'Forgeron', 'wrk', 'wrk', NULL, 10, 10, 5, 5, -1, 30, 3, 6, 5, 6, 60, 100, 'ter', 50, 60, 25, ''),
-(5, 'Chamane', 'spy', 'spy', NULL, 10, 20, 8, 5, -1, 40, 3, 5, 10, 13, 70, 50, 'ter', 150, 75, 75, ''),
-(6, 'Eclaireurs', 'spy', 'spy', NULL, 8, 15, 7, 5, -1, 45, 3, 4, 6, 7, 70, 30, 'ter', 150, 120, 120, 'undercover_explo_informer_'),
-(7, 'Espion', 'spy', 'spy', NULL, 8, 10, 9, 5, -1, 55, 3, 4, 5, 5, 70, 50, 'ter', 120, 150, 150, 'spy_'),
-(8, 'Cartographe', 'wrk', 'wrk', NULL, 8, 10, 4, 3, -1, 30, 3, 3, 4, 5, 65, 50, 'ter', 100, 80, 30, 'carto_'),
-(9, 'Château', 'bld', 'bld', NULL, 2000, 120, 0, 0, -1, 20, 3, 10, 0, 15, 0, 100, 'ter', 0, 80, 0, 'regular_');
+INSERT INTO `unitTypes` (`id`, `type`, `icon`, `cat`, `illu`, `hp`, `armure`, `esquive`, `parade`, `ammo`, `rapidite`, `actions`, `puissance`, `attaque`, `defense`, `move`, `moveAdj`, `moveType`, `escarpAdj`, `innondAdj`, `vegetAdj`, `coverAdj`, `detection`, `discretion`, `skills`) VALUES
+(1, 'Barbares', 'sld', 'sld', NULL, 10, 20, 8, 8, -1, 40, 3, 6, 15, 10, 70, 50, 'ter', 100, 100, 100, 150, 65, 45, ''),
+(2, 'Piquiers', 'sld', 'sld', NULL, 10, 35, 6, 9, -1, 35, 3, 5, 10, 12, 60, 100, 'ter', 100, 100, 100, 75, 60, 25, 'pole_regular_'),
+(3, 'Pisteurs', 'spy', 'spy', NULL, 10, 20, 9, 7, -1, 45, 3, 5, 12, 10, 70, 30, 'ter', 100, 100, 100, 150, 110, 85, 'undercover_explo_informer_'),
+(4, 'Forgeron', 'wrk', 'wrk', NULL, 10, 10, 5, 5, -1, 30, 3, 6, 5, 6, 60, 100, 'ter', 100, 100, 100, 50, 60, 25, ''),
+(5, 'Chamane', 'spy', 'spy', NULL, 10, 20, 8, 5, -1, 40, 3, 5, 10, 13, 70, 50, 'ter', 100, 100, 100, 150, 75, 75, ''),
+(6, 'Eclaireurs', 'spy', 'spy', NULL, 8, 15, 7, 5, -1, 45, 3, 4, 6, 7, 70, 30, 'ter', 100, 100, 100, 150, 120, 120, 'undercover_explo_informer_'),
+(7, 'Espion', 'spy', 'spy', NULL, 8, 10, 9, 5, -1, 55, 3, 4, 5, 5, 70, 50, 'ter', 100, 100, 100, 120, 150, 150, 'spy_'),
+(8, 'Cartographe', 'wrk', 'wrk', NULL, 8, 10, 4, 3, -1, 30, 3, 3, 4, 5, 65, 50, 'ter', 100, 100, 100, 100, 80, 30, 'carto_'),
+(9, 'Château', 'bld', 'bld', NULL, 2000, 120, 0, 0, -1, 20, 3, 10, 0, 15, 0, 100, 'ter', 100, 100, 100, 0, 80, 0, 'regular_');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `world`
+-- Table structure for table `world`
 --
 
 CREATE TABLE `world` (
@@ -272,7 +270,7 @@ CREATE TABLE `world` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `world`
+-- Dumping data for table `world`
 --
 
 INSERT INTO `world` (`id`, `terrain`, `flags`, `terrainId`, `x`, `y`) VALUES
@@ -413,11 +411,11 @@ INSERT INTO `world` (`id`, `terrain`, `flags`, `terrainId`, `x`, `y`) VALUES
 (135, 'plains', '', 1, 9, 15);
 
 --
--- Index pour les tables exportées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `players`
+-- Indexes for table `players`
 --
 ALTER TABLE `players`
   ADD PRIMARY KEY (`id`),
@@ -426,14 +424,14 @@ ALTER TABLE `players`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Index pour la table `pop`
+-- Indexes for table `pop`
 --
 ALTER TABLE `pop`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Index pour la table `terrains`
+-- Indexes for table `terrains`
 --
 ALTER TABLE `terrains`
   ADD PRIMARY KEY (`id`),
@@ -441,7 +439,7 @@ ALTER TABLE `terrains`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Index pour la table `unitTypes`
+-- Indexes for table `unitTypes`
 --
 ALTER TABLE `unitTypes`
   ADD PRIMARY KEY (`id`),
@@ -449,38 +447,38 @@ ALTER TABLE `unitTypes`
   ADD UNIQUE KEY `type` (`type`);
 
 --
--- Index pour la table `world`
+-- Indexes for table `world`
 --
 ALTER TABLE `world`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `players`
+-- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT pour la table `pop`
+-- AUTO_INCREMENT for table `pop`
 --
 ALTER TABLE `pop`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
--- AUTO_INCREMENT pour la table `terrains`
+-- AUTO_INCREMENT for table `terrains`
 --
 ALTER TABLE `terrains`
   MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
--- AUTO_INCREMENT pour la table `unitTypes`
+-- AUTO_INCREMENT for table `unitTypes`
 --
 ALTER TABLE `unitTypes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT pour la table `world`
+-- AUTO_INCREMENT for table `world`
 --
 ALTER TABLE `world`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
