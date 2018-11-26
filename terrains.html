@@ -39,10 +39,16 @@
                 // vegetation
                 moveCost = moveCost+Math.round(biome.vegetation*biome.vegetation/50);
                 defense = defense+Math.round(biome.vegetation*biome.vegetation/123);
+                if (biome.vegetation >= 35) {
+                    cover = cover+biome.vegetation+15;
+                } else if (biome.vegetation >= 15) {
+                    cover = cover+Math.round((biome.vegetation+5)*(biome.vegetation+5)/32);
+                }
                 // escarpement
                 moveCost = moveCost+Math.round(biome.escarpement*biome.escarpement/16);
                 if (biome.escarpement >= 15) {
                     defense = defense+Math.round((biome.escarpement-10)*5/4)+1;
+                    cover = cover+Math.round(Math.sqrt(biome.escarpement-15)*5);
                 }
                 // innondation
                 moveCost = moveCost+(biome.innondation*2);
