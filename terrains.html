@@ -27,17 +27,30 @@
             terrainsTable();
         });
         function terrainsTable() {
-            $('#terTable').append('<tr><td class="colTitle">Terrain</td><td class="colTitle">Escarp</td><td class="colTitle">Veget</td><td class="colTitle">Innond</td><td class="colTitle">MoveCost</td><td class="colTitle">MoveCost</td><td class="colTitle">Cover</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td><td class="colTitle">Defense</td></tr>');
+            $('#terTable').append('<tr><td class="colTitle">Terrain</td><td class="colTitle">Escarp</td><td class="colTitle">Veget</td><td class="colTitle">Innond</td><td>MoveCost</td><td class="colTitle">MoveCost</td><td class="colTitle">Road</td><td>Cover</td><td class="colTitle">Cover</td><td>Defense</td><td class="colTitle">Defense</td></tr>');
             let moveCost = 30;
+            let moveCostRoad = 20;
+            let vegetMoveAdj = 0;
+            let innondMoveAdj = 0;
+            let escarpMoveAdj = 0;
             let cover = 0;
             let defense = 0;
             let sortedTer = _.sortBy(_.sortBy(_.sortBy(ter,'vegetation'),'escarpement'),'innondation');
             sortedTer.forEach(function(biome) {
                 moveCost = 30;
+                moveCostRoad = 20;
+                vegetMoveAdj = 0;
+                innondMoveAdj = 0;
+                escarpMoveAdj = 0;
                 cover = 0;
                 defense = 0;
+                // justement terrain
+                moveCost = moveCost+biome.moveCostAdj;
+                moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*70/100);
                 // vegetation
-                moveCost = moveCost+Math.round(biome.vegetation*biome.vegetation/50);
+                vegetMoveAdj = Math.round(biome.vegetation*biome.vegetation/50);
+                moveCost = moveCost+vegetMoveAdj;
+                moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
                 defense = defense+Math.round(biome.vegetation*biome.vegetation/123);
                 if (biome.vegetation >= 35) {
                     cover = cover+biome.vegetation+15;
@@ -45,17 +58,23 @@
                     cover = cover+Math.round((biome.vegetation+5)*(biome.vegetation+5)/32);
                 }
                 // escarpement
-                moveCost = moveCost+Math.round(biome.escarpement*biome.escarpement/16);
+                escarpMoveAdj = Math.round(biome.escarpement*biome.escarpement/16);
+                moveCost = moveCost+escarpMoveAdj;
+                if (escarpMoveAdj >= 10) {
+                    moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
+                }
                 if (biome.escarpement >= 15) {
                     defense = defense+Math.round((biome.escarpement-10)*5/4)+1;
                     cover = cover+Math.round(Math.sqrt(biome.escarpement-15)*5);
                 }
                 // innondation
-                moveCost = moveCost+(biome.innondation*2);
+                innondMoveAdj = biome.innondation*2;
+                moveCost = moveCost+innondMoveAdj;
+                moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
                 if (biome.innondation >= 10) {
                     defense = defense+Math.round((biome.innondation-5)*4/5);
                 }
-                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="move">'+biome.moveCost+'</td><td class="move">'+moveCost+'</td><td class="cover">'+biome.cover+'</td><td class="cover">'+cover+'</td><td class="defense">'+biome.defense+'</td><td class="defense">'+defense+'</td></tr>');
+                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="move soft">'+biome.moveCost+'</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover soft">'+biome.cover+'</td><td class="cover">'+cover+'</td><td class="defense soft">'+biome.defense+'</td><td class="defense">'+defense+'</td></tr>');
             });
         };
         </script>

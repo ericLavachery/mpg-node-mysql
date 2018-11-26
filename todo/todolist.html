@@ -1,23 +1,6 @@
-<!-- BUG : exploredTiles = ["41"] - OK, en principe... -->
-<!-- BUG : server crash JSON parse players.unitView at LOGIN (line 67) -->
-<!-- BUG : showMoves after explore or identify  -->
-<!-- BUG : server crash on re-login !!! -->
-<!-- BUG : unités bougent sur place !!! -->
 lastSelectedUnit : pour pouvoir la reprendre quand on clique sur son tile?
 SPY CHARS : Quand quelqu'un le voit, on est prévenu
-<!-- Bâtiments vus restent visibles sans besoin d'unité sur le tile !!!
-    ajouter un numBld (vus)
-    si 1+ => Visible -->
-FOG OF WAR :
-    Vue : re-fog : pas pour les routes et rivières?
-<!-- ROADS
-<i class="fas fa-share-alt"></i>
-<i class="fas fa-map-signs"></i>
-<i class="fas fa-grip-vertical road"></i> !!!
-<i class="fas fa-ellipsis-v"></i>
-RIVERS
-<i class="fas fa-water"></i>
-<i class="fas fa-water river"></i> !!! -->
+
 ROADS & RIVERS :
     <!-- Ajustements calcMoveCost -->
     Ajustements calcBaseAttaque / calcBaseDefense
@@ -27,8 +10,28 @@ WORLD MAP :
     <!-- Afficher en fonction de x et y (au lieu de id) -->
     autres types de terrains
     mouvements en mer
-    terrain-specific moveCost 
+    terrain-specific moveCost
     Faire un plus grand monde et afficher seulement 1 carte
     Pouvoir bouger d'une carte à l'autre
     myMap = carte visible / world = monde ?
     idem pour pop : myPop / pop ?
+
+TERRAINS
+    cover calc
+    defense calc
+    move calc
+        eau: moveCostCab / moveCostMer / moveCostMix
+        air: moveCostAir / moveCostAlt
+        terre:
+            calc en fonction de innond/veget/escarp
+            ajustement route
+                moveCostAdj 70%
+                escarp -10 70%
+                innond 40%
+                veget 20%
+                -10
+            ajustement unité
+                moveAdj (général) %
+                moveEscarpAdj %
+                moveInnondAdj %
+                moveVegetAdj %

@@ -34,11 +34,17 @@ td {
 .move {
     color: #bd4682;
 }
+.road {
+    color: #bd4646;
+}
 .cover {
     color: #bdbc46;
 }
 .defense {
     color: #805ec1;
+}
+.soft {
+    opacity: 0.3;
 }
 .paramName {
     display: inline-block;
