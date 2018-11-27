@@ -399,11 +399,12 @@ function unfogTile(tileId,save,fromMove) {
                             if (myTileFlags.includes('road_') && tile.flags.includes('road_')) {
                                 someChanges = true;
                                 unfogTile(tile.id,false,false);
-                            } else if (myTileFlags.includes('river_') && tile.flags.includes('river_')) {
-                                someChanges = true;
-                                unfogTile(tile.id,false,false);
+                            } else if (myTileFlags.includes('river_') || myTileFlags.includes('navig_')) {
+                                if (tile.flags.includes('river_') || tile.flags.includes('navig_')) {
+                                    someChanges = true;
+                                    unfogTile(tile.id,false,false);
+                                }
                             }
-
                         }
                     }
                 }

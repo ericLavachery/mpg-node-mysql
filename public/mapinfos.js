@@ -116,8 +116,10 @@ function showUnitMovesLeft(tileId,unitId) {
                     moveOK = true;
                 }
                 movesLeftAfter = movesLeft-moveCost;
-                titleString = Math.round(movesLeftAfter/10)+' moves left';
-                $("#"+tile.id).attr("title", titleString);
+                if (perso.mapView.includes(tile.id)) {
+                    titleString = Math.round(movesLeftAfter/10)+' moves left';
+                    $("#"+tile.id).attr("title", titleString);
+                }
                 adjacentTileInfos(tile.id,moveOK);
             }
         }
@@ -164,12 +166,14 @@ function showGroupMovesLeft(tileId,popToMove) {
                         }
                     });
                 }
-                if (moveCost >= 1) {
-                    titleString = Math.round(worstML/10)+' moves left';
-                } else {
-                    titleString = '';
-                }
-                $("#"+tile.id).attr("title", titleString);
+                if (perso.mapView.includes(tile.id)) {
+                    if (moveCost >= 1) {
+                        titleString = Math.round(worstML/10)+' moves left';
+                    } else {
+                        titleString = '';
+                    }
+                    $("#"+tile.id).attr("title", titleString);
+                }                
                 adjacentTileInfos(tile.id,moveOK);
             }
         }

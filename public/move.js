@@ -178,11 +178,11 @@ function roadMoveCost(tileId,unitId) {
     moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
     // escarpement
     escarpMoveAdj = calcEscarpMoveAdj(ter[terIndex].escarpement);
-    if (unitId >= 1) {
-        escarpMoveAdj = Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
-    }
     if (escarpMoveAdj >= 10) {
         moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
+    }
+    if (unitId >= 1) {
+        escarpMoveAdj = Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
     }
     // innondation
     innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
@@ -227,10 +227,10 @@ function calcMoveCost(targetTileId, unitId) {
     // tile move cost
     let moveCost = 0;
     let unitMoveType = pop[unitIndex].moveType;
+    let tileFlags = world[tileIndex].flags;
     if (unitMoveType == 'ter') {
         moveCost = terMoveCost(targetTileId, unitId);
         let oldTileFlags = world[oldTileIndex].flags;
-        let tileFlags = world[tileIndex].flags;
         if (tileFlags.includes('road_') && oldTileFlags.includes('road_')) {
             moveCost = roadMoveCost(targetTileId, unitId);
         } else {
@@ -283,6 +283,14 @@ function calcMoveCost(targetTileId, unitId) {
     if (unitMoveType == 'mer' || unitMoveType == 'cab' || unitMoveType == 'mix') {
         if (!tileFlags.includes('river_') && !tileFlags.includes('navig_')) {
             moveCost = 999;
+        }
+    }
+    // verif earth for others
+    if (ter[terrainIndex].innondation >= 60) {
+        if (unitMoveType != 'mer' && unitMoveType != 'cab' && unitMoveType != 'mix') {
+            if (!tileFlags.includes('gue_') || !perso.mapCarto.includes(targetTileId)) {
+                moveCost = 999;
+            }
         }
     }
     return moveCost;
