@@ -102,31 +102,11 @@ io.sockets.on('connection', function (socket, pseudo) {
             pIndex = players.findIndex((obj => obj.pseudo == squad.player));
             squad.pic = players[pIndex].pic;
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
-            squad.move = unitTypes[uIndex].move;
-            squad.type = unitTypes[uIndex].type;
-            squad.icon = unitTypes[uIndex].icon;
-            squad.cat = unitTypes[uIndex].cat;
-            squad.illu = unitTypes[uIndex].illu;
-            squad.hp = unitTypes[uIndex].hp;
-            squad.armure = unitTypes[uIndex].armure;
-            squad.esquive = unitTypes[uIndex].esquive;
-            squad.parade = unitTypes[uIndex].parade;
-            squad.ammo = unitTypes[uIndex].ammo;
-            squad.rapidite = unitTypes[uIndex].rapidite;
-            squad.actions = unitTypes[uIndex].actions;
-            squad.puissance = unitTypes[uIndex].puissance;
-            squad.attaque = unitTypes[uIndex].attaque;
-            squad.defense = unitTypes[uIndex].defense;
-            squad.move = unitTypes[uIndex].move;
-            squad.moveAdj = unitTypes[uIndex].moveAdj;
-            squad.moveType = unitTypes[uIndex].moveType;
-            squad.coverAdj = unitTypes[uIndex].coverAdj;
-            squad.escarpAdj = unitTypes[uIndex].escarpAdj;
-            squad.innondAdj = unitTypes[uIndex].innondAdj;
-            squad.vegetAdj = unitTypes[uIndex].vegetAdj;
-            squad.detection = unitTypes[uIndex].detection;
-            squad.discretion = unitTypes[uIndex].discretion;
-            squad.skills = unitTypes[uIndex].skills;
+            Object.keys(unitTypes[uIndex]).forEach(function(key,index) {
+                if (key != 'id') {
+                    squad[key] = unitTypes[uIndex][key];
+                }
+            });
         });
         // console.log(pop);
     };

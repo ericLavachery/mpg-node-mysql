@@ -140,21 +140,21 @@ function terMoveCost(tileId,unitId) {
     // ajustement terrain
     moveCost = moveCost+ter[terIndex].moveCostAdj;
     // vegetation
-    vegetMoveAdj = Math.round(ter[terIndex].vegetation*ter[terIndex].vegetation/50);
+    vegetMoveAdj = calcVegetMoveAdj(ter[terIndex].vegetation);
     if (unitId >= 1) {
         moveCost = moveCost+Math.round(vegetMoveAdj*pop[unitIndex].vegetAdj/100);
     } else {
         moveCost = moveCost+vegetMoveAdj;
     }
     // escarpement
-    escarpMoveAdj = Math.round(ter[terIndex].escarpement*ter[terIndex].escarpement/16);
+    escarpMoveAdj = calcEscarpMoveAdj(ter[terIndex].escarpement);
     if (unitId >= 1) {
         moveCost = moveCost+Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
     } else {
         moveCost = moveCost+escarpMoveAdj;
     }
     // innondation
-    innondMoveAdj = ter[terIndex].innondation*2;
+    innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
     if (unitId >= 1) {
         moveCost = moveCost+Math.round(innondMoveAdj*pop[unitIndex].innondAdj/100);
     } else {
@@ -171,13 +171,13 @@ function roadMoveCost(tileId,unitId) {
     // ajustement terrain
     moveCostRoad = moveCostRoad+Math.round(ter[terIndex].moveCostAdj*70/100);
     // vegetation
-    vegetMoveAdj = Math.round(ter[terIndex].vegetation*ter[terIndex].vegetation/50);
+    vegetMoveAdj = calcVegetMoveAdj(ter[terIndex].vegetation);
     if (unitId >= 1) {
         vegetMoveAdj = Math.round(vegetMoveAdj*pop[unitIndex].vegetAdj/100);
     }
     moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
     // escarpement
-    escarpMoveAdj = Math.round(ter[terIndex].escarpement*ter[terIndex].escarpement/16);
+    escarpMoveAdj = calcEscarpMoveAdj(ter[terIndex].escarpement);
     if (unitId >= 1) {
         escarpMoveAdj = Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
     }
@@ -185,36 +185,84 @@ function roadMoveCost(tileId,unitId) {
         moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
     }
     // innondation
-    innondMoveAdj = ter[terIndex].innondation*2;
+    innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
     if (unitId >= 1) {
         innondMoveAdj = Math.round(innondMoveAdj*pop[unitIndex].innondAdj/100);
     }
     moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
     return moveCostRoad;
 };
+function airMoveCost(tileId,unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    let moveCostAir = 30;
+    let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
+    // vegetation
+    vegetMoveAdj = calcVegetMoveAdj(ter[terIndex].vegetation);
+    moveCostAir = moveCostAir+Math.round(vegetMoveAdj*10/100);
+    // escarpement
+    escarpMoveAdj = calcEscarpMoveAdj(ter[terIndex].escarpement);
+    moveCostAir = moveCostAir+Math.round(escarpMoveAdj*40/100);
+    // innondation
+    innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
+    moveCostAir = moveCostAir+Math.round(innondMoveAdj*40/100);
+    return moveCostAir;
+};
+function calcVegetMoveAdj(vegetation) {
+    return Math.round(vegetation*vegetation/50);
+};
+function calcEscarpMoveAdj(escarpement) {
+    return Math.round(escarpement*escarpement/16);
+};
+function calcInnondMoveAdj(innondation) {
+    return innondation*2;
+};
 function calcMoveCost(targetTileId, unitId) {
-    // voir le moveCost a utiliser en fonction de moveType (ter,air,alt...)
-    // tile move cost
-    let tileIndex = world.findIndex((obj => obj.id == targetTileId));
-    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let moveCost = terMoveCost(targetTileId, unitId);
-    let moveCostRoad = roadMoveCost(targetTileId, unitId);
+    // xxxxxxxxxx AMPHIBIENS ????
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let oldTileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
-    let oldTileFlags = world[oldTileIndex].flags;
-    let tileFlags = world[tileIndex].flags;
-    if (tileFlags.includes('road_') && oldTileFlags.includes('road_')) {
-        moveCost = ter[terrainIndex].moveCostRoad;
-    } else {
-        if (perso.mapCarto.includes(targetTileId)) {
-            if (tileFlags.includes('river_')) {
-                moveCost = moveCost+20;
-            }
-            moveCost = Math.round(moveCost*80/100);
+    let tileIndex = world.findIndex((obj => obj.id == targetTileId));
+    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    // tile move cost
+    let moveCost = 0;
+    let unitMoveType = pop[unitIndex].moveType;
+    if (unitMoveType == 'ter') {
+        moveCost = terMoveCost(targetTileId, unitId);
+        let oldTileFlags = world[oldTileIndex].flags;
+        let tileFlags = world[tileIndex].flags;
+        if (tileFlags.includes('road_') && oldTileFlags.includes('road_')) {
+            moveCost = roadMoveCost(targetTileId, unitId);
         } else {
-            if (tileFlags.includes('river_')) {
-                moveCost = moveCost+40;
+            if (perso.mapCarto.includes(targetTileId)) {
+                if (tileFlags.includes('river_')) {
+                    moveCost = moveCost+20;
+                }
+                moveCost = Math.round(moveCost*80/100);
+            } else {
+                if (tileFlags.includes('river_')) {
+                    moveCost = moveCost+30;
+                }
             }
+        }
+    } else if (unitMoveType == 'alt') {
+        if (perso.mapCarto.includes(targetTileId)) {
+            moveCost = 20;
+        } else {
+            moveCost = 24;
+        }
+    } else {
+        if (unitMoveType == 'air') {
+            moveCost = airMoveCost(targetTileId, unitId);
+        } else if (unitMoveType == 'mer') {
+            moveCost = ter[terrainIndex].moveCostMer;
+        } else if (unitMoveType == 'cab') {
+            moveCost = ter[terrainIndex].moveCostCab;
+        } else if (unitMoveType == 'mix') {
+            moveCost = ter[terrainIndex].moveCostMix;
+        }
+        if (perso.mapCarto.includes(targetTileId)) {
+            moveCost = Math.round(moveCost*80/100);
         }
     }
     // unit move cost
@@ -222,12 +270,20 @@ function calcMoveCost(targetTileId, unitId) {
     if (move >= 1) {
         let moveAdj = pop[unitIndex].moveAdj;
         let unitTileId = pop[unitIndex].tileId;
-        moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
+        if (moveCost >= 31) {
+            moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
+        }
         if (isDiag(unitTileId,targetTileId)) {
             moveCost = Math.round(moveCost*1414/1000);
         }
     } else {
         moveCost = 999;
+    }
+    // verif water for boats
+    if (unitMoveType == 'mer' || unitMoveType == 'cab' || unitMoveType == 'mix') {
+        if (!tileFlags.includes('river_') && !tileFlags.includes('navig_')) {
+            moveCost = 999;
+        }
     }
     return moveCost;
 };

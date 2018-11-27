@@ -46,7 +46,7 @@ function showTileInfos(tileId,linked) {
         terDefense = Math.round((terDefense*110/100)+10);
     } else {
         if (world[tileIndex].flags.includes('river_')) {
-            terMvCost = terMvCost+40;
+            terMvCost = terMvCost+30;
         }
     }
     let showCarto = ''
