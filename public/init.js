@@ -32,16 +32,16 @@ function showMap(wmap) {
     let sortedVisMap = _.sortBy(_.sortBy(visiMap,'y'),'x');
     sortedVisMap.forEach(function(tile) {
         if (perso.mapView.includes(tile.id)) {
-            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+tile.terrain+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item ter'+tile.terrainId+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
             showTileTags(tile.id);
         } else {
             $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
         }
     });
 };
-function showTile(tileId,tileTerrain) {
+function showTile(tileId,tileTerrainId) {
     if ( $('#'+tileId).hasClass('fog') ) {
-        $('#'+tileId).removeClass('fog').addClass(tileTerrain);
+        $('#'+tileId).removeClass('fog').addClass('ter'+tileTerrainId);
     }
     $('#'+tileId).empty().append('<span class="mapNote" id="r'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNote" id="c'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
     showTileTags(tileId);
@@ -62,7 +62,16 @@ function showTileTags(tileId) {
 // infos terrains
 socket.on('terload', function(wter) {
     ter = wter;
+    writeTerStyles(wter);
 });
+// write 1 class per terrain type to CSS 
+function writeTerStyles(wter) {
+    $('#terStyles').empty();
+    wter.forEach(function(terrain) {
+        console.log(terrain.color);
+        $('#terStyles').append('.ter'+terrain.id+' {background-color: '+terrain.color+';}');
+    });
+};
 
 // infos persos
 socket.on('persoload', function(wperso) {

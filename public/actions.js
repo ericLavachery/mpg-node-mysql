@@ -363,8 +363,8 @@ function cartoTile(tileId,save) {
     if (!perso.mapCarto.includes(tileId)) {
         perso.mapCarto.push(tileId);
         let tileIndex = world.findIndex((obj => obj.id == tileId));
-        let tileTerrain = world[tileIndex].terrain;
-        showTile(tileId,tileTerrain);
+        let tileTerrainId = world[tileIndex].terrainId;
+        showTile(tileId,tileTerrainId);
         // unfog adjacent tiles
         let myTileX = world[tileIndex].x;
         let myTileY = world[tileIndex].y;
@@ -413,8 +413,8 @@ function unfogTile(tileId,save,fromMove) {
     if (!perso.mapView.includes(tileId)) {
         perso.mapView.push(tileId);
         someChanges = true;
-        let tileTerrain = world[tileIndex].terrain;
-        showTile(tileId,tileTerrain);
+        let tileTerrainId = world[tileIndex].terrainId;
+        showTile(tileId,tileTerrainId);
     }
     if (save && someChanges) {
         emitPlayersChange(perso);

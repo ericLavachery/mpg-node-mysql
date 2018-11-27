@@ -16,13 +16,28 @@ WORLD MAP :
     myMap = carte visible / world = monde ?
     idem pour pop : myPop / pop ?
 
+<!-- !!!!!!!!!!!!!!!!!!!!!!!! CRASH ON NEXT DAY !!!!!!!!!!!!!!!!!!!!!
+MYSQL
+Unknown column 'move' in 'field list'
+server.js 251
+'move' n'est plus dans la table 'pop' -->
+Du coup il faut un système pour faire un upgrade du move dans POP quand il change dans UNITTYPES !
+
+COULEURS (et icônes) DES TERRAINS DANS LA TABLE "WORLD" =>> CSS
+
 TERRAINS
-    cover calc
-    defense calc
+    <!-- cover calc
+    defense calc -->
     move calc
-        eau: moveCostCab / moveCostMer / moveCostMix
-        air: moveCostAir / moveCostAlt
-        terre:
+        eau:
+            moveCostCab
+            moveCostMer
+            moveCostMix
+        air:
+            moveCostAir
+            <!-- moveCostAlt -->
+        TOUT FAIRE PAR CALCUL !!!
+        <!-- terre:
             calc en fonction de innond/veget/escarp
             ajustement route
                 moveCostAdj 70%
@@ -34,4 +49,4 @@ TERRAINS
                 moveAdj (général) %
                 moveEscarpAdj %
                 moveInnondAdj %
-                moveVegetAdj %
+                moveVegetAdj % -->

@@ -51,7 +51,7 @@ function showTileInfos(tileId,linked) {
     }
     let showCarto = ''
     if (perso.mapCarto.includes(tileId)) {
-        showCarto = '&nbsp; <i class="far fa-map"></i>'
+        showCarto = '&nbsp; <i class="far fa-map blanc"></i>'
     }
     let linkH = 'h4'
     if (linked) {
