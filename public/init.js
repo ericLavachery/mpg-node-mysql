@@ -64,11 +64,10 @@ socket.on('terload', function(wter) {
     ter = wter;
     writeTerStyles(wter);
 });
-// write 1 class per terrain type to CSS 
+// write 1 class per terrain type to CSS
 function writeTerStyles(wter) {
     $('#terStyles').empty();
     wter.forEach(function(terrain) {
-        console.log(terrain.color);
         $('#terStyles').append('.ter'+terrain.id+' {background-color: '+terrain.color+';}');
     });
 };
