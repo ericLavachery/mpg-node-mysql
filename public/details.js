@@ -49,9 +49,15 @@ function showTileInfos(tileId,linked) {
             terMvCost = terMvCost+30;
         }
     }
-    let showCarto = ''
+    let showCarto = '&nbsp;'
     if (perso.mapCarto.includes(tileId)) {
-        showCarto = '&nbsp; <i class="far fa-map blanc"></i>'
+        showCarto = showCarto+' <i class="far fa-map gris"></i>'
+    }
+    if (world[tileIndex].flags.includes('road_')) {
+        showCarto = showCarto+' <i class="fas fa-grip-vertical gris"></i>'
+    }
+    if (world[tileIndex].flags.includes('river_') || world[tileIndex].flags.includes('navig_')) {
+        showCarto = showCarto+' <i class="fas fa-water gris"></i>'
     }
     let linkH = 'h4'
     if (linked) {
