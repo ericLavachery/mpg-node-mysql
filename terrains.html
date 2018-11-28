@@ -27,7 +27,7 @@
             terrainsTable('innondation');
         });
         function terrainsTable(sortField) {
-            $('#terTable').empty().append('<tr><td class="colTitle">Terrain</td><td class="colTitle" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle" onclick="terrainsTable(`innondation`)">Innond</td><td class="colTitle">MoveCost</td><td class="colTitle">Road</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
+            $('#terTable').empty().append('<tr><td class="colTitle">Terrain</td><td class="colTitle" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle" onclick="terrainsTable(`innondation`)">Innond</td><td width="15"></td><td class="colTitle">MoveCost</td><td class="colTitle">Road</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
             let moveCost = 30;
             let moveCostRoad = 20;
             let vegetMoveAdj = 0;
@@ -75,7 +75,7 @@
                     if (biome.innondation >= 10) {
                         defense = defense+Math.round((biome.innondation-5)*4/5);
                     }
-                    $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
+                    $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td style="background-color:'+biome.color+'"></td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
                 }
             });
         };

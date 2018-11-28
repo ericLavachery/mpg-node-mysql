@@ -171,6 +171,7 @@ td {
     padding: 0;
 }
 h1 {
+    display: inline;
     font-family: 'Uncial Antiqua', cursive;
     font-weight: normal;
     font-size: 20px;
@@ -179,6 +180,7 @@ h1 {
     padding: 0;
 }
 h3 {
+    display: inline;
     font-family: 'Uncial Antiqua', cursive;
     font-weight: normal;
     font-size: 18px;
@@ -187,6 +189,7 @@ h3 {
     padding: 0px 0px 5px 0px;
 }
 h4 {
+    display: inline;
     font-family: 'Uncial Antiqua', cursive;
     font-weight: normal;
     font-size: 18px;
@@ -211,6 +214,11 @@ h4 {
 }
 .blanc {
     color: #FFFFFF;
+}
+.detailIcons {
+    color: #a5b896;
+    font-size: 14px;
+    font-weight: lighter;
 }
 button, select {
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;

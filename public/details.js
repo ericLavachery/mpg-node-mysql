@@ -12,7 +12,7 @@ function showUnitInfos(unitId) {
     let hpLeft = pop[unitIndex].hp-pop[unitIndex].blessures;
     let defense = calcBaseDefense(unitId);
     let attaque = calcBaseAttaque(unitId);
-    $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3>');
+    $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3><br>');
     $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     if (shape >= 100) {
         $('#unitInfos').append('<span class="paramName">Mouvements</span><span id="infosMovesLeft" class="paramValue">'+Math.round(movesLeft/10)+'</span><span class="paramValue">&nbsp;/&nbsp;'+Math.round(move/10)+'</span><br>');
@@ -52,21 +52,24 @@ function showTileInfos(tileId,linked) {
     }
     let showCarto = '&nbsp;'
     if (perso.mapCarto.includes(tileId)) {
-        showCarto = showCarto+' <i class="far fa-map gris"></i>'
+        showCarto = showCarto+' <i class="far fa-map"></i>'
     }
     if (world[tileIndex].flags.includes('road_')) {
-        showCarto = showCarto+' <i class="fas fa-grip-vertical gris"></i>'
+        showCarto = showCarto+' <i class="fas fa-grip-vertical"></i>'
     }
     if (world[tileIndex].flags.includes('river_') || world[tileIndex].flags.includes('navig_')) {
-        showCarto = showCarto+' <i class="fas fa-water gris"></i>'
+        showCarto = showCarto+' <i class="fas fa-water"></i>'
     }
     let linkH = 'h4'
     if (linked) {
         linkH = 'h3';
     }
-    $('#tileInfos').append('<'+linkH+'>'+capitalizeFirstLetter(world[tileIndex].terrain)+showCarto+'</'+linkH+'>');
+    $('#tileInfos').append('<'+linkH+'>'+capitalizeFirstLetter(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'><br>');
     $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
+    $('#tileInfos').append('<span class="paramName">Escarpement</span><span class="paramValue">'+ter[terrainIndex].escarpement+'</span><br>');
+    $('#tileInfos').append('<span class="paramName">Végétation</span><span class="paramValue">'+ter[terrainIndex].vegetation+'</span><br>');
+    $('#tileInfos').append('<span class="paramName">Innondation</span><span class="paramValue">'+ter[terrainIndex].innondation+'</span><br>');
     if (world[tileIndex].flags.includes('road_')) {
         $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
     } else if (ter[terrainIndex].innondation >= 60) {
