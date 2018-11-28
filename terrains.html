@@ -37,7 +37,6 @@
             let defense = 0;
             let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'vegetation'),'escarpement'),'innondation'),sortField);
             sortedTer.forEach(function(biome) {
-                if (biome.innondation <= 50) {
                     moveCost = 30;
                     moveCostRoad = 20;
                     vegetMoveAdj = 0;
@@ -76,7 +75,6 @@
                         defense = defense+Math.round((biome.innondation-5)*4/5);
                     }
                     $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td style="background-color:'+biome.color+'"></td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
-                }
             });
         };
         </script>

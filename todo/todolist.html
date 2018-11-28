@@ -9,8 +9,8 @@ ROADS & RIVERS :
 WORLD MAP :
     <!-- Afficher en fonction de x et y (au lieu de id) -->
     autres types de terrains
-    mouvements en mer
-    terrain-specific moveCost
+    <!-- mouvements en mer -->
+    <!-- terrain-specific moveCost -->
     Faire un plus grand monde et afficher seulement 1 carte
     Pouvoir bouger d'une carte à l'autre
     myMap = carte visible / world = monde ?
@@ -22,33 +22,3 @@ Unknown column 'move' in 'field list'
 server.js 251
 'move' n'est plus dans la table 'pop' -->
 Du coup il faut un système pour faire un upgrade du move dans POP quand il change dans UNITTYPES !
-
-<!-- COULEURS (et icônes) DES TERRAINS DANS LA TABLE "WORLD" =>> CSS -->
-
-détail terrains eau : moveCostMix 
-
-TERRAINS
-    <!-- cover calc
-    defense calc -->
-    move calc
-        eau:
-            moveCostCab
-            moveCostMer
-            moveCostMix
-        air:
-            moveCostAir
-            <!-- moveCostAlt -->
-        TOUT FAIRE PAR CALCUL !!!
-        <!-- terre:
-            calc en fonction de innond/veget/escarp
-            ajustement route
-                moveCostAdj 70%
-                escarp -10 70%
-                innond 40%
-                veget 20%
-                -10
-            ajustement unité
-                moveAdj (général) %
-                moveEscarpAdj %
-                moveInnondAdj %
-                moveVegetAdj % -->
