@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Mer 28 Novembre 2018 à 15:54
--- Version du serveur :  5.7.24-0ubuntu0.16.04.1
--- Version de PHP :  7.0.32-0ubuntu0.16.04.1
+-- Host: localhost:3306
+-- Generation Time: Nov 28, 2018 at 11:20 PM
+-- Server version: 5.7.24-0ubuntu0.18.04.1
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `mpg`
+-- Database: `mpg`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `players`
+-- Table structure for table `players`
 --
 
 CREATE TABLE `players` (
@@ -43,19 +43,19 @@ CREATE TABLE `players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `players`
+-- Dumping data for table `players`
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`) VALUES
-(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 78, 79, 80, 81, 91, 83, 77, 82, 89, 96, 53]', '[91, 83, 78, 79, 80, 81, 54, 77, 82, 89, 96, 53]', '[56, 41, 42, 43, 58, 72, 70, 87, 101, 74, 89, 73, 86, 55, 39, 54, 40, 44, 57, 38, 66, 51, 67, 59, 36, 98, 88, 50, 25, 69, 37, 83, 23, 27, 11, 65, 29, 30, 82, 52, 26, 81, 22, 24, 35, 71, 53, 68, 80, 28, 10]', '[55, 39, 58, 54, 38, 66, 51, 41]', '[]', '["Zorglub"]', '["Madrigal"]'),
-(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 44, 93]', '[47, 40, 49, 61, 44]', '[58, 73, 74, 88, 104, 116, 86, 85, 57, 59, 72, 87, 89, 100, 101, 102, 117, 130, 131, 132, 103, 115]', '[73, 116, 88]', '[]', '["Bob"]', '[]'),
+(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 78, 79, 80, 81, 91, 83, 77, 82, 89, 96, 53]', '[91, 83, 78, 79, 80, 81, 54, 77, 82, 89, 96, 53]', '[56, 41, 42, 43, 58, 72, 70, 87, 101, 74, 89, 73, 86, 55, 39, 54, 40, 57, 38, 66, 51, 67, 59, 36, 98, 88, 50, 25, 69, 37, 83, 23, 11, 65, 29, 30, 82, 52, 26, 35, 71, 53, 68, 28, 10, 27, 44, 24, 80, 81, 22, 13, 12]', '[55, 39, 58, 54, 38, 66, 51, 41]', '[]', '[\"Zorglub\"]', '[\"Madrigal\"]'),
+(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 44, 93]', '[47, 40, 49, 61, 44]', '[58, 73, 74, 88, 104, 116, 86, 85, 57, 59, 72, 87, 89, 100, 101, 102, 117, 130, 131, 132, 103, 115]', '[73, 116, 88]', '[]', '[\"Bob\"]', '[]'),
 (3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]'),
-(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]');
+(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[\"Zorglub\"]', '[\"Bob\"]');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pop`
+-- Table structure for table `pop`
 --
 
 CREATE TABLE `pop` (
@@ -75,18 +75,18 @@ CREATE TABLE `pop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `pop`
+-- Dumping data for table `pop`
 --
 
 INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessures`, `move`, `fatigue`, `tileId`, `prevTileId`, `follow`) VALUES
 (5, 'Zorglub', 'Chamane', 5, 1, 3, 15, 0, 65, 0, 74, 74, NULL),
 (11, 'Zorglub', 'Barbares', 1, 48, 3, 15, 0, 65, 0, 88, 88, NULL),
-(31, 'Bob', 'Piquiers', 2, 126, 6, 1, 0, 60, 0, 72, 72, 2),
+(31, 'Bob', 'Piquiers', 2, 126, 6, 1, 0, 60, 0, 72, 72, NULL),
 (38, 'Bob', 'Château', 9, 1, 6, 1, 0, 0, 0, 41, 41, NULL),
-(41, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 25, 41, NULL),
+(41, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 6, 39, 41, NULL),
 (42, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 43, 43, NULL),
 (44, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 74, 74, NULL),
-(45, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 42, 42, 3),
+(45, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 42, 42, NULL),
 (47, 'Bob', 'Piquiers', 2, 15, 6, 1, 0, 60, 0, 73, 73, NULL),
 (48, 'Bob', 'Forgeron', 4, 1, 6, 1, 0, 60, 0, 41, 41, NULL),
 (50, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 89, 89, NULL),
@@ -98,7 +98,7 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (56, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 43, 43, 6),
 (58, 'Zorglub', 'Barbares', 1, 3, 3, 15, 0, 65, 0, 85, 85, NULL),
 (59, 'Zorglub', 'Barbares', 1, 1, 3, 15, 0, 65, 0, 86, 86, NULL),
-(60, 'Bob', 'Piquiers', 2, 2, 6, 1, 0, 60, 30, 26, 42, NULL),
+(60, 'Bob', 'Piquiers', 2, 2, 6, 1, 0, 60, 0, 26, 42, NULL),
 (61, 'Bob', 'Piquiers', 2, 10, 6, 1, 0, 60, 0, 72, 72, NULL),
 (62, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 56, 56, NULL),
 (63, 'Zorglub', 'Barbares', 1, 7, 3, 15, 0, 65, 0, 104, 104, NULL),
@@ -106,9 +106,9 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (65, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 41, 70, NULL),
 (66, 'Bob', 'Piquiers', 2, 36, 6, 1, 0, 60, 0, 86, 86, NULL),
 (67, 'Bob', 'Piquiers', 2, 18, 6, 1, 0, 60, 0, 101, 101, NULL),
-(68, 'Bob', 'Piquiers', 2, 60, 6, 1, 0, 60, 62, 57, 72, NULL),
+(68, 'Bob', 'Piquiers', 2, 60, 6, 1, 0, 60, 0, 57, 72, NULL),
 (75, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 88, 87, NULL),
-(76, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 29, 28, NULL),
+(76, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 65, 12, 28, NULL),
 (77, 'Zorglub', 'Barbares', 1, 8, 3, 15, 0, 65, 0, 74, 74, NULL),
 (78, 'Zorglub', 'Barbares', 1, 10, 3, 15, 0, 65, 0, 73, 73, 1),
 (79, 'Zorglub', 'Barbares', 1, 13, 3, 15, 0, 65, 0, 73, 73, 1),
@@ -132,7 +132,7 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 -- --------------------------------------------------------
 
 --
--- Structure de la table `terrains`
+-- Table structure for table `terrains`
 --
 
 CREATE TABLE `terrains` (
@@ -150,16 +150,16 @@ CREATE TABLE `terrains` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `terrains`
+-- Dumping data for table `terrains`
 --
 
 INSERT INTO `terrains` (`id`, `name`, `icon`, `color`, `moveCostAdj`, `escarpement`, `vegetation`, `innondation`, `humidite`, `tempMin`, `tempMax`) VALUES
 (1, 'plaine', '', '#c4c878', 0, 0, 5, 0, 0, 0, 0),
-(2, 'forêt mixte', '', '#1d6b1b', 0, 10, 35, 0, 0, 0, 0),
-(3, 'collines arides', '', '#a88051', 0, 25, 5, 0, 0, 0, 0),
-(4, 'montagnes', '', '#71491a', 0, 40, 10, 0, 0, 0, 0),
-(5, 'marécages', '', '#679172', 0, 0, 10, 35, 0, 0, 0),
-(6, 'prairie', '', '#b8d67f', 0, 0, 10, 0, 0, 0, 0),
+(2, 'forêt mixte', 'foret', '#1d6b1b', 0, 10, 35, 0, 0, 0, 0),
+(3, 'collines arides', 'collines', '#a88051', 0, 25, 5, 0, 0, 0, 0),
+(4, 'montagnes', 'montagnes2', '#71491a', 0, 40, 10, 0, 0, 0, 0),
+(5, 'marécages', 'marecages', '#679172', 0, 0, 10, 35, 0, 0, 0),
+(6, 'prairie', 'prairie', '#b8d67f', 0, 0, 10, 0, 0, 0, 0),
 (7, 'pâturages', '', '#a8c76c', 0, 0, 15, 0, 0, 0, 0),
 (8, 'steppe', '', '#b6ac87', 0, 10, 5, 0, 0, 0, 0),
 (9, 'tundra', '', '#b2ba81', 0, 10, 5, 0, 0, 0, 0),
@@ -200,14 +200,14 @@ INSERT INTO `terrains` (`id`, `name`, `icon`, `color`, `moveCostAdj`, `escarpeme
 (54, 'océan', '', '#7d94cd', 0, 0, 0, 110, 0, 0, 0),
 (55, 'récifs', '', '#7c93a7', 20, 0, 10, 75, 0, 0, 0),
 (56, 'abysses', '', '#5a6ba8', 0, 0, 0, 125, 0, 0, 0),
-(57, 'neiges éternelles', '', '#442b0e', 0, 50, 0, 0, 0, 0, 0),
+(57, 'neiges éternelles', 'eterneiges', '#442b0e', 0, 50, 0, 0, 0, 0, 0),
 (58, 'collines boisées', '', '#334a1f', 0, 25, 30, 0, 0, 0, 0),
-(59, 'collines vertes', '', '#87a851', 0, 25, 10, 0, 0, 0, 0);
+(59, 'collines vertes', 'collinesvertes', '#87a851', 0, 25, 10, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `unitTypes`
+-- Table structure for table `unitTypes`
 --
 
 CREATE TABLE `unitTypes` (
@@ -239,7 +239,7 @@ CREATE TABLE `unitTypes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `unitTypes`
+-- Dumping data for table `unitTypes`
 --
 
 INSERT INTO `unitTypes` (`id`, `type`, `icon`, `cat`, `illu`, `hp`, `armure`, `esquive`, `parade`, `ammo`, `rapidite`, `actions`, `puissance`, `attaque`, `defense`, `move`, `moveAdj`, `moveType`, `escarpAdj`, `innondAdj`, `vegetAdj`, `coverAdj`, `detection`, `discretion`, `skills`) VALUES
@@ -256,7 +256,7 @@ INSERT INTO `unitTypes` (`id`, `type`, `icon`, `cat`, `illu`, `hp`, `armure`, `e
 -- --------------------------------------------------------
 
 --
--- Structure de la table `world`
+-- Table structure for table `world`
 --
 
 CREATE TABLE `world` (
@@ -269,7 +269,7 @@ CREATE TABLE `world` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `world`
+-- Dumping data for table `world`
 --
 
 INSERT INTO `world` (`id`, `terrain`, `flags`, `terrainId`, `x`, `y`) VALUES
@@ -410,11 +410,11 @@ INSERT INTO `world` (`id`, `terrain`, `flags`, `terrainId`, `x`, `y`) VALUES
 (135, 'plains', '', 1, 9, 15);
 
 --
--- Index pour les tables exportées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `players`
+-- Indexes for table `players`
 --
 ALTER TABLE `players`
   ADD PRIMARY KEY (`id`),
@@ -423,14 +423,14 @@ ALTER TABLE `players`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Index pour la table `pop`
+-- Indexes for table `pop`
 --
 ALTER TABLE `pop`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Index pour la table `terrains`
+-- Indexes for table `terrains`
 --
 ALTER TABLE `terrains`
   ADD PRIMARY KEY (`id`),
@@ -438,7 +438,7 @@ ALTER TABLE `terrains`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Index pour la table `unitTypes`
+-- Indexes for table `unitTypes`
 --
 ALTER TABLE `unitTypes`
   ADD PRIMARY KEY (`id`),
@@ -446,38 +446,38 @@ ALTER TABLE `unitTypes`
   ADD UNIQUE KEY `type` (`type`);
 
 --
--- Index pour la table `world`
+-- Indexes for table `world`
 --
 ALTER TABLE `world`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `players`
+-- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT pour la table `pop`
+-- AUTO_INCREMENT for table `pop`
 --
 ALTER TABLE `pop`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
--- AUTO_INCREMENT pour la table `terrains`
+-- AUTO_INCREMENT for table `terrains`
 --
 ALTER TABLE `terrains`
   MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
--- AUTO_INCREMENT pour la table `unitTypes`
+-- AUTO_INCREMENT for table `unitTypes`
 --
 ALTER TABLE `unitTypes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT pour la table `world`
+-- AUTO_INCREMENT for table `world`
 --
 ALTER TABLE `world`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;

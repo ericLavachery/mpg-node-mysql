@@ -66,9 +66,15 @@ socket.on('terload', function(wter) {
 });
 // write 1 class per terrain type to CSS
 function writeTerStyles(wter) {
+    let bg = '';
     $('#terStyles').empty();
     wter.forEach(function(terrain) {
-        $('#terStyles').append('.ter'+terrain.id+' {background-color: '+terrain.color+';}');
+        if (terrain.icon != '') {
+            bg = ' background-image: url(/static/img/tiles/'+terrain.icon+'.png);';
+        } else {
+            bg = '';
+        }
+        $('#terStyles').append('.ter'+terrain.id+' {background-color: '+terrain.color+';'+bg+'}');
     });
 };
 
