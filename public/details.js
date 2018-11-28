@@ -35,6 +35,7 @@ function showTileInfos(tileId,linked) {
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let terMvCost = terMoveCost(tileId,0);
     let terMvCostRoad = roadMoveCost(tileId,0);
+    let waterMvCost = waterMoveCost(tileId,0);
     let terCover = calcTerCover(tileId);
     let terDefense = calcTerDefense(tileId);
     if (perso.mapCarto.includes(tileId)) {
@@ -68,6 +69,8 @@ function showTileInfos(tileId,linked) {
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
     if (world[tileIndex].flags.includes('road_')) {
         $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
+    } else if (ter[terrainIndex].innondation >= 60) {
+        $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(waterMvCost*10)/100+'</span><br>');
     } else {
         $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+'</span><br>');
     }

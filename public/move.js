@@ -178,11 +178,11 @@ function roadMoveCost(tileId,unitId) {
     moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
     // escarpement
     escarpMoveAdj = calcEscarpMoveAdj(ter[terIndex].escarpement);
-    if (escarpMoveAdj >= 10) {
-        moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
-    }
     if (unitId >= 1) {
         escarpMoveAdj = Math.round(escarpMoveAdj*pop[unitIndex].escarpAdj/100);
+    }
+    if (escarpMoveAdj >= 10) {
+        moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
     }
     // innondation
     innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
@@ -208,6 +208,54 @@ function airMoveCost(tileId,unitId) {
     innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
     moveCostAir = moveCostAir+Math.round(innondMoveAdj*40/100);
     return moveCostAir;
+};
+function waterMoveCost(tileId,unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    let moveCostWater = 25;
+    let vegetMoveAdj = 0;
+    let escarpMoveAdj = 0;
+    let innondMoveAdj = 0;
+    let moveType = 'mix'
+    if (unitId >= 1) {
+        moveType = pop[unitIndex].moveType;
+    }
+    // ajustement terrain
+    moveCostWater = moveCostWater+ter[terIndex].moveCostAdj;
+    if (ter[terIndex].innondation >= 60) {
+        // sea
+        if (moveType == 'mix') {
+            innondMoveAdj = Math.abs(ter[terIndex].innondation-100);
+        } else if (moveType == 'cab') {
+            innondMoveAdj = Math.abs(ter[terIndex].innondation-100);
+        } else if (moveType == 'mer') {
+            if (ter[terIndex].innondation >= 110) {
+                innondMoveAdj = 0;
+            } else {
+                innondMoveAdj = 110-ter[terIndex].innondation;
+            }
+        }
+    } else {
+        // river
+        moveCostWater = moveCostWater+10;
+        let esc = ter[terIndex].escarpement;
+        let veg = ter[terIndex].vegetation;
+        if (moveType == 'mix') {
+            escarpMoveAdj = Math.round(esc*esc*esc/600);
+            vegetMoveAdj = Math.round(veg*veg*veg/1500);
+        } else if (moveType == 'cab') {
+            escarpMoveAdj = Math.round(esc*esc*esc/600);
+            vegetMoveAdj = Math.round(veg*veg*veg/1500);
+        } else if (moveType == 'mer') {
+            escarpMoveAdj = Math.round(esc*esc*esc/200);
+            vegetMoveAdj = Math.round(veg*veg*veg/750);
+        }
+    }
+    moveCostWater = moveCostWater+innondMoveAdj;
+    moveCostWater = moveCostWater+escarpMoveAdj;
+    moveCostWater = moveCostWater+vegetMoveAdj;
+    return moveCostWater;
 };
 function calcVegetMoveAdj(vegetation) {
     return Math.round(vegetation*vegetation/50);
@@ -255,11 +303,11 @@ function calcMoveCost(targetTileId, unitId) {
         if (unitMoveType == 'air') {
             moveCost = airMoveCost(targetTileId, unitId);
         } else if (unitMoveType == 'mer') {
-            moveCost = ter[terrainIndex].moveCostMer;
+            moveCost = waterMoveCost(targetTileId, unitId);
         } else if (unitMoveType == 'cab') {
-            moveCost = ter[terrainIndex].moveCostCab;
+            moveCost = waterMoveCost(targetTileId, unitId);
         } else if (unitMoveType == 'mix') {
-            moveCost = ter[terrainIndex].moveCostMix;
+            moveCost = waterMoveCost(targetTileId, unitId);
         }
         if (perso.mapCarto.includes(targetTileId)) {
             moveCost = Math.round(moveCost*80/100);
@@ -282,6 +330,12 @@ function calcMoveCost(targetTileId, unitId) {
     // verif water for boats
     if (unitMoveType == 'mer' || unitMoveType == 'cab' || unitMoveType == 'mix') {
         if (!tileFlags.includes('river_') && !tileFlags.includes('navig_')) {
+            moveCost = 999;
+        }
+    }
+    // verif cabbotage ???
+    if (unitMoveType == 'cab') {
+        if (ter[terrainIndex].innondation > 100) {
             moveCost = 999;
         }
     }
