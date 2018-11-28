@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 28 Novembre 2018 à 15:48
+-- Généré le :  Mer 28 Novembre 2018 à 15:54
 -- Version du serveur :  5.7.24-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.32-0ubuntu0.16.04.1
 
@@ -201,7 +201,7 @@ INSERT INTO `terrains` (`id`, `name`, `icon`, `color`, `moveCostAdj`, `escarpeme
 (55, 'récifs', '', '#7c93a7', 20, 0, 10, 75, 0, 0, 0),
 (56, 'abysses', '', '#5a6ba8', 0, 0, 0, 125, 0, 0, 0),
 (57, 'neiges éternelles', '', '#442b0e', 0, 50, 0, 0, 0, 0, 0),
-(58, 'collines boisées', '', '#114710', 0, 25, 30, 0, 0, 0, 0),
+(58, 'collines boisées', '', '#334a1f', 0, 25, 30, 0, 0, 0, 0),
 (59, 'collines vertes', '', '#87a851', 0, 25, 10, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
