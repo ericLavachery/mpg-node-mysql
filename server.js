@@ -97,14 +97,14 @@ io.sockets.on('connection', function (socket, pseudo) {
             console.log('re-login : '+pseudo);
         }
         socket.emit('persoload', perso);
-        socket.emit('mapload', world);
-        socket.emit('terload', ter);
-        populatePop();
-        socket.emit('popload', pop);
         let myTracks = _.filter(tracks, function(track) {
             return (track.player === pseudo);
         });
         socket.emit('tracksload', myTracks);
+        socket.emit('mapload', world);
+        socket.emit('terload', ter);
+        populatePop();
+        socket.emit('popload', pop);
     });
 
     function populatePop() {
@@ -222,7 +222,14 @@ io.sockets.on('connection', function (socket, pseudo) {
         let unitIndex = pop.findIndex((obj => obj.id == data.splitedUnitId));
         let newUnit = JSON.parse(JSON.stringify(pop[unitIndex]));
         newUnit.number = Number(data.splitValue);
+        // retire de newUnit tous les champs importés de unitTypes
         delete newUnit.id;
+        delete newUnit.pic;
+        Object.keys(unitTypes[0]).forEach(function(key,index) {
+            if (key != 'id' && key != 'type' && key != 'move') {
+                delete newUnit[key];
+            }
+        });
         let sql = "INSERT INTO pop SET ?";
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;

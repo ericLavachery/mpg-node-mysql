@@ -8,10 +8,20 @@ let world = [];
 let ter = [];
 let perso = {};
 let mygroups = [];
+let myTracks = [];
+let trackedTiles = '';
 let selectedUnit = [];
 let mode = 'inspect';
 let uvp = ''; // unit view priority
+let showTracks = false;
 
+// Tracks
+socket.on('tracksload', function(tracks) {
+    myTracks = tracks;
+    myTracks.forEach(function(track) {
+        trackedTiles = trackedTiles+track.tiles;
+    });
+});
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
     world = wmap;
@@ -47,8 +57,13 @@ function showTile(tileId,tileTerrainId) {
     showTileTags(tileId);
 };
 function showTileTags(tileId) {
+    $('#c'+tileId).empty();
+    $('#r'+tileId).empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let tileFlags = world[tileIndex].flags;
+    if (showTracks && trackedTiles.includes('_'+tileId+'_')) {
+        $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
+    }
     if (perso.mapCarto.includes(tileId)) {
         $('#c'+tileId).append('<i class="far fa-map karto"></i>');
     }
@@ -141,8 +156,3 @@ function loadGroups(wpop) {
         }
     });
 };
-
-// Tracks
-socket.on('tracksload', function(tracks) {
-    myTracks = tracks;
-});
