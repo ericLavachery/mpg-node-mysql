@@ -1,0 +1,10 @@
+{
+    "LoginCookieValidity": 14400,
+    "SendErrorReports": "never",
+    "ServerLibraryDifference_DisableWarning": true,
+    "PmaNoRelation_DisableWarning": true,
+    "SuhosinDisableWarning": true,
+    "LoginCookieValidityDisableWarning": true,
+    "Server\/hide_db": "",
+    "collation_connection": "utf8mb4_unicode_ci"
+}

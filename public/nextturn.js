@@ -1,7 +1,6 @@
 // NEXT TURN
 $('#nextButton').click(nextTurn);
 function nextTurn() {
-    // perd de vue les unités adverses
     perso.exploredTiles = [];
     let occupiedTiles = [];
     pop.forEach(function(unit) {
