@@ -191,6 +191,7 @@ function explore(free) {
     showTileUnitList(tileId);
 };
 function isDetected(free,detect,unit) {
+    // console.log(free+' det'+detect+' dis'+unit.discretion);
     // bonus disc CITY !!!
     // malus disc ROAD !!!
     let discretion = unit.discretion;
@@ -199,7 +200,8 @@ function isDetected(free,detect,unit) {
     // TERRAIN COVER ----------------------------------
     let tileIndex = world.findIndex((obj => obj.id == unit.tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let cover = Math.round(unit.coverAdj*ter[terrainIndex].cover/100);
+    let terCover = calcTerCover(unit.tileId);
+    let cover = Math.round(unit.coverAdj*terCover/100);
     discretion = discretion+(Math.round(discretion*cover/100));
     // console.log(adj terrain '+discretion);
     // CARTO ------------------------------------------

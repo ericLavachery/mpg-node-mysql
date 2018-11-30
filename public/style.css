@@ -1,6 +1,9 @@
 /*
 font-family: 'Raleway', sans-serif;
 font-family: 'Uncial Antiqua', cursive;
+font-family: 'Cinzel Decorative', cursive;
+font-family: 'Kelly Slab', cursive;
+font-family: 'Crushed', cursive;
 */
 body {
     font-family: 'Raleway', sans-serif;
@@ -172,27 +175,33 @@ td {
 }
 h1 {
     display: inline;
-    font-family: 'Uncial Antiqua', cursive;
+    /* font-family: 'Uncial Antiqua', cursive; */
+    /* font-family: 'Cinzel Decorative', cursive; */
+    font-family: 'Crushed', cursive;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 24px;
     color: #de0000;
     margin: 0 0 3px 13px;
     padding: 0;
 }
 h3 {
     display: inline;
-    font-family: 'Uncial Antiqua', cursive;
+    /* font-family: 'Uncial Antiqua', cursive; */
+    /* font-family: 'Cinzel Decorative', cursive; */
+    font-family: 'Crushed', cursive;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 22px;
     color: #e000e4;
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
 h4 {
     display: inline;
-    font-family: 'Uncial Antiqua', cursive;
+    /* font-family: 'Uncial Antiqua', cursive; */
+    /* font-family: 'Cinzel Decorative', cursive; */
+    font-family: 'Crushed', cursive;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 22px;
     color: #a5b896;
     margin: 0;
     padding: 0px 0px 5px 0px;
