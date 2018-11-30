@@ -30,6 +30,7 @@ function showUnitInfos(unitId) {
     $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
 };
 function showTileInfos(tileId,linked) {
+    showTracksList(tileId);
     $('#tileInfos').empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));

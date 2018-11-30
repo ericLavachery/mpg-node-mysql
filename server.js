@@ -8,6 +8,7 @@ const db = require('./modules/dbconnect.js');
 const express = require('express');
 const isJSON = require('./public/share.js');
 const rand = require('./public/share.js');
+const _ = require('underscore');
 
 const numHTiles = 15;
 const numVTiles = 8;
@@ -17,6 +18,7 @@ let world = [];
 let ter = [];
 let players = [];
 let unitTypes = [];
+let tracks = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -50,6 +52,12 @@ db.con.connect(function(error) {
         if (error) throw error;
         unitTypes = JSON.parse(JSON.stringify(result));
         console.log('unitTypes loaded');
+    });
+    sql = "SELECT * FROM tracks";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        tracks = JSON.parse(JSON.stringify(result));
+        console.log('tracks loaded');
     });
 });
 
@@ -93,6 +101,10 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('terload', ter);
         populatePop();
         socket.emit('popload', pop);
+        let myTracks = _.filter(tracks, function(track) {
+            return (track.player === pseudo);
+        });
+        socket.emit('tracksload', myTracks);
     });
 
     function populatePop() {

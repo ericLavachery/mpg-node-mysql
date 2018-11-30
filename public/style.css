@@ -115,7 +115,7 @@ td {
     vertical-align: top;
     padding-right: 10px;
 }
-#tileInfos, #unitInfos, #tileUnitList {
+#tileInfos, #unitInfos, #tileUnitList, #tracksList {
     font-family: 'Raleway', sans-serif;
     font-weight: 600;
     font-size: 13px;

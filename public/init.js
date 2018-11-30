@@ -141,3 +141,8 @@ function loadGroups(wpop) {
         }
     });
 };
+
+// Tracks
+socket.on('tracksload', function(tracks) {
+    myTracks = tracks;
+});

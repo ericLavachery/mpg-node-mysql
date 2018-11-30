@@ -1,5 +1,5 @@
 function showTileUnitList(tileId) {
-    $('#tileUnitList').empty();
+    $('#tileUnitList').empty().append('<h3>Bataillons</h3><br>');
     let ownerShort = '';
     let squadsHere = 0;
     let ownSquadsHere = 0;
