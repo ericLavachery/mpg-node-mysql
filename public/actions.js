@@ -385,6 +385,25 @@ function cartoTile(tileId,save) {
         }
     }
 };
+function autoUnfog(tileId) {
+    if (perso.mapCarto.includes(tileId)) {
+        let tileIndex = world.findIndex((obj => obj.id == tileId));
+        // let tileTerrainId = world[tileIndex].terrainId;
+        // showTile(tileId,tileTerrainId);
+        // unfog adjacent tiles
+        let myTileX = world[tileIndex].x;
+        let myTileY = world[tileIndex].y;
+        world.forEach(function(tile) {
+            if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+                if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                    if (tile.y != myTileY || tile.x != myTileX) {
+                        unfogTile(tile.id,false,false);
+                    }
+                }
+            }
+        });
+    }
+};
 function unfogTile(tileId,save,fromMove) {
     // unfog adjacent tiles if road or river (if fromMove=true)
     let someChanges = false;

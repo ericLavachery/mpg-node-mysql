@@ -63,6 +63,7 @@ function selectUnit(unitId) {
         showTileInfos(selectedUnit.tileId,true);
         showTileUnitList(selectedUnit.tileId);
         explore(true);
+        autoUnfog(selectedUnit.tileId);
     } else {
         showUnitInfos(unitId);
     }

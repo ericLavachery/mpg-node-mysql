@@ -76,6 +76,7 @@ function moveGroup(targetTileId) {
             }
         });
         unfogTile(targetTileId,true,true);
+        autoUnfog(selectedUnit.tileId);
         // draw on new tile
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // réaffiche les infos
@@ -115,6 +116,7 @@ function moveUnit(targetTileId) {
         pop[unitIndex].tileId = targetTileId;
         pop[unitIndex].fatigue = fatigue;
         unfogTile(targetTileId,true,true);
+        autoUnfog(selectedUnit.tileId);
         // draw on new tile
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // change infos dans selectedUnit

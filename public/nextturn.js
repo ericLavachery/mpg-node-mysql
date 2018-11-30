@@ -41,9 +41,9 @@ function nextTurn() {
         $("#"+tile.id).attr("title", ""); // erase "moves left" infos
         purgeGroups(tile.id); // purge unused groups
     });
-    // unfog tiles around carto
+    // unfog tiles around occupied carto
     world.forEach(function(tile) {
-        if (perso.mapCarto.includes(tile.id)) {
+        if (perso.mapCarto.includes(tile.id) && occupiedTiles.includes(tile.id)) {
             let tileIndex = world.findIndex((obj => obj.id == tile.id));
             let myTileX = world[tileIndex].x;
             let myTileY = world[tileIndex].y;
