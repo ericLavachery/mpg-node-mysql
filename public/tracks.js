@@ -1,9 +1,9 @@
 function showTracksList(tileId) {
     $('#tracksList').empty();
     if (showTracks) {
-        $('#tracksList').append('<h3>Routes</h3>&nbsp; <span class="detailIcons" id="trackViewButton"><i class="fas fa-arrows-alt-v jaune" onclick="toggleTracksView()"></i></span><br>');
+        $('#tracksList').append('<h3>Itinéraires</h3>&nbsp; <span class="detailIcons" id="trackViewButton"><i class="fas fa-arrows-alt-v jaune" onclick="toggleTracksView()"></i></span><br>');
     } else {
-        $('#tracksList').append('<h3>Routes</h3>&nbsp; <span class="detailIcons" id="trackViewButton"><i class="fas fa-arrows-alt-v" onclick="toggleTracksView()"></i></span><br>');
+        $('#tracksList').append('<h3>Itinéraires</h3>&nbsp; <span class="detailIcons" id="trackViewButton"><i class="fas fa-arrows-alt-v" onclick="toggleTracksView()"></i></span><br>');
     }
     someTracks = false;
     myTracks.forEach(function(track) {
@@ -12,19 +12,31 @@ function showTracksList(tileId) {
                 someTracks = true;
             }
             trackName = capitalizeFirstLetter(track.name);
-            $('#tracksList').append('<span class="paramName">'+trackName+'</span><br>');
+            if (track.id == selectedTrack.id) {
+                $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+track.id+')"><span class="paramName jaune">'+trackName+'</span></a><br>');
+            } else {
+                $('#tracksList').append('<span class="paramName"><a href="#" onclick="toggleSelectTrack('+track.id+')">'+trackName+'</a></span><br>');
+            }
         }
     });
 };
 function toggleTracksView() {
     if (showTracks) {
         showTracks = false;
-        $('#trackViewButton').empty().append('<i class="fas fa-arrows-alt-v" onclick="toggleTracksView()"></i>');
+        tracksViewButtonOff();
     } else {
         showTracks = true;
-        $('#trackViewButton').empty().append('<i class="fas fa-arrows-alt-v jaune" onclick="toggleTracksView()"></i>');
+        tracksViewButtonOn();
+        selectedTrack = [];
     }
     showTrackedTiles();
+    showTracksList(selectedTile.id);
+};
+function tracksViewButtonOff() {
+    $('#trackViewButton').empty().append('<i class="fas fa-arrows-alt-v" onclick="toggleTracksView()"></i>');
+};
+function tracksViewButtonOn() {
+    $('#trackViewButton').empty().append('<i class="fas fa-arrows-alt-v jaune" onclick="toggleTracksView()"></i>');
 };
 function showTrackedTiles() {
     world.forEach(function(tile) {
@@ -32,4 +44,16 @@ function showTrackedTiles() {
             showTileTags(tile.id);
         }
     });
+};
+function toggleSelectTrack(trackId) {
+    let trackIndex = myTracks.findIndex((obj => obj.id == trackId));
+    if (selectedTrack.id == trackId) {
+        selectedTrack = [];
+    } else {
+        selectedTrack = myTracks[trackIndex];
+        showTracks = false;
+        tracksViewButtonOff();
+    }
+    showTrackedTiles();
+    showTracksList(selectedTile.id);
 };

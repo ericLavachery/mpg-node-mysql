@@ -11,6 +11,8 @@ let mygroups = [];
 let myTracks = [];
 let trackedTiles = '';
 let selectedUnit = [];
+let selectedTrack = [];
+let selectedTile = [];
 let mode = 'inspect';
 let uvp = ''; // unit view priority
 let showTracks = false;
@@ -61,8 +63,14 @@ function showTileTags(tileId) {
     $('#r'+tileId).empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let tileFlags = world[tileIndex].flags;
-    if (showTracks && trackedTiles.includes('_'+tileId+'_')) {
-        $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
+    if (selectedTrack.id >= 1) {
+        if (selectedTrack.tiles.includes('_'+tileId+'_')) {
+            $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
+        }
+    } else {
+        if (showTracks && trackedTiles.includes('_'+tileId+'_')) {
+            $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
+        }
     }
     if (perso.mapCarto.includes(tileId)) {
         $('#c'+tileId).append('<i class="far fa-map karto"></i>');

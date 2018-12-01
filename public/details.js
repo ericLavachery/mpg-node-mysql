@@ -33,6 +33,7 @@ function showTileInfos(tileId,linked) {
     showTracksList(tileId);
     $('#tileInfos').empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
+    selectedTile = world[tileIndex];
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let terMvCost = terMoveCost(tileId,0);
     let terMvCostRoad = roadMoveCost(tileId,0);

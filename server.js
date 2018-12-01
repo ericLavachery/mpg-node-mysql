@@ -233,7 +233,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "INSERT INTO pop SET ?";
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;
-            // result.insertId is the id given by sql to the last inserted record (by this client)
+            // result.insertId is the id given by mysql to the last inserted record (by this client)
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
