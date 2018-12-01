@@ -254,6 +254,23 @@ io.sockets.on('connection', function (socket, pseudo) {
         }
     });
 
+    // ADD TRACK
+    socket.on('add_track', function(data) {
+        let newTrack = data;
+        // change db
+        let sql = "INSERT INTO tracks SET ?";
+        db.con.query(sql, data, function (error, result) {
+            if (error) throw error;
+            // result.insertId is the id given by mysql to the last inserted record (by this client)
+            sendNewTrack(result.insertId);
+        });
+        function sendNewTrack(newId) {
+            newTrack.id = newId;
+            tracks.push(newTrack);
+            socket.emit('track_added', newTrack);
+        }
+    });
+
     // NEXT TURN
     socket.on('next_turn', function(data) {
         // change pop

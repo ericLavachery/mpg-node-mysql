@@ -54,3 +54,14 @@ function splitOnClientPop(data) {
     pop.push(newUnit);
     pop[unitIndex].number = pop[unitIndex].number-data.splitValue;
 }
+// NEW TRACK
+socket.on('track_added', function(data) {
+    let newTrack = data;
+    myTracks.push(newTrack);
+    trackedTiles = trackedTiles+newTrack.tiles;
+    selectedTrack = newTrack;
+    showTracks = false;
+    tracksViewButtonOff();
+    showTrackedTiles();
+    showTracksList(selectedTile.id);
+});
