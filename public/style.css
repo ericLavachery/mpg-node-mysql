@@ -16,6 +16,7 @@ body {
     grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px;
     background-color: #323232;
     padding: 10px;
+    border-radius: 9px;
 }
 .grid-item {
     border: 1px solid rgba(0, 0, 0, 0.6);
@@ -125,7 +126,7 @@ td {
     padding: 8px 8px;
     border-style: solid;
     border-width: 2px;
-    border-color: #323232;
+    border-color: #2f372a;
     margin: 0 0 5px 0;
     border-radius: 6px;
 }
@@ -195,7 +196,8 @@ h3 {
     letter-spacing: 1px;
     font-weight: normal;
     font-size: 22px;
-    color: #e000e4;
+    color: #85633e;
+    /* text-shadow: 1px 1px #241910; */
     margin: 0;
     padding: 0px 0px 5px 0px;
 }

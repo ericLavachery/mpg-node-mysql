@@ -29,9 +29,14 @@ function nextTurn() {
     });
     // map
     let check = 0;
+    let tileIndex = 0;
+    let tileFlags = 0;
     world.forEach(function(tile) {
         // re-fog some viewed tiles
-        if (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id)) {
+        // NOT IF : Occupied - Carto - Road - SeaRoute
+        tileIndex = world.findIndex((obj => obj.id == tile.id));
+        tileFlags = world[tileIndex].flags;
+        if (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id) && !tileFlags.includes('road_') && !tileFlags.includes('searoute_')) {
             check = rand.rand(1,100);
             if (check <= 5) {
                 perso.mapView = _.without(perso.mapView, tile.id);

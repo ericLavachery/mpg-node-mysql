@@ -2,6 +2,14 @@
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
+function xType(unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let correctType = pop[unitIndex].type;
+    if (pop[unitIndex].number == 1) {
+        correctType = pop[unitIndex].typeSing;
+    }
+    return correctType;
+};
 function about(number,aleat) {
     let numAleat = Math.round(number*aleat/100);
     let aboutNum = Math.floor((Math.random() * (numAleat*2)) + 1)+number-numAleat;

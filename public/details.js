@@ -12,7 +12,8 @@ function showUnitInfos(unitId) {
     let hpLeft = pop[unitIndex].hp-pop[unitIndex].blessures;
     let defense = calcBaseDefense(unitId);
     let attaque = calcBaseAttaque(unitId);
-    $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+pop[unitIndex].type+'</h3><br>');
+    // let uType = xType(unitId);
+    $('#unitInfos').append('<h3>'+pop[unitIndex].number+' '+xType(unitId)+'</h3><br>');
     $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     if (shape >= 100) {
         $('#unitInfos').append('<span class="paramName">Mouvements</span><span id="infosMovesLeft" class="paramValue">'+Math.round(movesLeft/10)+'</span><span class="paramValue">&nbsp;/&nbsp;'+Math.round(move/10)+'</span><br>');
