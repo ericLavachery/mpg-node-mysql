@@ -8,7 +8,9 @@ font-family: 'Crushed', cursive;
 body {
     font-family: 'Raleway', sans-serif;
     background-color: black;
-    background-image: url(/static/img/blackrockbg_dark.jpg);
+    /* background-image: url(/static/img/blackrockbg_dark.jpg); */
+    /* background-image: url(/static/img/bgwooddark.jpg); */
+    background-image: url(/static/img/bg-forest-vdark.jpg);
 }
 .grid-container {
     display: inline-grid;
@@ -117,7 +119,7 @@ td {
     vertical-align: top;
     padding-right: 10px;
 }
-#tileInfos, #unitInfos, #tileUnitList, #tracksList {
+.woodBlock {
     background-color: black;
     font-family: 'Raleway', sans-serif;
     font-weight: 600;
@@ -129,6 +131,59 @@ td {
     border-color: #2f372a;
     margin: 0 0 5px 0;
     border-radius: 6px;
+    min-width: 280px;
+}
+#vuPriority {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: 0% 0%;
+}
+#tileUnitList {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: 0% 5%;
+}
+#unitInfos {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: 0% 25%;
+}
+#tileInfos {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: 0% 35%;
+}
+#tracksList {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: 0% 45%;
+}
+#playerInfos {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: right 0%;
+    min-width: 133px;
+}
+#timeInfos {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: right 10%;
+    min-width: 133px;
+}
+#modesInfos {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: right 20%;
+    min-width: 133px;
+}
+.blockTitle {
+    display: inline-block;
+    min-width: 260px;
+}
+.loupe {
+    display: inline-block;
+    color: #a5b896;
+    font-size: 19px;
+}
+.detailIcons {
+    color: #a5b896;
+    font-size: 18px;
+}
+.klik:hover {
+    color: #ff002e;
+    cursor: pointer;
 }
 #vuPriority {
     padding: 0 7px 0 7px;
@@ -142,7 +197,7 @@ td {
 }
 .sidebar a:hover {
     text-decoration: none;
-    color: #e000e4;
+    color: #ff002e;
 }
 .paramName {
     display: inline-block;
@@ -183,9 +238,9 @@ h1 {
     font-family: 'Crushed', cursive;
     letter-spacing: 1px;
     font-weight: normal;
-    font-size: 24px;
-    color: #de0000;
-    margin: 0 0 3px 13px;
+    font-size: 22px;
+    color: #ff002e;
+    /* margin: 0 0 3px 13px; */
     padding: 0;
 }
 h3 {
@@ -214,13 +269,16 @@ h4 {
     padding: 0px 0px 5px 0px;
 }
 .rouge {
-    color: #de0000;
+    color: #ff002e;
 }
 .mauve {
     color: #e000e4;
 }
+.ciel {
+    color: #00e3fa;
+}
 .jaune {
-    color: #f1e001;
+    color: #f8e71c;
 }
 .grisf {
     color: #59664e;
@@ -230,10 +288,6 @@ h4 {
 }
 .blanc {
     color: #FFFFFF;
-}
-.detailIcons {
-    color: #a5b896;
-    font-size: 18px;
 }
 button, select {
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;

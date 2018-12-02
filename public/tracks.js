@@ -1,10 +1,11 @@
 function showTracksList(tileId) {
     $('#tracksList').empty();
     if (showTracks) {
-        $('#tracksList').append('<h3>Itinéraires</h3>&nbsp; <span class="detailIcons" id="trackViewButton"><i class="fas fa-arrows-alt-v jaune" onclick="toggleTracksView()"></i></span><br>');
+        $('#tracksList').append('<span class="blockTitle"><h3>Itinéraires</h3>&nbsp; <span class="detailIcons klik" id="trackViewButton"><i class="fas fa-arrows-alt-v jaune" onclick="toggleTracksView()"></i></span></span>');
     } else {
-        $('#tracksList').append('<h3>Itinéraires</h3>&nbsp; <span class="detailIcons" id="trackViewButton"><i class="fas fa-arrows-alt-v" onclick="toggleTracksView()"></i></span><br>');
+        $('#tracksList').append('<span class="blockTitle"><h3>Itinéraires</h3>&nbsp; <span class="detailIcons klik" id="trackViewButton"><i class="fas fa-arrows-alt-v" onclick="toggleTracksView()"></i></span></span>');
     }
+    $('#tracksList').append('<br>');
     let someTracks = false;
     let selectedTrackHere = false;
     myTracks.forEach(function(track) {
@@ -22,7 +23,7 @@ function showTracksList(tileId) {
         }
     });
     if (!selectedTrackHere && selectedTrack.id >= 1) {
-        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="paramName jaune">('+capitalizeFirstLetter(selectedTrack.name)+')</span></a><br>');
+        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="paramName jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br>');
     }
     $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
 };

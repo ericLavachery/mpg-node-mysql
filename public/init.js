@@ -2,7 +2,6 @@ let numHTiles = 15;
 let numVTiles = 9;
 let xOffset = 0;
 let yOffset = 0;
-
 let pop = [];
 let world = [];
 let ter = [];
@@ -16,6 +15,8 @@ let selectedTile = [];
 let mode = 'inspect';
 let uvp = ''; // unit view priority
 let showTracks = false;
+let expSquadDetail = false;
+let expTileDetail = false;
 
 // Tracks
 socket.on('tracksload', function(tracks) {

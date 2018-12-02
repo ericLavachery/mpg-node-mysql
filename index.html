@@ -18,17 +18,14 @@
             <table>
                 <tr>
                     <td>
-                        <div class="grid-container" id="zone_map">
-                            <!-- <div id="17" class="grid-item plains" onclick="changeTerrain(this)">
-                                <img src="/static/img/icon-player/space-suit.png" alt="">
-                            </div> -->
-                        </div>
+                        <div class="grid-container" id="zone_map"></div>
                         <br><br>
                         <button type="button" name="medit" id="medit">Map Editor</button>
                         <button type="button" id="testmenow">Test!</button>
                     </td>
                     <td class="sidebar" id="sidebarInfos">
-                        <div id="vuPriority">
+                        <div class="woodBlock" id="vuPriority">
+                            <div class="espace"></div>
                             <img src="/static/img/cat-player/wrk.png" alt="" onclick="catPriorityChange('wrk')" id="wrk-button">
                             <img src="/static/img/cat-player/spy.png" alt="" onclick="catPriorityChange('spy')" id="spy-button">
                             <img src="/static/img/cat-player/sld.png" alt="" onclick="catPriorityChange('sld')" id="sld-button">
@@ -36,20 +33,21 @@
                             <img src="/static/img/cat-player/bsp.png" alt="" onclick="catPriorityChange('bsp')" id="bsp-button">
                             <img src="/static/img/cat-player/bld.png" alt="" onclick="catPriorityChange('bld')" id="bld-button">
                         </div>
-                        <div id="tileInfos"></div>
-                        <div id="unitInfos">
-                            <!-- <span class="paramName">Moves</span><span class="paramValue">70</span><br> -->
-                        </div>
-                        <div id="tileUnitList"></div>
-                        <div id="tracksList"></div>
+                        <div class="woodBlock" id="tileUnitList"></div>
+                        <div class="woodBlock" id="unitInfos"></div>
+                        <div class="woodBlock" id="tileInfos"></div>
+                        <div class="woodBlock" id="tracksList"></div>
                     </td>
                     <td class="sidebar" id="sidebarCommand">
-                        <h1 id="pseu"></h1><br>
-                        <button type="button" class="modeButtons" id="gmoveButton" title="">Groupe</button><br>
-                        <button type="button" class="modeButtons" id="smoveButton" title="">Solo</button><br>
-                        <button type="button" class="modeButtons" id="inspectButton" title="">Inspecter</button><br>
-                        <br>
-                        <button type="button" class="modeButtons" name="nextTurn" id="nextButton">Jour Suivant</button><br>
+                        <div class="woodBlock" id="playerInfos"><h1 id="pseu"></h1><br></div>
+                        <div class="woodBlock" id="timeInfos">
+                            <button type="button" class="modeButtons" name="nextTurn" id="nextButton">Jour Suivant</button><br>
+                        </div>
+                        <div class="woodBlock" id="modesInfos">
+                            <button type="button" class="modeButtons" id="gmoveButton" title="">Groupe</button><br>
+                            <button type="button" class="modeButtons" id="smoveButton" title="">Solo</button><br>
+                            <button type="button" class="modeButtons" id="inspectButton" title="">Inspecter</button><br>
+                        </div>
                     </td>
                 </tr>
             </table>
