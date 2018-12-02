@@ -69,6 +69,7 @@ function selectUnit(unitId) {
     }
 };
 function unSelectUnit(unitId) {
+    let oldTileId = selectedUnit.tileId;
     drawTileDefaultUnit(selectedUnit.tileId);
     $('#unitInfos').empty();
     $('#tileUnitList').empty();
@@ -79,4 +80,5 @@ function unSelectUnit(unitId) {
     } else {
         cursorSwitch('.','grid-item','pointer');
     }
+    showTileInfos(oldTileId,false);
 };

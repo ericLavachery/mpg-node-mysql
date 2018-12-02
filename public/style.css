@@ -156,17 +156,17 @@ td {
 #playerInfos {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
     background-position: right 0%;
-    min-width: 133px;
+    min-width: 130px;
 }
 #timeInfos {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
     background-position: right 10%;
-    min-width: 133px;
+    min-width: 130px;
 }
 #modesInfos {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
     background-position: right 20%;
-    min-width: 133px;
+    min-width: 130px;
 }
 .blockTitle {
     display: inline-block;
@@ -226,6 +226,11 @@ td {
 .unitGroup {
     display: inline-block;
     font-weight: normal;
+}
+.trackFL {
+    display: inline-block;
+    font-weight: lighter;
+    padding-left: 12px;
 }
 .espace {
     margin: 6px;
@@ -313,8 +318,11 @@ button, select {
 	padding:4px 10px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #4d3534;
-    margin: 3px 3px 0 0;
-    min-width: 120px;
+    margin: 0 0 0 0;
+    min-width: 80px;
+}
+select {
+    padding:3px 10px;
 }
 button:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #634b30), color-stop(1, #7d5d3b));
@@ -333,9 +341,19 @@ button:active {
 .modeButtons {
     min-width: 130px;
     padding:6px 13px;
+    margin: 3px 0 5px 0;
 }
 .iconButtons {
     min-width: 35px;
     font-size: 17px;
-    padding: 2px 5px;
+    padding: 4px 5px 2px 5px;
+}
+.ibFont {
+    font-size: 13px;
+    display: inline-block;
+    vertical-align: top;
+}
+.butSpace {
+    width: 3px;
+    display: inline-block;
 }

@@ -8,6 +8,7 @@ function showTracksList(tileId) {
     $('#tracksList').append('<br>');
     let someTracks = false;
     let selectedTrackHere = false;
+    let trackName = '';
     myTracks.forEach(function(track) {
         if (track.tiles.includes('_'+tileId+'_')) {
             if (!someTracks) {
@@ -15,7 +16,7 @@ function showTracksList(tileId) {
             }
             trackName = capitalizeFirstLetter(track.name);
             if (track.id == selectedTrack.id) {
-                $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+track.id+')"><span class="paramName jaune">'+trackName+'</span></a><br>');
+                $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+track.id+')"><span class="paramName jaune">'+trackName+'</span></a><br><span class="trackFL jaune">'+track.firstTileName+' - '+track.lastTileName+'</span><br>');
                 selectedTrackHere = true;
             } else {
                 $('#tracksList').append('<span class="paramName"><a href="#" onclick="toggleSelectTrack('+track.id+')">'+trackName+'</a></span><br>');
@@ -23,12 +24,35 @@ function showTracksList(tileId) {
         }
     });
     if (!selectedTrackHere && selectedTrack.id >= 1) {
-        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="paramName jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br>');
+        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="paramName jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br><span class="trackFL jaune">'+selectedTrack.firstTileName+' - '+selectedTrack.lastTileName+'</span><br>');
     }
     $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
+    $('#tracksList').append('<div class="espace"></div>');
+    if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
+        trackButtons();
+    }
+};
+function trackButtons() {
+    if (selectedTrack.firstTile == selectedUnit.tileId || selectedTrack.lastTile == selectedUnit.tileId) {
+        buttonInfos = "Enlever ce terrain de l'itinéraire";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
+    }
+    if (isAdjacent(selectedTrack.firstTile,selectedUnit.tileId) || isAdjacent(selectedTrack.lastTile,selectedUnit.tileId)) {
+        if (!selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
+            buttonInfos = "Ajouter ce terrain à l'itinéraire";
+            $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
+        }
+    }
+    if (selectedUnit.id >= 1 && selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
+        buttonInfos = "Envoyer ce bataillon vers le début de l'itinéraire";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+selectedTrack.firstTileName+'</span></button><span class="butSpace"></span>');
+        buttonInfos = "Envoyer ce bataillon vers la fin de l'itinéraire";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+selectedTrack.lastTileName+'</span></button><span class="butSpace"></span>');
+    }
 };
 function addTrack(tileId) {
-    trackName = prompt('Donnez un nom à ce nouvel itinéraire :');
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let trackName = prompt('Donnez un nom à ce nouvel itinéraire :');
     if (trackName != null) {
         if (trackName.length >= 3) {
             let newTrack = {};
@@ -37,6 +61,8 @@ function addTrack(tileId) {
             newTrack.tiles = '_'+tileId+'_';
             newTrack.firstTile = tileId;
             newTrack.lastTile = tileId;
+            newTrack.firstTileName = world[tileIndex].name;
+            newTrack.lastTileName = world[tileIndex].name;
             socket.emit('add_track', newTrack);
         }
     }

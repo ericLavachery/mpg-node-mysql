@@ -62,16 +62,21 @@ function showTileUnitList(tileId) {
     $('#tileUnitList').append('<div class="espace"></div>');
     actionsButtons();
     $('#tileUnitList').append('<div class="espace"></div>');
+    let isSpace = false;
     // bouton JOIN
     if (numSameType >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp') {
         joinButton();
+        isSpace = true;
     }
     // bouton SPLIT
     if (selectedUnit.number >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp') {
+        if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span><span class="butSpace"></span>');}
         splitButton(selectedUnit.id);
+        isSpace = true;
     }
     // bouton NEW GROUP
     if (ownSquadsHere >= 2 && selectedUnit.id >= 1) {
+        if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span><span class="butSpace"></span>');}
         newGroupButton();
     }
 };
@@ -91,5 +96,5 @@ function uListOthersIdentified(unit,ownerShort,gfollow) {
     $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf">'+xType(unit.id)+'</span><span class="unitOwner grisf">'+ownerShort+'</span></a><br>');
 };
 function newGroupButton() {
-    $('#tileUnitList').append('<button type="button" name="newGroup" title="Mettre le bataillon sélectionné dans un nouveau groupe" id="newGroup" onclick="createGroup('+selectedUnit.id+')">Créer Groupe</button>');
+    $('#tileUnitList').append('<button type="button" name="newGroup" title="Créer un nouveau groupe et y mettre le bataillon sélectionné" id="newGroup" onclick="createGroup('+selectedUnit.id+')">Grouper</button>');
 };
