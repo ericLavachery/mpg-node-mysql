@@ -149,10 +149,20 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE world SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log('single pop changed');
+            // console.log('single world changed');
         });
         // broadcast
         socket.broadcast.emit('single_world_changed', data);
+    });
+
+    // SINGLE PROPERTY TRACKS CHANGE
+    socket.on('single_tracks_change', function(data) {
+        // change db
+        let sql = "UPDATE tracks SET "+data.prop+" = '"+data.value+"' WHERE id = "+data.id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('single tracks changed');
+        });
     });
 
     // PLAYERS PERSO CHANGE

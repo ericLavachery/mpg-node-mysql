@@ -43,11 +43,37 @@ function trackButtons() {
         $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileOut('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
     }
     if (!selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
-        buttonInfos = "Ajouter ce terrain ("+selectedTile.terrain+" id "+selectedTile.id+") à l'itinéraire ("+selectedTrack.name+")";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileIn('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
+        // vérifie si un (et un seul) tile de la track est adjacent
+        let numNearTiles = 0;
+        let nearTile1 = 0;
+        let nearTile2 = 0;
+        let addOK = false;
+        let unitTileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
+        let worldAround = _.filter(world, function(tile) {
+            return ((tile.x == world[unitTileIndex].x || tile.x == world[unitTileIndex].x-1 || tile.x == world[unitTileIndex].x+1) && (tile.y == world[unitTileIndex].y || tile.y == world[unitTileIndex].y-1 || tile.y == world[unitTileIndex].y+1));
+        });
+        worldAround.forEach(function(tile) {
+            if (selectedTrack.tiles.includes('_'+tile.id+'_') && tile.id != selectedUnit.tileId) {
+                numNearTiles = numNearTiles+1;
+                if (numNearTiles == 1) {
+                    nearTile1 = tile.id;
+                } else if (numNearTiles == 2) {
+                    nearTile2 = tile.id;
+                }
+            }
+        });
+        if (numNearTiles == 1) {addOK = true;}
+        // exeption pour une jonction (si les tiles existants ne sont pas adjacents)
+        if (numNearTiles == 2 && !isAdjacent(nearTile1, nearTile2)) {
+            addOK = true;
+        }
+        if (addOK) {
+            buttonInfos = "Ajouter ce terrain ("+selectedTile.terrain+" id "+selectedTile.id+") à l'itinéraire ("+selectedTrack.name+")";
+            $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileIn('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
+        }
     }
     if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_')) {
-        buttonInfos = "Envoyer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") vers le début de l'itinéraire ("+selectedTrack.name+")";
+        buttonInfos = "Faire suivre l'itinéraire ("+selectedTrack.name+") par ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+")";
         let nextTile = findNextTile();
         let theNextTile = '';
         if (nextTile.tileName != '') {
@@ -76,10 +102,28 @@ function findNextTile() {
     return nextTile;
 };
 function trackTileOut(tileId,trackId) {
-    console.log('add '+tileId+' to '+trackId);
+    // XXXX changer les firstTile et lastTile
+    // si tileId = first ou last : recherche autour de tileId : le tile inclu dans track.tiles est le nouveau
+    let trackIndex = myTracks.findIndex((obj => obj.id == trackId));
+    let oldTiles = myTracks[trackIndex].tiles;
+    let newTiles = oldTiles.replace('_'+tileId+'_','_');
+    myTracks[trackIndex].tiles = newTiles;
+    showTrackedTiles();
+    showTracksList(tileId);
+    emitSingleTracksChange(trackId,'tiles',newTiles);
 };
 function trackTileIn(tileId,trackId) {
-    console.log('delete '+tileId+' from '+trackId);
+    // XXXX changer les firstTile et lastTile
+    // recherche autour de tileId : si un des tiles est le first ou last :
+    // si il est le seul tile autour : tileId est le nouveau
+    // si il y en a un autre : jonction : first et last ne changent pas
+    let trackIndex = myTracks.findIndex((obj => obj.id == trackId));
+    let oldTiles = myTracks[trackIndex].tiles;
+    let newTiles = oldTiles+tileId+'_';
+    myTracks[trackIndex].tiles = newTiles;
+    showTrackedTiles();
+    showTracksList(tileId);
+    emitSingleTracksChange(trackId,'tiles',newTiles);
 };
 function goTo(unitId,trackId) {
     console.log('squad '+unitId+' follows track '+trackId);
