@@ -61,6 +61,17 @@ mouvement auto le long de chemins
     mode "tracksView" (avec une icône en dessous de l'icône carto)
         montre toutes les pistes, avec celle qui est select en évidence
 
+        let unitTileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
+        let worldAround = [];
+        worldAround = _.filter(world, function(tile) {
+            return ((tile.x == world[unitTileIndex].x || tile.x == world[unitTileIndex].x-1 || tile.x == world[unitTileIndex].x+1) && (tile.y == world[unitTileIndex].y || tile.y == world[unitTileIndex].y-1 || tile.y == world[unitTileIndex].y+1));
+        });
+        worldAround.forEach(function(tile) {
+            if (selectedTrack.tiles.includes(tile.id) && tileId != selectedUnit.tileId && tileId != selectedUnit.prevTileId) {
+                // this is the next tile on the track
+            }
+        });
+
 résolution automatique des combats
 
 noble: ne fait que des soldats

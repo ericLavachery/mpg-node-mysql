@@ -48,12 +48,33 @@ function trackButtons() {
     }
     if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_')) {
         buttonInfos = "Envoyer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") vers le début de l'itinéraire ("+selectedTrack.name+")";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+findTrackDirection(selectedUnit.id,selectedTrack.id)+'</span></button><span class="butSpace"></span>');
+        let nextTile = findNextTile();
+        let theNextTile = '';
+        if (nextTile.tileName != '') {
+            theNextTile = nextTile.tileName;
+        } else {
+            theNextTile = nextTile.terrain+' ('+nextTile.id+')';
+        }
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
     }
 };
-function findTrackDirection(unitId,trackId) {
+function findNextTile() {
     // XXXXXXXXXXXXXXXX mettre la bonne direction dans le bouton!
-    return 'Yolo';
+    let nextTile = {};
+    let unitTileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
+    let worldAround = _.filter(world, function(tile) {
+        return ((tile.x == world[unitTileIndex].x || tile.x == world[unitTileIndex].x-1 || tile.x == world[unitTileIndex].x+1) && (tile.y == world[unitTileIndex].y || tile.y == world[unitTileIndex].y-1 || tile.y == world[unitTileIndex].y+1));
+    });
+    worldAround.forEach(function(tile) {
+        if (selectedTrack.tiles.includes('_'+tile.id+'_') && tile.id != selectedUnit.tileId && tile.id != selectedUnit.prevTileId) {
+            nextTile.id = tile.id;
+            nextTile.x = tile.x;
+            nextTile.y = tile.y;
+            nextTile.tileName = tile.tileName;
+            nextTile.terrain = tile.terrain;
+        }
+    });
+    return nextTile;
 };
 function trackTileOut(tileId,trackId) {
     console.log('add '+tileId+' to '+trackId);
@@ -75,8 +96,8 @@ function addTrack(tileId) {
             newTrack.tiles = '_'+tileId+'_';
             newTrack.firstTile = tileId;
             newTrack.lastTile = tileId;
-            newTrack.firstTileName = world[tileIndex].name;
-            newTrack.lastTileName = world[tileIndex].name;
+            newTrack.firstTileName = world[tileIndex].tileName;
+            newTrack.lastTileName = world[tileIndex].tileName;
             socket.emit('add_track', newTrack);
         }
     }
