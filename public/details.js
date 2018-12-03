@@ -86,6 +86,7 @@ function renameTile(tileId) {
             let tileIndex = world.findIndex((obj => obj.id == tileId));
             world[tileIndex].tileName = newName;
             // XXXXX emit / save / broadcast !!!!
+            emitSingleWorldChange(tileId,'tileName',newName);
             showTileInfos(tileId,true);
         } else {
             // message d'erreur

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost:3306
--- Generation Time: Dec 02, 2018 at 08:37 PM
--- Server version: 5.7.24-0ubuntu0.18.04.1
--- PHP Version: 7.2.10-0ubuntu0.18.04.1
+-- Host: localhost
+-- Generation Time: Dec 03, 2018 at 04:41 PM
+-- Server version: 5.7.24-0ubuntu0.16.04.1
+-- PHP Version: 7.0.32-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -47,10 +47,10 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`) VALUES
-(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81]', '[41, 42, 43, 58, 72, 101, 89, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 22, 23, 24, 52, 53, 27, 35, 36, 50, 65, 44, 74, 68, 69, 82, 84, 98, 99, 87, 102, 10, 25, 56, 71, 37, 40, 97, 59, 8, 67]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83]', '[]', '[\"Zorglub\"]', '[\"Madrigal\"]'),
-(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 44, 93]', '[47, 40, 49, 61, 44]', '[58, 73, 74, 88, 104, 116, 86, 85, 57, 59, 72, 87, 89, 100, 101, 102, 117, 130, 131, 132, 103, 115, 70]', '[73, 116, 88]', '[]', '[\"Bob\"]', '[]'),
+(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81]', '[41, 42, 43, 58, 72, 89, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 23, 24, 52, 27, 35, 36, 65, 44, 74, 68, 69, 82, 84, 102, 10, 56, 71, 8, 67, 97, 101, 50, 40, 99, 37, 87, 98, 25, 59]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83]', '[55]', '["Zorglub"]', '["Madrigal"]'),
+(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104]', '[47, 40, 49, 61, 105, 104]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 102, 117, 130, 103, 115, 70, 55, 41, 89, 101, 132, 26, 39, 40, 59, 131]', '[73, 116, 88]', '[]', '["Bob"]', '[]'),
 (3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]'),
-(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[\"Zorglub\"]', '[\"Bob\"]');
+(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]');
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (5, 'Zorglub', 'Chamane', 5, 1, 3, 15, 0, 65, 0, 74, 74, NULL),
 (11, 'Zorglub', 'Barbares', 1, 48, 3, 15, 0, 65, 0, 88, 88, NULL),
 (38, 'Bob', 'Château', 9, 1, 6, 1, 0, 0, 0, 41, 41, NULL),
-(41, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 74, 23, 41, NULL),
+(41, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 23, 41, NULL),
 (42, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 43, 43, NULL),
 (44, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 90, 74, NULL),
 (45, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 42, 42, NULL),
@@ -96,7 +96,7 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (55, 'Zorglub', 'Barbares', 1, 127, 3, 15, 0, 65, 0, 116, 116, 2),
 (56, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 43, 43, 6),
 (58, 'Zorglub', 'Barbares', 1, 3, 3, 15, 0, 65, 0, 85, 85, NULL),
-(59, 'Zorglub', 'Barbares', 1, 1, 3, 15, 0, 65, 0, 86, 86, NULL),
+(59, 'Zorglub', 'Barbares', 1, 1, 3, 15, 0, 65, 0, 55, 40, NULL),
 (60, 'Bob', 'Piquiers', 2, 2, 6, 1, 0, 60, 0, 26, 42, NULL),
 (63, 'Zorglub', 'Barbares', 1, 7, 3, 15, 0, 65, 0, 104, 104, NULL),
 (64, 'Zorglub', 'Barbares', 1, 30, 3, 15, 0, 65, 0, 116, 116, 2),
@@ -125,8 +125,8 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (99, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 41, 41, 1),
 (100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 0, 83, 39, NULL),
 (103, 'Bob', 'Piquiers', 2, 36, 6, 1, 0, 60, 0, 72, 72, NULL),
-(104, 'Bob', 'Piquiers', 2, 73, 6, 1, 0, 60, 0, 70, 72, 2),
-(105, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 70, 72, 2),
+(104, 'Bob', 'Piquiers', 2, 73, 6, 1, 0, 60, 48, 55, 70, NULL),
+(105, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 55, 70, NULL),
 (109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1);
 
 -- --------------------------------------------------------
@@ -289,7 +289,7 @@ INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `icon`, `cat`, `illu`, `hp`, 
 
 CREATE TABLE `world` (
   `id` int(11) NOT NULL,
-  `name` varchar(24) COLLATE utf8_bin NOT NULL,
+  `tileName` varchar(24) COLLATE utf8_bin NOT NULL,
   `terrain` varchar(24) COLLATE utf8_bin NOT NULL,
   `flags` varchar(255) COLLATE utf8_bin NOT NULL,
   `terrainId` tinyint(4) NOT NULL,
@@ -301,7 +301,7 @@ CREATE TABLE `world` (
 -- Dumping data for table `world`
 --
 
-INSERT INTO `world` (`id`, `name`, `terrain`, `flags`, `terrainId`, `x`, `y`) VALUES
+INSERT INTO `world` (`id`, `tileName`, `terrain`, `flags`, `terrainId`, `x`, `y`) VALUES
 (1, '', 'plains', '', 1, 1, 1),
 (2, '', 'forest', '', 2, 1, 2),
 (3, '', 'forest', '', 2, 1, 3),
@@ -356,7 +356,7 @@ INSERT INTO `world` (`id`, `name`, `terrain`, `flags`, `terrainId`, `x`, `y`) VA
 (52, '', 'récifs', 'navig_', 60, 4, 7),
 (53, '', 'plains', '', 6, 4, 8),
 (54, '', 'plains', '', 6, 4, 9),
-(55, '', 'plains', 'road_', 6, 4, 10),
+(55, 'Chez Willy', 'plains', 'road_', 6, 4, 10),
 (56, '', 'forest', '', 2, 4, 11),
 (57, '', 'forest', '', 2, 4, 12),
 (58, '', 'forest', '', 2, 4, 13),
@@ -384,7 +384,7 @@ INSERT INTO `world` (`id`, `name`, `terrain`, `flags`, `terrainId`, `x`, `y`) VA
 (80, '', 'mountains', '', 4, 6, 5),
 (81, '', 'swamp', '', 5, 6, 6),
 (82, '', 'swamp', '', 5, 6, 7),
-(83, '', 'plains', '', 6, 6, 8),
+(83, 'Café du coin', 'plains', '', 6, 6, 8),
 (84, '', 'plains', '', 1, 6, 9),
 (85, '', 'plains', 'road_', 1, 6, 10),
 (86, '', 'plains', '', 1, 6, 11),
@@ -512,7 +512,7 @@ ALTER TABLE `terrains`
 -- AUTO_INCREMENT for table `tracks`
 --
 ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `unitTypes`
 --

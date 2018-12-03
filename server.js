@@ -139,6 +139,22 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('single_pop_changed', data);
     });
 
+    // SINGLE PROPERTY WORLD CHANGE
+    socket.on('single_world_change', function(data) {
+        // change world
+        let prop = data.prop;
+        let objIndex = world.findIndex((obj => obj.id == data.id));
+        world[objIndex].prop = data.value;
+        // change db
+        let sql = "UPDATE world SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('single pop changed');
+        });
+        // broadcast
+        socket.broadcast.emit('single_world_changed', data);
+    });
+
     // PLAYERS PERSO CHANGE
     socket.on('player_change', function(data) {
         // change pop

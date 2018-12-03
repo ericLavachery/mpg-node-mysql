@@ -18,6 +18,9 @@ function about(number,aleat) {
 function emitSinglePopChange(id,prop,value) {
     socket.emit('single_pop_change', {id: id, prop: prop, value: value});
 };
+function emitSingleWorldChange(id,prop,value) {
+    socket.emit('single_world_change', {id: id, prop: prop, value: value});
+};
 function emitPlayersChange(perso) {
     socket.emit('player_change', perso);
 };

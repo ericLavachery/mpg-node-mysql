@@ -6,6 +6,14 @@ socket.on('single_pop_changed', function(data) {
     pop[objIndex].prop = data.value;
 });
 
+// OPPONENT SINGLE WORLD CHANGE
+socket.on('single_world_changed', function(data) {
+    // change world
+    let prop = data.prop;
+    let objIndex = world.findIndex((obj => obj.id == data.id));
+    world[objIndex].prop = data.value;
+});
+
 // OPPONENT MOVES
 socket.on('unit_moved', function(data) {
     showOpponentMove(data.tileId, data.unitId, data.prevTileId);
