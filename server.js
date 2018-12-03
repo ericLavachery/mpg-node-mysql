@@ -166,7 +166,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         pop[objIndex].tileId = data.tileId;
         pop[objIndex].fatigue = data.fatigue;
         // change db
-        let sql = "UPDATE pop SET tileId = '"+data.tileId+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.unitId;
+        let sql = "UPDATE pop SET tileId = '"+data.tileId+"', prevTileId = '"+data.prevTileId+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('unit moved');

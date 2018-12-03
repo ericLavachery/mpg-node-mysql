@@ -65,14 +65,16 @@ function moveGroup(targetTileId) {
                 // change infos dans pop
                 unitIndex = pop.findIndex((obj => obj.id == unit.id));
                 pop[unitIndex].tileId = targetTileId;
+                pop[unitIndex].prevTileId = oldTileId;
                 pop[unitIndex].fatigue = fatigue;
                 if (unit.id == selectedUnit.id) {
                     // change infos dans selectedUnit
                     selectedUnit.tileId = targetTileId;
+                    selectedUnit.prevTileId = oldTileId;
                     selectedUnit.fatigue = fatigue;
                 }
                 // envoi au serveur
-                socket.emit('move_unit', {tileId: targetTileId, unitId: unit.id, fatigue: fatigue});
+                socket.emit('move_unit', {tileId: targetTileId, prevTileId: oldTileId, unitId: unit.id, fatigue: fatigue});
             }
         });
         unfogTile(targetTileId,true,true);
@@ -114,6 +116,7 @@ function moveUnit(targetTileId) {
         $('#s'+selectedUnit.tileId).empty();
         // change infos dans pop
         pop[unitIndex].tileId = targetTileId;
+        pop[unitIndex].prevTileId = oldTileId;
         pop[unitIndex].fatigue = fatigue;
         unfogTile(targetTileId,true,true);
         autoUnfog(selectedUnit.tileId);
@@ -121,9 +124,10 @@ function moveUnit(targetTileId) {
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
         // change infos dans selectedUnit
         selectedUnit.tileId = targetTileId;
+        selectedUnit.prevTileId = oldTileId;
         selectedUnit.fatigue = fatigue;
         // envoi au serveur
-        socket.emit('move_unit', {tileId: targetTileId, unitId: selectedUnit.id, fatigue: fatigue});
+        socket.emit('move_unit', {tileId: targetTileId, prevTileId: oldTileId, unitId: selectedUnit.id, fatigue: fatigue});
         // affiche les infos
         showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);

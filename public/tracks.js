@@ -26,29 +26,43 @@ function showTracksList(tileId) {
     if (!selectedTrackHere && selectedTrack.id >= 1) {
         $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="paramName jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br><span class="trackFL jaune">'+selectedTrack.firstTileName+' - '+selectedTrack.lastTileName+'</span><br>');
     }
-    $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
     $('#tracksList').append('<div class="espace"></div>');
     if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
         if (selectedUnit.tileId == selectedTile.id) {
             trackButtons();
         }
     }
+    if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
+        $('#tracksList').append('<div class="espace"></div><span class="note">'+"Pour envoyer un bataillon ou un groupe sur cet itinéraire, faites-le d'abord avancer manuellement dans la direction choisie.</span>"+'<div class="espace"></div>');
+    }
+    $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
 };
 function trackButtons() {
     if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
-        buttonInfos = "Enlever ce terrain de l'itinéraire";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
+        buttonInfos = "Enlever ce terrain ("+selectedTile.terrain+" id "+selectedTile.id+") de l'itinéraire ("+selectedTrack.name+")";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileOut('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
     }
     if (!selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
-        buttonInfos = "Ajouter ce terrain à l'itinéraire";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
+        buttonInfos = "Ajouter ce terrain ("+selectedTile.terrain+" id "+selectedTile.id+") à l'itinéraire ("+selectedTrack.name+")";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileIn('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
     }
-    if (selectedUnit.id >= 1 && selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
-        buttonInfos = "Envoyer ce bataillon vers le début de l'itinéraire";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+selectedTrack.firstTileName+'</span></button><span class="butSpace"></span>');
-        buttonInfos = "Envoyer ce bataillon vers la fin de l'itinéraire";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+selectedTrack.lastTileName+'</span></button><span class="butSpace"></span>');
+    if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_')) {
+        buttonInfos = "Envoyer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") vers le début de l'itinéraire ("+selectedTrack.name+")";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+findTrackDirection(selectedUnit.id,selectedTrack.id)+'</span></button><span class="butSpace"></span>');
     }
+};
+function findTrackDirection(unitId,trackId) {
+    // XXXXXXXXXXXXXXXX mettre la bonne direction dans le bouton!
+    return 'Yolo';
+};
+function trackTileOut(tileId,trackId) {
+    console.log('add '+tileId+' to '+trackId);
+};
+function trackTileIn(tileId,trackId) {
+    console.log('delete '+tileId+' from '+trackId);
+};
+function goTo(unitId,trackId) {
+    console.log('squad '+unitId+' follows track '+trackId);
 };
 function addTrack(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));

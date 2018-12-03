@@ -6,6 +6,7 @@ function showTileInfos(tileId,linked) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     selectedTile = world[tileIndex];
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    selectedTile.terrain = ter[terrainIndex].name;
     let terMvCost = terMoveCost(tileId,0);
     let terMvCostRoad = roadMoveCost(tileId,0);
     let waterMvCost = waterMoveCost(tileId,0);
@@ -107,6 +108,7 @@ function showUnitInfos(unitId) {
         $('#unitInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+defense+'&nbsp;/&nbsp;'+pop[unitIndex].defense+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
+        $('#unitInfos').append('<span class="paramName">Viens de</span><span class="paramValue">'+pop[unitIndex].prevTileId+'</span><br>');
     }
 };
 function toggleExpandSquadDetail(unitId) {

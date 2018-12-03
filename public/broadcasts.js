@@ -8,9 +8,9 @@ socket.on('single_pop_changed', function(data) {
 
 // OPPONENT MOVES
 socket.on('unit_moved', function(data) {
-    showOpponentMove(data.tileId, data.unitId);
+    showOpponentMove(data.tileId, data.unitId, data.prevTileId);
 });
-function showOpponentMove(tileId, unitId) {
+function showOpponentMove(tileId, unitId, prevTileId) {
     objIndex = pop.findIndex((obj => obj.id == unitId));
     let movedUnitOldTileId = pop[objIndex].tileId;
     let movedUnitIcon = pop[objIndex].icon;
@@ -20,6 +20,7 @@ function showOpponentMove(tileId, unitId) {
     drawTileDefaultUnit(tileId);
     // change le tileId dans pop
     pop[objIndex].tileId = tileId;
+    pop[objIndex].prevTileId = prevTileId;
     drawTileDefaultUnit(movedUnitOldTileId);
 };
 // OPPONENT JOINS

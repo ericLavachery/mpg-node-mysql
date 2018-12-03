@@ -6,6 +6,7 @@ font-family: 'Kelly Slab', cursive;
 font-family: 'Crushed', cursive;
 */
 body {
+    margin: 6px 2px 0 2px;
     font-family: 'Raleway', sans-serif;
     background-color: black;
     /* background-image: url(/static/img/blackrockbg_dark.jpg); */
@@ -117,7 +118,7 @@ body {
 }
 td {
     vertical-align: top;
-    padding-right: 10px;
+    padding-right: 6px;
 }
 .woodBlock {
     background-color: black;
@@ -231,6 +232,11 @@ td {
     display: inline-block;
     font-weight: lighter;
     padding-left: 12px;
+    padding-bottom: 3px;
+}
+.note {
+    font-weight: lighter;
+    font-size: 12px;
 }
 .espace {
     margin: 6px;
