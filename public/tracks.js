@@ -29,19 +29,19 @@ function showTracksList(tileId) {
     $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
     $('#tracksList').append('<div class="espace"></div>');
     if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
-        trackButtons();
+        if (selectedUnit.tileId == selectedTile.id) {
+            trackButtons();
+        }
     }
 };
 function trackButtons() {
-    if (selectedTrack.firstTile == selectedUnit.tileId || selectedTrack.lastTile == selectedUnit.tileId) {
+    if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
         buttonInfos = "Enlever ce terrain de l'itinéraire";
         $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
     }
-    if (isAdjacent(selectedTrack.firstTile,selectedUnit.tileId) || isAdjacent(selectedTrack.lastTile,selectedUnit.tileId)) {
-        if (!selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
-            buttonInfos = "Ajouter ce terrain à l'itinéraire";
-            $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
-        }
+    if (!selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
+        buttonInfos = "Ajouter ce terrain à l'itinéraire";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="addToTrack"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
     }
     if (selectedUnit.id >= 1 && selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
         buttonInfos = "Envoyer ce bataillon vers le début de l'itinéraire";
