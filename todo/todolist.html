@@ -49,17 +49,11 @@ mouvement auto le long de chemins
     <!-- <i class="fas fa-arrows-alt-v"></i> -->
     avec chargement et déchargement de ressources?
     table "tracks"
-        qd on se trouve sur un tile qui contient une piste, on la voit dans la liste
-        => object activeTrack
-            option delete track
-            option pour selectedUnit : followTrack(direction)
-                champ dans pop : onTrackId
-        qd on se trouve à un des bouts d'une piste
-            option remove tile from track
-        => object recordTrack (trackId, unitId)
-            en mode record, les cases sur lesquelles vont l'unité sont enregistrées dans la piste!!
-    mode "tracksView" (avec une icône en dessous de l'icône carto)
-        montre toutes les pistes, avec celle qui est select en évidence
+
+    ADD TILE
+    DELETE TILE
+    UNIT FOLLOW
+    GROUP FOLLOW 
 
         let unitTileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
         let worldAround = [];

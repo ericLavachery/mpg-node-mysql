@@ -59,7 +59,6 @@ function trackButtons() {
     }
 };
 function findNextTile() {
-    // XXXXXXXXXXXXXXXX mettre la bonne direction dans le bouton!
     let nextTile = {};
     let unitTileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
     let worldAround = _.filter(world, function(tile) {

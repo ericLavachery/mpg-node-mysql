@@ -38,6 +38,10 @@ function showTileInfos(tileId,linked) {
     if (linked) {
         linkH = 'h3';
     }
+    if (world[tileIndex].tileName != '') {
+        let lieu = world[tileIndex].tileName;
+        $('#tileInfos').append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
+    }
     $('#tileInfos').append('<span class="blockTitle"><'+linkH+'>'+capitalizeFirstLetter(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
     $('#tileInfos').append('<span class="loupe klik" id="expTile" onclick="toggleExpandTileDetail('+tileId+','+linked+')"></span><br>');
     if (expTileDetail) {
@@ -60,6 +64,11 @@ function showTileInfos(tileId,linked) {
         $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
         $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
         $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
+        let renameLink = 'Nommer';
+        if (world[tileIndex].tileName != '') {
+            renameLink = 'Renommer';
+        }
+        $('#tileInfos').append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
     }
 };
 function toggleExpandTileDetail(tileId,linked) {
@@ -70,6 +79,19 @@ function toggleExpandTileDetail(tileId,linked) {
     }
     showTileInfos(tileId,linked);
 }
+function renameTile(tileId) {
+    let newName = prompt('Donnez un nom à cet emplacement :');
+    if (newName != null) {
+        if (newName.length >= 3 && newName.length <= 24) {
+            let tileIndex = world.findIndex((obj => obj.id == tileId));
+            world[tileIndex].tileName = newName;
+            // XXXXX emit / save / broadcast !!!!
+            showTileInfos(tileId,true);
+        } else {
+            // message d'erreur
+        }
+    }
+};
 // SQUAD DETAIL ---------------------------------------------------------------------------------------------------------
 function showUnitInfos(unitId) {
     $('#unitInfos').empty();
@@ -108,7 +130,8 @@ function showUnitInfos(unitId) {
         $('#unitInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+defense+'&nbsp;/&nbsp;'+pop[unitIndex].defense+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
-        $('#unitInfos').append('<span class="paramName">Viens de</span><span class="paramValue">'+pop[unitIndex].prevTileId+'</span><br>');
+        $('#unitInfos').append('<span class="paramName">Sur</span><span class="paramValue">'+pop[unitIndex].tileId+'</span><br>');
+        $('#unitInfos').append('<span class="paramName">Vient de</span><span class="paramValue">'+pop[unitIndex].prevTileId+'</span><br>');
     }
 };
 function toggleExpandSquadDetail(unitId) {
