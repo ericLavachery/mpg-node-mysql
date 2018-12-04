@@ -28,7 +28,7 @@ function showTileUnitList(tileId) {
         if (selectedUnit.id == unit.id) {
             uListSelected(selectedUnit,ownerShort,gfollow);
         } else {
-            if (unit.type == selectedUnit.type) {
+            if (unit.type == selectedUnit.type && unit.onTrack == selectedUnit.onTrack && unit.follow == selectedUnit.follow) {
                 numSameType = numSameType+1;
             }
             if (unit.follow >= 1 && unit.follow == selectedUnit.follow) {
@@ -36,6 +36,9 @@ function showTileUnitList(tileId) {
             } else {
                 uListOwner(unit,ownerShort,gfollow);
             }
+        }
+        if (unit.onTrack >= 1 && selectedUnit.id != unit.id) {
+            $("#uc"+unit.id).addClass("bleu");
         }
     });
     // OTHER SQUADS
@@ -87,7 +90,7 @@ function uListSelectedGroup(unit,ownerShort,gfollow) {
     $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum inGroup">'+unit.number+'</span> <span class="unitType inGroup">'+xType(unit.id)+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b><i class="fas fa-check-circle"></i> '+gfollow+'</b></span></a><br>');
 };
 function uListOwner(unit,ownerShort,gfollow) {
-    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType">'+xType(unit.id)+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b><i class="far fa-circle"></i> '+gfollow+'</b></span></a><br>');
+    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType" id="uc'+unit.id+'">'+xType(unit.id)+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="paramValue"><b><i class="far fa-circle"></i> '+gfollow+'</b></span></a><br>');
 };
 function uListOthers(unit,ownerShort,gfollow) {
     $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf">'+xType(unit.id)+'</span></a><br>');
@@ -96,5 +99,5 @@ function uListOthersIdentified(unit,ownerShort,gfollow) {
     $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf">'+xType(unit.id)+'</span><span class="unitOwner grisf">'+ownerShort+'</span></a><br>');
 };
 function newGroupButton() {
-    $('#tileUnitList').append('<button type="button" name="newGroup" title="Créer un nouveau groupe et y mettre le bataillon sélectionné" id="newGroup" onclick="createGroup('+selectedUnit.id+')">Grouper</button>');
+    $('#tileUnitList').append('<button type="button" name="newGroup" title="Créer un nouveau groupe et y mettre le bataillon sélectionné" id="newGroup" onclick="createGroup('+selectedUnit.id+')">Nv. Groupe</button>');
 };

@@ -16,15 +16,15 @@ function showTracksList(tileId) {
             }
             trackName = capitalizeFirstLetter(track.name);
             if (track.id == selectedTrack.id) {
-                $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+track.id+')"><span class="paramName jaune">'+trackName+'</span></a><br><span class="trackFL jaune">'+track.firstTileName+' - '+track.lastTileName+'</span><br>');
+                $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+track.id+')"><span class="tracksList jaune">'+trackName+'</span></a><br><span class="trackFL jaune">'+track.firstTileName+' - '+track.lastTileName+'</span><br>');
                 selectedTrackHere = true;
             } else {
-                $('#tracksList').append('<span class="paramName"><a href="#" onclick="toggleSelectTrack('+track.id+')">'+trackName+'</a></span><br>');
+                $('#tracksList').append('<span class="tracksList"><a href="#" onclick="toggleSelectTrack('+track.id+')">'+trackName+'</a></span><br>');
             }
         }
     });
     if (!selectedTrackHere && selectedTrack.id >= 1) {
-        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="paramName jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br><span class="trackFL jaune">'+selectedTrack.firstTileName+' - '+selectedTrack.lastTileName+'</span><br>');
+        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="tracksList jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br><span class="trackFL jaune">'+selectedTrack.firstTileName+' - '+selectedTrack.lastTileName+'</span><br>');
     }
     $('#tracksList').append('<div class="espace"></div>');
     if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
@@ -131,6 +131,8 @@ function goTo(unitId,trackId) {
 function addTrack(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let trackName = prompt('Donnez un nom à ce nouvel itinéraire :');
+    let depart = prompt('Donnez un nom au point de départ :');
+    let destination = prompt('Donnez un nom à la destination :');
     if (trackName != null) {
         if (trackName.length >= 3) {
             let newTrack = {};
@@ -139,8 +141,10 @@ function addTrack(tileId) {
             newTrack.tiles = '_'+tileId+'_';
             newTrack.firstTile = tileId;
             newTrack.lastTile = tileId;
-            newTrack.firstTileName = world[tileIndex].tileName;
-            newTrack.lastTileName = world[tileIndex].tileName;
+            newTrack.firstTileName = depart;
+            newTrack.lastTileName = destination;
+            // newTrack.firstTileName = world[tileIndex].tileName;
+            // newTrack.lastTileName = world[tileIndex].tileName;
             socket.emit('add_track', newTrack);
         }
     }

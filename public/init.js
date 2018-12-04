@@ -105,6 +105,12 @@ function writeTerStyles(wter) {
 // infos persos
 socket.on('persoload', function(wperso) {
     perso = wperso;
+    if (perso.prefs.includes('_detu_')) {
+        expSquadDetail = true;
+    }
+    if (perso.prefs.includes('_dett_')) {
+        expTileDetail = true;
+    }
     if (perso.bldIdent === null) {
         perso.bldIdent = [];
     }

@@ -11,13 +11,14 @@ function joinButton() {
 function joinUnits(joinToId,unitType,tileId,owner) {
     let unitIndex = pop.findIndex((obj => obj.id == joinToId));
     let group = pop[unitIndex].follow;
+    let onTrack = pop[unitIndex].onTrack;
     let thisMoves = pop[unitIndex].number*(pop[unitIndex].move-pop[unitIndex].fatigue);
     let totalUnits = pop[unitIndex].number;
     let totalMoves = thisMoves;
     let joinToThisUnitMove = pop[unitIndex].move;
     let idsToDelete = '';
     pop.slice().reverse().forEach(function(unit) {
-        if (unit.cat != 'bld' && unit.cat != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group) {
+        if (unit.cat != 'bld' && unit.cat != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group && unit.onTrack == onTrack) {
             if (idsToDelete == '') {
                 idsToDelete = unit.id;
             } else {

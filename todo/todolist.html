@@ -50,10 +50,16 @@ mouvement auto le long de chemins
     avec chargement et déchargement de ressources?
     table "tracks"
 
-    ADD TILE
-    DELETE TILE
+    <!-- ADD TILE -->
+    <!-- DELETE TILE -->
     UNIT FOLLOW
-    GROUP FOLLOW 
+    GROUP FOLLOW
+    onTrack
+    <!-- couleur spéciale dans la liste (bleu) -->
+    pas de regroupement entre onTracks et autres !!!
+    si select unit -> auto select track !!!
+    possibilité de sortir (dans boutons tracks)
+    si hors de la piste, onTrack remis à zéro
 
         let unitTileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
         let worldAround = [];

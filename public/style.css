@@ -87,26 +87,6 @@ body {
     color: #FFFFFF;
     text-shadow: 0 0 3px #000000;
 }
-.forest {
-    background-color: #1d6b1b;
-    /* background-image: url(/static/img/tiles/woods.png); */
-}
-.plains {
-    background-color: #c8b678;
-    /* background-image: url(/static/img/tiles/grass.png); */
-}
-.hills {
-    background-color: #a88051;
-    /* background-image: url(/static/img/tiles/hills_low.png); */
-}
-.mountains {
-    background-color: #71491a;
-    /* background-image: url(/static/img/tiles/mountains.png); */
-}
-.swamp {
-    background-color: #679172;
-    /* background-image: url(/static/img/tiles/swamp.png); */
-}
 .fog {
     background-color: #141414;
 }
@@ -205,6 +185,11 @@ td {
     width: 150px;
     font-weight: bold;
 }
+.tracksList {
+    display: inline-block;
+    width: 260px;
+    font-weight: bold;
+}
 .paramValue {
     display: inline-block;
 }
@@ -288,6 +273,9 @@ h4 {
 .vert {
     color: #5f853e;
 }
+.bleu {
+    color: #2f8490;
+}
 .mauve {
     color: #e000e4;
 }
@@ -336,7 +324,7 @@ button, select {
 select {
     padding:3px 10px;
 }
-button:hover {
+select:hover, button:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #634b30), color-stop(1, #7d5d3b));
 	background:-moz-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
 	background:-webkit-linear-gradient(top, #634b30 5%, #7d5d3b 100%);

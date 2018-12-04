@@ -108,7 +108,10 @@ function showUnitInfos(unitId) {
     let defense = calcBaseDefense(unitId);
     let attaque = calcBaseAttaque(unitId);
     // let uType = xType(unitId);
-    $('#unitInfos').append('<span class="blockTitle"><h3>'+pop[unitIndex].number+' '+xType(unitId)+'</h3></span>');
+    $('#unitInfos').append('<span class="blockTitle"><h3 id="squadTitle">'+pop[unitIndex].number+' '+xType(unitId)+'</h3></span>');
+    if (pop[unitIndex].onTrack >= 1) {
+        $("#squadTitle").addClass("bleu");
+    }
     $('#unitInfos').append('<span class="loupe klik" id="expSquad" onclick="toggleExpandSquadDetail('+unitId+')"><i class="fas fa-search-plus"></i></span><br>');
     if (expSquadDetail) {
         $('#expSquad').empty().append('<i class="fas fa-search-minus"></i>');
@@ -133,6 +136,11 @@ function showUnitInfos(unitId) {
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
         $('#unitInfos').append('<span class="paramName">Sur</span><span class="paramValue">'+pop[unitIndex].tileId+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Vient de</span><span class="paramValue">'+pop[unitIndex].prevTileId+'</span><br>');
+        if (pop[unitIndex].onTrack >= 1) {
+            let trackIndex = myTracks.findIndex((obj => obj.id == pop[unitIndex].onTrack));
+            $('#unitInfos').append('<span class="paramName bleu">Mouvement auto</span><span class="paramValue bleu">'+myTracks[trackIndex].name+'</span><br>');
+        }
+        $('#unitInfos').append('<span class="paramName">id</span><span class="paramValue">'+pop[unitIndex].id+'</span><br>');
     }
 };
 function toggleExpandSquadDetail(unitId) {
