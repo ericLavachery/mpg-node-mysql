@@ -64,6 +64,9 @@ function selectUnit(unitId) {
         showTileUnitList(selectedUnit.tileId);
         explore(true);
         autoUnfog(selectedUnit.tileId);
+        if (selectedUnit.onTrack >= 1) {
+            selectTrack(selectedUnit.onTrack);
+        }
     } else {
         showUnitInfos(unitId);
     }

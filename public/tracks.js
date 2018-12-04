@@ -72,7 +72,7 @@ function trackButtons() {
             $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileIn('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
         }
     }
-    if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_')) {
+    if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_') && selectedUnit.onTrack != selectedTrack.id) {
         buttonInfos = "Faire suivre l'itinéraire ("+selectedTrack.name+") par ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+")";
         let nextTile = findNextTile();
         let theNextTile = '';
@@ -81,7 +81,11 @@ function trackButtons() {
         } else {
             theNextTile = nextTile.terrain+' ('+nextTile.id+')';
         }
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')"><i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')"><i class="fas fa-lock"></i> <i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
+    }
+    if (selectedUnit.onTrack == selectedTrack.id) {
+        buttonInfos = "Libérer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") de l'itinéraire ("+selectedTrack.name+")";
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="unGoTo('+selectedUnit.id+')"><i class="fas fa-lock-open"></i></button><span class="butSpace"></span>');
     }
 };
 function findNextTile() {
@@ -126,7 +130,23 @@ function trackTileIn(tileId,trackId) {
     emitSingleTracksChange(trackId,'tiles',newTiles);
 };
 function goTo(unitId,trackId) {
-    console.log('squad '+unitId+' follows track '+trackId);
+    console.log(unitId+' '+trackId);
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    selectedUnit.onTrack = trackId;
+    pop[unitIndex].onTrack = trackId;
+    showUnitInfos(unitId);
+    showTrackedTiles();
+    showTracksList(selectedUnit.tileId);
+    emitSinglePopChange(unitId,'onTrack',trackId);
+};
+function unGoTo(unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    selectedUnit.onTrack = 0;
+    pop[unitIndex].onTrack = 0;
+    showUnitInfos(unitId);
+    showTrackedTiles();
+    showTracksList(selectedUnit.tileId);
+    emitSinglePopChange(unitId,'onTrack',0);
 };
 function addTrack(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
@@ -183,6 +203,14 @@ function toggleSelectTrack(trackId) {
         showTracks = false;
         tracksViewButtonOff();
     }
+    showTrackedTiles();
+    showTracksList(selectedTile.id);
+};
+function selectTrack(trackId) {
+    let trackIndex = myTracks.findIndex((obj => obj.id == trackId));
+    selectedTrack = myTracks[trackIndex];
+    showTracks = false;
+    tracksViewButtonOff();
     showTrackedTiles();
     showTracksList(selectedTile.id);
 };

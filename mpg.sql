@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost:3306
--- Generation Time: Dec 03, 2018 at 09:57 PM
--- Server version: 5.7.24-0ubuntu0.18.04.1
--- PHP Version: 7.2.10-0ubuntu0.18.04.1
+-- Host: localhost
+-- Generation Time: Dec 04, 2018 at 03:47 PM
+-- Server version: 5.7.24-0ubuntu0.16.04.1
+-- PHP Version: 7.0.32-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -39,18 +39,19 @@ CREATE TABLE `players` (
   `mapCarto` json DEFAULT NULL,
   `exploredTiles` json DEFAULT NULL,
   `enemies` json DEFAULT NULL,
-  `allies` json DEFAULT NULL
+  `allies` json DEFAULT NULL,
+  `prefs` varchar(535) COLLATE utf8_bin NOT NULL DEFAULT '_'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `players`
 --
 
-INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`) VALUES
-(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81]', '[41, 42, 43, 58, 72, 89, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 23, 24, 52, 27, 35, 36, 65, 44, 74, 68, 69, 82, 84, 102, 10, 56, 71, 8, 67, 97, 101, 50, 40, 99, 37, 87, 98, 25, 59]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83]', '[55]', '[\"Zorglub\"]', '[\"Madrigal\"]'),
-(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104]', '[47, 40, 49, 61, 105, 104]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 102, 117, 130, 103, 115, 70, 55, 41, 89, 101, 132, 26, 39, 40, 59, 131]', '[73, 116, 88]', '[]', '[\"Bob\"]', '[]'),
-(3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]'),
-(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[\"Zorglub\"]', '[\"Bob\"]');
+INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`, `prefs`) VALUES
+(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81]', '[41, 42, 43, 58, 72, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 23, 24, 52, 35, 36, 65, 44, 74, 82, 84, 102, 10, 56, 8, 67, 97, 40, 99, 37, 87, 98, 25, 59, 71, 68, 53, 27, 101, 50, 69]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83, 68]', '[]', '["Zorglub"]', '["Madrigal"]', '_detu_dett_'),
+(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104]', '[47, 40, 49, 61, 105, 104]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 102, 117, 130, 103, 115, 70, 55, 41, 89, 101, 132, 26, 39, 40, 59, 131]', '[73, 116, 88]', '[]', '["Bob"]', '[]', '_'),
+(3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]', '_'),
+(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]', '_');
 
 -- --------------------------------------------------------
 
@@ -66,13 +67,13 @@ CREATE TABLE `pop` (
   `number` int(11) NOT NULL,
   `x` int(11) DEFAULT NULL,
   `y` int(11) DEFAULT NULL,
-  `blessures` smallint(6) NOT NULL,
+  `blessures` smallint(6) NOT NULL DEFAULT '0',
   `move` smallint(6) NOT NULL,
-  `fatigue` smallint(6) NOT NULL,
+  `fatigue` smallint(6) NOT NULL DEFAULT '0',
   `tileId` int(11) NOT NULL,
   `prevTileId` int(11) NOT NULL,
   `follow` int(11) DEFAULT NULL,
-  `onTrack` int(11) NOT NULL
+  `onTrack` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -124,11 +125,14 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (97, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 58, 58, NULL, 0),
 (98, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 11, 41, NULL, 0),
 (99, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 41, 41, 1, 0),
-(100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 0, 83, 39, NULL, 0),
+(100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 0, 67, 68, NULL, 0),
 (103, 'Bob', 'Piquiers', 2, 36, 6, 1, 0, 60, 0, 72, 72, NULL, 0),
-(104, 'Bob', 'Piquiers', 2, 73, 6, 1, 0, 60, 48, 55, 70, NULL, 0),
-(105, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 79, 70, 69, NULL, 0),
-(109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0);
+(109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
+(110, 'Bob', 'Piquiers', 2, 47, 6, 1, 0, 60, 0, 70, 85, NULL, 0),
+(113, 'Bob', 'Piquiers', 2, 11, 6, 1, 0, 60, 0, 55, 70, NULL, 0),
+(114, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 70, 85, NULL, 1),
+(117, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 70, 71, NULL, 2),
+(118, 'Bob', 'Piquiers', 2, 23, 6, 1, 0, 60, 0, 70, 85, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -372,7 +376,7 @@ INSERT INTO `world` (`id`, `tileName`, `terrain`, `flags`, `terrainId`, `x`, `y`
 (67, '', 'plains', '', 6, 5, 7),
 (68, '', 'plains', '', 6, 5, 8),
 (69, '', 'plains', '', 6, 5, 9),
-(70, '', 'plains', 'road_', 1, 5, 10),
+(70, 'Croisée des chemins', 'plains', 'road_', 1, 5, 10),
 (71, '', 'plains', '', 1, 5, 11),
 (72, '', 'plains', '', 1, 5, 12),
 (73, '', 'forest', '', 2, 5, 13),
@@ -503,7 +507,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `pop`
 --
 ALTER TABLE `pop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 --
 -- AUTO_INCREMENT for table `terrains`
 --
@@ -513,7 +517,7 @@ ALTER TABLE `terrains`
 -- AUTO_INCREMENT for table `tracks`
 --
 ALTER TABLE `tracks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `unitTypes`
 --
