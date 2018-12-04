@@ -106,7 +106,7 @@ function findNextTile() {
     return nextTile;
 };
 function trackTileOut(tileId,trackId) {
-    // XXXX changer les firstTile et lastTile
+    // XXXX changer les firstTile et lastTile? (ne sont plus utilisés)
     // si tileId = first ou last : recherche autour de tileId : le tile inclu dans track.tiles est le nouveau
     let trackIndex = myTracks.findIndex((obj => obj.id == trackId));
     let oldTiles = myTracks[trackIndex].tiles;
@@ -117,7 +117,7 @@ function trackTileOut(tileId,trackId) {
     emitSingleTracksChange(trackId,'tiles',newTiles);
 };
 function trackTileIn(tileId,trackId) {
-    // XXXX changer les firstTile et lastTile
+    // XXXX changer les firstTile et lastTile? (ne sont plus utilisés)
     // recherche autour de tileId : si un des tiles est le first ou last :
     // si il est le seul tile autour : tileId est le nouveau
     // si il y en a un autre : jonction : first et last ne changent pas
@@ -130,7 +130,6 @@ function trackTileIn(tileId,trackId) {
     emitSingleTracksChange(trackId,'tiles',newTiles);
 };
 function goTo(unitId,trackId) {
-    console.log(unitId+' '+trackId);
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     selectedUnit.onTrack = trackId;
     pop[unitIndex].onTrack = trackId;
