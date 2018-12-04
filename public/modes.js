@@ -4,7 +4,7 @@ function gmoveMode() {
     $('#gmoveButton').empty().append('<i class="fas fa-check-circle"></i>&nbsp; Groupe &nbsp;<i class="fas fa-check-circle"></i>');
     $('#smoveButton').empty().append('Solo');
     $('#inspectButton').empty().append('Inspecter');
-    $('#zone_map').css("background-color", "#a4a700");
+    $('#cadreMap').css("background-color", "#a4a700");
     if (selectedUnit.id >= 1) {
         cursorSwitch('.','grid-item','stop');
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
@@ -22,7 +22,7 @@ function smoveMode() {
     $('#gmoveButton').empty().append('Groupe');
     $('#smoveButton').empty().append('<i class="fas fa-check-circle"></i>&nbsp; Solo &nbsp;<i class="fas fa-check-circle"></i>');
     $('#inspectButton').empty().append('Inspecter');
-    $('#zone_map').css("background-color", "#346c6c");
+    $('#cadreMap').css("background-color", "#346c6c");
     if (selectedUnit.id >= 1) {
         cursorSwitch('.','grid-item','stop');
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
@@ -40,7 +40,7 @@ function inspectMode() {
     $('#smoveButton').empty().append('Solo');
     $('#gmoveButton').empty().append('Groupe');
     $('#inspectButton').empty().append('<i class="fas fa-check-circle"></i>&nbsp; Inspecter &nbsp;<i class="fas fa-check-circle"></i>');
-    $('#zone_map').css("background-color", "#2f372a");
+    $('#cadreMap').css("background-color", "#2f372a");
     if (selectedUnit.id >= 1) {
         showMovesLeft(selectedUnit.tileId,selectedUnit.id);
         showUnitInfos(selectedUnit.id);

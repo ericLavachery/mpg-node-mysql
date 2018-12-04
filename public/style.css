@@ -13,13 +13,16 @@ body {
     /* background-image: url(/static/img/bgwooddark.jpg); */
     background-image: url(/static/img/bg-forest-vdark.jpg);
 }
+#cadreMap {
+    background-color: #323232;
+    padding: 3px 10px 10px 10px;
+    border-radius: 9px;
+}
 .grid-container {
     display: inline-grid;
     grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px;
     grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px;
-    background-color: #323232;
-    padding: 10px;
-    border-radius: 9px;
+    background-image: url(/static/img/dawn-fog-small-dark.jpg);
 }
 .grid-item {
     border: 1px solid rgba(0, 0, 0, 0.6);
@@ -88,7 +91,7 @@ body {
     text-shadow: 0 0 3px #000000;
 }
 .fog {
-    background-color: #141414;
+    /* background-color: #141414; */
 }
 #con {
     display: none;
