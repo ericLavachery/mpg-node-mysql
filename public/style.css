@@ -2,16 +2,24 @@
 font-family: 'Raleway', sans-serif;
 font-family: 'Uncial Antiqua', cursive;
 font-family: 'Cinzel Decorative', cursive;
-font-family: 'Kelly Slab', cursive;
 font-family: 'Crushed', cursive;
+font-family: 'Montserrat Alternates', sans-serif;
+font-family: 'Dosis', sans-serif;
 */
 body {
     margin: 6px 2px 0 2px;
     font-family: 'Raleway', sans-serif;
+    /* font-family: 'Montserrat Alternates', sans-serif; */
+    /* font-family: 'Dosis', sans-serif; */
     background-color: black;
     /* background-image: url(/static/img/blackrockbg_dark.jpg); */
     /* background-image: url(/static/img/bgwooddark.jpg); */
     background-image: url(/static/img/bg-forest-vdark.jpg);
+}
+.unitMove,.unitNum,.paramValue {
+    /* font-family: 'Montserrat Alternates', sans-serif; */
+    /* font-family: 'Raleway', sans-serif; */
+    font-family: 'Dosis', sans-serif;
 }
 #cadreMap {
     background-color: #323232;
@@ -105,7 +113,7 @@ td {
 }
 .woodBlock {
     background-color: black;
-    font-family: 'Raleway', sans-serif;
+    /* font-family: 'Raleway', sans-serif; */
     font-weight: 600;
     font-size: 13px;
     color: #a5b896;
@@ -214,7 +222,13 @@ td {
 }
 .unitGroup {
     display: inline-block;
+    font-weight: bold;
+    width: 60px;
+}
+.unitMove {
+    display: inline-block;
     font-weight: normal;
+    width: 40px;
 }
 .trackFL {
     display: inline-block;
@@ -304,61 +318,6 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
 .low {
     color: #91a383;
     font-weight: lighter;
-}
-button, select {
-	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #a6827e;
-	box-shadow:inset 0px 1px 0px 0px #a6827e;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7d5d3b), color-stop(1, #634b30));
-	background:-moz-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-webkit-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-o-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-ms-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d5d3b', endColorstr='#634b30',GradientType=0);
-	background-color:#7d5d3b;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #54381e;
-	display:inline-block;
-	cursor:pointer;
-	color:#e1face;
-	font-family: 'Raleway', sans-serif;
-	font-size:13px;
-	padding:4px 10px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #4d3534;
-    margin: 0 0 0 0;
-    min-width: 80px;
-}
-select {
-    padding:3px 10px;
-}
-select:hover, button:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #634b30), color-stop(1, #7d5d3b));
-	background:-moz-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-webkit-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-o-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-ms-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#634b30', endColorstr='#7d5d3b',GradientType=0);
-	background-color:#634b30;
-}
-button:active {
-	position:relative;
-	top:1px;
-}
-.modeButtons {
-    min-width: 130px;
-    padding:6px 13px;
-    margin: 3px 0 5px 0;
-    text-align: left;
-}
-.iconButtons {
-    min-width: 35px;
-    font-size: 17px;
-    padding: 4px 5px 2px 5px;
 }
 .ibFont {
     font-size: 13px;
