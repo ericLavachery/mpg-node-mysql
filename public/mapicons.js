@@ -150,8 +150,8 @@ function drawTileDefaultUnit(tileId) {
 function showUnit(unitId, tileId, icon, folder) {
     $('#b'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'" alt="'+icon+'">');
 };
-function highlightTile(tileId) {
-    $('#b'+tileId).empty().append('<img class="uicon" src="/static/img/plainarrow.png" alt="">');
+function highlightTile(tileId,icon) {
+    $('#b'+tileId).empty().append('<img class="uicon" src="/static/img/'+icon+'.png" alt="">');
 };
 function showTileBar(tileId,vuHere) {
     $('#s'+tileId).empty();

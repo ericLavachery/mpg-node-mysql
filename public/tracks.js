@@ -84,12 +84,13 @@ function trackButtons() {
         } else {
             theNextTile = nextTile.terrain+' #'+nextTile.id;
         }
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')" onmouseover="highlightTile('+nextTile.id+')" onmouseout="drawTileDefaultUnit('+nextTile.id+')"><i class="fas fa-lock"></i> <i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')" onmouseover="highlightTile('+nextTile.id+',`arrow`)" onmouseout="drawTileDefaultUnit('+nextTile.id+')"><i class="fas fa-lock"></i> <i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
     }
     // UNFOLLOW TRACK
     if (selectedUnit.onTrack == selectedTrack.id) {
         buttonInfos = "Libérer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") de l'itinéraire ("+selectedTrack.name+")";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="unGoTo('+selectedUnit.id+')"><i class="fas fa-lock-open"></i></button><span class="butSpace"></span>');
+        let nextTile = findNextTile();
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="unGoTo('+selectedUnit.id+')" onmouseover="highlightTile('+nextTile.id+',`cancel`)" onmouseout="drawTileDefaultUnit('+nextTile.id+')"><i class="fas fa-lock-open"></i></button><span class="butSpace"></span>');
     }
 };
 function findNextTile() {
