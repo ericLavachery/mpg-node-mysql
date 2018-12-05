@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 04, 2018 at 03:47 PM
+-- Generation Time: Dec 05, 2018 at 04:35 PM
 -- Server version: 5.7.24-0ubuntu0.16.04.1
 -- PHP Version: 7.0.32-0ubuntu0.16.04.1
 
@@ -48,7 +48,7 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`, `prefs`) VALUES
-(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81]', '[41, 42, 43, 58, 72, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 23, 24, 52, 35, 36, 65, 44, 74, 82, 84, 102, 10, 56, 8, 67, 97, 40, 99, 37, 87, 98, 25, 59, 71, 68, 53, 27, 101, 50, 69]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83, 68]', '[]', '["Zorglub"]', '["Madrigal"]', '_detu_dett_'),
+(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81, 54, 89]', '[41, 42, 43, 58, 72, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 35, 36, 74, 82, 10, 56, 8, 67, 59, 68, 53, 101, 50, 69, 37, 44, 22, 40, 71, 84, 23, 9, 52, 25, 99, 87, 7, 6, 24, 97, 98, 21, 20, 27, 65, 102]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83, 68]', '[]', '["Zorglub"]', '["Madrigal"]', '_detu_'),
 (2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104]', '[47, 40, 49, 61, 105, 104]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 102, 117, 130, 103, 115, 70, 55, 41, 89, 101, 132, 26, 39, 40, 59, 131]', '[73, 116, 88]', '[]', '["Bob"]', '[]', '_'),
 (3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]', '_'),
 (4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]', '_');
@@ -84,11 +84,11 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (5, 'Zorglub', 'Chamane', 5, 1, 3, 15, 0, 65, 0, 74, 74, NULL, 0),
 (11, 'Zorglub', 'Barbares', 1, 48, 3, 15, 0, 65, 0, 88, 88, NULL, 0),
 (38, 'Bob', 'Château', 9, 1, 6, 1, 0, 0, 0, 41, 41, NULL, 0),
-(41, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 23, 41, NULL, 0),
+(41, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 38, 23, NULL, 0),
 (42, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 43, 43, NULL, 0),
-(44, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 90, 74, NULL, 0),
+(44, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 74, 90, NULL, 0),
 (45, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 42, 42, NULL, 0),
-(47, 'Bob', 'Piquiers', 2, 15, 6, 1, 0, 60, 0, 73, 73, NULL, 0),
+(47, 'Bob', 'Piquiers', 2, 15, 6, 1, 0, 60, 0, 73, 72, NULL, 0),
 (48, 'Bob', 'Forgeron', 4, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
 (50, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 74, 89, NULL, 0),
 (51, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 73, 73, NULL, 0),
@@ -103,7 +103,7 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (63, 'Zorglub', 'Barbares', 1, 7, 3, 15, 0, 65, 0, 104, 104, NULL, 0),
 (64, 'Zorglub', 'Barbares', 1, 30, 3, 15, 0, 65, 0, 116, 116, 2, 0),
 (65, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 41, 70, 1, 0),
-(67, 'Bob', 'Piquiers', 2, 18, 6, 1, 0, 60, 0, 100, 101, NULL, 0),
+(67, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 83, 84, NULL, 0),
 (68, 'Bob', 'Piquiers', 2, 60, 6, 1, 0, 60, 0, 57, 72, NULL, 0),
 (75, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 115, 87, NULL, 0),
 (76, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 12, 28, NULL, 0),
@@ -128,11 +128,13 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 0, 67, 68, NULL, 0),
 (103, 'Bob', 'Piquiers', 2, 36, 6, 1, 0, 60, 0, 72, 72, NULL, 0),
 (109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
-(110, 'Bob', 'Piquiers', 2, 47, 6, 1, 0, 60, 0, 70, 85, NULL, 0),
+(110, 'Bob', 'Piquiers', 2, 46, 6, 1, 0, 60, 0, 70, 71, NULL, 0),
 (113, 'Bob', 'Piquiers', 2, 11, 6, 1, 0, 60, 0, 55, 70, NULL, 0),
 (114, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 70, 85, NULL, 1),
-(117, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 70, 71, NULL, 2),
-(118, 'Bob', 'Piquiers', 2, 23, 6, 1, 0, 60, 0, 70, 85, NULL, 0);
+(117, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 70, 54, NULL, 0),
+(120, 'Bob', 'Piquiers', 2, 24, 6, 1, 0, 60, 25, 70, 55, NULL, 0),
+(121, 'Bob', 'Piquiers', 2, 12, 6, 1, 0, 60, 0, 100, 101, NULL, 0),
+(122, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 27, 20, 21, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -234,7 +236,7 @@ CREATE TABLE `tracks` (
 
 INSERT INTO `tracks` (`id`, `player`, `name`, `tiles`, `firstTile`, `lastTile`, `firstTileName`, `lastTileName`) VALUES
 (1, 'Bob', 'route de la soif', '_100_85_70_55_39_23_', 100, 23, 'Asgard', 'Breth'),
-(2, 'Bob', 'route 66', '_65_66_67_68_71_73_74_72_69_70_', 65, 74, 'Harapan', 'Tushpahassapticon');
+(2, 'Bob', 'route 66', '_65_66_67_68_71_73_74_72_69_70_90_', 65, 74, 'Harapan', 'Tushpahassapticon');
 
 -- --------------------------------------------------------
 
@@ -507,7 +509,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `pop`
 --
 ALTER TABLE `pop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 --
 -- AUTO_INCREMENT for table `terrains`
 --
