@@ -49,7 +49,7 @@ function showTileInfos(tileId,linked) {
     } else {
         $('#expTile').empty().append('<i class="fas fa-search-plus"></i>');
     }
-    $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+'</span><br>');
+    $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+' <span class="low">&nbsp;#'+world[tileIndex].id+'</span></span><br>');
     if (expTileDetail) {
         $('#tileInfos').append('<span class="paramName">Escarpement</span><span class="paramValue">'+ter[terrainIndex].escarpement+'</span><br>');
         $('#tileInfos').append('<span class="paramName">Végétation</span><span class="paramValue">'+ter[terrainIndex].vegetation+'</span><br>');
@@ -63,7 +63,7 @@ function showTileInfos(tileId,linked) {
         }
         $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
         $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
-        $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
+        // $('#tileInfos').append('<span class="paramName">Id</span><span class="paramValue">'+world[tileIndex].id+'</span><br>');
         let renameLink = 'Nommer';
         if (world[tileIndex].tileName != '') {
             renameLink = 'Renommer';
@@ -134,13 +134,12 @@ function showUnitInfos(unitId) {
         $('#unitInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+defense+'&nbsp;/&nbsp;'+pop[unitIndex].defense+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
-        $('#unitInfos').append('<span class="paramName">Sur</span><span class="paramValue">'+pop[unitIndex].tileId+'</span><br>');
-        $('#unitInfos').append('<span class="paramName">Vient de</span><span class="paramValue">'+pop[unitIndex].prevTileId+'</span><br>');
+        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low">#'+pop[unitIndex].prevTileId+' <i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> #'+pop[unitIndex].tileId+'</span><br>');
         if (pop[unitIndex].onTrack >= 1) {
             let trackIndex = myTracks.findIndex((obj => obj.id == pop[unitIndex].onTrack));
             $('#unitInfos').append('<span class="paramName bleu">Mouvement auto</span><span class="paramValue bleu">'+myTracks[trackIndex].name+'</span><br>');
         }
-        $('#unitInfos').append('<span class="paramName">id</span><span class="paramValue">'+pop[unitIndex].id+'</span><br>');
+        $('#unitInfos').append('<span class="paramName low">id</span><span class="paramValue low">#'+pop[unitIndex].id+'</span><br>');
     }
 };
 function toggleExpandSquadDetail(unitId) {

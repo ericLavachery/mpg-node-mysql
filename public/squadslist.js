@@ -73,13 +73,13 @@ function showTileUnitList(tileId) {
     }
     // bouton SPLIT
     if (selectedUnit.number >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp') {
-        if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span><span class="butSpace"></span>');}
+        if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span>');}
         splitButton(selectedUnit.id);
         isSpace = true;
     }
     // bouton NEW GROUP
     if (ownSquadsHere >= 2 && selectedUnit.id >= 1) {
-        if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span><span class="butSpace"></span>');}
+        if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span>');}
         newGroupButton();
     }
 };

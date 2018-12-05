@@ -267,6 +267,10 @@ h4 {
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
+a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,a.gris:hover,a.blanc:hover,.bleu:hover {
+    color: #ff002e;
+    text-decoration: none;
+}
 .rouge {
     color: #ff002e;
 }
@@ -289,13 +293,17 @@ h4 {
     color: #f8e71c;
 }
 .grisf {
-    color: #59664e;
+    color: #5a6650;
 }
 .gris {
     color: #a5b896;
 }
 .blanc {
     color: #FFFFFF;
+}
+.low {
+    color: #91a383;
+    font-weight: lighter;
 }
 button, select {
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e;
@@ -345,6 +353,7 @@ button:active {
     min-width: 130px;
     padding:6px 13px;
     margin: 3px 0 5px 0;
+    text-align: left;
 }
 .iconButtons {
     min-width: 35px;
@@ -357,6 +366,6 @@ button:active {
     vertical-align: top;
 }
 .butSpace {
-    width: 3px;
+    width: 5px;
     display: inline-block;
 }
