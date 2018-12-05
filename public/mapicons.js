@@ -136,6 +136,7 @@ function drawUnit(unitId, tileId, icon, folder) {
     showTileBar(tileId,vuHere);
 };
 function drawTileDefaultUnit(tileId) {
+    $('#b'+tileId).empty();
     let vuHere = visibleUnitsOnTile(tileId);
     let folder = 'icon-player';
     if (vuHere.domLogin != pseudo) {
@@ -148,6 +149,9 @@ function drawTileDefaultUnit(tileId) {
 };
 function showUnit(unitId, tileId, icon, folder) {
     $('#b'+tileId).empty().append('<img class="uicon" src="/static/img/'+folder+'/'+icon+'" alt="'+icon+'">');
+};
+function highlightTile(tileId) {
+    $('#b'+tileId).empty().append('<img class="uicon" src="/static/img/plainarrow.png" alt="">');
 };
 function showTileBar(tileId,vuHere) {
     $('#s'+tileId).empty();

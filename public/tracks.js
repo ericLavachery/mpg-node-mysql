@@ -38,10 +38,12 @@ function showTracksList(tileId) {
     $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
 };
 function trackButtons() {
+    // REMOVE TILE
     if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
         buttonInfos = "Enlever ce terrain ("+selectedTile.terrain+" id "+selectedTile.id+") de l'itinéraire ("+selectedTrack.name+")";
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileOut('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
+        $('#tracksList').append('<button type="button" class="iconButtons boutonRouge" title="'+buttonInfos+'" onclick="trackTileOut('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-minus-square"></i></button><span class="butSpace"></span>');
     }
+    // ADD TILE
     if (!selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_')) {
         // vérifie si un (et un seul) tile de la track est adjacent
         let numNearTiles = 0;
@@ -69,20 +71,22 @@ function trackButtons() {
         }
         if (addOK) {
             buttonInfos = "Ajouter ce terrain ("+selectedTile.terrain+" id "+selectedTile.id+") à l'itinéraire ("+selectedTrack.name+")";
-            $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="trackTileIn('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
+            $('#tracksList').append('<button type="button" class="iconButtons boutonRouge" title="'+buttonInfos+'" onclick="trackTileIn('+selectedUnit.tileId+','+selectedTrack.id+')"><i class="fas fa-plus-square"></i></button><span class="butSpace"></span>');
         }
     }
+    // FOLLOW TRACK
     if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_') && selectedUnit.onTrack != selectedTrack.id) {
         buttonInfos = "Faire suivre l'itinéraire ("+selectedTrack.name+") par ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+")";
         let nextTile = findNextTile();
         let theNextTile = '';
         if (nextTile.tileName != '') {
-            theNextTile = nextTile.tileName;
+            theNextTile = nextTile.tileName+' #'+nextTile.id;
         } else {
-            theNextTile = nextTile.terrain+' ('+nextTile.id+')';
+            theNextTile = nextTile.terrain+' #'+nextTile.id;
         }
-        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')"><i class="fas fa-lock"></i> <i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
+        $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="goTo('+selectedUnit.id+','+selectedTrack.id+')" onmouseover="highlightTile('+nextTile.id+')" onmouseout="drawTileDefaultUnit('+nextTile.id+')"><i class="fas fa-lock"></i> <i class="fas fa-arrow-alt-circle-right"></i> <span class="ibFont">'+theNextTile+'</span></button><span class="butSpace"></span>');
     }
+    // UNFOLLOW TRACK
     if (selectedUnit.onTrack == selectedTrack.id) {
         buttonInfos = "Libérer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") de l'itinéraire ("+selectedTrack.name+")";
         $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="unGoTo('+selectedUnit.id+')"><i class="fas fa-lock-open"></i></button><span class="butSpace"></span>');
