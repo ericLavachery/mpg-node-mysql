@@ -47,9 +47,13 @@ function purgeGroups(tileId) {
     lastUnitId = 0;
     lastGroupNumber = 0;
     lastGroupSize = 1;
-    let sortedPop = _.sortBy(pop,'follow');
-    sortedPop.forEach(function(unit) {
-        if (unit.follow >= 1 && unit.player === pseudo && unit.tileId == tileId) {
+    let trackIndex = 0;
+    let ownPopHere = _.filter(pop, function(unit) {
+        return (unit.tileId == tileId && unit.player === pseudo);
+    });
+    let sortedPopHere = _.sortBy(ownPopHere,'follow');
+    sortedPopHere.forEach(function(unit) {
+        if (unit.follow >= 1) {
             if (unit.follow == lastGroupNumber) {
                 lastGroupSize = lastGroupSize+1;
             } else {
@@ -60,6 +64,12 @@ function purgeGroups(tileId) {
             }
             lastUnitId = unit.id;
             lastGroupNumber = unit.follow;
+        }
+        if (unit.onTrack >= 1) {
+            trackIndex = myTracks.findIndex((obj => obj.id == unit.onTrack));
+            if (!myTracks[trackIndex].tiles.includes(tileId)) {
+                unGoTo(unit.id);
+            }
         }
     });
     if (lastGroupSize <= 1 && lastGroupNumber != 0) {

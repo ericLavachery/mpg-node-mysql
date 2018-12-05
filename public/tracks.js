@@ -142,6 +142,8 @@ function goTo(unitId,trackId) {
     showTrackedTiles();
     showTracksList(selectedUnit.tileId);
     emitSinglePopChange(unitId,'onTrack',trackId);
+    let nextTile = findNextTile();
+    drawTileDefaultUnit(nextTile.id);
 };
 function unGoTo(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
@@ -151,6 +153,8 @@ function unGoTo(unitId) {
     showTrackedTiles();
     showTracksList(selectedUnit.tileId);
     emitSinglePopChange(unitId,'onTrack',0);
+    let nextTile = findNextTile();
+    drawTileDefaultUnit(nextTile.id);
 };
 function addTrack(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
