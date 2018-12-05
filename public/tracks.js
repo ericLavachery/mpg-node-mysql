@@ -142,6 +142,7 @@ function goTo(unitId,trackId) {
     showTrackedTiles();
     showTracksList(selectedUnit.tileId);
     emitSinglePopChange(unitId,'onTrack',trackId);
+    // vire le highlightTile
     let nextTile = findNextTile();
     drawTileDefaultUnit(nextTile.id);
 };
@@ -153,6 +154,7 @@ function unGoTo(unitId) {
     showTrackedTiles();
     showTracksList(selectedUnit.tileId);
     emitSinglePopChange(unitId,'onTrack',0);
+    // vire le highlightTile
     let nextTile = findNextTile();
     drawTileDefaultUnit(nextTile.id);
 };
