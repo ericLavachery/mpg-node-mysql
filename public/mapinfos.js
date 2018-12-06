@@ -102,7 +102,7 @@ function showUnitMovesLeft(tileId,unitId) {
     let titleString = '';
     let moveOK = true;
     world.forEach(function(tile) {
-        $("#"+tile.id).attr("title", "");
+        $("#"+tile.id).attr("title", "#"+tile.id);
         if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
             if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
                 if (tile.y == myTileY && tile.x == myTileX) {
@@ -117,7 +117,7 @@ function showUnitMovesLeft(tileId,unitId) {
                 }
                 movesLeftAfter = movesLeft-moveCost;
                 if (perso.mapView.includes(tile.id)) {
-                    titleString = Math.round(movesLeftAfter/10)+' moves left';
+                    titleString = '#'+tile.id+' / '+Math.round(movesLeftAfter/10)+' moves left';
                     $("#"+tile.id).attr("title", titleString);
                 }
                 adjacentTileInfos(tile.id,moveOK);
@@ -141,7 +141,7 @@ function showGroupMovesLeft(tileId,popToMove) {
     let moveOK = true;
     world.forEach(function(tile) {
         worstML = 999;
-        $("#"+tile.id).attr("title", "");
+        $("#"+tile.id).attr("title", "#"+tile.id);
         if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
             if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
                 moveOK = true;
@@ -168,12 +168,12 @@ function showGroupMovesLeft(tileId,popToMove) {
                 }
                 if (perso.mapView.includes(tile.id)) {
                     if (moveCost >= 1) {
-                        titleString = Math.round(worstML/10)+' moves left';
+                        titleString = '#'+tile.id+' / '+Math.round(worstML/10)+' moves left';
                     } else {
-                        titleString = '';
+                        titleString = '#'+tile.id;
                     }
                     $("#"+tile.id).attr("title", titleString);
-                }                
+                }
                 adjacentTileInfos(tile.id,moveOK);
             }
         }
@@ -181,5 +181,7 @@ function showGroupMovesLeft(tileId,popToMove) {
 };
 function clearMovesLeft() {
     cursorsToMode();
-    $('.grid-item').attr("title", "");
+    world.forEach(function(tile) {
+        $("#"+tile.id).attr("title", "#"+tile.id);
+    });
 };

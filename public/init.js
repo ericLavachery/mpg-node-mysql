@@ -45,10 +45,10 @@ function showMap(wmap) {
     let sortedVisMap = _.sortBy(_.sortBy(visiMap,'y'),'x');
     sortedVisMap.forEach(function(tile) {
         if (perso.mapView.includes(tile.id)) {
-            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item ter'+tile.terrainId+'" onclick="selectOrMove('+tile.id+')" title=""><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item ter'+tile.terrainId+'" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
             showTileTags(tile.id);
         } else {
-            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title=""><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
         }
     });
 };

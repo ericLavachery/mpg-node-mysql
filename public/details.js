@@ -142,7 +142,7 @@ function showUnitInfos(unitId) {
         // couverture
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
         // direction
-        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low">#'+pop[unitIndex].prevTileId+' <i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> #'+pop[unitIndex].tileId+'</span><br>');
+        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low">#'+pop[unitIndex].prevTileId+' &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> #'+pop[unitIndex].tileId+'</span><br>');
         // track follow
         if (pop[unitIndex].onTrack >= 1) {
             let trackIndex = myTracks.findIndex((obj => obj.id == pop[unitIndex].onTrack));
