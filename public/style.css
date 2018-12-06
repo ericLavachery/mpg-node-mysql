@@ -195,45 +195,54 @@ td {
     display: inline-block;
     width: 150px;
     font-weight: bold;
+    vertical-align: top;
 }
 .tracksList {
     display: inline-block;
     width: 260px;
     font-weight: bold;
+    vertical-align: top;
 }
 .paramValue {
     display: inline-block;
+    vertical-align: top;
 }
 .unitNum {
     display: inline-block;
     width: 23px;
     font-weight: bold;
     text-align: right;
+    vertical-align: top;
 }
 .unitType {
     display: inline-block;
     width: 90px;
     font-weight: bold;
+    vertical-align: top;
 }
 .unitOwner {
     display: inline-block;
     width: 30px;
     font-weight: normal;
+    vertical-align: top;
 }
 .unitGroup {
     display: inline-block;
     font-weight: bold;
     width: 60px;
+    vertical-align: top;
 }
 .unitMove {
     display: inline-block;
     font-weight: normal;
     width: 30px;
+    vertical-align: top;
 }
 .unitTrack {
     color: #2f8490;
     display: inline-block;
     width: 16px;
+    vertical-align: top;
 }
 .trackFL {
     display: inline-block;
