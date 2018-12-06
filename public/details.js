@@ -156,11 +156,11 @@ function displayMove(move,fatigue) {
     let shape = Math.round((move-fatigue)/(move/2)*100);
     if (shape > 100) {shape = 100;};
     if (shape < 100) {
-        return '<span class="rouge">'+Math.round((move-fatigue)/10)+'</span> / '+Math.round(move/10);
+        return '<span class="rouge">'+Math.round((move-fatigue)/10)+'</span>/'+Math.round(move/10);
     } else if (fatigue >= 1) {
-        return '<span class="orange">'+Math.round((move-fatigue)/10)+'</span> / '+Math.round(move/10);
+        return '<span class="orange">'+Math.round((move-fatigue)/10)+'</span>/'+Math.round(move/10);
     } else {
-        return Math.round((move-fatigue)/10)+' / '+Math.round(move/10);
+        return Math.round((move-fatigue)/10)+'/'+Math.round(move/10);
     }
 };
 function toggleExpandSquadDetail(unitId) {

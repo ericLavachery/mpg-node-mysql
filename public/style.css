@@ -206,13 +206,13 @@ td {
 }
 .unitNum {
     display: inline-block;
-    width: 30px;
+    width: 23px;
     font-weight: bold;
     text-align: right;
 }
 .unitType {
     display: inline-block;
-    width: 100px;
+    width: 90px;
     font-weight: bold;
 }
 .unitOwner {
@@ -228,7 +228,12 @@ td {
 .unitMove {
     display: inline-block;
     font-weight: normal;
-    width: 40px;
+    width: 30px;
+}
+.unitTrack {
+    color: #2f8490;
+    display: inline-block;
+    width: 16px;
 }
 .trackFL {
     display: inline-block;
