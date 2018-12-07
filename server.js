@@ -112,7 +112,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let uIndex = 0;
         pop.forEach(function(squad) {
             pIndex = players.findIndex((obj => obj.pseudo == squad.player));
-            squad.pic = players[pIndex].pic;
+            squad.pic = players[pIndex].pic+'.svg';
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
             Object.keys(unitTypes[uIndex]).forEach(function(key,index) {
                 if (key != 'id') {

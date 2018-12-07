@@ -27,6 +27,11 @@ function showUnitInfos(unitId) {
     $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     // Move
     $('#unitInfos').append('<span class="paramName">Mouvements</span><span id="infosMovesLeft" class="paramValue">'+displayMove(pop[unitIndex].move,pop[unitIndex].fatigue)+'</span><br>');
+    // track follow
+    if (pop[unitIndex].onTrack >= 1) {
+        let trackIndex = myTracks.findIndex((obj => obj.id == pop[unitIndex].onTrack));
+        $('#unitInfos').append('<span class="paramName bleu">Mouvement auto</span><span class="paramValue bleu">'+myTracks[trackIndex].name+'</span><br>');
+    }
     // EXPAND ONLY
     if (expSquadDetail) {
         // HP
@@ -41,11 +46,6 @@ function showUnitInfos(unitId) {
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
         // direction
         $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low">#'+pop[unitIndex].prevTileId+' &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> #'+pop[unitIndex].tileId+'</span><br>');
-        // track follow
-        if (pop[unitIndex].onTrack >= 1) {
-            let trackIndex = myTracks.findIndex((obj => obj.id == pop[unitIndex].onTrack));
-            $('#unitInfos').append('<span class="paramName bleu">Mouvement auto</span><span class="paramValue bleu">'+myTracks[trackIndex].name+'</span><br>');
-        }
         // id
         $('#unitInfos').append('<span class="paramName low">id</span><span class="paramValue low">#'+pop[unitIndex].id+'</span><br>');
     }
