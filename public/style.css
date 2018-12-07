@@ -5,10 +5,13 @@ font-family: 'Cinzel Decorative', cursive;
 font-family: 'Crushed', cursive;
 font-family: 'Montserrat Alternates', sans-serif;
 font-family: 'Dosis', sans-serif;
+font-family: 'Roboto Condensed', sans-serif;
 */
 body {
     margin: 6px 2px 0 2px;
-    font-family: 'Raleway', sans-serif;
+    /* font-family: 'Raleway', sans-serif; */
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'Roboto Condensed', sans-serif;
     /* font-family: 'Crushed', cursive; */
     /* font-family: 'Montserrat Alternates', sans-serif; */
     /* font-family: 'Dosis', sans-serif; */
@@ -17,10 +20,23 @@ body {
     /* background-image: url(/static/img/bgwooddark.jpg); */
     background-image: url(/static/img/bg-forest-vdark.jpg);
 }
+.woodBlock {
+    background-color: black;
+    /* font-weight: 600; */
+    font-size: 14px;
+    color: #a5b896;
+    padding: 8px 8px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #2f372a;
+    margin: 0 0 5px 0;
+    border-radius: 6px;
+    min-width: 280px;
+}
 .unitMove,.unitNum,.paramValue {
     /* font-family: 'Montserrat Alternates', sans-serif; */
     /* font-family: 'Raleway', sans-serif; */
-    font-family: 'Dosis', sans-serif;
+    /* font-family: 'Dosis', sans-serif; */
     /* font-family: 'Crushed', cursive; */
 }
 #cadreMap {
@@ -111,19 +127,6 @@ body {
 td {
     vertical-align: top;
     padding-right: 6px;
-}
-.woodBlock {
-    background-color: black;
-    /* font-weight: 600; */
-    font-size: 13px;
-    color: #a5b896;
-    padding: 8px 8px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: #2f372a;
-    margin: 0 0 5px 0;
-    border-radius: 6px;
-    min-width: 280px;
 }
 #vuPriority {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
@@ -329,7 +332,7 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
     color: #FFFFFF;
 }
 .low {
-    color: #91a383;
+    color: #798b6b;
     font-weight: lighter;
 }
 .ibFont {

@@ -17,7 +17,7 @@ button, select {
 	display:inline-block;
 	cursor:pointer;
 	color:#e1face;
-	font-family: 'Raleway', sans-serif;
+	/* font-family: 'Raleway', sans-serif; */
 	/* font-family: 'Crushed', cursive; */
 	/* font-family: 'Montserrat Alternates', sans-serif; */
 	font-size:13px;
@@ -121,6 +121,7 @@ button:active {
 	background-color:#5c3063;
 }
 .modeButtons {
+	font-size:14px;
     min-width: 130px;
     padding:6px 13px;
     margin: 3px 0 5px 0;

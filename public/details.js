@@ -1,107 +1,5 @@
 // SHOW INFOS
-// TILE DETAIL ---------------------------------------------------------------------------------------------------------
-function showTileInfos(tileId,linked) {
-    showTracksList(tileId);
-    $('#tileInfos').empty();
-    let tileIndex = world.findIndex((obj => obj.id == tileId));
-    selectedTile = world[tileIndex];
-    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    selectedTile.terrain = ter[terrainIndex].name;
-    let terMvCost = terMoveCost(tileId,0);
-    let terMvCostRoad = roadMoveCost(tileId,0);
-    let waterMvCost = waterMoveCost(tileId,0);
-    let terCover = calcTerCover(tileId);
-    let terDefense = calcTerDefense(tileId);
-    if (perso.mapCarto.includes(tileId)) {
-        if (world[tileIndex].flags.includes('river_')) {
-            terMvCost = terMvCost+20;
-        }
-        terMvCost = Math.round(terMvCost*80/100);
-        terCover = Math.round((terCover*110/100)+10);
-        terDefense = Math.round((terDefense*110/100)+10);
-    } else {
-        if (world[tileIndex].flags.includes('river_')) {
-            terMvCost = terMvCost+30;
-        }
-    }
-    let showCarto = '&nbsp;'
-    if (perso.mapCarto.includes(tileId)) {
-        showCarto = showCarto+' <i class="far fa-map"></i>'
-    }
-    if (world[tileIndex].flags.includes('road_')) {
-        showCarto = showCarto+' <i class="fas fa-grip-vertical"></i>'
-    }
-    if (world[tileIndex].flags.includes('river_') || world[tileIndex].flags.includes('navig_')) {
-        showCarto = showCarto+' <i class="fas fa-water"></i>'
-    }
-    let linkH = 'h4'
-    if (linked) {
-        linkH = 'h3';
-    }
-    // NOM
-    if (world[tileIndex].tileName != '') {
-        let lieu = world[tileIndex].tileName;
-        $('#tileInfos').append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
-    }
-    // TYPE TERRAIN
-    $('#tileInfos').append('<span class="blockTitle"><'+linkH+'>'+capitalizeFirstLetter(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
-    // LOUPE EXPAND
-    $('#tileInfos').append('<span class="loupe klik" id="expTile" onclick="toggleExpandTileDetail('+tileId+','+linked+')"></span><br>');
-    if (expTileDetail) {
-        $('#expTile').empty().append('<i class="fas fa-search-minus"></i>');
-    } else {
-        $('#expTile').empty().append('<i class="fas fa-search-plus"></i>');
-    }
-    // Coordonnées + id
-    $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'.'+world[tileIndex].y+' <span class="low">&nbsp;#'+world[tileIndex].id+'</span></span><br>');
-    // EXPAND ONLY
-    if (expTileDetail) {
-        // escarpement, végétation, innondation
-        $('#tileInfos').append('<span class="paramName">Escarpement</span><span class="paramValue">'+ter[terrainIndex].escarpement+'</span><br>');
-        $('#tileInfos').append('<span class="paramName">Végétation</span><span class="paramValue">'+ter[terrainIndex].vegetation+'</span><br>');
-        $('#tileInfos').append('<span class="paramName">Innondation</span><span class="paramValue">'+ter[terrainIndex].innondation+'</span><br>');
-        // move cost
-        if (world[tileIndex].flags.includes('road_')) {
-            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
-        } else if (ter[terrainIndex].innondation >= 60) {
-            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(waterMvCost*10)/100+'</span><br>');
-        } else {
-            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+'</span><br>');
-        }
-        // couverture
-        $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
-        // defense
-        $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
-        // RENOMMER LE TERRAIN
-        let renameLink = 'Nommer';
-        if (world[tileIndex].tileName != '') {
-            renameLink = 'Renommer';
-        }
-        $('#tileInfos').append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
-    }
-};
-function toggleExpandTileDetail(tileId,linked) {
-    if (expTileDetail) {
-        expTileDetail = false;
-    } else {
-        expTileDetail = true;
-    }
-    showTileInfos(tileId,linked);
-}
-function renameTile(tileId) {
-    let newName = prompt('Donnez un nom à cet emplacement :');
-    if (newName != null) {
-        if (newName.length >= 3 && newName.length <= 24) {
-            let tileIndex = world.findIndex((obj => obj.id == tileId));
-            world[tileIndex].tileName = newName;
-            // XXXXX emit / save / broadcast !!!!
-            emitSingleWorldChange(tileId,'tileName',newName);
-            showTileInfos(tileId,true);
-        } else {
-            // message d'erreur
-        }
-    }
-};
+
 // SQUAD DETAIL ---------------------------------------------------------------------------------------------------------
 function showUnitInfos(unitId) {
     $('#unitInfos').empty();
@@ -171,3 +69,107 @@ function toggleExpandSquadDetail(unitId) {
     }
     showUnitInfos(unitId);
 }
+
+// TILE DETAIL ---------------------------------------------------------------------------------------------------------
+function showTileInfos(tileId,linked) {
+    showTracksList(tileId);
+    $('#tileInfos').empty();
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    selectedTile = world[tileIndex];
+    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    selectedTile.terrain = ter[terrainIndex].name;
+    let terMvCost = terMoveCost(tileId,0);
+    let terMvCostRoad = roadMoveCost(tileId,0);
+    let waterMvCost = waterMoveCost(tileId,0);
+    let terCover = calcTerCover(tileId);
+    let terDefense = calcTerDefense(tileId);
+    if (perso.mapCarto.includes(tileId)) {
+        if (world[tileIndex].flags.includes('river_')) {
+            terMvCost = terMvCost+20;
+        }
+        terMvCost = Math.round(terMvCost*80/100);
+        terCover = Math.round((terCover*110/100)+10);
+        terDefense = Math.round((terDefense*110/100)+10);
+    } else {
+        if (world[tileIndex].flags.includes('river_')) {
+            terMvCost = terMvCost+30;
+        }
+    }
+    let showCarto = '&nbsp;'
+    if (perso.mapCarto.includes(tileId)) {
+        showCarto = showCarto+' <i class="far fa-map"></i>'
+    }
+    if (world[tileIndex].flags.includes('road_')) {
+        showCarto = showCarto+' <i class="fas fa-grip-vertical"></i>'
+    }
+    if (world[tileIndex].flags.includes('river_') || world[tileIndex].flags.includes('navig_')) {
+        showCarto = showCarto+' <i class="fas fa-water"></i>'
+    }
+    let linkH = 'h4'
+    if (linked) {
+        linkH = 'h3';
+    }
+    // NOM
+    if (world[tileIndex].tileName != '') {
+        let lieu = world[tileIndex].tileName;
+        $('#tileInfos').append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
+    }
+    // TYPE TERRAIN
+    $('#tileInfos').append('<span class="blockTitle"><'+linkH+'>'+capitalizeFirstLetter(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
+    // LOUPE EXPAND
+    $('#tileInfos').append('<span class="loupe klik" id="expTile" onclick="toggleExpandTileDetail('+tileId+','+linked+')"></span><br>');
+    if (expTileDetail) {
+        $('#expTile').empty().append('<i class="fas fa-search-minus"></i>');
+    } else {
+        $('#expTile').empty().append('<i class="fas fa-search-plus"></i>');
+    }
+    // Coordonnées + id
+    $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'&lrhar;'+world[tileIndex].y+' <span class="low">&nbsp;#'+world[tileIndex].id+'</span></span><br>');
+    // EXPAND ONLY
+    if (expTileDetail) {
+        // escarpement, végétation, innondation
+        $('#tileInfos').append('<span class="paramName">Escarpement</span><span class="paramValue">'+ter[terrainIndex].escarpement+'</span><br>');
+        $('#tileInfos').append('<span class="paramName">Végétation</span><span class="paramValue">'+ter[terrainIndex].vegetation+'</span><br>');
+        $('#tileInfos').append('<span class="paramName">Innondation</span><span class="paramValue">'+ter[terrainIndex].innondation+'</span><br>');
+        // move cost
+        if (world[tileIndex].flags.includes('road_')) {
+            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
+        } else if (ter[terrainIndex].innondation >= 60) {
+            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(waterMvCost*10)/100+'</span><br>');
+        } else {
+            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+'</span><br>');
+        }
+        // couverture
+        $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
+        // defense
+        $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
+        // RENOMMER LE TERRAIN
+        let renameLink = 'Nommer';
+        if (world[tileIndex].tileName != '') {
+            renameLink = 'Renommer';
+        }
+        $('#tileInfos').append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
+    }
+};
+function toggleExpandTileDetail(tileId,linked) {
+    if (expTileDetail) {
+        expTileDetail = false;
+    } else {
+        expTileDetail = true;
+    }
+    showTileInfos(tileId,linked);
+}
+function renameTile(tileId) {
+    let newName = prompt('Donnez un nom à cet emplacement :');
+    if (newName != null) {
+        if (newName.length >= 3 && newName.length <= 24) {
+            let tileIndex = world.findIndex((obj => obj.id == tileId));
+            world[tileIndex].tileName = newName;
+            // XXXXX emit / save / broadcast !!!!
+            emitSingleWorldChange(tileId,'tileName',newName);
+            showTileInfos(tileId,true);
+        } else {
+            // message d'erreur
+        }
+    }
+};
