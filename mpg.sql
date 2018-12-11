@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 07, 2018 at 09:37 AM
--- Server version: 5.7.24-0ubuntu0.16.04.1
--- PHP Version: 7.0.32-0ubuntu0.16.04.1
+-- Host: localhost:3306
+-- Generation Time: Dec 11, 2018 at 12:52 PM
+-- Server version: 5.7.24-0ubuntu0.18.04.1
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -48,10 +48,10 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`, `prefs`) VALUES
-(1, 'Bob', 'Bob', 'dragon.png', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81, 54, 89]', '[41, 42, 43, 58, 72, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 35, 36, 74, 82, 10, 56, 67, 59, 68, 53, 101, 50, 69, 37, 44, 22, 40, 71, 84, 23, 99, 87, 7, 6, 97, 98, 21, 20, 27, 65, 102, 25, 24, 52]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83, 68]', '[]', '["Zorglub"]', '["Madrigal"]', '_detu_'),
-(2, 'Zorglub', 'Zorg', 'demon.png', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104, 113]', '[47, 40, 49, 61, 105, 104, 113]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 102, 117, 130, 103, 115, 70, 55, 41, 89, 101, 132, 26, 39, 40, 59, 131]', '[73, 116, 88]', '[]', '["Bob"]', '[]', '_'),
-(3, 'Morpheus', 'Mrph', 'triton.png', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]', '_'),
-(4, 'Madrigal', 'Madr', 'minotaur.png', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '["Zorglub"]', '["Bob"]', '_');
+(1, 'Bob', 'Bob', 'dragon', '[]', '[]', '[54, 91, 78, 79, 80, 81, 96, 89]', '[91, 96, 78, 79, 80, 81, 54, 89]', '[41, 42, 43, 58, 72, 73, 86, 55, 39, 54, 57, 38, 66, 51, 83, 11, 26, 12, 90, 70, 85, 100, 28, 115, 114, 35, 36, 74, 82, 10, 56, 67, 59, 68, 53, 101, 50, 69, 37, 44, 22, 40, 71, 84, 23, 99, 87, 7, 6, 97, 98, 21, 20, 27, 65, 102, 25, 24, 52]', '[55, 39, 58, 54, 38, 66, 51, 41, 86, 83, 68]', '[]', '[\"Zorglub\"]', '[\"Madrigal\"]', '_detu_'),
+(2, 'Zorglub', 'Zorg', 'demon', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104, 113]', '[47, 40, 49, 61, 105, 104, 113]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 117, 130, 115, 70, 55, 41, 132, 26, 40, 59, 42, 56, 71, 103, 131, 89, 101, 54, 69, 84, 86, 114, 98, 99, 113, 128, 129, 102, 97, 112, 127]', '[73, 116, 88, 57, 70, 114, 113]', '[]', '[\"Bob\"]', '[]', '_'),
+(3, 'Morpheus', 'Mrph', 'triton', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]', '_'),
+(4, 'Madrigal', 'Madr', 'minotaur', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[\"Zorglub\"]', '[\"Bob\"]', '_');
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `
 CREATE TABLE `pop` (
   `id` int(11) NOT NULL,
   `player` varchar(12) COLLATE utf8_bin NOT NULL,
-  `type` varchar(20) COLLATE utf8_bin NOT NULL,
+  `type` varchar(30) COLLATE utf8_bin NOT NULL,
   `typeId` smallint(6) NOT NULL,
   `number` int(11) NOT NULL,
   `x` int(11) DEFAULT NULL,
@@ -114,7 +114,7 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (81, 'Zorglub', 'Barbares', 1, 23, 3, 15, 0, 65, 0, 73, 73, 1, 0),
 (82, 'Zorglub', 'Barbares', 1, 2, 3, 15, 0, 65, 0, 73, 73, NULL, 0),
 (83, 'Zorglub', 'Pisteur', 3, 12, 3, 15, 0, 65, 0, 73, 73, NULL, 0),
-(89, 'Zorglub', 'Pisteur', 3, 17, 3, 15, 0, 65, 0, 73, 73, 1, 0),
+(89, 'Zorglub', 'Pisteur', 3, 17, 3, 15, 0, 65, 103, 113, 114, NULL, 0),
 (90, 'Zorglub', 'Pisteur', 3, 48, 3, 15, 0, 65, 0, 88, 88, NULL, 0),
 (91, 'Morpheus', 'Piquiers', 2, 7, 6, 1, 0, 60, 0, 58, 58, NULL, 0),
 (92, 'Morpheus', 'Espion', 7, 2, 6, 1, 0, 70, 0, 43, 43, 6, 0),
@@ -128,15 +128,73 @@ INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessu
 (100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 0, 67, 68, NULL, 0),
 (103, 'Bob', 'Piquiers', 2, 16, 6, 1, 0, 60, 0, 71, 72, NULL, 2),
 (109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
-(110, 'Bob', 'Piquiers', 2, 346, 6, 1, 0, 60, 0, 70, 71, 2, 0),
+(110, 'Bob', 'Piquiers', 2, 346, 6, 1, 0, 60, 0, 70, 71, NULL, 0),
 (113, 'Bob', 'Piquiers', 2, 11, 6, 1, 0, 60, 0, 55, 70, NULL, 1),
 (114, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 70, 85, NULL, 1),
 (117, 'Bob', 'Piquiers', 2, 14, 6, 1, 0, 60, 0, 70, 54, NULL, 0),
-(120, 'Bob', 'Piquiers', 2, 24, 6, 1, 0, 60, 0, 70, 55, 2, 0),
+(120, 'Bob', 'Piquiers', 2, 24, 6, 1, 0, 60, 0, 70, 55, 3, 0),
 (121, 'Bob', 'Piquiers', 2, 12, 6, 1, 0, 60, 0, 100, 101, NULL, 0),
 (122, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 20, 21, NULL, 0),
 (123, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 72, 72, NULL, 2),
-(124, 'Bob', 'Vachement trop longs', 10, 188, 6, 1, 0, 60, 0, 70, 71, NULL, 0);
+(124, 'Bob', 'Vachement trop longs', 10, 188, 6, 1, 0, 60, 0, 70, 71, 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resources`
+--
+
+CREATE TABLE `resources` (
+  `id` smallint(6) NOT NULL,
+  `name` varchar(20) COLLATE utf8_bin NOT NULL,
+  `price` smallint(6) NOT NULL,
+  `AltRes` varchar(20) COLLATE utf8_bin NOT NULL,
+  `CostRes` varchar(20) COLLATE utf8_bin NOT NULL,
+  `CostNum` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `resources`
+--
+
+INSERT INTO `resources` (`id`, `name`, `price`, `AltRes`, `CostRes`, `CostNum`) VALUES
+(1, 'Bois', 25, 'Chevrons', '', 0),
+(2, 'Chevrons', 80, '', 'Bois', 2),
+(3, 'Argile', 30, '', '', 0),
+(4, 'Brique', 45, 'Pierre', 'Argile', 1),
+(5, 'Pierre', 65, '', '', 0),
+(6, 'Végétaux', 20, '', '', 0),
+(7, 'Céréales', 25, '', '', 0),
+(8, 'Grain', 45, '', 'Céréales', 1),
+(9, 'Pain', 130, '', 'Grain', 1),
+(10, 'Fruits', 25, '', '', 0),
+(11, 'Légumes', 25, '', '', 0),
+(12, 'Poissons', 40, '', '', 0),
+(13, 'Gibier', 40, '', '', 0),
+(14, 'Viande', 90, '', 'Gibier', 1),
+(15, 'Métal', 70, 'Acier', '', 0),
+(16, 'Acier', 200, '', 'Métal', 2),
+(17, 'Engrenages', 1000, '', 'Acier', 3),
+(18, 'Spiritueux', 330, '', 'Céréales', 8),
+(19, 'Drogues', 340, '', 'Végétaux', 12),
+(20, 'Charbon', 80, '', '', 0),
+(21, 'Cuir', 120, '', 'Gibier', 1),
+(22, 'Tissus', 250, '', 'Végétaux', 5),
+(23, 'Voiles', 700, '', 'Tissus', 2),
+(24, 'Encens', 500, '', 'Végétaux', 15),
+(25, 'Papier', 150, '', 'Végétaux', 4),
+(26, 'Epices', 400, '', '', 0),
+(27, 'Cadavres', 140, '', '', 0),
+(28, 'Argent', 10, '', '', 0),
+(29, 'Cuivre', 1, '', '', 0),
+(30, 'Or', 100, '', '', 0),
+(31, 'Gemmes', 1000, '', '', 0),
+(32, 'Perles', 700, '', '', 0),
+(33, 'Fourrures', 250, '', 'Gibier', 1),
+(34, 'Laine', 50, '', '', 0),
+(35, 'Poudre à canon', 450, '', 'Charbon', 2),
+(36, 'Mithril', 4000, '', '', 0),
+(37, 'Adamantite', 3500, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -248,48 +306,63 @@ INSERT INTO `tracks` (`id`, `player`, `name`, `tiles`, `firstTile`, `lastTile`, 
 
 CREATE TABLE `unitTypes` (
   `id` int(11) NOT NULL,
-  `type` varchar(20) COLLATE utf8_bin NOT NULL,
-  `typeSing` varchar(20) COLLATE utf8_bin NOT NULL,
-  `icon` varchar(12) COLLATE utf8_bin NOT NULL,
+  `type` varchar(30) COLLATE utf8_bin NOT NULL,
+  `typeSing` varchar(30) COLLATE utf8_bin NOT NULL,
   `cat` varchar(3) COLLATE utf8_bin NOT NULL,
   `illu` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `attitude` enum('at','ass','af','d','f') COLLATE utf8_bin NOT NULL DEFAULT 'ass',
+  `apts` smallint(6) NOT NULL,
   `hp` int(11) NOT NULL,
+  `stature` enum('1','2','3','4','5','6','7','8','9') COLLATE utf8_bin NOT NULL DEFAULT '3',
+  `nature` enum('Bâtiment','Mécanique','Vivant','Mort','Magique','Spécial') COLLATE utf8_bin NOT NULL DEFAULT 'Vivant',
+  `domaine` enum('Terrestre','Marin','Volant') COLLATE utf8_bin NOT NULL DEFAULT 'Terrestre',
+  `categorie` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'flag_',
   `armure` smallint(6) NOT NULL,
   `esquive` smallint(6) NOT NULL,
   `parade` smallint(6) NOT NULL,
+  `coverAdj` smallint(6) NOT NULL,
   `ammo` int(11) NOT NULL,
   `rapidite` smallint(6) NOT NULL,
   `actions` smallint(6) NOT NULL,
+  `portee` enum('0','1','2','3','4','5') COLLATE utf8_bin NOT NULL,
   `puissance` smallint(6) NOT NULL,
+  `penetration` smallint(6) NOT NULL DEFAULT '100',
   `attaque` smallint(6) NOT NULL,
   `defense` smallint(6) NOT NULL,
+  `degatsSurNatures` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT 'Vivant_Mort_Mécanique' COMMENT 'Vivant_MortX2_Mécanique',
+  `degatsSurDomaines` enum('Terrestre','Terrestre_Marin','Terrestre_Volant','Terrestre_Marin_Volant','Marin') COLLATE utf8_bin NOT NULL DEFAULT 'Terrestre',
+  `combatBoost` json NOT NULL COMMENT '[{"val":1,"prop":"puissance","cat":"orc"}]',
+  `endurance` smallint(6) NOT NULL DEFAULT '50',
+  `moral` smallint(6) NOT NULL DEFAULT '35',
+  `loyaute` smallint(6) NOT NULL DEFAULT '35',
   `move` smallint(6) NOT NULL,
   `moveAdj` smallint(6) NOT NULL,
   `moveType` enum('ter','air','alt','cab','mix','mer') COLLATE utf8_bin NOT NULL,
   `escarpAdj` smallint(6) NOT NULL DEFAULT '100',
   `innondAdj` smallint(6) NOT NULL DEFAULT '100',
   `vegetAdj` smallint(6) NOT NULL DEFAULT '100',
-  `coverAdj` smallint(6) NOT NULL,
+  `cargRes` smallint(6) NOT NULL DEFAULT '0',
+  `cargUnits` smallint(6) NOT NULL DEFAULT '0',
   `detection` smallint(6) NOT NULL,
   `discretion` smallint(6) NOT NULL,
-  `skills` varchar(500) COLLATE utf8_bin NOT NULL
+  `skills` varchar(500) COLLATE utf8_bin NOT NULL COMMENT 'info_cland_explo_'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `unitTypes`
 --
 
-INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `icon`, `cat`, `illu`, `hp`, `armure`, `esquive`, `parade`, `ammo`, `rapidite`, `actions`, `puissance`, `attaque`, `defense`, `move`, `moveAdj`, `moveType`, `escarpAdj`, `innondAdj`, `vegetAdj`, `coverAdj`, `detection`, `discretion`, `skills`) VALUES
-(1, 'Barbares', 'Barbare', 'sld', 'sld', NULL, 10, 20, 8, 8, -1, 40, 3, 6, 15, 10, 65, 50, 'ter', 100, 100, 100, 150, 65, 45, ''),
-(2, 'Piquiers', 'Piquier', 'sld', 'sld', NULL, 10, 35, 6, 9, -1, 35, 3, 5, 10, 12, 60, 100, 'ter', 100, 100, 100, 75, 60, 25, 'pole_regular_'),
-(3, 'Pisteurs', 'Pisteur', 'spy', 'spy', NULL, 10, 20, 9, 7, -1, 45, 3, 5, 12, 10, 65, 30, 'ter', 100, 100, 100, 150, 110, 85, 'undercover_explo_informer_'),
-(4, 'Forgerons', 'Forgeron', 'wrk', 'wrk', NULL, 10, 10, 5, 5, -1, 30, 3, 6, 5, 6, 60, 100, 'ter', 100, 100, 100, 50, 60, 25, ''),
-(5, 'Chamanes', 'Chamane', 'spy', 'spy', NULL, 10, 20, 8, 5, -1, 40, 3, 5, 10, 13, 65, 50, 'ter', 100, 100, 100, 150, 75, 75, ''),
-(6, 'Eclaireurs', 'Eclaireur', 'spy', 'spy', NULL, 8, 15, 7, 5, -1, 45, 3, 4, 6, 7, 70, 30, 'ter', 100, 100, 100, 150, 120, 120, 'undercover_explo_informer_'),
-(7, 'Espions', 'Espion', 'spy', 'spy', NULL, 8, 10, 9, 5, -1, 55, 3, 4, 5, 5, 70, 50, 'ter', 100, 100, 100, 120, 150, 150, 'spy_'),
-(8, 'Cartographes', 'Cartographe', 'wrk', 'wrk', NULL, 8, 10, 4, 3, -1, 30, 3, 3, 4, 5, 65, 50, 'ter', 100, 100, 100, 100, 80, 30, 'carto_'),
-(9, 'Châteaux', 'Château', 'bld', 'bld', NULL, 2000, 120, 0, 0, -1, 20, 3, 10, 0, 15, 0, 100, 'ter', 100, 100, 100, 0, 80, 0, 'regular_'),
-(10, 'Vachement trop longs', 'Vachement trop long', 'spy', 'spy', NULL, 10, 20, 9, 7, -1, 45, 3, 5, 12, 10, 65, 30, 'ter', 100, 100, 100, 150, 110, 85, 'undercover_explo_informer_');
+INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `cat`, `illu`, `attitude`, `apts`, `hp`, `stature`, `nature`, `domaine`, `categorie`, `armure`, `esquive`, `parade`, `coverAdj`, `ammo`, `rapidite`, `actions`, `portee`, `puissance`, `penetration`, `attaque`, `defense`, `degatsSurNatures`, `degatsSurDomaines`, `combatBoost`, `endurance`, `moral`, `loyaute`, `move`, `moveAdj`, `moveType`, `escarpAdj`, `innondAdj`, `vegetAdj`, `cargRes`, `cargUnits`, `detection`, `discretion`, `skills`) VALUES
+(1, 'Barbares', 'Barbare', 'sld', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 8, 150, -1, 40, 3, '0', 6, 100, 15, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 'ter', 100, 100, 100, 0, 0, 65, 45, ''),
+(2, 'Piquiers', 'Piquier', 'sld', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 35, 6, 9, 75, -1, 35, 3, '0', 5, 100, 10, 12, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 60, 100, 'ter', 100, 100, 100, 0, 0, 60, 25, 'regu_'),
+(3, 'Pisteurs', 'Pisteur', 'spy', NULL, 'af', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 30, 'ter', 100, 100, 100, 0, 0, 110, 85, 'explo_info_cland_'),
+(4, 'Forgerons', 'Forgeron', 'wrk', NULL, 'd', 0, 12, '3', 'Vivant', 'Terrestre', '', 10, 5, 5, 50, -1, 30, 3, '0', 6, 100, 5, 6, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 60, 100, 'ter', 100, 100, 100, 0, 0, 60, 25, ''),
+(5, 'Chamanes', 'Chamane', 'spy', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 5, 150, -1, 40, 3, '0', 5, 100, 10, 13, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 'ter', 100, 100, 100, 0, 0, 75, 75, ''),
+(6, 'Eclaireurs', 'Eclaireur', 'spy', NULL, 'af', 0, 11, '3', 'Vivant', 'Terrestre', '', 15, 7, 5, 150, -1, 45, 3, '0', 4, 100, 6, 7, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 70, 30, 'ter', 100, 100, 100, 0, 0, 120, 120, 'explo_info_cland_'),
+(7, 'Espions', 'Espion', 'spy', NULL, 'd', 0, 11, '3', 'Vivant', 'Terrestre', '', 10, 9, 5, 120, -1, 55, 3, '0', 4, 100, 5, 5, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 70, 50, 'ter', 100, 100, 100, 0, 0, 150, 150, 'spy_'),
+(8, 'Cartographes', 'Cartographe', 'wrk', NULL, 'f', 0, 10, '3', 'Vivant', 'Terrestre', '', 10, 4, 3, 100, -1, 30, 3, '0', 3, 100, 4, 5, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 'ter', 100, 100, 100, 0, 0, 80, 30, 'carto_'),
+(9, 'Châteaux', 'Château', 'bld', NULL, 'd', 0, 2000, '3', 'Vivant', 'Terrestre', '', 120, 0, 0, 0, -1, 20, 3, '0', 10, 100, 0, 15, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 0, 100, 'ter', 100, 100, 100, 0, 0, 80, 0, 'regu_'),
+(10, 'Chasseurs de sorcières', 'Chasseur de sorcières', 'spy', NULL, 'ass', 0, 17, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 30, 'ter', 100, 100, 100, 0, 0, 110, 85, 'explo_info_cland_');
 
 -- --------------------------------------------------------
 
@@ -469,6 +542,14 @@ ALTER TABLE `pop`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indexes for table `resources`
+--
+ALTER TABLE `resources`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
 -- Indexes for table `terrains`
 --
 ALTER TABLE `terrains`
@@ -513,6 +594,11 @@ ALTER TABLE `players`
 --
 ALTER TABLE `pop`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+--
+-- AUTO_INCREMENT for table `resources`
+--
+ALTER TABLE `resources`
+  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `terrains`
 --

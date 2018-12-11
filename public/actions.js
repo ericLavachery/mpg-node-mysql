@@ -98,9 +98,9 @@ function explore(free) {
         detItem = unit.player+thisGroup+unit.cat;
         if (unit.cat == 'bld') {
             new_bldView.push(unit.id);
-            if (unit.skills.includes('regular_')) {
+            if (unit.skills.includes('regu_')) {
                 new_bldIdent.push(unit.id);
-            } else if (!unit.skills.includes('spy_') && !unit.skills.includes('undercover_') && perso.allies.includes(unit.player)) {
+            } else if (!unit.skills.includes('spy_') && !unit.skills.includes('cland_') && perso.allies.includes(unit.player)) {
                 // identifie les alliés
                 new_bldIdent.push(unit.id);
             }
@@ -112,18 +112,18 @@ function explore(free) {
             if (detList.includes(detItem)) {
                 if (!detItem.includes('xxx')) {
                     new_unitView.push(unit.id);
-                    if (unit.skills.includes('regular_')) {
+                    if (unit.skills.includes('regu_')) {
                         new_unitIdent.push(unit.id);
-                    } else if (!unit.skills.includes('spy_') && !unit.skills.includes('undercover_') && perso.allies.includes(unit.player)) {
+                    } else if (!unit.skills.includes('spy_') && !unit.skills.includes('cland_') && perso.allies.includes(unit.player)) {
                         // identifie les alliés
                         new_unitIdent.push(unit.id);
                     }
                 } else {
                     if (isDetected(free,groupDetection,unit)) {
                         new_unitView.push(unit.id);
-                        if (unit.skills.includes('regular_')) {
+                        if (unit.skills.includes('regu_')) {
                             new_unitIdent.push(unit.id);
-                        } else if (!unit.skills.includes('spy_') && !unit.skills.includes('undercover_') && perso.allies.includes(unit.player)) {
+                        } else if (!unit.skills.includes('spy_') && !unit.skills.includes('cland_') && perso.allies.includes(unit.player)) {
                             // identifie les alliés
                             new_unitIdent.push(unit.id);
                         }
@@ -308,20 +308,20 @@ function identify() {
 };
 function isIdentified(searchSkills,targetSkills) {
     let free = false;
-    if (targetSkills.includes('regulars')) {
+    if (targetSkills.includes('regu_')) {
         return true;
     } else {
         if (free) {
             return false;
         } else {
-            if (targetSkills.includes('spy')) {
-                if (searchSkills.includes('spy')) {
+            if (targetSkills.includes('spy_')) {
+                if (searchSkills.includes('spy_')) {
                     return true;
                 } else {
                     return false;
                 }
-            } else if (targetSkills.includes('undercover')) {
-                if (searchSkills.includes('spy') || searchSkills.includes('informer')) {
+            } else if (targetSkills.includes('cland_')) {
+                if (searchSkills.includes('spy_') || searchSkills.includes('info_')) {
                     return true;
                 } else {
                     return false;

@@ -120,7 +120,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                 }
             });
         });
-        // console.log(pop);
+        console.log(pop);
     };
 
     // SINGLE PROPERTY POP CHANGE
