@@ -43,9 +43,16 @@ function showMap(wmap) {
         return (tile.x >= minX && tile.x <= maxX && tile.y >= minY && tile.y <= maxY);
     });
     let sortedVisMap = _.sortBy(_.sortBy(visiMap,'y'),'x');
+    let terclass = '';
     sortedVisMap.forEach(function(tile) {
         if (perso.mapView.includes(tile.id)) {
-            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item ter'+tile.terrainId+'" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            // tiles pairs et impairs
+            if (isDiv(tile.id,2)) {
+                terclass = 'ter'+tile.terrainId;
+            } else {
+                terclass = 'ter'+tile.terrainId+'b';
+            }
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+terclass+'" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
             showTileTags(tile.id);
         } else {
             $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
@@ -88,17 +95,21 @@ socket.on('terload', function(wter) {
     ter = wter;
     writeTerStyles(wter);
 });
-// write 1 class per terrain type to CSS
+// write 2!! classes per terrain type to CSS
 function writeTerStyles(wter) {
     let bg = '';
+    let bg2 = '';
     $('#terStyles').empty();
     wter.forEach(function(terrain) {
         if (terrain.icon != '') {
-            bg = ' background-image: url(/static/img/tiles/'+terrain.icon+'.png);';
+            bg = ' background-image: url(/static/img/wtiles/'+terrain.icon+'.png);';
+            bg2 = ' background-image: url(/static/img/wtiles/'+terrain.icon+'2.png);';
         } else {
             bg = '';
+            bg2 = '';
         }
         $('#terStyles').append('.ter'+terrain.id+' {background-color: '+terrain.color+';'+bg+'}');
+        $('#terStyles').append('.ter'+terrain.id+'b {background-color: '+terrain.color+';'+bg2+'}');
     });
 };
 

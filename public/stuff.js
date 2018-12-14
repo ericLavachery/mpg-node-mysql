@@ -2,6 +2,9 @@
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
+function isDiv(n,d) {
+   return n % d == 0;
+}
 function xType(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let correctType = pop[unitIndex].type;
