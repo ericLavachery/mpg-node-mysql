@@ -115,12 +115,12 @@ io.sockets.on('connection', function (socket, pseudo) {
             squad.pic = players[pIndex].pic+'.svg';
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
             Object.keys(unitTypes[uIndex]).forEach(function(key,index) {
-                if (key != 'id') {
+                if (key != 'id' && !key.includes('prod_')) {
                     squad[key] = unitTypes[uIndex][key];
                 }
             });
         });
-        console.log(pop);
+        // console.log(pop);
     };
 
     // SINGLE PROPERTY POP CHANGE

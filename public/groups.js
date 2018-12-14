@@ -26,6 +26,7 @@ function putInGroup(unitId, groupNumber) {
     pop[unitIndex].follow = groupNumber;
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(selectedUnit.tileId);
+    showMovesLeft(selectedUnit.tileId,selectedUnit.id)
     socket.emit('group_change', {unitId: unitId, groupNumber: groupNumber});
 };
 function removeFromGroup(unitId, groupNumber) {
@@ -33,6 +34,7 @@ function removeFromGroup(unitId, groupNumber) {
     pop[unitIndex].follow = null;
     showTileInfos(selectedUnit.tileId,true);
     showTileUnitList(selectedUnit.tileId);
+    showMovesLeft(selectedUnit.tileId,selectedUnit.id)
     socket.emit('group_change', {unitId: unitId, groupNumber: null});
 };
 function groupSwitch(unitId, groupNumber) {

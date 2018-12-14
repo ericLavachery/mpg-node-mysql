@@ -139,6 +139,7 @@ function goTo(unitId,trackId) {
     selectedUnit.onTrack = trackId;
     pop[unitIndex].onTrack = trackId;
     showUnitInfos(unitId);
+    showTileUnitList(selectedUnit.tileId);
     showTrackedTiles();
     showTracksList(selectedUnit.tileId);
     emitSinglePopChange(unitId,'onTrack',trackId);
@@ -151,6 +152,7 @@ function unGoTo(unitId) {
     selectedUnit.onTrack = 0;
     pop[unitIndex].onTrack = 0;
     showUnitInfos(unitId);
+    showTileUnitList(selectedUnit.tileId);
     showTrackedTiles();
     showTracksList(selectedUnit.tileId);
     emitSinglePopChange(unitId,'onTrack',0);

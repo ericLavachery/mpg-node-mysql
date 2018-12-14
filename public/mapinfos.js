@@ -110,7 +110,7 @@ function showUnitMovesLeft(tileId,unitId) {
                 } else {
                     moveCost = calcMoveCost(tile.id,unitId);
                 }
-                if (moveCost > movesLeft*3 || move <= 0) {
+                if (moveCost > movesLeft*3 || move <= 0 || pop[unitIndex].onTrack >=1) {
                     moveOK = false;
                 } else {
                     moveOK = true;
@@ -156,7 +156,7 @@ function showGroupMovesLeft(tileId,popToMove) {
                             if (fatigue < 0) {fatigue = 0;};
                             movesLeft = move-fatigue;
                             moveCost = calcMoveCost(tile.id,unit.id);
-                            if (moveCost > movesLeft*3 || move <= 0) {
+                            if (moveCost > movesLeft*3 || move <= 0 || unit.onTrack >=1) {
                                 moveOK = false;
                             }
                             movesLeftAfter = movesLeft-moveCost;
