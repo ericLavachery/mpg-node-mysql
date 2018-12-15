@@ -45,10 +45,17 @@ function showMap(wmap) {
     });
     let sortedVisMap = _.sortBy(_.sortBy(visMap,'y'),'x');
     let terclass = '';
+    let tertitle = '';
     sortedVisMap.forEach(function(tile) {
         if (perso.mapView.includes(tile.id) || mode == 'mapedit') {
             terclass = 'ter'+tile.terrainId+tile.seed;
-            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+terclass+'" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            if (mode == 'mapedit') {
+                let terIndex = ter.findIndex((obj => obj.id == tile.terrainId));
+                tertitle = ter[terIndex].name+' #'+tile.id;
+            } else {
+                tertitle = '#'+tile.id;
+            }
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+terclass+'" onclick="selectOrMove('+tile.id+')" title="'+tertitle+'"><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
             showTileTags(tile.id);
         } else {
             $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
