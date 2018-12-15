@@ -26,6 +26,10 @@ function mapeditMode() {
         showAllTerrainTypes();
     }
 };
+$('#viewUnitsButton').click(viewUnits);
+function viewUnits() {
+    showVisiblePop(world);
+};
 function showAllTerrainTypes(tileId) {
     $('#terrainTypes').empty();
     let terricon = '';
@@ -46,28 +50,30 @@ function selectTerrainType(terrainId) {
     $('#tt'+selTer.id).removeClass('terTypeButton').addClass('terTypeButtonSel');
 };
 function mapEdit(tileId) {
-    let tileIndex = world.findIndex((obj => obj.id == tileId));
-    selectedTile = world[tileIndex];
-    // console.log(selectedTile);
-    if (selectedTile.terrainId == selTer.id) {
-        if (selectedTile.seed == 'a') {
-            world[tileIndex].seed = 'b';
-            selectedTile.seed = 'b';
-            emitSingleWorldChange(tileId,'seed','b');
-        } else if (selectedTile.seed == 'b') {
-            world[tileIndex].seed = 'c';
-            selectedTile.seed = 'c';
-            emitSingleWorldChange(tileId,'seed','c');
+    if (selTer.id >= 1) {
+        let tileIndex = world.findIndex((obj => obj.id == tileId));
+        selectedTile = world[tileIndex];
+        // console.log(selectedTile);
+        if (selectedTile.terrainId == selTer.id) {
+            if (selectedTile.seed == 'a') {
+                world[tileIndex].seed = 'b';
+                selectedTile.seed = 'b';
+                emitSingleWorldChange(tileId,'seed','b');
+            } else if (selectedTile.seed == 'b') {
+                world[tileIndex].seed = 'c';
+                selectedTile.seed = 'c';
+                emitSingleWorldChange(tileId,'seed','c');
+            } else {
+                world[tileIndex].seed = 'a';
+                selectedTile.seed = 'a';
+                emitSingleWorldChange(tileId,'seed','a');
+            }
         } else {
-            world[tileIndex].seed = 'a';
-            selectedTile.seed = 'a';
-            emitSingleWorldChange(tileId,'seed','a');
+            world[tileIndex].terrainId = selTer.id;
+            selectedTile.terrainId = selTer.id;
+            emitSingleWorldChange(tileId,'terrainId',selTer.id);
         }
-    } else {
-        world[tileIndex].terrainId = selTer.id;
-        selectedTile.terrainId = selTer.id;
-        emitSingleWorldChange(tileId,'terrainId',selTer.id);
+        showMap(world);
+        // showVisiblePop(world);
     }
-    showMap(world);
-    // showVisiblePop(world);
 };
