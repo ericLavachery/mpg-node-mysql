@@ -73,15 +73,18 @@ body {
     font-size: 13px;
     color: rgba(0, 0, 0, 1);
     /* text-shadow: 0 1px white; */
+    text-shadow: -1px 0 #909090, 0 1px #909090, 1px 0 #909090, 0 -1px #909090;
 }
 .karto {
     font-size: 11px;
     color: rgba(0, 0, 0, 1);
     /* text-shadow: 0 1px white; */
+    text-shadow: -1px 0 #909090, 0 1px #909090, 1px 0 #909090, 0 -1px #909090;
 }
 .river {
     font-size: 9px;
     color: #00c2ff;
+    /* text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000; */
     text-shadow: 0 1px black;
 }
 .tileBar {
@@ -161,6 +164,14 @@ td {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
     background-position: right 20%;
     min-width: 130px;
+}
+#terrainTypes {
+    background-image: url(/static/img/bg-wood-dark-big.jpg);
+    background-position: 0% 0%;
+    width: 750px;
+}
+.terTypeButton {
+    margin: 0 3px 0 0;
 }
 .blockTitle {
     display: inline-block;

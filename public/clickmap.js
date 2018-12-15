@@ -1,46 +1,50 @@
 // Click MAP
 function selectOrMove(tileId) {
-    // Squad on the tile?
-    let ownPopHere = _.filter(pop, function(unit) {
-        return (unit.tileId == tileId && unit.player === pseudo);
-    });
-    let sortedOwnPopHere = _.sortBy(ownPopHere,'number');
-    let unitId = 0;
-    let unitOwner = pseudo;
-    sortedOwnPopHere.forEach(function(unit) {
-        unitId = unit.id;
-        unitOwner = unit.player;
-    });
-    let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    if (unitId >= 1) { // there is a unit
-        if (selectedUnit.tileId == tileId) { // a unit is selected here => unselect
-            unSelectUnit(selectedUnit.id);
-        } else { // no selected unit here
-            if (mode == 'inspect' || selectedUnit.onTrack >= 1) {
-                if (unitOwner == pseudo) {
-                    selectUnit(unitId);
-                } else {
-                    unSelectUnit(selectedUnit.id);
-                }
-            } else if (mode == 'g_move' || mode == 's_move') {
-                if (selectedUnit.id >= 1) { // a unit is selected => move it here
-                    moveHere(tileId);
-                } else { // no unit selected => select this one
+    if (mode == 'mapedit') {
+        mapEdit(tileId);
+    } else {
+        // Squad on the tile?
+        let ownPopHere = _.filter(pop, function(unit) {
+            return (unit.tileId == tileId && unit.player === pseudo);
+        });
+        let sortedOwnPopHere = _.sortBy(ownPopHere,'number');
+        let unitId = 0;
+        let unitOwner = pseudo;
+        sortedOwnPopHere.forEach(function(unit) {
+            unitId = unit.id;
+            unitOwner = unit.player;
+        });
+        let unitIndex = pop.findIndex((obj => obj.id == unitId));
+        if (unitId >= 1) { // there is a unit
+            if (selectedUnit.tileId == tileId) { // a unit is selected here => unselect
+                unSelectUnit(selectedUnit.id);
+            } else { // no selected unit here
+                if (mode == 'inspect' || selectedUnit.onTrack >= 1) {
                     if (unitOwner == pseudo) {
                         selectUnit(unitId);
                     } else {
                         unSelectUnit(selectedUnit.id);
                     }
+                } else if (mode == 'g_move' || mode == 's_move') {
+                    if (selectedUnit.id >= 1) { // a unit is selected => move it here
+                        moveHere(tileId);
+                    } else { // no unit selected => select this one
+                        if (unitOwner == pseudo) {
+                            selectUnit(unitId);
+                        } else {
+                            unSelectUnit(selectedUnit.id);
+                        }
+                    }
                 }
             }
-        }
-    } else { // there is no unit
-        if (perso.mapView.includes(tileId)) {
-            showTileInfos(tileId,false);
-        }
-        if (selectedUnit.id >= 1 && selectedUnit.onTrack == 0) { // a unit is selected => move it here
-            if (mode == 'g_move' || mode == 's_move') {
-                moveHere(tileId);
+        } else { // there is no unit
+            if (perso.mapView.includes(tileId)) {
+                showTileInfos(tileId,false);
+            }
+            if (selectedUnit.id >= 1 && selectedUnit.onTrack == 0) { // a unit is selected => move it here
+                if (mode == 'g_move' || mode == 's_move') {
+                    moveHere(tileId);
+                }
             }
         }
     }
