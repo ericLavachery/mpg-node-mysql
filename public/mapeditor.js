@@ -32,7 +32,7 @@ function viewUnits() {
 };
 function showAllTerrainTypes(tileId) {
     $('#terrainTypes').empty();
-    $('#terrainTypes').append('<img class="terTypeButtonSel" id="tt0" src="/static/img/wtiles/seed.png" title="icon switch" onclick="selectTerrainType(0)">');
+    $('#terrainTypes').append('<img class="terTypeButtonSel" id="tt0" src="/static/img/wtiles/seed.png" title="permuter les images sans changer le terrain" onclick="selectTerrainType(0)">');
     let terricon = '';
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation');
     sortedTer.forEach(function(terrain) {
