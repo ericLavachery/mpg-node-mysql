@@ -13,6 +13,40 @@ function xType(unitId) {
     }
     return correctType;
 };
+function terName(name) {
+    if (name.includes('(') && name.includes(')')) {
+        let regex = /\((.*?)\)/;
+        let parString = ' '+regex.exec(name)[0];
+        return capitalizeFirstLetter(name.replace(parString, ""));
+    } else {
+        return capitalizeFirstLetter(name);
+    }
+};
+function terSpec(name) {
+    if (name.includes('(') && name.includes(')')) {
+        let regex = /\((.*?)\)/;
+        return capitalizeFirstLetter(regex.exec(name)[1]);
+    } else {
+        return '';
+    }
+};
+function noParString(string) {
+    if (string.includes('(') && string.includes(')')) {
+        let regex = /\((.*?)\)/;
+        let parString = ' '+regex.exec(string)[0];
+        return string.replace(parString, "");
+    } else {
+        return string;
+    }
+};
+function onlyParString(string) {
+    if (string.includes('(') && string.includes(')')) {
+        let regex = /\((.*?)\)/;
+        return regex.exec(string)[1];
+    } else {
+        return '';
+    }
+};
 function about(number,aleat) {
     let numAleat = Math.round(number*aleat/100);
     let aboutNum = Math.floor((Math.random() * (numAleat*2)) + 1)+number-numAleat;

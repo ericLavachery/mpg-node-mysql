@@ -115,13 +115,18 @@ function showTileInfos(tileId,linked) {
         $('#tileInfos').append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
     }
     // TYPE TERRAIN
-    $('#tileInfos').append('<span class="blockTitle"><'+linkH+'>'+capitalizeFirstLetter(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
+    $('#tileInfos').append('<span class="blockTitle"><'+linkH+'>'+terName(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
     // LOUPE EXPAND
     $('#tileInfos').append('<span class="loupe klik" id="expTile" onclick="toggleExpandTileDetail('+tileId+','+linked+')"></span><br>');
     if (expTileDetail) {
         $('#expTile').empty().append('<i class="fas fa-search-minus"></i>');
     } else {
         $('#expTile').empty().append('<i class="fas fa-search-plus"></i>');
+    }
+    // Terrain SPEC
+    let spec = terSpec(ter[terrainIndex].name);
+    if (spec != '') {
+        $('#tileInfos').append('<span class="paramName">Type</span><span class="paramValue">'+spec+'</span><br>');
     }
     // Coordonnées + id
     $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'&lrhar;'+world[tileIndex].y+' <span class="low">&nbsp;#'+world[tileIndex].id+'</span></span><br>');

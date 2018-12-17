@@ -32,8 +32,9 @@ function viewUnits() {
 };
 function showAllTerrainTypes(tileId) {
     $('#terrainTypes').empty();
+    $('#terrainTypes').append('<img class="terTypeButtonSel" id="tt0" src="/static/img/wtiles/seed.png" title="icon switch" onclick="selectTerrainType(0)">');
     let terricon = '';
-    let sortedTer = _.sortBy(_.sortBy(_.sortBy(ter,'vegetation'),'escarpement'),'innondation');
+    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation');
     sortedTer.forEach(function(terrain) {
         if (terrain.icon != '') {
             terricon = terrain.icon;
@@ -44,16 +45,22 @@ function showAllTerrainTypes(tileId) {
     });
 };
 function selectTerrainType(terrainId) {
-    let terIndex = ter.findIndex((obj => obj.id == terrainId));
-    selTer = ter[terIndex];
-    $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
-    $('#tt'+selTer.id).removeClass('terTypeButton').addClass('terTypeButtonSel');
+    if (terrainId >= 1) {
+        let terIndex = ter.findIndex((obj => obj.id == terrainId));
+        selTer = ter[terIndex];
+        $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
+        $('#tt'+selTer.id).removeClass('terTypeButton').addClass('terTypeButtonSel');
+    } else {
+        selTer = [];
+        $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
+        $('#tt0').removeClass('terTypeButton').addClass('terTypeButtonSel');
+    }
 };
 function mapEdit(tileId) {
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    selectedTile = world[tileIndex];
+    // console.log(selectedTile);
     if (selTer.id >= 1) {
-        let tileIndex = world.findIndex((obj => obj.id == tileId));
-        selectedTile = world[tileIndex];
-        // console.log(selectedTile);
         if (selectedTile.terrainId == selTer.id) {
             if (selectedTile.seed == 'a') {
                 world[tileIndex].seed = 'b';
@@ -73,7 +80,21 @@ function mapEdit(tileId) {
             selectedTile.terrainId = selTer.id;
             emitSingleWorldChange(tileId,'terrainId',selTer.id);
         }
-        showMap(world);
-        // showVisiblePop(world);
+    } else {
+        if (selectedTile.seed == 'a') {
+            world[tileIndex].seed = 'b';
+            selectedTile.seed = 'b';
+            emitSingleWorldChange(tileId,'seed','b');
+        } else if (selectedTile.seed == 'b') {
+            world[tileIndex].seed = 'c';
+            selectedTile.seed = 'c';
+            emitSingleWorldChange(tileId,'seed','c');
+        } else {
+            world[tileIndex].seed = 'a';
+            selectedTile.seed = 'a';
+            emitSingleWorldChange(tileId,'seed','a');
+        }
     }
+    showMap(world);
+    // showVisiblePop(world);
 };
