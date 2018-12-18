@@ -34,7 +34,7 @@ function showAllTerrainTypes(tileId) {
     $('#terrainTypes').empty();
     $('#terrainTypes').append('<img class="terTypeButtonSel" id="tt0" src="/static/img/wtiles/seed.png" title="permuter les images sans changer le terrain" onclick="selectTerrainType(0)">');
     let terricon = '';
-    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation');
+    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),'tempMax');
     sortedTer.forEach(function(terrain) {
         if (terrain.icon != '') {
             terricon = terrain.icon;

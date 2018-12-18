@@ -23,7 +23,7 @@ function terName(name) {
     }
 };
 function terSpec(name) {
-    if (name.includes('(') && name.includes(')')) {
+    if (name.includes('(') && name.includes(')') && !name.includes('(bis)')) {
         let regex = /\((.*?)\)/;
         return capitalizeFirstLetter(regex.exec(name)[1]);
     } else {

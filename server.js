@@ -101,8 +101,9 @@ io.sockets.on('connection', function (socket, pseudo) {
             return (track.player === pseudo);
         });
         socket.emit('tracksload', myTracks);
-        socket.emit('mapload', world);
         socket.emit('terload', ter);
+        socket.emit('mapload', world);
+        // socket.emit('terload', ter);
         populatePop();
         socket.emit('popload', pop);
     });
@@ -324,69 +325,6 @@ io.sockets.on('connection', function (socket, pseudo) {
         // broadcast: no need?
         // socket.broadcast.emit('turn_passed', data);
         console.log(data.pseudo+' passe au tour suivant');
-    });
-
-    // MAP CREATE
-    socket.on('add_terrain', function(terrain) {
-        let lastTile = world[world.length - 1];
-        let y = 0;
-        let x = 0;
-        let id = lastTile.id + 1;
-        if (lastTile.y >= numHTiles) {
-            y = 1;
-            x = lastTile.x + 1;
-        } else {
-            y = lastTile.y + 1;
-            x = lastTile.x;
-        }
-        let tile = {id: id, terrain: terrain, x: x, y: y};
-        world.push(tile);
-        // console.log(world);
-        socket.emit('new_tile', tile);
-        socket.broadcast.emit('new_tile', tile);
-        // enregistrer dans la db
-        var sql = "INSERT INTO world (terrain, x, y) VALUES ('" + terrain + "', '" + x + "','" + y + "')";
-        db.con.query(sql, function (error, result) {
-            if (error) throw error;
-            console.log('tile added');
-        });
-    });
-
-    // MAP EDIT
-    socket.on('change_terrain', function(id) {
-        let num = id-1;
-        let tile = world[num];
-        // console.log(tile);
-        let newTerrain = 'plains';
-        let newTerrainId = 1;
-        if (tile.terrain === 'plains') {
-            newTerrain = 'forest';
-            newTerrainId = 2;
-        } else if (tile.terrain === 'forest') {
-            newTerrain = 'hills';
-            newTerrainId = 3;
-        } else if (tile.terrain === 'hills') {
-            newTerrain = 'mountains';
-            newTerrainId = 4;
-        } else if (tile.terrain === 'mountains') {
-            newTerrain = 'swamp';
-            newTerrainId = 5;
-        } else if (tile.terrain === 'swamp') {
-            newTerrain = 'plains';
-            newTerrainId = 1;
-        }
-        tile.terrain = newTerrain;
-        tile.terrainId = newTerrainId;
-        world[num] = tile;
-        // console.log(world);
-        socket.emit('mapload', world);
-        socket.broadcast.emit('mapload', world);
-        // enregister dans la db
-        var sql = "UPDATE world SET terrain = '"+newTerrain+"', terrainId = '"+newTerrainId+"' WHERE id = "+id;
-        db.con.query(sql, function (error, result) {
-            if (error) throw error;
-            console.log('tile changed');
-        });
     });
 
 });

@@ -74,7 +74,7 @@
                 if (biome.innondation >= 10) {
                     defense = defense+Math.round((biome.innondation-5)*4/5);
                 }
-                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td style="background-color:'+biome.color+';color:black;">'+biome.color+'</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
+                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td style="background-color:#999e7c;color:black;">&nbsp;&nbsp;</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
             });
         };
         </script>

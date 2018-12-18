@@ -74,6 +74,7 @@ function showTileTags(tileId) {
     $('#r'+tileId).empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let tileFlags = world[tileIndex].flags;
+    let tileTerrainId = world[tileIndex].terrainId;
     if (selectedTrack.id >= 1) {
         if (selectedTrack.tiles.includes('_'+tileId+'_')) {
             $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
@@ -91,6 +92,14 @@ function showTileTags(tileId) {
     }
     if (tileFlags.includes('road_')) {
         $('#r'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
+    }
+    let terrainIndex = ter.findIndex((obj => obj.id == tileTerrainId));
+    let shad = ter[terrainIndex].shad;
+    $('.road').removeClass('shadg').removeClass('shadw');
+    $('.karto').removeClass('shadg').removeClass('shadw');
+    if (shad != '') {
+        $('.road').addClass(shad);
+        $('.karto').addClass(shad);
     }
 };
 // infos terrains
@@ -114,9 +123,9 @@ function writeTerStyles(wter) {
             bg2 = '';
             bg3 = '';
         }
-        $('#terStyles').append('.ter'+terrain.id+'a {background-color: '+terrain.color+';'+bg+'}');
-        $('#terStyles').append('.ter'+terrain.id+'b {background-color: '+terrain.color+';'+bg2+'}');
-        $('#terStyles').append('.ter'+terrain.id+'c {background-color: '+terrain.color+';'+bg3+'}');
+        $('#terStyles').append('.ter'+terrain.id+'a {background-color: #FFFF00;'+bg+'}');
+        $('#terStyles').append('.ter'+terrain.id+'b {background-color: #FFFF00;'+bg2+'}');
+        $('#terStyles').append('.ter'+terrain.id+'c {background-color: #FFFF00;'+bg3+'}');
     });
 };
 
