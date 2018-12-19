@@ -5,6 +5,7 @@ let yOffset = 0;
 let pop = [];
 let world = [];
 let ter = [];
+let terhid = [];
 let perso = {};
 let mygroups = [];
 let myTracks = [];
@@ -29,8 +30,21 @@ socket.on('tracksload', function(tracks) {
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
     world = wmap;
+    hideHidden();
     showMap(wmap);
 });
+function hideHidden() {
+    // terrains cachés
+    world.forEach(function(tile) {
+        if (!terhid.includes(tile.id)) {
+            // gués
+            if (tile.terrainId == 77) {
+                let tileIndex = world.findIndex((obj => obj.id == tile.id));
+                world[tileIndex].terrainId = 75;
+            }
+        }
+    });
+};
 // Dessine la carte
 function showMap(wmap) {
     // reset
@@ -95,11 +109,9 @@ function showTileTags(tileId) {
     }
     let terrainIndex = ter.findIndex((obj => obj.id == tileTerrainId));
     let shad = ter[terrainIndex].shad;
-    $('.road').removeClass('shadg').removeClass('shadw');
-    $('.karto').removeClass('shadg').removeClass('shadw');
     if (shad != '') {
-        $('.road').addClass(shad);
-        $('.karto').addClass(shad);
+        $('#c'+tileId).addClass(shad);
+        $('#r'+tileId).addClass(shad);
     }
 };
 // infos terrains
