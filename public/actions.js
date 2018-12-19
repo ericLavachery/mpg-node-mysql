@@ -3,6 +3,7 @@ function explore(free) {
     let tileId = selectedUnit.tileId;
     let unitId = selectedUnit.id;
     let unitIndex = 0;
+    let uMoveLoss = 0;
     // détermine la détection
     let groupDetection = 0;
     if (free) {
@@ -24,7 +25,16 @@ function explore(free) {
                     if (unit.detection > bestDetect) {
                         bestDetect = unit.detection;
                     }
-                    moveLossPerc(unit.id,75);
+                    // moveLoss en fonction du moveCost, si trop élevé, réduit numDetectUnits!
+                    uMoveLoss = calcMoveCost(unit.tileId,unit.id,true)*exploMLfactor;
+                    if (uMoveLoss > unit.move*3) {
+                        uMoveLoss = unit.move*3;
+                        numDetectUnits = numDetectUnits - Math.round(unit.number/3);
+                        if (numDetectUnits < 1) {
+                            numDetectUnits = 1;
+                        }
+                    }
+                    moveLoss(unit.id,uMoveLoss);
                     unitIndex = pop.findIndex((obj => obj.id == unit.id));
                     emitSinglePopChange(unit.id,'fatigue',pop[unitIndex].fatigue);
                 }
@@ -35,7 +45,16 @@ function explore(free) {
         } else {
             numDetectUnits = selectedUnit.number;
             groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
-            moveLossPerc(selectedUnit.id,75);
+            // moveLoss en fonction du moveCost, si trop élevé, réduit numDetectUnits!
+            uMoveLoss = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true)*exploMLfactor;
+            if (uMoveLoss > selectedUnit.move*3) {
+                uMoveLoss = selectedUnit.move*3;
+                numDetectUnits = numDetectUnits - Math.round(selectedUnit.number/3);
+                if (numDetectUnits < 1) {
+                    numDetectUnits = 1;
+                }
+            }
+            moveLoss(selectedUnit.id,uMoveLoss);
             unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
             emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
         }
@@ -181,6 +200,7 @@ function explore(free) {
     perso.unitIdent = unitIdent;
     perso.bldIdent = bldIdent;
     if (!free) {
+        unfogAround(tileId);
         emitPlayersChange(perso);
         showMovesLeft(tileId, unitId);
     } else {
@@ -349,7 +369,7 @@ function cartography() {
 };
 function cartoMoveLoss() {
     let ml = 110;
-    let moveCost = calcMoveCost(selectedUnit.tileId, selectedUnit.id);
+    let moveCost = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true);
     ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*10000/selectedUnit.detection);
     if (selectedUnit.skills.includes('carto_')) {
         ml = Math.round(ml/16);
@@ -365,20 +385,8 @@ function cartoTile(tileId,save) {
     if (!perso.mapCarto.includes(tileId)) {
         perso.mapCarto.push(tileId);
         let tileIndex = world.findIndex((obj => obj.id == tileId));
-        let tileTerrainId = world[tileIndex].terrainId;
-        showTile(tileId,tileTerrainId);
-        // unfog adjacent tiles
-        let myTileX = world[tileIndex].x;
-        let myTileY = world[tileIndex].y;
-        world.forEach(function(tile) {
-            if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
-                if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
-                    if (tile.y != myTileY || tile.x != myTileX) {
-                        unfogTile(tile.id,false,false);
-                    }
-                }
-            }
-        });
+        showTile(tileId,world[tileIndex].terrainId,world[tileIndex].seed);
+        unfogAround(tileId);
         // save
         if (save) {
             emitPlayersChange(perso);
@@ -387,22 +395,23 @@ function cartoTile(tileId,save) {
 };
 function autoUnfog(tileId) {
     if (perso.mapCarto.includes(tileId)) {
-        let tileIndex = world.findIndex((obj => obj.id == tileId));
-        // let tileTerrainId = world[tileIndex].terrainId;
-        // showTile(tileId,tileTerrainId);
-        // unfog adjacent tiles
-        let myTileX = world[tileIndex].x;
-        let myTileY = world[tileIndex].y;
-        world.forEach(function(tile) {
-            if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
-                if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
-                    if (tile.y != myTileY || tile.x != myTileX) {
-                        unfogTile(tile.id,false,false);
-                    }
+        unfogAround(tileId);
+    }
+};
+function unfogAround(tileId) {
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    let myTileX = world[tileIndex].x;
+    let myTileY = world[tileIndex].y;
+    console.log(myTileX+'.'+myTileY);
+    world.forEach(function(tile) {
+        if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
+            if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
+                if (tile.y != myTileY || tile.x != myTileX) {
+                    unfogTile(tile.id,false,false);
                 }
             }
-        });
-    }
+        }
+    });
 };
 function unfogTile(tileId,save,fromMove) {
     // unfog adjacent tiles if road or river (if fromMove=true)
@@ -435,8 +444,7 @@ function unfogTile(tileId,save,fromMove) {
     if (!perso.mapView.includes(tileId)) {
         perso.mapView.push(tileId);
         someChanges = true;
-        let tileTerrainId = world[tileIndex].terrainId;
-        showTile(tileId,tileTerrainId);
+        showTile(tileId,world[tileIndex].terrainId,world[tileIndex].seed);
     }
     if (save && someChanges) {
         emitPlayersChange(perso);

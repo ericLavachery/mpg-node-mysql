@@ -19,6 +19,7 @@ let uvp = ''; // unit view priority
 let showTracks = false;
 let expSquadDetail = false;
 let expTileDetail = false;
+let exploMLfactor = 2.1; // explo move loss = moveCost*exploMLfactor  
 
 // Tracks
 socket.on('tracksload', function(tracks) {
@@ -35,11 +36,12 @@ socket.on('mapload', function(wmap) {
 });
 function hideHidden() {
     // terrains cachés
+    let tileIndex = 0;
     world.forEach(function(tile) {
         if (!terhid.includes(tile.id)) {
             // gués
             if (tile.terrainId == 77) {
-                let tileIndex = world.findIndex((obj => obj.id == tile.id));
+                tileIndex = world.findIndex((obj => obj.id == tile.id));
                 world[tileIndex].terrainId = 75;
             }
         }
@@ -76,9 +78,9 @@ function showMap(wmap) {
         }
     });
 };
-function showTile(tileId,tileTerrainId) {
+function showTile(tileId,tileTerrainId,tileSeed) {
     if ( $('#'+tileId).hasClass('fog') ) {
-        $('#'+tileId).removeClass('fog').addClass('ter'+tileTerrainId);
+        $('#'+tileId).removeClass('fog').addClass('ter'+tileTerrainId+tileSeed);
     }
     $('#'+tileId).empty().append('<span class="mapNote" id="r'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNote" id="c'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
     showTileTags(tileId);

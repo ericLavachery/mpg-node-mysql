@@ -43,7 +43,7 @@ function moveGroup(targetTileId) {
     popToMove.forEach(function(unit) {
         // move the whole group only if not null
         if (unit.follow !== null || unit.id == selectedUnit.id) {
-            moveCost = calcMoveCost(targetTileId,unit.id);
+            moveCost = calcMoveCost(targetTileId,unit.id,false);
             movesLeft = unit.move - unit.fatigue;
             if (moveCost > movesLeft*3) {
                 moveOK = false;
@@ -59,7 +59,7 @@ function moveGroup(targetTileId) {
         popToMove.forEach(function(unit) {
             // move the whole group only if not null
             if (unit.follow !== null || unit.id == selectedUnit.id) {
-                moveCost = calcMoveCost(targetTileId,unit.id);
+                moveCost = calcMoveCost(targetTileId,unit.id,false);
                 fatigue = unit.fatigue + about(moveCost,10);
                 movesLeft = unit.move - fatigue;
                 // change infos dans pop
@@ -106,7 +106,7 @@ function moveUnit(targetTileId) {
         fatigue = 0;
     };
     let movesLeft = move-fatigue;
-    moveCost = calcMoveCost(targetTileId,selectedUnit.id);
+    moveCost = calcMoveCost(targetTileId,selectedUnit.id,false);
     // console.log(moveCost);
     if (movesLeft*3 >= moveCost) {
         fatigue = fatigue + about(moveCost,15);
@@ -272,7 +272,7 @@ function calcEscarpMoveAdj(escarpement) {
 function calcInnondMoveAdj(innondation) {
     return innondation*2;
 };
-function calcMoveCost(targetTileId, unitId) {
+function calcMoveCost(targetTileId,unitId,explo) {
     // xxxxxxxxxx AMPHIBIENS ????
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let oldTileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
@@ -285,7 +285,7 @@ function calcMoveCost(targetTileId, unitId) {
     if (unitMoveType == 'ter') {
         moveCost = terMoveCost(targetTileId, unitId);
         let oldTileFlags = world[oldTileIndex].flags;
-        if (tileFlags.includes('road_') && oldTileFlags.includes('road_')) {
+        if (tileFlags.includes('road_') && oldTileFlags.includes('road_') && !explo) {
             moveCost = roadMoveCost(targetTileId, unitId);
         } else {
             if (perso.mapCarto.includes(targetTileId)) {

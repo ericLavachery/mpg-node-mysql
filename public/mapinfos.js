@@ -108,7 +108,7 @@ function showUnitMovesLeft(tileId,unitId) {
                 if (tile.y == myTileY && tile.x == myTileX) {
                     moveCost = 0;
                 } else {
-                    moveCost = calcMoveCost(tile.id,unitId);
+                    moveCost = calcMoveCost(tile.id,unitId,false);
                 }
                 if (moveCost > movesLeft*3 || move <= 0 || pop[unitIndex].onTrack >=1) {
                     moveOK = false;
@@ -155,7 +155,7 @@ function showGroupMovesLeft(tileId,popToMove) {
                             fatigue = pop[unitIndex].fatigue;
                             if (fatigue < 0) {fatigue = 0;};
                             movesLeft = move-fatigue;
-                            moveCost = calcMoveCost(tile.id,unit.id);
+                            moveCost = calcMoveCost(tile.id,unit.id,false);
                             if (moveCost > movesLeft*3 || move <= 0 || unit.onTrack >=1) {
                                 moveOK = false;
                             }
