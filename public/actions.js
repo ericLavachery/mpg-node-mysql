@@ -402,7 +402,6 @@ function unfogAround(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let myTileX = world[tileIndex].x;
     let myTileY = world[tileIndex].y;
-    console.log(myTileX+'.'+myTileY);
     world.forEach(function(tile) {
         if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
             if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {

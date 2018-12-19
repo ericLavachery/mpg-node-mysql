@@ -346,11 +346,10 @@ function calcMoveCost(targetTileId,unitId,explo) {
         }
     }
     // verif earth for others
-    if (ter[terrainIndex].innondation >= 60) {
+    let uia = pop[unitIndex].innondAdj;
+    if (ter[terrainIndex].innondation > 100-(Math.round(uia/2)) && ter[terrainIndex].innondation > 70) {
         if (unitMoveType != 'mer' && unitMoveType != 'cab' && unitMoveType != 'mix') {
-            if (!tileFlags.includes('gue_') || !perso.mapCarto.includes(targetTileId)) {
-                moveCost = 999;
-            }
+            moveCost = 999;
         }
     }
     return moveCost;

@@ -49,18 +49,6 @@ function nextTurn() {
     world.forEach(function(tile) {
         if (perso.mapCarto.includes(tile.id) && occupiedTiles.includes(tile.id)) {
             unfogAround(tile.id);
-            // let tileIndex = world.findIndex((obj => obj.id == tile.id));
-            // let myTileX = world[tileIndex].x;
-            // let myTileY = world[tileIndex].y;
-            // world.forEach(function(tile) {
-            //     if (tile.x == myTileX+1 || tile.x == myTileX || tile.x == myTileX-1) {
-            //         if (tile.y == myTileY+1 || tile.y == myTileY || tile.y == myTileY-1) {
-            //             if (tile.y != myTileY || tile.x != myTileX) {
-            //                 unfogTile(tile.id,false,false);
-            //             }
-            //         }
-            //     }
-            // });
         }
     });
     showMap(world);

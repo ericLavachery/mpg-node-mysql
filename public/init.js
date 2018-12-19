@@ -5,7 +5,7 @@ let yOffset = 0;
 let pop = [];
 let world = [];
 let ter = [];
-let terhid = [];
+let unhiddenTiles = [];
 let perso = {};
 let mygroups = [];
 let myTracks = [];
@@ -19,7 +19,7 @@ let uvp = ''; // unit view priority
 let showTracks = false;
 let expSquadDetail = false;
 let expTileDetail = false;
-let exploMLfactor = 2.1; // explo move loss = moveCost*exploMLfactor  
+let exploMLfactor = 2.1; // explo move loss = moveCost*exploMLfactor
 
 // Tracks
 socket.on('tracksload', function(tracks) {
@@ -31,14 +31,35 @@ socket.on('tracksload', function(tracks) {
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
     world = wmap;
+    defineUnhiddenTiles();
     hideHidden();
     showMap(wmap);
 });
+function defineUnhiddenTiles() {
+    let tileIndex = 0;
+    let myTileX = 0;
+    let myTileY = 0;
+    world.forEach(function(tile) {
+        if (perso.mapCarto.includes(tile.id)) {
+            // gués
+            tileIndex = world.findIndex((obj => obj.id == tile.id));
+            myTileX = world[tileIndex].x;
+            myTileY = world[tileIndex].y;
+            world.forEach(function(tile) {
+                if ((tile.x == myTileX && tile.y == myTileY) || (tile.x == myTileX+1 && tile.y == myTileY) || (tile.x == myTileX-1 && tile.y == myTileY) || (tile.x == myTileX && tile.y == myTileY-1) || (tile.x == myTileX && tile.y == myTileY+1)) {
+                    if (!unhiddenTiles.includes(tile.id)) {
+                        unhiddenTiles.push(tile.id);
+                    }
+                }
+            });
+        }
+    });
+};
 function hideHidden() {
     // terrains cachés
     let tileIndex = 0;
     world.forEach(function(tile) {
-        if (!terhid.includes(tile.id)) {
+        if (!unhiddenTiles.includes(tile.id)) {
             // gués
             if (tile.terrainId == 77) {
                 tileIndex = world.findIndex((obj => obj.id == tile.id));
