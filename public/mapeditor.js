@@ -36,12 +36,14 @@ function showAllTerrainTypes(tileId) {
     let terricon = '';
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),'tempMax');
     sortedTer.forEach(function(terrain) {
-        if (terrain.icon != '') {
-            terricon = terrain.icon;
-        } else {
-            terricon = 'def';
+        if (terrain.id != 83) {
+            if (terrain.icon != '') {
+                terricon = terrain.icon;
+            } else {
+                terricon = 'def';
+            }
+            $('#terrainTypes').append('<img class="terTypeButton" id="tt'+terrain.id+'" src="/static/img/wtiles/'+terricon+'.png" title="'+terrain.name+'" onclick="selectTerrainType('+terrain.id+')">');
         }
-        $('#terrainTypes').append('<img class="terTypeButton" id="tt'+terrain.id+'" src="/static/img/wtiles/'+terricon+'.png" title="'+terrain.name+'" onclick="selectTerrainType('+terrain.id+')">');
     });
 };
 function selectTerrainType(terrainId) {
