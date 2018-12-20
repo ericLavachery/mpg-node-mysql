@@ -69,7 +69,7 @@ app.get('/terrains/', function (req, res) {
     res.sendFile(__dirname + '/terrains.html');
 });
 app.get('/edit/', function (req, res) {
-    res.sendFile(__dirname + '/editor.html');
+    res.sendFile(__dirname + '/index.html');
 });
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');

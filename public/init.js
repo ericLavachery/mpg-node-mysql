@@ -31,8 +31,10 @@ socket.on('tracksload', function(tracks) {
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
     world = wmap;
-    defineUnhiddenTiles();
-    hideHidden();
+    if (!window.location.href.includes('/edit')) {
+        defineUnhiddenTiles();
+        hideHidden();
+    }
     showMap(wmap);
 });
 function defineUnhiddenTiles() {
@@ -53,13 +55,19 @@ function unhidTile(tileId,show) {
     world.forEach(function(tile) {
         if ((tile.x == myTileX && tile.y == myTileY) || (tile.x == myTileX+1 && tile.y == myTileY) || (tile.x == myTileX-1 && tile.y == myTileY) || (tile.x == myTileX && tile.y == myTileY-1) || (tile.x == myTileX && tile.y == myTileY+1)) {
             if (!unhiddenTiles.includes(tile.id)) {
-                if (tile.terrainId == 83) {
-                    unhiddenTiles.push(tile.id);
-                    if (show) {
+                if (show) {
+                    // changement pendant le jeu : montrer le tile
+                    if (tile.terrainId == 83) {
+                        unhiddenTiles.push(tile.id);
                         tileIndex = world.findIndex((obj => obj.id == tile.id));
                         world[tileIndex].terrainId = 77;
                         $('#'+tile.id).removeClass('ter83a').removeClass('ter83b').removeClass('ter83c').addClass('ter77a');
                         showTile(tile.id,77,'a');
+                    }
+                } else {
+                    if (tile.terrainId == 77) {
+                        // au chargement (login) 
+                        unhiddenTiles.push(tile.id);
                     }
                 }
             }
@@ -219,7 +227,11 @@ socket.on('popload', function(wpop) {
     pop = wpop;
     showVisiblePop(world);
     loadGroups(wpop);
-    inspectMode();
+    if (window.location.href.includes('/edit')) {
+        mapeditMode();
+    } else {
+        inspectMode();
+    }
 });
 function showVisiblePop(wmap) {
     wmap.forEach(function(tile) {
