@@ -37,57 +37,6 @@ socket.on('mapload', function(wmap) {
     }
     showMap(wmap);
 });
-function defineUnhiddenTiles() {
-    let tileIndex = 0;
-    let myTileX = 0;
-    let myTileY = 0;
-    world.forEach(function(tile) {
-        if (perso.mapCarto.includes(tile.id)) {
-            unhidTile(tile.id,false);
-        }
-    });
-};
-function unhidTile(tileId,show) {
-    // gués 77(83)
-    let tileIndex = world.findIndex((obj => obj.id == tileId));
-    myTileX = world[tileIndex].x;
-    myTileY = world[tileIndex].y;
-    world.forEach(function(tile) {
-        if ((tile.x == myTileX && tile.y == myTileY) || (tile.x == myTileX+1 && tile.y == myTileY) || (tile.x == myTileX-1 && tile.y == myTileY) || (tile.x == myTileX && tile.y == myTileY-1) || (tile.x == myTileX && tile.y == myTileY+1)) {
-            if (!unhiddenTiles.includes(tile.id)) {
-                if (show) {
-                    // changement pendant le jeu : montrer le tile
-                    if (tile.terrainId == 83) {
-                        unhiddenTiles.push(tile.id);
-                        tileIndex = world.findIndex((obj => obj.id == tile.id));
-                        world[tileIndex].terrainId = 77;
-                        $('#'+tile.id).removeClass('ter83a').removeClass('ter83b').removeClass('ter83c').addClass('ter77a');
-                        showTile(tile.id,77,'a');
-                    }
-                } else {
-                    if (tile.terrainId == 77) {
-                        // au chargement (login) 
-                        unhiddenTiles.push(tile.id);
-                    }
-                }
-            }
-        }
-    });
-};
-function hideHidden() {
-    // terrains cachés
-    let tileIndex = 0;
-    world.forEach(function(tile) {
-        if (!unhiddenTiles.includes(tile.id)) {
-            // gués
-            if (tile.terrainId == 77) {
-                tileIndex = world.findIndex((obj => obj.id == tile.id));
-                world[tileIndex].terrainId = 83;
-                // world[tileIndex].seed = 'a';
-            }
-        }
-    });
-};
 // Dessine la carte
 function showMap(wmap) {
     // reset

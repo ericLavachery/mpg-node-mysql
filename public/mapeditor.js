@@ -36,7 +36,7 @@ function showAllTerrainTypes(tileId) {
     let terricon = '';
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),'tempMax');
     sortedTer.forEach(function(terrain) {
-        if (terrain.id != 83) {
+        if (!terrain.name.includes('non vu')) {
             if (terrain.icon != '') {
                 terricon = terrain.icon;
             } else {
