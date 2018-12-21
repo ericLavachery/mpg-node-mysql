@@ -14,6 +14,7 @@ let selectedUnit = [];
 let selectedTrack = [];
 let selectedTile = [];
 let selTer = [];
+let selAddon = '';
 let mode = 'inspect';
 let uvp = ''; // unit view priority
 let showTracks = false;

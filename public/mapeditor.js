@@ -16,7 +16,7 @@ function mapeditMode() {
         $('#inspectButton').removeClass('boutonVert');
         $('#gmoveButton').removeClass('boutonVert');
         $('#smoveButton').removeClass('boutonVert');
-        $('#cadreMap').css("background-color", "#533f5d");
+        $('#cadreMap').css("background-color", "#2f372a");
         clearMovesLeft();
         $("#sidebarInfos").hide();
         $("#sidebarCommand").hide();
@@ -32,7 +32,12 @@ function viewUnits() {
 };
 function showAllTerrainTypes(tileId) {
     $('#terrainTypes').empty();
+    // seed
     $('#terrainTypes').append('<img class="terTypeButtonSel" id="tt0" src="/static/img/wtiles/seed.png" title="permuter les images sans changer le terrain" onclick="selectTerrainType(0)">');
+    // road
+    $('#terrainTypes').append('<img class="terTypeButton" id="togroad" src="/static/img/wtiles/road.png" title="ajouter ou enlever une route" onclick="toggleAddons(`road`)">');
+    // river
+    $('#terrainTypes').append('<img class="terTypeButton" id="togriver" src="/static/img/wtiles/river.png" title="ajouter ou enlever une rivière" onclick="toggleAddons(`river`)">');
     let terricon = '';
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),'tempMax');
     sortedTer.forEach(function(terrain) {
@@ -46,7 +51,14 @@ function showAllTerrainTypes(tileId) {
         }
     });
 };
+function toggleAddons(addon) {
+    selTer = [];
+    selAddon = addon;
+    $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
+    $('#tog'+addon).removeClass('terTypeButton').addClass('terTypeButtonSel');
+};
 function selectTerrainType(terrainId) {
+    selAddon = '';
     if (terrainId >= 1) {
         let terIndex = ter.findIndex((obj => obj.id == terrainId));
         selTer = ter[terIndex];
@@ -62,8 +74,28 @@ function mapEdit(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     selectedTile = world[tileIndex];
     // console.log(selectedTile);
-    if (selTer.id >= 1) {
-        if (selectedTile.terrainId == selTer.id) {
+    if (selAddon == '') {
+        if (selTer.id >= 1) {
+            if (selectedTile.terrainId == selTer.id) {
+                if (selectedTile.seed == 'a') {
+                    world[tileIndex].seed = 'b';
+                    selectedTile.seed = 'b';
+                    emitSingleWorldChange(tileId,'seed','b');
+                } else if (selectedTile.seed == 'b') {
+                    world[tileIndex].seed = 'c';
+                    selectedTile.seed = 'c';
+                    emitSingleWorldChange(tileId,'seed','c');
+                } else {
+                    world[tileIndex].seed = 'a';
+                    selectedTile.seed = 'a';
+                    emitSingleWorldChange(tileId,'seed','a');
+                }
+            } else {
+                world[tileIndex].terrainId = selTer.id;
+                selectedTile.terrainId = selTer.id;
+                emitSingleWorldChange(tileId,'terrainId',selTer.id);
+            }
+        } else {
             if (selectedTile.seed == 'a') {
                 world[tileIndex].seed = 'b';
                 selectedTile.seed = 'b';
@@ -77,26 +109,17 @@ function mapEdit(tileId) {
                 selectedTile.seed = 'a';
                 emitSingleWorldChange(tileId,'seed','a');
             }
-        } else {
-            world[tileIndex].terrainId = selTer.id;
-            selectedTile.terrainId = selTer.id;
-            emitSingleWorldChange(tileId,'terrainId',selTer.id);
         }
     } else {
-        if (selectedTile.seed == 'a') {
-            world[tileIndex].seed = 'b';
-            selectedTile.seed = 'b';
-            emitSingleWorldChange(tileId,'seed','b');
-        } else if (selectedTile.seed == 'b') {
-            world[tileIndex].seed = 'c';
-            selectedTile.seed = 'c';
-            emitSingleWorldChange(tileId,'seed','c');
+        if (!selectedTile.flags.includes(selAddon+'_')) {
+            world[tileIndex].flags = selectedTile.flags+selAddon+'_';
+            selectedTile.flags = selectedTile.flags+selAddon+'_';
+            emitSingleWorldChange(tileId,'flags',selectedTile.flags);
         } else {
-            world[tileIndex].seed = 'a';
-            selectedTile.seed = 'a';
-            emitSingleWorldChange(tileId,'seed','a');
+            world[tileIndex].flags = selectedTile.flags.replace(selAddon+'_','');
+            selectedTile.flags = selectedTile.flags.replace(selAddon+'_','');
+            emitSingleWorldChange(tileId,'flags',selectedTile.flags);
         }
     }
     showMap(world);
-    // showVisiblePop(world);
 };
