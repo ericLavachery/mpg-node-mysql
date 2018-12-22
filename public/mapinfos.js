@@ -1,15 +1,22 @@
 function cursorSwitch(seltype,selvalue,kur) {
     let defkur = 'default';
-    if (kur == 'move') {
-        defkur = 'nesw-resize';
-    } else if (kur == 'insp') {
-        defkur = 'help';
-    } else if (kur == 'stop') {
-        defkur = 'not-allowed';
-    } else if (kur == 'freemove') {
-        defkur = 'ew-resize';
+    if (kur == 'progress') {
+        $(seltype+selvalue).css('cursor','pointer');
+    } else {
+        if (kur == 'move') {
+            defkur = 'nesw-resize';
+        } else if (kur == 'insp') {
+            defkur = 'help';
+        } else if (kur == 'stop') {
+            defkur = 'not-allowed';
+        } else if (kur == 'freemove') {
+            defkur = 'ew-resize';
+        } else if (kur == 'copy') {
+            defkur = 'copy';
+            kur = 'writing';
+        }
+        $(seltype+selvalue).css('cursor','url(/static/img/'+kur+'.cur),'+defkur);
     }
-    $(seltype+selvalue).css('cursor','url(/static/img/'+kur+'.cur),'+defkur);
 };
 function cursorsToMode() {
     let kur = 'pointer';

@@ -71,9 +71,13 @@ function toggleExpandSquadDetail(unitId) {
 }
 
 // TILE DETAIL ---------------------------------------------------------------------------------------------------------
-function showTileInfos(tileId,linked) {
+function showTileInfos(tileId,linked,cssId) {
+    let cssi = cssId;
+    if (cssId == '' || cssId == undefined) {
+        cssi = '#tileInfos';
+    }
+    $(cssi).empty();
     showTracksList(tileId);
-    $('#tileInfos').empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     selectedTile = world[tileIndex];
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
@@ -112,48 +116,52 @@ function showTileInfos(tileId,linked) {
     // NOM
     if (world[tileIndex].tileName != '') {
         let lieu = world[tileIndex].tileName;
-        $('#tileInfos').append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
+        $(cssi).append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
     }
     // TYPE TERRAIN
-    $('#tileInfos').append('<span class="blockTitle"><'+linkH+'>'+terName(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
+    $(cssi).append('<span class="blockTitle"><'+linkH+'>'+terName(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
     // LOUPE EXPAND
-    $('#tileInfos').append('<span class="loupe klik" id="expTile" onclick="toggleExpandTileDetail('+tileId+','+linked+')"></span><br>');
-    if (expTileDetail) {
-        $('#expTile').empty().append('<i class="fas fa-search-minus"></i>');
+    if (cssi != '#tileDetails') {
+        $(cssi).append('<span class="loupe klik" id="expTile" onclick="toggleExpandTileDetail('+tileId+','+linked+')"></span><br>');
+        if (expTileDetail) {
+            $('#expTile').empty().append('<i class="fas fa-search-minus"></i>');
+        } else {
+            $('#expTile').empty().append('<i class="fas fa-search-plus"></i>');
+        }
     } else {
-        $('#expTile').empty().append('<i class="fas fa-search-plus"></i>');
+        $(cssi).append('<br>');
     }
     // Terrain SPEC
     let spec = terSpec(ter[terrainIndex].name);
     if (spec != '') {
-        $('#tileInfos').append('<span class="paramName">Type</span><span class="paramValue">'+spec+'</span><br>');
+        $(cssi).append('<span class="paramName">Type</span><span class="paramValue">'+spec+'</span><br>');
     }
     // Coordonnées + id
-    $('#tileInfos').append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'&lrhar;'+world[tileIndex].y+' <span class="low">&nbsp;#'+world[tileIndex].id+'</span></span><br>');
+    $(cssi).append('<span class="paramName">Coordonnées</span><span class="paramValue">'+world[tileIndex].x+'&lrhar;'+world[tileIndex].y+' <span class="low">&nbsp;#'+world[tileIndex].id+'</span></span><br>');
     // EXPAND ONLY
     if (expTileDetail) {
         // escarpement, végétation, innondation
-        $('#tileInfos').append('<span class="paramName">Escarpement</span><span class="paramValue">'+ter[terrainIndex].escarpement+'</span><br>');
-        $('#tileInfos').append('<span class="paramName">Végétation</span><span class="paramValue">'+ter[terrainIndex].vegetation+'</span><br>');
-        $('#tileInfos').append('<span class="paramName">Innondation</span><span class="paramValue">'+ter[terrainIndex].innondation+'</span><br>');
+        $(cssi).append('<span class="paramName">Escarpement</span><span class="paramValue">'+ter[terrainIndex].escarpement+'</span><br>');
+        $(cssi).append('<span class="paramName">Végétation</span><span class="paramValue">'+ter[terrainIndex].vegetation+'</span><br>');
+        $(cssi).append('<span class="paramName">Innondation</span><span class="paramValue">'+ter[terrainIndex].innondation+'</span><br>');
         // move cost
         if (world[tileIndex].flags.includes('road_')) {
-            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
-        } else if (ter[terrainIndex].innondation >= 60) {
-            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(waterMvCost*10)/100+'</span><br>');
+            $(cssi).append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+' ('+Math.round(terMvCostRoad*10)/100+')</span><br>');
+        } else if (ter[terrainIndex].innondation >= 70) {
+            $(cssi).append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(waterMvCost*10)/100+'</span><br>');
         } else {
-            $('#tileInfos').append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+'</span><br>');
+            $(cssi).append('<span class="paramName">Coûts Mvmt</span><span class="paramValue">'+Math.round(terMvCost*10)/100+'</span><br>');
         }
         // couverture
-        $('#tileInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
+        $(cssi).append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
         // defense
-        $('#tileInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
+        $(cssi).append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
         // RENOMMER LE TERRAIN
         let renameLink = 'Nommer';
         if (world[tileIndex].tileName != '') {
             renameLink = 'Renommer';
         }
-        $('#tileInfos').append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
+        $(cssi).append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
     }
 };
 function toggleExpandTileDetail(tileId,linked) {
