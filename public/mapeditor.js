@@ -128,19 +128,7 @@ function mapEdit(tileId) {
         if (selTer.id >= 1) {
             nextkur = 'copy';
             if (selectedTile.terrainId == selTer.id) {
-                if (selectedTile.seed == 'a') {
-                    world[tileIndex].seed = 'b';
-                    selectedTile.seed = 'b';
-                    emitSingleWorldChange(tileId,'seed','b');
-                } else if (selectedTile.seed == 'b') {
-                    world[tileIndex].seed = 'c';
-                    selectedTile.seed = 'c';
-                    emitSingleWorldChange(tileId,'seed','c');
-                } else {
-                    world[tileIndex].seed = 'a';
-                    selectedTile.seed = 'a';
-                    emitSingleWorldChange(tileId,'seed','a');
-                }
+                toggleTilePic(tileId);
             } else {
                 world[tileIndex].terrainId = selTer.id;
                 selectedTile.terrainId = selTer.id;
@@ -148,19 +136,7 @@ function mapEdit(tileId) {
             }
         } else {
             nextkur = 'progress';
-            if (selectedTile.seed == 'a') {
-                world[tileIndex].seed = 'b';
-                selectedTile.seed = 'b';
-                emitSingleWorldChange(tileId,'seed','b');
-            } else if (selectedTile.seed == 'b') {
-                world[tileIndex].seed = 'c';
-                selectedTile.seed = 'c';
-                emitSingleWorldChange(tileId,'seed','c');
-            } else {
-                world[tileIndex].seed = 'a';
-                selectedTile.seed = 'a';
-                emitSingleWorldChange(tileId,'seed','a');
-            }
+            toggleTilePic(tileId);
         }
     } else if (selAddon != 'point') {
         nextkur = 'copy';
@@ -178,5 +154,38 @@ function mapEdit(tileId) {
     if (selAddon != 'point') {
         showMap(world);
         cursorSwitch('.','grid-item',nextkur);
+    }
+};
+function toggleTilePic(tileId) {
+    let tileIndex = world.findIndex((obj => obj.id == tileId));
+    if (selectedTile.seed == 'a') {
+        world[tileIndex].seed = 'b';
+        selectedTile.seed = 'b';
+        emitSingleWorldChange(tileId,'seed','b');
+    } else if (selectedTile.seed == 'b') {
+        world[tileIndex].seed = 'c';
+        selectedTile.seed = 'c';
+        emitSingleWorldChange(tileId,'seed','c');
+    } else {
+        world[tileIndex].seed = 'a';
+        selectedTile.seed = 'a';
+        emitSingleWorldChange(tileId,'seed','a');
+        if (selTer.id >= 1) {
+            if (selTer.name.includes('(1)')) {
+                let otherTileName = selTer.name.replace("(1)","(2)");
+                let otherTerIndex = ter.findIndex((obj => obj.name == otherTileName));
+                selTer = ter[otherTerIndex];
+                world[tileIndex].terrainId = selTer.id;
+                selectedTile.terrainId = selTer.id;
+                emitSingleWorldChange(tileId,'terrainId',selTer.id);
+            } else if (selTer.name.includes('(2)')) {
+                let otherTileName = selTer.name.replace("(2)","(1)");
+                let otherTerIndex = ter.findIndex((obj => obj.name == otherTileName));
+                selTer = ter[otherTerIndex];
+                world[tileIndex].terrainId = selTer.id;
+                selectedTile.terrainId = selTer.id;
+                emitSingleWorldChange(tileId,'terrainId',selTer.id);
+            }
+        }
     }
 };
