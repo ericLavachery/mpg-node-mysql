@@ -58,7 +58,7 @@ function showMap(wmap) {
             terclass = 'ter'+tile.terrainId+tile.seed;
             if (mode == 'mapedit') {
                 let terIndex = ter.findIndex((obj => obj.id == tile.terrainId));
-                tertitle = ter[terIndex].name+' '+tile.seed+' #'+tile.id;
+                tertitle = ter[terIndex].name+' ('+tile.seed+') #'+tile.id;
             } else {
                 tertitle = '#'+tile.id;
             }

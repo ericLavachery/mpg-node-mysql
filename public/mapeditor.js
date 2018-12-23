@@ -166,11 +166,11 @@ function toggleTilePic(tileId) {
         world[tileIndex].seed = 'c';
         selectedTile.seed = 'c';
         emitSingleWorldChange(tileId,'seed','c');
-    } else {
+    } else if (selectedTile.seed == 'c') {
         world[tileIndex].seed = 'a';
         selectedTile.seed = 'a';
         emitSingleWorldChange(tileId,'seed','a');
-        // si 2 versions du même terrain, inclus les 2 dans le cycle 
+        // si 2 versions du même terrain, inclus les 2 dans le cycle
         let terIndex = ter.findIndex((obj => obj.id == selectedTile.terrainId));
         clicTer = ter[terIndex];
         if (clicTer.name.includes('(1)')) {
@@ -187,6 +187,9 @@ function toggleTilePic(tileId) {
             world[tileIndex].terrainId = clicTer.id;
             selectedTile.terrainId = clicTer.id;
             emitSingleWorldChange(tileId,'terrainId',clicTer.id);
+        }
+        if (selTer.id >= 1) {
+            selTer = clicTer;
         }
     }
 };
