@@ -170,22 +170,23 @@ function toggleTilePic(tileId) {
         world[tileIndex].seed = 'a';
         selectedTile.seed = 'a';
         emitSingleWorldChange(tileId,'seed','a');
-        if (selTer.id >= 1) {
-            if (selTer.name.includes('(1)')) {
-                let otherTileName = selTer.name.replace("(1)","(2)");
-                let otherTerIndex = ter.findIndex((obj => obj.name == otherTileName));
-                selTer = ter[otherTerIndex];
-                world[tileIndex].terrainId = selTer.id;
-                selectedTile.terrainId = selTer.id;
-                emitSingleWorldChange(tileId,'terrainId',selTer.id);
-            } else if (selTer.name.includes('(2)')) {
-                let otherTileName = selTer.name.replace("(2)","(1)");
-                let otherTerIndex = ter.findIndex((obj => obj.name == otherTileName));
-                selTer = ter[otherTerIndex];
-                world[tileIndex].terrainId = selTer.id;
-                selectedTile.terrainId = selTer.id;
-                emitSingleWorldChange(tileId,'terrainId',selTer.id);
-            }
+        // si 2 versions du même terrain, inclus les 2 dans le cycle 
+        let terIndex = ter.findIndex((obj => obj.id == selectedTile.terrainId));
+        clicTer = ter[terIndex];
+        if (clicTer.name.includes('(1)')) {
+            let otherTileName = clicTer.name.replace("(1)","(2)");
+            let otherTerIndex = ter.findIndex((obj => obj.name == otherTileName));
+            clicTer = ter[otherTerIndex];
+            world[tileIndex].terrainId = clicTer.id;
+            selectedTile.terrainId = clicTer.id;
+            emitSingleWorldChange(tileId,'terrainId',clicTer.id);
+        } else if (clicTer.name.includes('(2)')) {
+            let otherTileName = clicTer.name.replace("(2)","(1)");
+            let otherTerIndex = ter.findIndex((obj => obj.name == otherTileName));
+            clicTer = ter[otherTerIndex];
+            world[tileIndex].terrainId = clicTer.id;
+            selectedTile.terrainId = clicTer.id;
+            emitSingleWorldChange(tileId,'terrainId',clicTer.id);
         }
     }
 };
