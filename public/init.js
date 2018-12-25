@@ -15,6 +15,7 @@ let selectedTrack = [];
 let selectedTile = [];
 let selTer = [];
 let selAddon = 'point';
+let mapEditTemp = -1;
 let mode = 'inspect';
 let uvp = ''; // unit view priority
 let showTracks = false;

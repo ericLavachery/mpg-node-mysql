@@ -22,8 +22,8 @@ function mapeditMode() {
         $("#sidebarCommand").hide();
         $("#sidebarMapEdit").show();
         showMap(world);
-        // showVisiblePop(world);
-        showAllTerrainTypes();
+        tempSelector();
+        terrainTypesSelector();
     }
     expTileDetail = true;
 };
@@ -31,7 +31,14 @@ $('#viewUnitsButton').click(viewUnits);
 function viewUnits() {
     showVisiblePop(world);
 };
-function showAllTerrainTypes(tileId) {
+function tempSelector() {
+    $('#tempDropdown').append('<select name="temp" id="tempDrop" title="Climat" onchange="tempSelect(this);"><option value="-1">&nbsp;Témpérature (0-50)</option><option value="0">&nbsp;0</option><option value="10">&nbsp;10</option><option value="20">&nbsp;20</option><option value="30">&nbsp;30</option><option value="40">&nbsp;40</option><option value="50">&nbsp;50</option><option value="-1">&nbsp;Toutes</option></select>');
+};
+function tempSelect(temp) {
+    mapEditTemp = temp.value;
+    terrainTypesSelector();
+};
+function terrainTypesSelector() {
     $('#terrainTypes').empty();
     // pointer
     $('#terrainTypes').append('<img class="terTypeButtonSel" id="point" src="/static/img/wtiles/pointer.png" title="pointer une case sans rien changer" onclick="pointMap()">');
@@ -42,7 +49,13 @@ function showAllTerrainTypes(tileId) {
     // river
     $('#terrainTypes').append('<img class="terTypeButton" id="togriver" src="/static/img/wtiles/river.png" title="ajouter ou enlever une rivière" onclick="toggleAddons(`river`)">');
     let terricon = '';
-    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),'tempMax');
+    let filteredTer = ter;
+    if (mapEditTemp != -1) {
+        filteredTer = _.filter(ter, function(terrain) {
+            return (terrain.tempMin <= mapEditTemp && terrain.tempMax >= mapEditTemp);
+        });
+    }
+    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(filteredTer,'name'),'vegetation'),'escarpement'),'innondation'),'tempMoy');
     sortedTer.forEach(function(terrain) {
         if (!terrain.name.includes('non vu')) {
             if (terrain.icon != '') {
