@@ -24,6 +24,7 @@ function mapeditMode() {
         showMap(world);
         tempSelector();
         terrainTypesSelector();
+        areaSelector();
     }
     expTileDetail = true;
 };
@@ -31,8 +32,114 @@ $('#viewUnitsButton').click(viewUnits);
 function viewUnits() {
     showVisiblePop(world);
 };
+function areaSelector() {
+    $('#areaDropdown').empty();
+    $('#areaDropdown').append('<select name="areaX" id="areaDropX" title="Région (N-S)" onchange="areaXSelect(this);"><option value="0">&nbsp;N-S (x)</option></select>');
+    let i = 0;
+    while (i < 150) {
+        if (i == xOffset) {
+            $('#areaDropX').append('<option value="'+i+'" selected>&nbsp;'+i+'</option>');
+        } else {
+            $('#areaDropX').append('<option value="'+i+'">&nbsp;'+i+'</option>');
+        }
+        i = i+7;
+        if (i >= 150) {break;}
+    }
+    $('#areaDropdown').append('<br><select name="areaY" id="areaDropY" title="Région (O-E)" onchange="areaYSelect(this);"><option value="0">&nbsp;O-E (y)</option></select>');
+    i = 0;
+    while (i < 120) {
+        if (i == yOffset) {
+            $('#areaDropY').append('<option value="'+i+'" selected>&nbsp;'+i+'</option>');
+        } else {
+            $('#areaDropY').append('<option value="'+i+'">&nbsp;'+i+'</option>');
+        }
+        i = i+13;
+        if (i >= 120) {break;}
+    }
+    if (xOffset >= 126) {
+        $('#areaDropdown').append('<br><div class="klim">Tropical</div>');
+    } else if (xOffset >= 105) {
+        $('#areaDropdown').append('<br><div class="klim">Subtropical</div>');
+    } else if (xOffset >= 70) {
+        $('#areaDropdown').append('<br><div class="klim">Tempéré chaud</div>');
+    } else if (xOffset >= 35) {
+        $('#areaDropdown').append('<br><div class="klim">Tempéré froid</div>');
+    } else if (xOffset >= 14) {
+        $('#areaDropdown').append('<br><div class="klim">Subarctique</div>');
+    } else {
+        $('#areaDropdown').append('<br><div class="klim">Polaire</div>');
+    }
+};
+function areaXSelect(x) {
+    xOffset = Number(x.value);
+    showMap(world);
+    if (mode != 'mapedit') {
+        showVisiblePop(world);
+    }
+    areaSelector();
+    console.log('x'+xOffset+' y'+yOffset);
+};
+function areaYSelect(y) {
+    yOffset = Number(y.value);
+    showMap(world);
+    if (mode != 'mapedit') {
+        showVisiblePop(world);
+    }
+    areaSelector();
+    console.log('x'+xOffset+' y'+yOffset);
+};
+function areaMove(direction) {
+    let x = 0;
+    let y = 0;
+    switch(direction) {
+        case 'n':
+        if (xOffset >= 7) {
+            x = Number(xOffset)-7;
+        } else {
+            x = Number(xOffset);
+        }
+        y = Number(yOffset);
+        break;
+        case 's':
+        if (xOffset < 147) {
+            x = Number(xOffset)+7;
+        } else {
+            x = Number(xOffset);
+        }
+        y = Number(yOffset);
+        break;
+        case 'e':
+        if (yOffset < 117) {
+            y = Number(yOffset)+13;
+        } else {
+            y = Number(yOffset);
+        }
+        x = Number(xOffset);
+        break;
+        case 'w':
+        if (yOffset >= 13) {
+            y = Number(yOffset)-13;
+        } else {
+            y = Number(yOffset);
+        }
+        x = Number(xOffset);
+        break;
+    }
+    areaGo(x,y);
+};
+function areaGo(x,y) {
+    xOffset = x;
+    yOffset = y;
+    showMap(world);
+    if (mode != 'mapedit') {
+        showVisiblePop(world);
+    }
+    areaSelector();
+    console.log('x'+xOffset+' y'+yOffset);
+};
 function tempSelector() {
-    $('#tempDropdown').append('<select name="temp" id="tempDrop" title="Climat" onchange="tempSelect(this);"><option value="-1">&nbsp;Témpérature (0-50)</option><option value="0">&nbsp;0</option><option value="10">&nbsp;10</option><option value="20">&nbsp;20</option><option value="30">&nbsp;30</option><option value="40">&nbsp;40</option><option value="50">&nbsp;50</option><option value="-1">&nbsp;Toutes</option></select>');
+    $('#tempDropdown').empty();
+    $('#tempDropdown').append('<select name="temp" id="tempDrop" title="Climat" onchange="tempSelect(this);"><option value="-1">&nbsp;Témpérature (0-50)</option><option value="0">&nbsp;Polaire (0)</option><option value="10">&nbsp;Subarctique (10)</option><option value="20">&nbsp;Tempéré froid (20)</option><option value="30">&nbsp;Tempéré chaud (30)</option><option value="40">&nbsp;Subtropical (40)</option><option value="50">&nbsp;Tropical (50)</option><option value="-1">&nbsp;Toutes</option></select>');
 };
 function tempSelect(temp) {
     mapEditTemp = temp.value;

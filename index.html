@@ -25,11 +25,41 @@
                         <div class="espace"></div>
                         <table>
                             <tr>
-                                <td><button type="button" class="modeButtons" id="mapeditButton" title="">Map editor &nbsp;<i class="fas fa-globe"></i></button></td>
-                                <td><button type="button" class="modeButtons" id="viewUnitsButton" title="">Show units &nbsp;<i class="fas fa-chess-pawn"></i></button></td>
+                                <td>
+                                    <button type="button" class="modeButtons" id="mapeditButton" title="">Map editor &nbsp;<i class="fas fa-globe"></i></button><br>
+                                    <button type="button" class="modeButtons" id="viewUnitsButton" title="">Show units &nbsp;<i class="fas fa-chess-pawn"></i></button><br>
+                                </td>
                                 <td class="sidebar"><div class="woodBlock maped" id="terrainDetails"></div></td>
                                 <td class="sidebar"><div class="woodBlock maped" id="tileDetails"></div></td>
                                 <td class="sidebar"><div class="woodBlock maped" id="tempDropdown"></div></td>
+                                <td class="sidebar">
+                                    <div class="woodBlock maped">
+                                        <table>
+                                            <tr>
+                                                <td id="areaDropdown"></td>
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td class="rosevents"></td>
+                                                            <td class="rosevents klik" onclick="areaMove('n')" title="nord"><i class="fas fa-angle-up"></i></td>
+                                                            <td class="rosevents"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="rosevents klik" onclick="areaMove('w')" title="ouest"><i class="fas fa-angle-left"></i></td>
+                                                            <td class="rosevents"></td>
+                                                            <td class="rosevents klik" onclick="areaMove('e')" title="est"><i class="fas fa-angle-right"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="rosevents"></td>
+                                                            <td class="rosevents klik" onclick="areaMove('s')" title="sud"><i class="fas fa-angle-down"></i></td>
+                                                            <td class="rosevents"></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </td>

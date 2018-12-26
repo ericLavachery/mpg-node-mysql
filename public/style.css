@@ -123,6 +123,14 @@ td {
     vertical-align: top;
     padding-right: 6px;
 }
+.rosevents {
+    padding: 0 0 0 12px;
+    font-size: 20px;
+}
+.klim {
+    margin: 10px 0 0 3px;
+    font-size: 14px;
+}
 .woodBlock {
     background-color: black;
     /* font-weight: 600; */

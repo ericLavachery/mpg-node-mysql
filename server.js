@@ -82,9 +82,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.pseudo = pseudo;
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
-        if (isJSON.isJSON(perso.unitView)) {
-            perso.bldView = JSON.parse(perso.bldView);
-            perso.bldIdent = JSON.parse(perso.bldIdent);
+        if (isJSON.isJSON(perso.unitView) && isJSON.isJSON(perso.unitIdent) && isJSON.isJSON(perso.mapCarto) && isJSON.isJSON(perso.mapView) && isJSON.isJSON(perso.exploredTiles) && isJSON.isJSON(perso.enemies) && isJSON.isJSON(perso.allies) && isJSON.isJSON(perso.bldIdent) && isJSON.isJSON(perso.bldView)) {
             perso.unitView = JSON.parse(perso.unitView);
             perso.unitIdent = JSON.parse(perso.unitIdent);
             perso.mapCarto = JSON.parse(perso.mapCarto);
@@ -92,6 +90,8 @@ io.sockets.on('connection', function (socket, pseudo) {
             perso.exploredTiles = JSON.parse(perso.exploredTiles);
             perso.enemies = JSON.parse(perso.enemies);
             perso.allies = JSON.parse(perso.allies);
+            perso.bldIdent = JSON.parse(perso.bldIdent);
+            perso.bldView = JSON.parse(perso.bldView);
             console.log('login : '+pseudo);
         } else {
             console.log('re-login : '+pseudo);

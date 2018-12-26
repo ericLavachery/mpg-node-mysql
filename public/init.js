@@ -183,6 +183,7 @@ socket.on('popload', function(wpop) {
     } else {
         inspectMode();
     }
+    areaSelector();
 });
 function showVisiblePop(wmap) {
     wmap.forEach(function(tile) {
