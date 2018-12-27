@@ -22,7 +22,7 @@ let showTracks = false;
 let expSquadDetail = false;
 let expTileDetail = false;
 let exploMLfactor = 2.1; // explo move loss = moveCost*exploMLfactor
-let maxMoveCost = 18;
+let maxMoveCost = 180;
 
 // Tracks
 socket.on('tracksload', function(tracks) {
