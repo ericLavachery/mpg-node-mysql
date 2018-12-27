@@ -139,7 +139,7 @@ function areaGo(x,y) {
 };
 function tempSelector() {
     $('#tempDropdown').empty();
-    $('#tempDropdown').append('<select name="temp" id="tempDrop" title="Climat" onchange="tempSelect(this);"><option value="-1">&nbsp;Témpérature (0-50)</option><option value="0">&nbsp;Polaire (0)</option><option value="10">&nbsp;Subarctique (10)</option><option value="20">&nbsp;Tempéré froid (20)</option><option value="30">&nbsp;Tempéré chaud (30)</option><option value="40">&nbsp;Subtropical (40)</option><option value="50">&nbsp;Tropical (50)</option><option value="-1">&nbsp;Toutes</option></select>');
+    $('#tempDropdown').append('<select name="temp" id="tempDrop" title="Limiter le choix de terrains en fonction du climat" onchange="tempSelect(this);"><option value="-1">&nbsp;Climats</option><option value="0">&nbsp;Polaire (0)</option><option value="10">&nbsp;Subarctique (10)</option><option value="20">&nbsp;Tempéré froid (20)</option><option value="30">&nbsp;Tempéré chaud (30)</option><option value="40">&nbsp;Subtropical (40)</option><option value="50">&nbsp;Tropical (50)</option><option value="-1">&nbsp;Tous</option></select>');
 };
 function tempSelect(temp) {
     mapEditTemp = temp.value;
@@ -162,9 +162,9 @@ function terrainTypesSelector() {
             return (terrain.tempMin <= mapEditTemp && terrain.tempMax >= mapEditTemp);
         });
     }
-    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(filteredTer,'name'),'vegetation'),'escarpement'),'innondation'),'tempMoy');
+    let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(filteredTer,'name'),'vegetation'),'escarpement'),'innondation'),'ordre');
     sortedTer.forEach(function(terrain) {
-        if (!terrain.name.includes('non vu')) {
+        if (!terrain.name.includes('non vu') && terrain.name != 'rien') {
             if (terrain.icon != '') {
                 terricon = terrain.icon;
             } else {
