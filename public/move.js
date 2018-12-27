@@ -45,7 +45,7 @@ function moveGroup(targetTileId) {
         if (unit.follow !== null || unit.id == selectedUnit.id) {
             moveCost = calcMoveCost(targetTileId,unit.id,false);
             movesLeft = unit.move - unit.fatigue;
-            if (moveCost > unit.move*3 || movesLeft < 1) {
+            if (moveCost > maxMoveCost || movesLeft < 1) {
                 moveOK = false;
             }
         }
@@ -108,7 +108,7 @@ function moveUnit(targetTileId) {
     let movesLeft = move-fatigue;
     moveCost = calcMoveCost(targetTileId,selectedUnit.id,false);
     // console.log(moveCost);
-    if (move*3 >= moveCost || movesLeft < 1) {
+    if (maxMoveCost >= moveCost || movesLeft < 1) {
         fatigue = fatigue + about(moveCost,15);
         movesLeft = move-fatigue;
         // clear old tile
