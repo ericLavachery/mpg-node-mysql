@@ -20,6 +20,11 @@ body {
 }
 td {
     text-align: center;
+    margin: 0 0 0 0;
+    padding: 0 1px 0 1px;
+}
+.greyRow {
+    background-color: #1c2118;
 }
 .colTitle {
     font-size: 15px;
@@ -38,7 +43,7 @@ td {
     color: #bd4682;
 }
 .road {
-    color: #cb2f2f;
+    color: #aa6323;
 }
 .cover {
     color: #bdbc46;

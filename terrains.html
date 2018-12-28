@@ -11,7 +11,7 @@
     <body>
         <div id="terrains">
             <span class="frog klik" onclick="specialMove()" title="Calculer un coût de mouvement">&nbsp<i class="fas fa-frog"></i>&nbsp</span>
-            <span class="frog klik" onclick="toggleIcons()" title="Aggrandir ou réduire les icônes">&nbsp<i class="fas fa-file-image"></i>&nbsp</span>
+            <span class="frog klik" onclick="toggleIcons()" title="Aggrandir ou réduire les icônes">&nbsp<i class="fas fa-tree"></i>&nbsp</span>
             <span class="frog klik" title="Miaou!">&nbsp<i class="fas fa-cat"></i>&nbsp</span>
             <table id="terTable"></table>
         </div>
@@ -34,8 +34,9 @@
             terrainsTable('innondation');
         });
         function terrainsTable(sortField) {
-            $('#terTable').empty().append('<tr><td class="colTitle">Terrain</td><td class="colTitle">300</td><td class="colTitle">200</td><td class="colTitle">150</td><td class="colTitle">125</td><td class="colTitle">Move</td><td class="colTitle">80</td><td class="colTitle">67</td><td class="colTitle">50</td><td class="colTitle">33</td><td class="colTitle"><span class="grisf">v</span>'+vegetAdjSp+'<span class="grisf">e</span>'+escarpAdjSp+'<span class="grisf">i</span>'+innondAdjSp+'</td><td class="colTitle">Road</td><td width="15"></td><td class="colTitle" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle" onclick="terrainsTable(`innondation`)">Innond</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
+            $('#terTable').empty().append('<tr><td class="colTitle klik" onclick="terrainsTable(`name`)">Terrain</td><td class="colTitle">300</td><td class="colTitle">200</td><td class="colTitle">150</td><td class="colTitle">125</td><td class="colTitle">Move</td><td class="colTitle">80</td><td class="colTitle">67</td><td class="colTitle">50</td><td class="colTitle">33</td><td class="colTitle"><span class="grisf">v</span>'+vegetAdjSp+'<span class="grisf">e</span>'+escarpAdjSp+'<span class="grisf">i</span>'+innondAdjSp+'</td><td class="colTitle">Road</td><td width="15"></td><td class="colTitle klik" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle klik" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle klik" onclick="terrainsTable(`innondation`)">Innond</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
             let mvClass300, mvClass200, mvClass150, mvClass125, mvClass100, mvClass80, mvClass67, mvClass50, mvClass33, mvClassSp;
+            let trClass ='';
             let moveCost = 30;
             let moveCostRoad = 20;
             let vegetMoveAdj = 0;
@@ -46,6 +47,13 @@
             let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),sortField);
             sortedTer.forEach(function(biome) {
                 if (!biome.name.includes('non vu') && biome.name != 'rien' && biome.innondation <= 65) {
+                    if (trClass == '') {
+                        trClass = ' class="greyRow"';
+                    } else if (trClass == ' class="greyRow"') {
+                        trClass = ' class=""';
+                    } else {
+                        trClass = '';
+                    }
                     mvClass300='', mvClass200='', mvClass150='', mvClass125='', mvClass100='', mvClass80='', mvClass67='', mvClass50='', mvClass33='', mvClassSp='';
                     cover = 0;
                     defense = 0;
@@ -83,7 +91,7 @@
                     moveCostSp = terMC(biome,vegetAdjSp,escarpAdjSp,innondAdjSp);
                     if (moveCostSp > maxMoveCost) {mvClassSp = ' rouge';}
                     moveCostRoad = roadMC(biome,100,100,100);
-                    $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="move'+mvClass300+'">'+moveCost300+'</td><td class="move'+mvClass200+'">'+moveCost200+'</td><td class="move'+mvClass150+'">'+moveCost150+'</td><td class="move'+mvClass125+'">'+moveCost125+'</td><td class="moveBase'+mvClass100+'">'+moveCost100+'</td><td class="move'+mvClass80+'">'+moveCost80+'</td><td class="move'+mvClass67+'">'+moveCost67+'</td><td class="move'+mvClass50+'">'+moveCost50+'</td><td class="move'+mvClass33+'">'+moveCost33+'</td><td class="move'+mvClassSp+'">'+moveCostSp+'</td><td class="road">'+moveCostRoad+'</td><td><img width="'+iconSize+'" src="/static/img/wtiles/'+biome.icon+'.png" title="'+biome.icon+'"></td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
+                    $('#terTable').append('<tr'+trClass+'><td class="name">'+biome.name+' &nbsp;</td><td class="move'+mvClass300+'">'+moveCost300+'</td><td class="move'+mvClass200+'">'+moveCost200+'</td><td class="move'+mvClass150+'">'+moveCost150+'</td><td class="move'+mvClass125+'">'+moveCost125+'</td><td class="moveBase'+mvClass100+'">'+moveCost100+'</td><td class="move'+mvClass80+'">'+moveCost80+'</td><td class="move'+mvClass67+'">'+moveCost67+'</td><td class="move'+mvClass50+'">'+moveCost50+'</td><td class="move'+mvClass33+'">'+moveCost33+'</td><td class="move'+mvClassSp+'">'+moveCostSp+'</td><td class="road">'+moveCostRoad+'</td><td><img width="'+iconSize+'" src="/static/img/wtiles/'+biome.icon+'.png" title="'+biome.icon+'"></td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
                 }
             });
         };
