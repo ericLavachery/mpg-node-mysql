@@ -31,11 +31,14 @@ td {
 .evi {
     color: #bd7146;
 }
+.moveBase {
+    color: #c04dd4;
+}
 .move {
     color: #bd4682;
 }
 .road {
-    color: #bd4646;
+    color: #cb2f2f;
 }
 .cover {
     color: #bdbc46;
@@ -95,4 +98,12 @@ h4 {
 }
 .blanc {
     color: #FFFFFF;
+}
+.frog {
+    font-size: 24px;
+    color: #a5b896;
+}
+.klik:hover {
+    color: #ff002e;
+    cursor: pointer;
 }

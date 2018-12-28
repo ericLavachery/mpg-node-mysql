@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Terrains</title>
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Uncial+Antiqua" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/terrains.css">
+    </head>
+
+    <body>
+        <div id="terrains">
+            <table id="terTable">
+
+            </table>
+        </div>
+        <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
+        <script src="/static/libs/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> -->
+        <script src="/static/libs/underscore-min.js"></script>
+        <script src="/static/baseinit.js"></script>
+        <script src="/static/move.js"></script>
+        <script type="text/javascript">
+        let ter = [];
+        socket.on('terload', function(wter) {
+            ter = wter;
+            terrainsTable('innondation');
+        });
+        function terrainsTable(sortField) {
+            $('#terTable').empty().append('<tr><td class="colTitle">Terrain</td><td class="colTitle">Move</td><td class="colTitle">Road</td><td width="15"></td><td class="colTitle" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle" onclick="terrainsTable(`innondation`)">Innond</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
+            let moveCost = 30;
+            let moveCostRoad = 20;
+            let vegetMoveAdj = 0;
+            let innondMoveAdj = 0;
+            let escarpMoveAdj = 0;
+            let cover = 0;
+            let defense = 0;
+            let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),sortField);
+            sortedTer.forEach(function(biome) {
+                if (!biome.name.includes('non vu') && biome.name != 'rien') {
+                    moveCost = terMC(biome,100,100,100);
+                    moveCostRoad = roadMC(biome,100,100,100);
+                    $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td style="background-color:#999e7c;color:black;">&nbsp;&nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
+                }
+            });
+        };
+        function terMC(biome,vegetAdj,escarpAdj,innondAdj) {
+            let moveCost = 30;
+            let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
+            // ajustement terrain
+            moveCost = moveCost+biome.moveCostAdj;
+            // vegetation
+            vegetMoveAdj = calcVegetMoveAdj(biome.vegetation);
+            moveCost = moveCost+Math.round(vegetMoveAdj*vegetAdj/100);
+            // escarpement
+            escarpMoveAdj = calcEscarpMoveAdj(biome.escarpement);
+            moveCost = moveCost+Math.round(escarpMoveAdj*escarpAdj/100);
+            // innondation
+            innondMoveAdj = calcInnondMoveAdj(biome.innondation);
+            moveCost = moveCost+Math.round(innondMoveAdj*innondAdj/100);
+            return moveCost;
+        };
+        function roadMC(biome,vegetAdj,escarpAdj,innondAdj) {
+            let moveCostRoad = 20;
+            let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
+            // ajustement terrain
+            moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*70/100);
+            // vegetation
+            vegetMoveAdj = calcVegetMoveAdj(biome.vegetation);
+            vegetMoveAdj = Math.round(vegetMoveAdj*vegetAdj/100);
+            moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
+            // escarpement
+            escarpMoveAdj = calcEscarpMoveAdj(biome.escarpement);
+            escarpMoveAdj = Math.round(escarpMoveAdj*escarpAdj/100);
+            if (escarpMoveAdj >= 10) {
+                moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
+            }
+            // innondation
+            innondMoveAdj = calcInnondMoveAdj(biome.innondation);
+            innondMoveAdj = Math.round(innondMoveAdj*innondAdj/100);
+            moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
+            return moveCostRoad;
+        };
+        </script>
+    </body>
+</html>

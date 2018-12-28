@@ -144,7 +144,24 @@ function terMoveCost(tileId,unitId) {
     let moveCost = 30;
     let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
     // ajustement terrain
-    moveCost = moveCost+ter[terIndex].moveCostAdj;
+    let adjCause = ter[terIndex].adjCause;
+    let moveCostAdj = ter[terIndex].moveCostAdj;
+    if (adjCause != 'recifs') {
+        if (unitId >= 1) {
+            switch (adjCause) {
+                case 'neige':
+                    moveCost = moveCost+Math.round(moveCostAdj*pop[unitIndex].escarpAdj/100);
+                    break;
+                case 'sable':
+                    moveCost = moveCost+Math.round(moveCostAdj*pop[unitIndex].escarpAdj/100);
+                    break;
+                default:
+                    moveCost = moveCost+moveCostAdj;
+            }
+        } else {
+            moveCost = moveCost+moveCostAdj;
+        }
+    }
     // vegetation
     vegetMoveAdj = calcVegetMoveAdj(ter[terIndex].vegetation);
     if (unitId >= 1) {
@@ -176,6 +193,24 @@ function roadMoveCost(tileId,unitId) {
     let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
     // ajustement terrain
     moveCostRoad = moveCostRoad+Math.round(ter[terIndex].moveCostAdj*70/100);
+    let adjCause = ter[terIndex].adjCause;
+    let moveCostAdj = ter[terIndex].moveCostAdj;
+    if (adjCause != 'recifs') {
+        if (unitId >= 1) {
+            switch (adjCause) {
+                case 'neige':
+                    moveCost = moveCost+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
+                    break;
+                case 'sable':
+                    moveCost = moveCost+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
+                    break;
+                default:
+                    moveCost = moveCost+Math.round(moveCostAdj*7/10);
+            }
+        } else {
+            moveCost = moveCost+Math.round(moveCostAdj*7/10);
+        }
+    }
     // vegetation
     vegetMoveAdj = calcVegetMoveAdj(ter[terIndex].vegetation);
     if (unitId >= 1) {
@@ -228,7 +263,12 @@ function waterMoveCost(tileId,unitId) {
         moveType = pop[unitIndex].moveType;
     }
     // ajustement terrain
-    moveCostWater = moveCostWater+ter[terIndex].moveCostAdj;
+    moveCostRoad = moveCostRoad+Math.round(ter[terIndex].moveCostAdj*70/100);
+    let adjCause = ter[terIndex].adjCause;
+    let moveCostAdj = ter[terIndex].moveCostAdj;
+    if (adjCause == 'recifs') {
+        moveCostWater = moveCostWater+moveCostAdj;
+    }
     if (ter[terIndex].innondation >= 60) {
         // sea
         if (moveType == 'mix') {
@@ -290,12 +330,12 @@ function calcMoveCost(targetTileId,unitId,explo) {
         } else {
             if (perso.mapCarto.includes(targetTileId)) {
                 if (tileFlags.includes('river_')) {
-                    moveCost = moveCost+20;
+                    moveCost = moveCost+Math.round(20*pop[unitIndex].innondAdj/100);
                 }
                 moveCost = Math.round(moveCost*80/100);
             } else {
                 if (tileFlags.includes('river_')) {
-                    moveCost = moveCost+30;
+                    moveCost = moveCost+Math.round(30*pop[unitIndex].innondAdj/100);
                 }
             }
         }

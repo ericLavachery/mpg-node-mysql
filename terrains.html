@@ -10,9 +10,9 @@
 
     <body>
         <div id="terrains">
-            <table id="terTable">
-
-            </table>
+            <span class="frog klik" onclick="specialMove()" title="Calculer un coût de mouvement">&nbsp<i class="fas fa-frog"></i>&nbsp</span>
+            <span class="frog klik" onclick="toggleIcons()" title="Aggrandir ou réduire les icônes">&nbsp<i class="fas fa-file-image"></i>&nbsp</span>
+            <table id="terTable"></table>
         </div>
         <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
         <script src="/static/libs/jquery.min.js"></script>
@@ -20,14 +20,19 @@
         <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> -->
         <script src="/static/libs/underscore-min.js"></script>
         <script src="/static/baseinit.js"></script>
+        <script src="/static/move.js"></script>
         <script type="text/javascript">
         let ter = [];
+        let vegetAdjSp = 20;
+        let escarpAdjSp = 20;
+        let innondAdjSp = 20;
+        let iconSize = 12;
         socket.on('terload', function(wter) {
             ter = wter;
             terrainsTable('innondation');
         });
         function terrainsTable(sortField) {
-            $('#terTable').empty().append('<tr><td class="colTitle">Terrain</td><td class="colTitle" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle" onclick="terrainsTable(`innondation`)">Innond</td><td width="15"></td><td class="colTitle">MoveCost</td><td class="colTitle">Road</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
+            $('#terTable').empty().append('<tr><td class="colTitle">Terrain</td><td class="colTitle">300</td><td class="colTitle">200</td><td class="colTitle">150</td><td class="colTitle">125</td><td class="colTitle">Move</td><td class="colTitle">80</td><td class="colTitle">67</td><td class="colTitle">50</td><td class="colTitle">33</td><td class="colTitle"><span class="grisf">v</span>'+vegetAdjSp+'<span class="grisf">e</span>'+escarpAdjSp+'<span class="grisf">i</span>'+innondAdjSp+'</td><td class="colTitle">Road</td><td width="15"></td><td class="colTitle" onclick="terrainsTable(`escarpement`)">Escarp</td><td class="colTitle" onclick="terrainsTable(`vegetation`)">Veget</td><td class="colTitle" onclick="terrainsTable(`innondation`)">Innond</td><td class="colTitle">Cover</td><td class="colTitle">Defense</td></tr>');
             let moveCost = 30;
             let moveCostRoad = 20;
             let vegetMoveAdj = 0;
@@ -35,47 +40,113 @@
             let escarpMoveAdj = 0;
             let cover = 0;
             let defense = 0;
-            let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'vegetation'),'escarpement'),'innondation'),sortField);
+            let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),sortField);
             sortedTer.forEach(function(biome) {
-                moveCost = 30;
-                moveCostRoad = 20;
-                vegetMoveAdj = 0;
-                innondMoveAdj = 0;
-                escarpMoveAdj = 0;
-                cover = 0;
-                defense = 0;
-                // justement terrain
-                moveCost = moveCost+biome.moveCostAdj;
-                moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*70/100);
-                // vegetation
-                vegetMoveAdj = Math.round(biome.vegetation*biome.vegetation/50);
-                moveCost = moveCost+vegetMoveAdj;
-                moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
-                defense = defense+Math.round(biome.vegetation*biome.vegetation/123);
-                if (biome.vegetation >= 35) {
-                    cover = cover+biome.vegetation+15;
-                } else if (biome.vegetation >= 15) {
-                    cover = cover+Math.round((biome.vegetation+5)*(biome.vegetation+5)/32);
+                if (!biome.name.includes('non vu') && biome.name != 'rien' && biome.innondation <= 65) {
+                    cover = 0;
+                    defense = 0;
+                    defense = defense+Math.round(biome.vegetation*biome.vegetation/123);
+                    if (biome.vegetation >= 35) {
+                        cover = cover+biome.vegetation+15;
+                    } else if (biome.vegetation >= 15) {
+                        cover = cover+Math.round((biome.vegetation+5)*(biome.vegetation+5)/32);
+                    }
+                    if (biome.escarpement >= 15) {
+                        defense = defense+Math.round((biome.escarpement-10)*5/4)+1;
+                        cover = cover+Math.round(Math.sqrt(biome.escarpement-15)*5);
+                    }
+                    if (biome.innondation >= 10) {
+                        defense = defense+Math.round((biome.innondation-5)*4/5);
+                    }
+                    moveCost300 = terMC(biome,300,300,300);
+                    moveCost200 = terMC(biome,200,200,200);
+                    moveCost150 = terMC(biome,150,150,150);
+                    moveCost125 = terMC(biome,125,125,125);
+                    moveCost100 = terMC(biome,100,100,100);
+                    moveCost80 = terMC(biome,80,80,80);
+                    moveCost67 = terMC(biome,67,67,67);
+                    moveCost50 = terMC(biome,50,50,50);
+                    moveCost33 = terMC(biome,33,33,33);
+                    moveCostSp = terMC(biome,vegetAdjSp,escarpAdjSp,innondAdjSp);
+                    moveCostRoad = roadMC(biome,100,100,100);
+                    $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="move">'+moveCost300+'</td><td class="move">'+moveCost200+'</td><td class="move">'+moveCost150+'</td><td class="move">'+moveCost125+'</td><td class="moveBase">'+moveCost100+'</td><td class="move">'+moveCost80+'</td><td class="move">'+moveCost67+'</td><td class="move">'+moveCost50+'</td><td class="move">'+moveCost33+'</td><td class="move">'+moveCostSp+'</td><td class="road">'+moveCostRoad+'</td><td><img width="'+iconSize+'" src="/static/img/wtiles/'+biome.icon+'.png" title="'+biome.icon+'"></td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
                 }
-                // escarpement
-                escarpMoveAdj = Math.round(biome.escarpement*biome.escarpement/16);
-                moveCost = moveCost+escarpMoveAdj;
-                if (escarpMoveAdj >= 10) {
-                    moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
-                }
-                if (biome.escarpement >= 15) {
-                    defense = defense+Math.round((biome.escarpement-10)*5/4)+1;
-                    cover = cover+Math.round(Math.sqrt(biome.escarpement-15)*5);
-                }
-                // innondation
-                innondMoveAdj = biome.innondation*2;
-                moveCost = moveCost+innondMoveAdj;
-                moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
-                if (biome.innondation >= 10) {
-                    defense = defense+Math.round((biome.innondation-5)*4/5);
-                }
-                $('#terTable').append('<tr><td class="name">'+biome.name+' &nbsp;</td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td style="background-color:#999e7c;color:black;">&nbsp;&nbsp;</td><td class="move">'+moveCost+'</td><td class="road">'+moveCostRoad+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
             });
+        };
+        function specialMove() {
+            vegetAdjSp = prompt('Ajustement VEGETATION (défaut 100) :');
+            escarpAdjSp = prompt('Ajustement ESCARPEMENT (défaut 100) :');
+            innondAdjSp = prompt('Ajustement INNONDATION (défaut 100) :');
+            terrainsTable('innondation');
+        };
+        function toggleIcons() {
+            if (iconSize == 12) {
+                iconSize = 36;
+            } else if (iconSize == 36) {
+                iconSize = 72;
+            } else {
+                iconSize = 12;
+            }
+            terrainsTable('innondation');
+        };
+        function terMC(biome,vegetAdj,escarpAdj,innondAdj) {
+            let moveCost = 30;
+            let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
+            // ajustement terrain
+            if (biome.adjCause != 'recifs') {
+                switch (biome.adjCause) {
+                    case 'neige':
+                        moveCost = moveCost+Math.round(biome.moveCostAdj*escarpAdj/100);
+                        break;
+                    case 'sable':
+                        moveCost = moveCost+Math.round(biome.moveCostAdj*escarpAdj/100);
+                        break;
+                    default:
+                        moveCost = moveCost+biome.moveCostAdj;
+                }
+            }
+            // vegetation
+            vegetMoveAdj = calcVegetMoveAdj(biome.vegetation);
+            moveCost = moveCost+Math.round(vegetMoveAdj*vegetAdj/100);
+            // escarpement
+            escarpMoveAdj = calcEscarpMoveAdj(biome.escarpement);
+            moveCost = moveCost+Math.round(escarpMoveAdj*escarpAdj/100);
+            // innondation
+            innondMoveAdj = calcInnondMoveAdj(biome.innondation);
+            moveCost = moveCost+Math.round(innondMoveAdj*innondAdj/100);
+            return moveCost;
+        };
+        function roadMC(biome,vegetAdj,escarpAdj,innondAdj) {
+            let moveCostRoad = 20;
+            let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
+            // ajustement terrain
+            if (biome.adjCause != 'recifs') {
+                switch (biome.adjCause) {
+                    case 'neige':
+                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*escarpAdj*7/1000);
+                        break;
+                    case 'sable':
+                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*escarpAdj*7/1000);
+                        break;
+                    default:
+                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*7/10);
+                }
+            }
+            // vegetation
+            vegetMoveAdj = calcVegetMoveAdj(biome.vegetation);
+            vegetMoveAdj = Math.round(vegetMoveAdj*vegetAdj/100);
+            moveCostRoad = moveCostRoad+Math.round(vegetMoveAdj*20/100);
+            // escarpement
+            escarpMoveAdj = calcEscarpMoveAdj(biome.escarpement);
+            escarpMoveAdj = Math.round(escarpMoveAdj*escarpAdj/100);
+            if (escarpMoveAdj >= 10) {
+                moveCostRoad = moveCostRoad+Math.round((escarpMoveAdj-10)*70/100);
+            }
+            // innondation
+            innondMoveAdj = calcInnondMoveAdj(biome.innondation);
+            innondMoveAdj = Math.round(innondMoveAdj*innondAdj/100);
+            moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
+            return moveCostRoad;
         };
         </script>
     </body>
