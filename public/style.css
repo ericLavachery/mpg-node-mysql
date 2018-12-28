@@ -204,7 +204,7 @@ td {
 }
 .terTypeButtonSel {
     margin: 0 0 0 0;
-    border: 2px solid #ff002e;
+    border: 2px solid #ff001f;
 }
 .blockTitle {
     display: inline-block;
@@ -220,7 +220,7 @@ td {
     font-size: 18px;
 }
 .klik:hover {
-    color: #ff002e;
+    color: #ff001f;
     cursor: pointer;
 }
 #vuPriority {
@@ -235,7 +235,7 @@ td {
 }
 .sidebar a:hover {
     text-decoration: none;
-    color: #ff002e;
+    color: #ff001f;
 }
 .paramName {
     display: inline-block;
@@ -313,7 +313,7 @@ h1,h2,h3,h4 {
 }
 h1 {
     font-size: 22px;
-    color: #ff002e;
+    color: #ff001f;
     /* margin: 0 0 3px 13px; */
     padding: 0;
 }
@@ -331,11 +331,11 @@ h4 {
     padding: 0px 0px 5px 0px;
 }
 a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,a.gris:hover,a.blanc:hover,.bleu:hover {
-    color: #ff002e;
+    color: #ff001f;
     text-decoration: none;
 }
 .rouge {
-    color: #ff002e;
+    color: #ff001f;
 }
 .brun {
     color: #85633e;
