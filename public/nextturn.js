@@ -1,5 +1,20 @@
 // NEXT TURN
 $('#nextButton').click(nextTurn);
+function myOccupiedTiles() {
+    let occupiedTiles = [];
+    let ownPop = _.filter(pop, function(unit) {
+        return (unit.player === pseudo);
+    });
+    ownPop.forEach(function(unit) {
+        if (unit.player === pseudo) {
+            if (!occupiedTiles.includes(unit.tileId)) {
+                occupiedTiles.push(unit.tileId);
+            }
+        }
+    });
+    // console.log(occupiedTiles);
+    return occupiedTiles;
+};
 function nextTurn() {
     perso.exploredTiles = [];
     let occupiedTiles = [];

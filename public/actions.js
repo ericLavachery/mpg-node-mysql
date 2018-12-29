@@ -387,7 +387,7 @@ function cartoTile(tileId,save) {
         let tileIndex = world.findIndex((obj => obj.id == tileId));
         showTile(tileId,world[tileIndex].terrainId,world[tileIndex].seed);
         unfogAround(tileId);
-        unhidTile(tileId,true);
+        unhideTiles(tileId,false,true);
         // save
         if (save) {
             emitPlayersChange(perso);

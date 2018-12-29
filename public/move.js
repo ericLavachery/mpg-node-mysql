@@ -78,6 +78,7 @@ function moveGroup(targetTileId) {
             }
         });
         unfogTile(targetTileId,true,true);
+        unhideTiles(targetTileId,false,true);
         autoUnfog(selectedUnit.tileId);
         // draw on new tile
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
@@ -119,6 +120,7 @@ function moveUnit(targetTileId) {
         pop[unitIndex].prevTileId = oldTileId;
         pop[unitIndex].fatigue = fatigue;
         unfogTile(targetTileId,true,true);
+        // unhideTiles(targetTileId,false,true);
         autoUnfog(selectedUnit.tileId);
         // draw on new tile
         drawUnit(selectedUnit.id, targetTileId, selectedUnit.pic, 'icon-selected');
@@ -199,16 +201,16 @@ function roadMoveCost(tileId,unitId) {
         if (unitId >= 1) {
             switch (adjCause) {
                 case 'neige':
-                    moveCost = moveCost+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
+                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
                     break;
                 case 'sable':
-                    moveCost = moveCost+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
+                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
                     break;
                 default:
-                    moveCost = moveCost+Math.round(moveCostAdj*7/10);
+                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*7/10);
             }
         } else {
-            moveCost = moveCost+Math.round(moveCostAdj*7/10);
+            moveCostRoad = moveCostRoad+Math.round(moveCostAdj*7/10);
         }
     }
     // vegetation
@@ -263,7 +265,7 @@ function waterMoveCost(tileId,unitId) {
         moveType = pop[unitIndex].moveType;
     }
     // ajustement terrain
-    moveCostRoad = moveCostRoad+Math.round(ter[terIndex].moveCostAdj*70/100);
+    moveCostWater = moveCostWater+Math.round(ter[terIndex].moveCostAdj*70/100);
     let adjCause = ter[terIndex].adjCause;
     let moveCostAdj = ter[terIndex].moveCostAdj;
     if (adjCause == 'recifs') {

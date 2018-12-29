@@ -185,6 +185,7 @@ socket.on('popload', function(wpop) {
         inspectMode();
     }
     areaSelector();
+    showOccupiedTiles();
 });
 function showVisiblePop(wmap) {
     wmap.forEach(function(tile) {

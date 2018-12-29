@@ -1,14 +1,19 @@
 function defineUnhiddenTiles() {
-    let tileIndex = 0;
-    let myTileX = 0;
-    let myTileY = 0;
     world.forEach(function(tile) {
         if (perso.mapCarto.includes(tile.id)) {
-            unhidTile(tile.id,false);
+            unhideTiles(tile.id,false,false);
         }
     });
 };
-function unhidTile(tileId,show) {
+function showOccupiedTiles() {
+    let occupiedTiles = myOccupiedTiles();
+    world.forEach(function(tile) {
+        if (occupiedTiles.includes(tile.id)) {
+            unhideTiles(tile.id,true,true);
+        }
+    });
+};
+function unhideTiles(tileId,single,show) {
     // gués 77(83)
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     myTileX = world[tileIndex].x;
@@ -60,7 +65,7 @@ function unhidTile(tileId,show) {
                     }
                 }
             }
-        } else if ((tile.x == myTileX+1 && tile.y == myTileY) || (tile.x == myTileX-1 && tile.y == myTileY) || (tile.x == myTileX && tile.y == myTileY-1) || (tile.x == myTileX && tile.y == myTileY+1)) {
+        } else if (((tile.x == myTileX+1 && tile.y == myTileY) || (tile.x == myTileX-1 && tile.y == myTileY) || (tile.x == myTileX && tile.y == myTileY-1) || (tile.x == myTileX && tile.y == myTileY+1)) && !single) {
             // pour les gués etc... (vu si carto adj)
             if (!unhiddenTiles.includes(tile.id)) {
                 if (show) {
