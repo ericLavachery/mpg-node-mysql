@@ -29,7 +29,7 @@ db.con.connect(function(error) {
         world = JSON.parse(JSON.stringify(result));
         console.log('world loaded');
     });
-    sql = "SELECT * FROM pop";
+    sql = "SELECT * FROM bataillons";
     db.con.query(sql, function (error, result) {
         if (error) throw error;
         pop = JSON.parse(JSON.stringify(result));
@@ -131,7 +131,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let objIndex = pop.findIndex((obj => obj.id == data.id));
         pop[objIndex].prop = data.value;
         // change db
-        let sql = "UPDATE pop SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        let sql = "UPDATE bataillons SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('single pop changed');
@@ -193,7 +193,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         pop[objIndex].tileId = data.tileId;
         pop[objIndex].fatigue = data.fatigue;
         // change db
-        let sql = "UPDATE pop SET tileId = '"+data.tileId+"', prevTileId = '"+data.prevTileId+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.unitId;
+        let sql = "UPDATE bataillons SET tileId = '"+data.tileId+"', prevTileId = '"+data.prevTileId+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('unit moved');
@@ -208,7 +208,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         objIndex = pop.findIndex((obj => obj.id == data.unitId));
         pop[objIndex].follow = data.groupNumber;
         // change db
-        let sql = "UPDATE pop SET follow = "+data.groupNumber+" WHERE id = "+data.unitId;
+        let sql = "UPDATE bataillons SET follow = "+data.groupNumber+" WHERE id = "+data.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('group change');
@@ -229,12 +229,12 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
         });
         // change db
-        let sql = "DELETE from pop WHERE id IN ("+data.idsToDelete+")";
+        let sql = "DELETE from bataillons WHERE id IN ("+data.idsToDelete+")";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units deleted');
         });
-        sql = "UPDATE pop SET number = '"+data.totalUnits+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.joinToId;
+        sql = "UPDATE bataillons SET number = '"+data.totalUnits+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.joinToId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units joined');
@@ -257,14 +257,14 @@ io.sockets.on('connection', function (socket, pseudo) {
                 delete newUnit[key];
             }
         });
-        let sql = "INSERT INTO pop SET ?";
+        let sql = "INSERT INTO bataillons SET ?";
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
-        sql = "UPDATE pop SET number = '"+splitedUnitNumber+"' WHERE id = "+data.splitedUnitId;
+        sql = "UPDATE bataillons SET number = '"+splitedUnitNumber+"' WHERE id = "+data.splitedUnitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('unit splited');
@@ -311,13 +311,13 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
         });
         // récup = move
-        let sql = "UPDATE pop SET fatigue = fatigue-move WHERE player = '"+data.pseudo+"' AND fatigue >= 0";
+        let sql = "UPDATE bataillons SET fatigue = fatigue-move WHERE player = '"+data.pseudo+"' AND fatigue >= 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
         });
         // fatigue non négative
-        sql = "UPDATE pop SET fatigue = 0 WHERE fatigue < 0";
+        sql = "UPDATE bataillons SET fatigue = 0 WHERE fatigue < 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
