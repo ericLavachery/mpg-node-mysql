@@ -185,13 +185,13 @@ function terMoveCost(tileId,unitId) {
     } else {
         moveCost = moveCost+innondMoveAdj;
     }
-    return moveCost;
+    return Math.round(moveCost*baseMoveCost/30);
 };
 function roadMoveCost(tileId,unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let moveCostRoad = 20;
+    let moveCostRoad = 23;
     let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
     // ajustement terrain
     moveCostRoad = moveCostRoad+Math.round(ter[terIndex].moveCostAdj*70/100);
@@ -201,10 +201,10 @@ function roadMoveCost(tileId,unitId) {
         if (unitId >= 1) {
             switch (adjCause) {
                 case 'neige':
-                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
+                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*5/1000);
                     break;
                 case 'sable':
-                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*7/1000);
+                    moveCostRoad = moveCostRoad+Math.round(moveCostAdj*pop[unitIndex].escarpAdj*2/1000);
                     break;
                 default:
                     moveCostRoad = moveCostRoad+Math.round(moveCostAdj*7/10);
@@ -233,7 +233,7 @@ function roadMoveCost(tileId,unitId) {
         innondMoveAdj = Math.round(innondMoveAdj*pop[unitIndex].innondAdj/100);
     }
     moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
-    return moveCostRoad;
+    return Math.round(moveCostRoad*baseMoveCost/30);
 };
 function airMoveCost(tileId,unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
@@ -250,7 +250,7 @@ function airMoveCost(tileId,unitId) {
     // innondation
     innondMoveAdj = calcInnondMoveAdj(ter[terIndex].innondation);
     moveCostAir = moveCostAir+Math.round(innondMoveAdj*40/100);
-    return moveCostAir;
+    return Math.round(moveCostAir*baseMoveCost/30);
 };
 function waterMoveCost(tileId,unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
@@ -303,7 +303,7 @@ function waterMoveCost(tileId,unitId) {
     moveCostWater = moveCostWater+innondMoveAdj;
     moveCostWater = moveCostWater+escarpMoveAdj;
     moveCostWater = moveCostWater+vegetMoveAdj;
-    return moveCostWater;
+    return Math.round(moveCostWater*baseMoveCost/30);
 };
 function calcVegetMoveAdj(vegetation) {
     return Math.round(vegetation*vegetation/50);

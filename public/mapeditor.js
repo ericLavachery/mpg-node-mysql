@@ -243,6 +243,7 @@ function mapEdit(tileId) {
     let nextkur = 'pointer';
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     selectedTile = world[tileIndex];
+    let terIndex = ter.findIndex((obj => obj.id == selectedTile.terrainId));
     // console.log(selectedTile);
     if (selAddon == '') {
         if (selTer.id >= 1) {
@@ -261,9 +262,13 @@ function mapEdit(tileId) {
     } else if (selAddon != 'point') {
         nextkur = 'copy';
         if (!selectedTile.flags.includes(selAddon+'_')) {
-            world[tileIndex].flags = selectedTile.flags+selAddon+'_';
-            selectedTile.flags = selectedTile.flags+selAddon+'_';
-            emitSingleWorldChange(tileId,'flags',selectedTile.flags);
+            if (!ter[terIndex].road && selAddon == 'road') {
+                // no road here
+            } else {
+                world[tileIndex].flags = selectedTile.flags+selAddon+'_';
+                selectedTile.flags = selectedTile.flags+selAddon+'_';
+                emitSingleWorldChange(tileId,'flags',selectedTile.flags);
+            }
         } else {
             world[tileIndex].flags = selectedTile.flags.replace(selAddon+'_','');
             selectedTile.flags = selectedTile.flags.replace(selAddon+'_','');

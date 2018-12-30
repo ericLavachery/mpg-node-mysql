@@ -24,7 +24,8 @@
         <script src="/static/move.js"></script>
         <script type="text/javascript">
         let ter = [];
-        let maxMoveCost = 180;
+        let maxMoveCost = 240; // 180 default
+        let baseMoveCost = 40; // 30 default (moveCost is x baseMoveCost /30)
         let vegetAdjSp = 20;
         let escarpAdjSp = 20;
         let innondAdjSp = 20;
@@ -90,7 +91,11 @@
                     if (moveCost33 > maxMoveCost) {mvClass33 = ' rouge';}
                     moveCostSp = terMC(biome,vegetAdjSp,escarpAdjSp,innondAdjSp);
                     if (moveCostSp > maxMoveCost) {mvClassSp = ' rouge';}
-                    moveCostRoad = roadMC(biome,100,100,100);
+                    if (biome.road) {
+                        moveCostRoad = roadMC(biome,100,100,100);
+                    } else {
+                        moveCostRoad = '';
+                    }
                     $('#terTable').append('<tr'+trClass+'><td class="name">'+biome.name+' &nbsp;</td><td class="move'+mvClass300+'">'+moveCost300+'</td><td class="move'+mvClass200+'">'+moveCost200+'</td><td class="move'+mvClass150+'">'+moveCost150+'</td><td class="move'+mvClass125+'">'+moveCost125+'</td><td class="moveBase'+mvClass100+'">'+moveCost100+'</td><td class="move'+mvClass80+'">'+moveCost80+'</td><td class="move'+mvClass67+'">'+moveCost67+'</td><td class="move'+mvClass50+'">'+moveCost50+'</td><td class="move'+mvClass33+'">'+moveCost33+'</td><td class="move'+mvClassSp+'">'+moveCostSp+'</td><td class="road">'+moveCostRoad+'</td><td><img width="'+iconSize+'" src="/static/img/wtiles/'+biome.icon+'.png" title="'+biome.icon+'"></td><td class="evi">'+biome.escarpement+'</td><td class="evi">'+biome.vegetation+'</td><td class="evi">'+biome.innondation+'</td><td class="cover">'+cover+'</td><td class="defense">'+defense+'</td></tr>');
                 }
             });
@@ -136,19 +141,20 @@
             // innondation
             innondMoveAdj = calcInnondMoveAdj(biome.innondation);
             moveCost = moveCost+Math.round(innondMoveAdj*innondAdj/100);
-            return moveCost;
+            // Ajustement général
+            return Math.round(moveCost*baseMoveCost/30);
         };
         function roadMC(biome,vegetAdj,escarpAdj,innondAdj) {
-            let moveCostRoad = 20;
+            let moveCostRoad = 23;
             let vegetMoveAdj, escarpMoveAdj, innondMoveAdj;
             // ajustement terrain
             if (biome.adjCause != 'recifs') {
                 switch (biome.adjCause) {
                     case 'neige':
-                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*escarpAdj*7/1000);
+                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*escarpAdj*5/1000);
                         break;
                     case 'sable':
-                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*escarpAdj*7/1000);
+                        moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*escarpAdj*2/1000);
                         break;
                     default:
                         moveCostRoad = moveCostRoad+Math.round(biome.moveCostAdj*7/10);
@@ -168,7 +174,7 @@
             innondMoveAdj = calcInnondMoveAdj(biome.innondation);
             innondMoveAdj = Math.round(innondMoveAdj*innondAdj/100);
             moveCostRoad = moveCostRoad+Math.round(innondMoveAdj*40/100);
-            return moveCostRoad;
+            return Math.round(moveCostRoad*baseMoveCost/30);
         };
         </script>
     </body>

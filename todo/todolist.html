@@ -24,11 +24,22 @@ MAP EDITOR
     <!-- pouvoir mettre et enlever les routes et rivières !!! -->
     <!-- toggle between (1) et (2) aussi en mode seed -->
 ENCOMBREMENT
-    on part sur un truc genre 1 = 50 kg
+    1 enk = 1 unité d'encombrement
+    Le groupe est :
+        immobilisé si : charge enk > capacité enk
+        ralenti (1/2 move) si : charge enk > capacité enk /10
+        bouge normalement si : charge enk <= capacité enk /10
+    on part sur un truc genre 1 enk = 50 kg
+    1 homme peut porter 1 enk max
+    1 homme porte 0.1 enk sans être encombré
 RESSOURCES
     Nourriture
-        1 pain nourrit 100 hommes pendant 7 jours???
-        (500g de bouffe par jour par homme -> )
+        1 pain nourrit 10 hommes pendant 1 mois
+        1 pain nourrit 1 armée (300 hommes) pendant 1 jour
+        1kg de bouffe + eau par jour par homme -> on va dire que 1 pain pèse 5 enk
+        1 armée a besoin de 150 enk de nourriture pour tenir 1 mois
+        1 armée peut porter 30 enk sans être encombrée (ou 300 enk encombrée)
+        1 armée peut tenir 6 jours sans être encombrée (ou 2 mois encombrée)
 TRANSPORTS
     MARCHANDISES
         Mettre les sacs et tonneaux dans un groupe
@@ -36,8 +47,8 @@ TRANSPORTS
         totalCharge = total encombrement des unités dont le move est 0 (ou moveCost 181+)
         Le groupe est :
             immobilisé si : totalCharge > totalCapacite
-            ralenti (2/3 move) si : totalCharge > totalCapacite/5
-            bouge normalement si : totalCharge <= totalCapacite/5
+            ralenti (2/3 move) si : totalCharge > totalCapacite/10
+            bouge normalement si : totalCharge <= totalCapacite/10
         Les meilleurs contenants réduisent l'encombrement des ressources contenues?
             sacs : encombrement des ressources
             tonneaux, coffres etc : encombrement propre (indépendemment du contenu)
