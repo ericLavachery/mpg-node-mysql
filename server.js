@@ -71,8 +71,8 @@ db.con.connect(function(error) {
 app.use('/static', express.static(__dirname + '/public'));
 
 // router - ouais, on disait...
-app.get('/terrains/', function (req, res) {
-    res.sendFile(__dirname + '/terrains.html');
+app.get('/tables/', function (req, res) {
+    res.sendFile(__dirname + '/tables.html');
 });
 app.get('/edit/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -151,7 +151,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
             ress[resIndex].enkval = Math.round(10*ressource.price/ressource.enk);
         });
-        console.log(ress);
+        // console.log(ress);
     };
 
     // SINGLE PROPERTY POP CHANGE
