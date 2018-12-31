@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 27, 2018 at 04:12 PM
+-- Generation Time: Dec 31, 2018 at 03:01 PM
 -- Server version: 5.7.24-0ubuntu0.18.04.1
 -- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
@@ -19,6 +19,88 @@ SET time_zone = "+00:00";
 --
 -- Database: `mpg`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bataillons`
+--
+
+CREATE TABLE `bataillons` (
+  `id` int(11) NOT NULL,
+  `player` varchar(12) COLLATE utf8_bin NOT NULL,
+  `type` varchar(30) COLLATE utf8_bin NOT NULL,
+  `typeId` smallint(6) NOT NULL,
+  `number` int(11) NOT NULL,
+  `x` int(11) DEFAULT NULL,
+  `y` int(11) DEFAULT NULL,
+  `blessures` smallint(6) NOT NULL DEFAULT '0',
+  `move` smallint(6) NOT NULL,
+  `fatigue` smallint(6) NOT NULL DEFAULT '0',
+  `tileId` int(11) NOT NULL,
+  `prevTileId` int(11) NOT NULL,
+  `follow` int(11) DEFAULT NULL,
+  `onTrack` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `bataillons`
+--
+
+INSERT INTO `bataillons` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessures`, `move`, `fatigue`, `tileId`, `prevTileId`, `follow`, `onTrack`) VALUES
+(5, 'Zorglub', 'Chamane', 5, 1, 3, 15, 0, 65, 0, 74, 74, NULL, 0),
+(11, 'Zorglub', 'Barbares', 1, 48, 3, 15, 0, 65, 0, 88, 88, NULL, 0),
+(38, 'Bob', 'Château', 9, 1, 6, 1, 0, 0, 0, 41, 41, NULL, 0),
+(41, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 39, 23, NULL, 1),
+(42, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 800, 669, NULL, 0),
+(44, 'Bob', 'Piquiers', 2, 27, 6, 1, 0, 60, 0, 59, 60, NULL, 0),
+(45, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 42, 42, NULL, 0),
+(47, 'Bob', 'Piquiers', 2, 15, 6, 1, 0, 60, 0, 72, 73, 2, 0),
+(48, 'Bob', 'Forgeron', 4, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
+(51, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 72, 73, 2, 0),
+(52, 'Bob', 'Eclaireurs', 6, 6, 6, 1, 0, 70, 0, 44, 43, NULL, 0),
+(53, 'Zorglub', 'Barbares', 1, 13, 3, 15, 0, 65, 0, 58, 58, NULL, 0),
+(54, 'Zorglub', 'Pisteur', 3, 61, 3, 15, 0, 65, 0, 73, 73, 1, 0),
+(55, 'Zorglub', 'Barbares', 1, 127, 3, 15, 0, 65, 0, 116, 116, 2, 0),
+(56, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 44, 43, NULL, 0),
+(58, 'Zorglub', 'Barbares', 1, 3, 3, 15, 0, 65, 0, 85, 85, NULL, 0),
+(59, 'Zorglub', 'Barbares', 1, 1, 3, 15, 0, 65, 0, 55, 40, NULL, 0),
+(60, 'Bob', 'Piquiers', 2, 2, 6, 1, 0, 60, 0, 26, 42, NULL, 0),
+(63, 'Zorglub', 'Barbares', 1, 7, 3, 15, 0, 65, 0, 104, 104, NULL, 0),
+(64, 'Zorglub', 'Barbares', 1, 30, 3, 15, 0, 65, 0, 116, 116, 2, 0),
+(65, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 41, 70, 1, 0),
+(67, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 83, 84, NULL, 0),
+(68, 'Bob', 'Piquiers', 2, 60, 6, 1, 0, 60, 0, 57, 72, NULL, 0),
+(75, 'Bob', 'Espion', 7, 20, 6, 1, 0, 70, 0, 63, 78, NULL, 0),
+(76, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 144, 12, NULL, 0),
+(77, 'Zorglub', 'Barbares', 1, 8, 3, 15, 0, 65, 0, 74, 74, NULL, 0),
+(78, 'Zorglub', 'Barbares', 1, 10, 3, 15, 0, 65, 0, 73, 73, 1, 0),
+(79, 'Zorglub', 'Barbares', 1, 13, 3, 15, 0, 65, 0, 73, 73, 1, 0),
+(80, 'Zorglub', 'Barbares', 1, 42, 3, 15, 0, 65, 0, 73, 73, 1, 0),
+(81, 'Zorglub', 'Barbares', 1, 23, 3, 15, 0, 65, 0, 73, 73, 1, 0),
+(82, 'Zorglub', 'Barbares', 1, 2, 3, 15, 0, 65, 0, 73, 73, NULL, 0),
+(83, 'Zorglub', 'Pisteur', 3, 12, 3, 15, 0, 65, 0, 73, 73, NULL, 0),
+(89, 'Zorglub', 'Pisteur', 3, 17, 3, 15, 0, 65, 103, 113, 114, NULL, 0),
+(90, 'Zorglub', 'Pisteur', 3, 48, 3, 15, 0, 65, 0, 88, 88, NULL, 0),
+(91, 'Morpheus', 'Piquiers', 2, 7, 6, 1, 0, 60, 0, 58, 58, NULL, 0),
+(92, 'Morpheus', 'Espion', 7, 2, 6, 1, 0, 70, 0, 43, 43, 6, 0),
+(93, 'Morpheus', 'Pisteur', 3, 150, 3, 15, 0, 65, 106, 88, 88, NULL, 0),
+(94, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 86, 102, NULL, 0),
+(95, 'Bob', 'Piquiers', 2, 5, 6, 1, 0, 60, 0, 111, 97, NULL, 0),
+(96, 'Morpheus', 'Piquiers', 2, 3, 6, 1, 0, 60, 42, 73, 73, NULL, 0),
+(97, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 58, 73, NULL, 0),
+(98, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 11, 41, NULL, 0),
+(99, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 41, 41, 1, 0),
+(100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 9, 1594, 1593, NULL, 0),
+(103, 'Bob', 'Piquiers', 2, 16, 6, 1, 0, 60, 0, 71, 72, NULL, 2),
+(109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
+(110, 'Bob', 'Piquiers', 2, 384, 6, 1, 0, 60, 0, 70, 71, 3, 0),
+(113, 'Bob', 'Piquiers', 2, 11, 6, 1, 0, 60, 0, 55, 70, NULL, 1),
+(114, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 70, 85, 3, 1),
+(121, 'Bob', 'Piquiers', 2, 12, 6, 1, 0, 60, 0, 100, 101, NULL, 0),
+(122, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 37, 23, NULL, 0),
+(123, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 119, 103, NULL, 0),
+(124, 'Bob', 'Vachement trop longs', 10, 188, 6, 1, 0, 60, 0, 70, 71, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -48,7 +130,7 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `unitView`, `unitIdent`, `mapView`, `mapCarto`, `exploredTiles`, `enemies`, `allies`, `prefs`) VALUES
-(1, 'Bob', 'Bob', 'dragon', '[]', '[]', '[91]', '[91]', '[41, 42, 43, 58, 73, 86, 55, 39, 54, 57, 38, 83, 11, 26, 12, 70, 85, 100, 28, 114, 59, 68, 71, 23, 60, 45, 112, 125, 103, 30, 29, 14, 82, 97, 108, 123, 109, 27, 40, 44, 96, 122, 69, 72, 67, 94, 102, 37, 111, 110, 127, 84, 95, 78, 79, 74, 25, 101, 63, 56, 88, 89, 99, 104, 117, 119, 98, 53, 87, 105, 120, 133, 134, 135, 22, 36, 51, 52, 24]', '[55, 39, 58, 54, 38, 41, 86, 83, 68, 60, 112, 125, 82, 97, 73]', '[]', '[\"Zorglub\"]', '[\"Madrigal\"]', '_detu_'),
+(1, 'Bob', 'Bob', 'dragon', '[]', '[]', '[91]', '[91]', '[41, 42, 43, 58, 73, 86, 55, 39, 54, 57, 38, 83, 11, 26, 70, 85, 100, 59, 68, 71, 23, 60, 45, 112, 125, 30, 14, 82, 97, 44, 96, 72, 67, 37, 111, 110, 63, 88, 89, 117, 119, 105, 36, 144, 170, 171, 172, 173, 188, 191, 215, 803, 671, 935, 936, 143, 276, 277, 672, 805, 187, 800, 56, 668, 799, 931, 933, 190, 84, 174, 87, 218, 1595, 1462, 1463, 1464, 1594, 1726, 219, 1461, 189, 40, 1725, 1592, 1724, 1856, 1857, 1858, 186, 217, 216, 214]', '[55, 39, 58, 54, 38, 41, 86, 83, 68, 60, 112, 125, 82, 97, 73, 1595]', '[]', '[\"Zorglub\"]', '[\"Madrigal\"]', '_detu_'),
 (2, 'Zorglub', 'Zorg', 'demon', '[]', '[]', '[47, 40, 49, 61, 93, 105, 104, 113]', '[47, 40, 49, 61, 105, 104, 113]', '[58, 73, 74, 88, 104, 116, 85, 57, 72, 87, 100, 117, 130, 115, 70, 55, 41, 132, 26, 40, 59, 42, 56, 71, 103, 131, 89, 101, 54, 69, 84, 86, 114, 98, 99, 113, 128, 129, 102, 97, 112, 127]', '[73, 116, 88, 57, 70, 114, 113]', '[]', '[\"Bob\"]', '[]', '_'),
 (3, 'Morpheus', 'Mrph', 'triton', '[]', '[]', '[66, 11, 49, 50, 90]', '[66, 49, 50]', '[]', '[]', '[88]', '[]', '[]', '_'),
 (4, 'Madrigal', 'Madr', 'minotaur', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[\"Zorglub\"]', '[\"Bob\"]', '_');
@@ -56,142 +138,66 @@ INSERT INTO `players` (`id`, `pseudo`, `pshort`, `pic`, `bldView`, `bldIdent`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pop`
+-- Table structure for table `ressources`
 --
 
-CREATE TABLE `pop` (
-  `id` int(11) NOT NULL,
-  `player` varchar(12) COLLATE utf8_bin NOT NULL,
-  `type` varchar(30) COLLATE utf8_bin NOT NULL,
-  `typeId` smallint(6) NOT NULL,
-  `number` int(11) NOT NULL,
-  `x` int(11) DEFAULT NULL,
-  `y` int(11) DEFAULT NULL,
-  `blessures` smallint(6) NOT NULL DEFAULT '0',
-  `move` smallint(6) NOT NULL,
-  `fatigue` smallint(6) NOT NULL DEFAULT '0',
-  `tileId` int(11) NOT NULL,
-  `prevTileId` int(11) NOT NULL,
-  `follow` int(11) DEFAULT NULL,
-  `onTrack` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Dumping data for table `pop`
---
-
-INSERT INTO `pop` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, `blessures`, `move`, `fatigue`, `tileId`, `prevTileId`, `follow`, `onTrack`) VALUES
-(5, 'Zorglub', 'Chamane', 5, 1, 3, 15, 0, 65, 0, 74, 74, NULL, 0),
-(11, 'Zorglub', 'Barbares', 1, 48, 3, 15, 0, 65, 0, 88, 88, NULL, 0),
-(38, 'Bob', 'Château', 9, 1, 6, 1, 0, 0, 0, 41, 41, NULL, 0),
-(41, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 39, 23, NULL, 1),
-(42, 'Bob', 'Piquiers', 2, 13, 6, 1, 0, 60, 0, 14, 29, NULL, 0),
-(44, 'Bob', 'Piquiers', 2, 27, 6, 1, 0, 60, 0, 59, 60, NULL, 0),
-(45, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 42, 42, NULL, 0),
-(47, 'Bob', 'Piquiers', 2, 15, 6, 1, 0, 60, 0, 72, 73, 2, 0),
-(48, 'Bob', 'Forgeron', 4, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
-(51, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 72, 73, 2, 0),
-(52, 'Bob', 'Eclaireurs', 6, 6, 6, 1, 0, 70, 0, 44, 43, NULL, 0),
-(53, 'Zorglub', 'Barbares', 1, 13, 3, 15, 0, 65, 0, 58, 58, NULL, 0),
-(54, 'Zorglub', 'Pisteur', 3, 61, 3, 15, 0, 65, 0, 73, 73, 1, 0),
-(55, 'Zorglub', 'Barbares', 1, 127, 3, 15, 0, 65, 0, 116, 116, 2, 0),
-(56, 'Bob', 'Espion', 7, 2, 6, 1, 0, 70, 0, 44, 43, NULL, 0),
-(58, 'Zorglub', 'Barbares', 1, 3, 3, 15, 0, 65, 0, 85, 85, NULL, 0),
-(59, 'Zorglub', 'Barbares', 1, 1, 3, 15, 0, 65, 0, 55, 40, NULL, 0),
-(60, 'Bob', 'Piquiers', 2, 2, 6, 1, 0, 60, 0, 26, 42, NULL, 0),
-(63, 'Zorglub', 'Barbares', 1, 7, 3, 15, 0, 65, 0, 104, 104, NULL, 0),
-(64, 'Zorglub', 'Barbares', 1, 30, 3, 15, 0, 65, 0, 116, 116, 2, 0),
-(65, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 41, 70, 1, 0),
-(67, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 83, 84, NULL, 0),
-(68, 'Bob', 'Piquiers', 2, 60, 6, 1, 0, 60, 0, 57, 72, NULL, 0),
-(75, 'Bob', 'Espion', 7, 20, 6, 1, 0, 70, 0, 63, 78, NULL, 0),
-(76, 'Bob', 'Espion', 7, 1, 6, 1, 0, 70, 0, 12, 13, NULL, 0),
-(77, 'Zorglub', 'Barbares', 1, 8, 3, 15, 0, 65, 0, 74, 74, NULL, 0),
-(78, 'Zorglub', 'Barbares', 1, 10, 3, 15, 0, 65, 0, 73, 73, 1, 0),
-(79, 'Zorglub', 'Barbares', 1, 13, 3, 15, 0, 65, 0, 73, 73, 1, 0),
-(80, 'Zorglub', 'Barbares', 1, 42, 3, 15, 0, 65, 0, 73, 73, 1, 0),
-(81, 'Zorglub', 'Barbares', 1, 23, 3, 15, 0, 65, 0, 73, 73, 1, 0),
-(82, 'Zorglub', 'Barbares', 1, 2, 3, 15, 0, 65, 0, 73, 73, NULL, 0),
-(83, 'Zorglub', 'Pisteur', 3, 12, 3, 15, 0, 65, 0, 73, 73, NULL, 0),
-(89, 'Zorglub', 'Pisteur', 3, 17, 3, 15, 0, 65, 103, 113, 114, NULL, 0),
-(90, 'Zorglub', 'Pisteur', 3, 48, 3, 15, 0, 65, 0, 88, 88, NULL, 0),
-(91, 'Morpheus', 'Piquiers', 2, 7, 6, 1, 0, 60, 0, 58, 58, NULL, 0),
-(92, 'Morpheus', 'Espion', 7, 2, 6, 1, 0, 70, 0, 43, 43, 6, 0),
-(93, 'Morpheus', 'Pisteur', 3, 150, 3, 15, 0, 65, 106, 88, 88, NULL, 0),
-(94, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 0, 86, 102, NULL, 0),
-(95, 'Bob', 'Piquiers', 2, 5, 6, 1, 0, 60, 0, 111, 97, NULL, 0),
-(96, 'Morpheus', 'Piquiers', 2, 3, 6, 1, 0, 60, 42, 73, 73, NULL, 0),
-(97, 'Bob', 'Eclaireurs', 6, 5, 6, 1, 0, 70, 0, 58, 73, NULL, 0),
-(98, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 11, 41, NULL, 0),
-(99, 'Bob', 'Piquiers', 2, 8, 6, 1, 0, 60, 0, 41, 41, 1, 0),
-(100, 'Bob', 'Cartographe', 8, 4, 6, 1, 0, 65, 0, 45, 60, NULL, 0),
-(103, 'Bob', 'Piquiers', 2, 16, 6, 1, 0, 60, 0, 71, 72, NULL, 2),
-(109, 'Bob', 'Piquiers', 2, 1, 6, 1, 0, 60, 0, 41, 41, 1, 0),
-(110, 'Bob', 'Piquiers', 2, 384, 6, 1, 0, 60, 0, 70, 71, 3, 0),
-(113, 'Bob', 'Piquiers', 2, 11, 6, 1, 0, 60, 0, 55, 70, NULL, 1),
-(114, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 0, 70, 85, 3, 1),
-(121, 'Bob', 'Piquiers', 2, 12, 6, 1, 0, 60, 0, 100, 101, NULL, 0),
-(122, 'Bob', 'Piquiers', 2, 4, 6, 1, 0, 60, 85, 37, 23, NULL, 0),
-(123, 'Bob', 'Piquiers', 2, 6, 6, 1, 0, 60, 110, 119, 103, NULL, 0),
-(124, 'Bob', 'Vachement trop longs', 10, 188, 6, 1, 0, 60, 0, 70, 71, 3, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `resources`
---
-
-CREATE TABLE `resources` (
+CREATE TABLE `ressources` (
   `id` smallint(6) NOT NULL,
   `name` varchar(20) COLLATE utf8_bin NOT NULL,
   `price` smallint(6) NOT NULL,
-  `AltRes` varchar(20) COLLATE utf8_bin NOT NULL,
-  `CostRes` varchar(20) COLLATE utf8_bin NOT NULL,
-  `CostNum` tinyint(4) NOT NULL
+  `enk` tinyint(4) NOT NULL,
+  `altRes` varchar(20) COLLATE utf8_bin NOT NULL,
+  `costRes` varchar(20) COLLATE utf8_bin NOT NULL,
+  `costNum` tinyint(4) NOT NULL,
+  `quant` tinyint(4) NOT NULL DEFAULT '10'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `resources`
+-- Dumping data for table `ressources`
 --
 
-INSERT INTO `resources` (`id`, `name`, `price`, `AltRes`, `CostRes`, `CostNum`) VALUES
-(1, 'Bois', 25, 'Chevrons', '', 0),
-(2, 'Chevrons', 80, '', 'Bois', 2),
-(3, 'Argile', 30, '', '', 0),
-(4, 'Brique', 45, 'Pierre', 'Argile', 1),
-(5, 'Pierre', 65, '', '', 0),
-(6, 'Végétaux', 20, '', '', 0),
-(7, 'Céréales', 25, '', '', 0),
-(8, 'Grain', 45, '', 'Céréales', 1),
-(9, 'Pain', 130, '', 'Grain', 1),
-(10, 'Fruits', 25, '', '', 0),
-(11, 'Légumes', 25, '', '', 0),
-(12, 'Poissons', 40, '', '', 0),
-(13, 'Gibier', 40, '', '', 0),
-(14, 'Viande', 90, '', 'Gibier', 1),
-(15, 'Métal', 70, 'Acier', '', 0),
-(16, 'Acier', 200, '', 'Métal', 2),
-(17, 'Engrenages', 1000, '', 'Acier', 3),
-(18, 'Spiritueux', 330, '', 'Céréales', 8),
-(19, 'Drogues', 340, '', 'Végétaux', 12),
-(20, 'Charbon', 80, '', '', 0),
-(21, 'Cuir', 120, '', 'Gibier', 1),
-(22, 'Tissus', 250, '', 'Végétaux', 5),
-(23, 'Voiles', 700, '', 'Tissus', 2),
-(24, 'Encens', 500, '', 'Végétaux', 15),
-(25, 'Papier', 150, '', 'Végétaux', 4),
-(26, 'Epices', 400, '', '', 0),
-(27, 'Cadavres', 140, '', '', 0),
-(28, 'Argent', 10, '', '', 0),
-(29, 'Cuivre', 1, '', '', 0),
-(30, 'Or', 100, '', '', 0),
-(31, 'Gemmes', 1000, '', '', 0),
-(32, 'Perles', 700, '', '', 0),
-(33, 'Fourrures', 250, '', 'Gibier', 1),
-(34, 'Laine', 50, '', '', 0),
-(35, 'Poudre à canon', 450, '', 'Charbon', 2),
-(36, 'Mithril', 4000, '', '', 0),
-(37, 'Adamantite', 3500, '', '', 0);
+INSERT INTO `ressources` (`id`, `name`, `price`, `enk`, `altRes`, `costRes`, `costNum`, `quant`) VALUES
+(1, 'bois', 3, 10, 'Chevrons', '', 0, 10),
+(2, 'chevrons', 10, 10, '', 'bois', 2, 0),
+(3, 'argile', 4, 10, '', '', 0, 10),
+(4, 'brique', 6, 5, 'Pierre', 'argile', 1, 0),
+(5, 'pierre', 10, 20, '', '', 0, 10),
+(6, 'végétaux', 2, 5, '', '', 0, 10),
+(7, 'céréales', 2, 5, '', '', 0, 10),
+(8, 'grain', 7, 5, '', 'céréales', 2, 0),
+(9, 'pain', 13, 5, '', 'grain', 1, 0),
+(10, 'fruits', 5, 5, '', '', 0, 10),
+(11, 'légumes', 5, 5, '', '', 0, 10),
+(12, 'poissons', 7, 5, '', '', 0, 10),
+(13, 'gibier', 9, 10, '', '', 0, 10),
+(14, 'viande', 13, 5, '', 'gibier', 1, 0),
+(15, 'métal', 10, 10, 'Acier', '', 0, 10),
+(16, 'acier', 30, 10, '', 'métal', 2, 0),
+(17, 'engrenages', 150, 10, '', 'acier', 1, 0),
+(18, 'spiritueux', 40, 5, '', 'céréales', 8, 0),
+(19, 'drogues', 50, 1, '', 'végétaux', 12, 0),
+(20, 'charbon', 7, 5, '', '', 0, 10),
+(21, 'cuir', 20, 5, '', 'gibier', 1, 0),
+(22, 'tissus', 35, 5, '', 'végétaux', 8, 0),
+(23, 'voiles', 100, 10, '', 'tissus', 2, 0),
+(24, 'encens', 75, 1, '', 'végétaux', 15, 0),
+(25, 'papier', 25, 1, '', 'végétaux', 5, 0),
+(26, 'épices', 60, 1, '', '', 0, 10),
+(27, 'cadavres', 30, 10, '', '', 0, 10),
+(28, 'argent', 10, 1, '', '', 0, 10),
+(29, 'cuivre', 1, 1, '', '', 0, 10),
+(30, 'or', 100, 1, '', '', 0, 10),
+(31, 'gemmes', 1000, 1, '', '', 0, 10),
+(32, 'perles', 250, 1, '', '', 0, 10),
+(33, 'fourrures', 30, 5, '', '', 0, 10),
+(34, 'laine', 8, 5, '', '', 0, 10),
+(35, 'poudre', 70, 5, '', 'charbon', 2, 0),
+(36, 'mithril', 300, 5, '', '', 0, 10),
+(37, 'adamantite', 90, 20, '', 'magistère', 0, 0),
+(38, 'outils', 40, 5, '', 'métal', 1, 0),
+(39, 'alkahest', 200, 1, '', '', 0, 10),
+(40, 'mana', 30, 1, '', 'alkahest', 0, 0),
+(41, 'magistère', 350, 1, '', 'alkahest', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -205,123 +211,132 @@ CREATE TABLE `terrains` (
   `icon` varchar(20) COLLATE utf8_bin NOT NULL,
   `shad` enum('shadg','shadw','') COLLATE utf8_bin NOT NULL DEFAULT 'shadg',
   `moveCostAdj` tinyint(4) NOT NULL,
+  `adjCause` enum('neige','sable','recifs','lave','') COLLATE utf8_bin NOT NULL,
   `escarpement` tinyint(4) NOT NULL,
   `vegetation` tinyint(4) NOT NULL,
   `innondation` smallint(11) NOT NULL,
   `humidite` tinyint(4) NOT NULL,
   `tempMin` tinyint(4) NOT NULL,
   `tempMax` tinyint(4) NOT NULL,
-  `tempMoy` tinyint(4) NOT NULL DEFAULT '25'
+  `ordre` tinyint(4) NOT NULL DEFAULT '25',
+  `road` tinyint(1) NOT NULL DEFAULT '1',
+  `resq1` varchar(250) COLLATE utf8_bin NOT NULL,
+  `resq2` varchar(250) COLLATE utf8_bin NOT NULL,
+  `resq3` varchar(250) COLLATE utf8_bin NOT NULL,
+  `resq4` varchar(250) COLLATE utf8_bin NOT NULL,
+  `resq5` varchar(250) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `terrains`
 --
 
-INSERT INTO `terrains` (`id`, `name`, `icon`, `shad`, `moveCostAdj`, `escarpement`, `vegetation`, `innondation`, `humidite`, `tempMin`, `tempMax`, `tempMoy`) VALUES
-(1, 'plaine', 'plaine', 'shadg', 0, 0, 5, 0, 0, 15, 35, 25),
-(2, 'forêt ombrophile', 'foretdense', 'shadg', 0, 10, 35, 0, 0, 25, 45, 25),
-(3, 'collines (arides)', 'collines', 'shadg', 0, 25, 5, 0, 0, 15, 50, 25),
-(4, 'montagnes (1)', 'montagnes', 'shadg', 0, 40, 5, 0, 0, 5, 50, 25),
-(5, 'marécages', 'marecages', 'shadg', 0, 0, 10, 35, 0, 15, 35, 25),
-(6, 'prairie', 'prairie', 'shadg', 0, 0, 10, 0, 0, 15, 35, 25),
-(7, 'pâturages (riches)', 'paturages', 'shadg', 0, 0, 15, 0, 0, 15, 35, 25),
-(8, 'steppe', 'steppe', '', 0, 10, 5, 0, 0, 5, 25, 25),
-(9, 'toundra', 'toundra', '', 0, 5, 15, 0, 0, 0, 15, 0),
-(10, 'pampa', 'pampa', 'shadg', 0, 10, 5, 0, 0, 15, 35, 25),
-(11, 'veld', 'veld', 'shadg', 0, 0, 10, 0, 0, 35, 50, 50),
-(12, 'savane (1)', 'savane', 'shadg', 0, 0, 15, 0, 0, 45, 50, 50),
-(13, 'banquise (1)', 'ice', '', 20, 0, 0, 0, 0, 0, 5, 0),
-(14, 'désert (1)', 'desert', '', 0, 0, 0, 0, 0, 5, 50, 25),
-(15, 'désert de sable', 'sand', '', 20, 0, 0, 0, 0, 35, 50, 50),
-(26, 'oasis', 'oasis', 'shadg', 20, 0, 25, 0, 0, 45, 50, 50),
-(27, 'haut plateau', 'hp', 'shadg', 0, 10, 10, 0, 0, 15, 45, 25),
-(28, 'fagne', 'fagnes', 'shadg', 0, 0, 20, 25, 0, 15, 35, 25),
-(29, 'pantanal', 'panta', 'shadg', 0, 0, 5, 50, 0, 25, 45, 25),
-(30, 'pré-salé', 'presale', 'shadg', 0, 0, 10, 40, 0, 5, 35, 25),
-(31, 'tourbière', 'tourbe', 'shadg', 0, 0, 20, 35, 0, 15, 45, 25),
-(32, 'palud', 'palud', 'shadg', 0, 0, 15, 40, 0, 15, 45, 25),
-(33, 'bayou', 'bayou', 'shadg', 0, 0, 30, 50, 0, 25, 45, 25),
-(34, 'mangrove', 'mangrove', 'shadg', 0, 0, 40, 50, 0, 45, 50, 50),
-(36, 'sapinière', '', 'shadg', 0, 10, 30, 0, 0, 5, 35, 25),
-(37, 'taïga', 'taiga', '', 15, 10, 30, 0, 0, 0, 15, 0),
-(38, 'forêt sèche', '', 'shadg', 0, 10, 35, 0, 0, 45, 50, 50),
-(39, 'jungle', '', 'shadg', 0, 10, 50, 0, 0, 45, 50, 50),
-(40, 'laurisylve', '', 'shadg', 0, 30, 35, 0, 0, 35, 50, 50),
-(41, 'forêt de nuages', '', 'shadg', 0, 30, 50, 0, 0, 45, 50, 50),
-(42, 'inlandsis', 'snow', '', 20, 0, 0, 0, 0, 0, 5, 0),
-(43, 'lande', '', 'shadg', 0, 10, 20, 0, 0, 15, 35, 25),
-(44, 'bush', '', 'shadg', 0, 10, 20, 0, 0, 35, 45, 25),
-(45, 'garrigue', '', 'shadg', 0, 10, 20, 0, 0, 25, 35, 25),
-(46, 'brousse', 'brousse', 'shadg', 0, 10, 20, 0, 0, 45, 50, 50),
-(47, 'maquis', '', 'shadg', 0, 20, 20, 0, 0, 15, 35, 25),
-(48, 'chaparral', '', 'shadg', 0, 20, 20, 0, 0, 25, 45, 25),
-(49, 'miombo', 'miombo', 'shadg', 0, 20, 25, 0, 0, 45, 50, 50),
-(50, 'caatinga', '', 'shadg', 0, 20, 30, 0, 0, 35, 50, 50),
-(52, 'mer', 'mer', '', 0, 0, 0, 100, 0, 15, 50, 50),
-(53, 'lac (1)', 'lac', '', 0, 0, 0, 75, 0, 0, 50, 50),
-(54, 'océan', 'ocean', '', 0, 0, 0, 110, 0, 0, 50, 50),
-(55, 'mer (récifs)', 'recifs', '', 20, 0, 10, 85, 0, 15, 50, 50),
-(56, 'abysses', 'abyss', '', 0, 0, 0, 125, 0, 0, 50, 50),
-(57, 'hautes montagnes (1)', 'hmount', 'shadg', 0, 50, 0, 0, 0, 5, 45, 25),
-(58, 'collines (boisées)', 'colbois', 'shadg', 0, 25, 30, 0, 0, 25, 50, 25),
-(59, 'collines (verdoyantes)', 'collinesvertes', 'shadg', 0, 25, 10, 0, 0, 15, 35, 25),
-(60, 'lac (étocs)', 'etocs', '', 20, 0, 10, 70, 0, 0, 50, 50),
-(61, 'océan (brisants)', 'brisants', '', 20, 0, 10, 85, 0, 0, 50, 50),
-(62, 'pâturages', 'varenne', 'shadg', 0, 0, 15, 0, 0, 15, 35, 25),
-(63, 'pâturages (secs)', 'herbage', 'shadg', 0, 0, 15, 0, 0, 35, 50, 50),
-(64, 'dunes', 'dunes', '', 25, 15, 0, 0, 0, 35, 50, 50),
-(65, 'oasis (dunes)', 'oadunes', 'shadg', 25, 15, 25, 0, 0, 45, 50, 50),
-(66, 'banquise (2)', 'icehole', '', 30, 0, 0, 0, 0, 0, 5, 0),
-(67, 'neiges éternelles (1)', 'mntsnow', '', 20, 40, 0, 0, 0, 0, 15, 0),
-(68, 'collines (polaires)', 'colneige', '', 15, 25, 5, 0, 0, 0, 15, 0),
-(69, 'taïga (dense)', 'taigadense', 'shadg', 15, 10, 35, 0, 0, 0, 15, 0),
-(70, 'taïga (clairsemée)', 'taigaclaire', '', 15, 10, 25, 0, 0, 0, 15, 0),
-(71, 'désert (subarctique)', 'dessub', '', 0, 0, 0, 0, 0, 5, 15, 5),
-(72, 'désert rocailleux (polaire)', 'rockneige', '', 15, 10, 5, 0, 0, 0, 15, 0),
-(74, 'inlandsis (péril)', 'snowskull', '', 20, 0, 0, 0, 0, 0, 5, 0),
-(75, 'fleuve', 'fleuve', '', 0, 0, 0, 75, 0, 15, 50, 50),
-(77, 'fleuve (gué)', 'gue', '', 0, 0, 0, 65, 0, 15, 50, 50),
-(78, 'étang (1)', 'etang', '', 0, 0, 0, 65, 0, 5, 50, 50),
-(79, 'pâquis (1)', 'paquis', 'shadg', 0, 0, 15, 0, 0, 15, 35, 25),
-(80, 'savane (2)', 'savanebis', 'shadg', 0, 0, 15, 0, 0, 45, 50, 50),
-(81, 'lac (2)', 'lillies', '', 0, 0, 5, 75, 0, 15, 50, 50),
-(82, 'étang (2)', 'etangveg', '', 0, 0, 10, 65, 0, 5, 50, 50),
-(83, 'fleuve (gué non vu)', 'fleuve', '', 0, 0, 0, 75, 0, 15, 50, 50),
-(84, 'fleuve (étocs)', 'fletocs', '', 20, 0, 10, 70, 0, 15, 50, 50),
-(85, 'fleuve (étocs non vus)', 'fleuve', '', 0, 0, 0, 75, 0, 15, 50, 50),
-(86, 'lac (étocs non vus)', 'lac', '', 0, 0, 0, 75, 0, 0, 50, 50),
-(87, 'mer (récifs non vus)', 'mer', '', 0, 0, 0, 100, 0, 15, 50, 50),
-(88, 'océan (brisants non vus)', 'ocean', '', 0, 0, 0, 110, 0, 0, 50, 50),
-(89, 'neiges éternelles (2)', 'mntsnowbis', '', 20, 40, 0, 0, 0, 0, 15, 0),
-(91, 'forêt mixte (clairsemée)', '', 'shadg', 0, 10, 25, 0, 0, 15, 35, 25),
-(92, 'désert rocailleux', 'rock', '', 0, 10, 0, 0, 0, 15, 50, 25),
-(93, 'forêt mixte', 'mix', 'shadg', 0, 10, 30, 0, 0, 15, 25, 25),
-(94, 'forêt mixte (bis)', 'mixvert', 'shadg', 0, 10, 30, 0, 0, 25, 35, 25),
-(95, 'forêt décidue', 'autumn', 'shadg', 0, 10, 30, 0, 0, 15, 35, 25),
-(96, 'montagnes (2)', 'montbis', 'shadg', 0, 40, 5, 0, 0, 5, 50, 25),
-(97, 'terres cultivées', 'tcult', 'shadg', 0, 0, 15, 0, 0, 15, 35, 25),
-(98, 'terres cultivées (riches)', 'tcultrich', 'shadg', 0, 0, 20, 0, 0, 15, 35, 25),
-(99, 'terres cultivées (pauvres)', 'tcultpoor', 'shadg', 0, 0, 10, 0, 0, 15, 35, 25),
-(100, 'pâquis (2)', 'paquibis', 'shadg', 0, 0, 15, 0, 0, 15, 35, 25),
-(101, 'volcan', 'volcan', 'shadg', 35, 40, 0, 0, 0, 5, 50, 25),
-(102, 'hautes montagnes (2)', 'hmountbis', 'shadg', 0, 50, 0, 0, 0, 5, 45, 25),
-(103, 'puy (1)', 'lonemnt', 'shadg', 0, 30, 5, 0, 0, 5, 50, 25),
-(104, 'puy (2)', 'lonemntbis', 'shadg', 0, 38, 5, 0, 0, 5, 50, 25),
-(105, 'mer froide', 'merfroide', '', 0, 0, 0, 100, 0, 0, 15, 50),
-(106, 'fleuve froid', 'fleufroid', '', 0, 0, 0, 75, 0, 0, 15, 50),
-(107, 'steppe (subarctique)', 'steppesub', '', 0, 10, 5, 0, 0, 5, 15, 5),
-(108, 'désert (polaire)', 'despol', '', 15, 0, 0, 0, 0, 0, 15, 0),
-(109, 'collines (subarctiques)', 'colsub', '', 15, 25, 5, 0, 0, 0, 15, 0),
-(110, 'plaine (subarctique)', 'plainesub', 'shadg', 0, 0, 5, 0, 0, 5, 15, 5),
-(111, 'prairie (subarctique)', 'prairiesub', 'shadg', 0, 0, 10, 0, 0, 5, 15, 5),
-(112, 'pâturages (subarctiques)', 'patusub', 'shadg', 0, 0, 15, 0, 0, 5, 15, 5),
-(113, 'terres cultivées (subarctiques)', 'tcultsub', 'shadg', 0, 0, 10, 0, 0, 5, 15, 5),
-(114, 'terres cultivées (tropicales)', 'tcultrop', 'shadg', 0, 0, 10, 0, 0, 35, 50, 50),
-(115, 'forêt boréale (dense)', 'taigadensesub', 'shadg', 0, 10, 35, 0, 0, 5, 15, 5),
-(116, 'forêt boréale (clairsemée)', 'taigasub', 'shadg', 0, 10, 25, 0, 0, 5, 15, 5),
-(117, 'rien', 'rien', '', 0, 0, 0, 0, 0, 0, 50, 25),
-(118, 'désert (2)', 'desertbis', '', 0, 0, 0, 0, 0, 5, 50, 25);
+INSERT INTO `terrains` (`id`, `name`, `icon`, `shad`, `moveCostAdj`, `adjCause`, `escarpement`, `vegetation`, `innondation`, `humidite`, `tempMin`, `tempMax`, `ordre`, `road`, `resq1`, `resq2`, `resq3`, `resq4`, `resq5`) VALUES
+(1, 'plaine', 'plaine', 'shadg', 0, '', 0, 5, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(2, 'forêt ombrophile', 'foretdense', 'shadg', 0, '', 10, 35, 0, 0, 25, 45, 25, 1, '', '', '', '', ''),
+(3, 'collines (arides)', 'collines', 'shadg', 0, '', 25, 5, 0, 0, 15, 50, 25, 1, '', '', '', '', ''),
+(4, 'montagnes (1)', 'montagnes', 'shadg', 0, '', 40, 5, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(5, 'marécages', 'marecages', 'shadg', 0, '', 0, 10, 35, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(6, 'prairie', 'prairie', 'shadg', 0, '', 0, 10, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(7, 'pâturages (riches)', 'paturages', 'shadg', 0, '', 0, 15, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(8, 'steppe', 'steppe', '', 0, '', 10, 5, 0, 0, 5, 25, 25, 1, '', '', '', '', ''),
+(9, 'toundra', 'toundra', '', 0, '', 5, 15, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(10, 'pampa', 'pampa', 'shadg', 0, '', 10, 5, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(11, 'veld', 'veld', 'shadg', 0, '', 0, 10, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(12, 'savane (1)', 'savane', 'shadg', 0, '', 0, 15, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(13, 'banquise (1)', 'ice', '', 30, 'neige', 0, 0, 0, 0, 0, 5, 0, 0, '', '', '', '', ''),
+(14, 'désert (1)', 'desert', '', 0, '', 0, 0, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(15, 'désert de sable', 'sand', '', 20, 'sable', 0, 0, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(26, 'oasis', 'oasis', 'shadg', 20, 'sable', 0, 25, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(27, 'haut plateau', 'hp', 'shadg', 0, '', 10, 10, 0, 0, 15, 45, 25, 1, '', '', '', '', ''),
+(28, 'fagne', 'fagnes', 'shadg', 0, '', 0, 20, 25, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(29, 'pantanal', 'panta', 'shadg', 0, '', 0, 5, 50, 0, 25, 45, 25, 1, '', '', '', '', ''),
+(30, 'pré-salé', 'presale', 'shadg', 0, '', 0, 10, 40, 0, 5, 35, 25, 1, '', '', '', '', ''),
+(31, 'tourbière', 'tourbe', 'shadg', 0, '', 0, 20, 35, 0, 15, 45, 25, 1, '', '', '', '', ''),
+(32, 'palud', 'palud', 'shadg', 0, '', 0, 15, 40, 0, 15, 45, 25, 1, '', '', '', '', ''),
+(33, 'bayou', 'bayou', 'shadg', 0, '', 0, 30, 50, 0, 25, 45, 25, 1, '', '', '', '', ''),
+(34, 'mangrove', 'mangrove', 'shadg', 0, '', 0, 40, 50, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(36, 'forêt de conifères', 'sapin', 'shadg', 0, '', 10, 30, 0, 0, 5, 35, 25, 1, '', '', '', '', ''),
+(37, 'taïga', 'taiga', '', 20, 'neige', 10, 30, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(38, 'forêt sèche', '', 'shadg', 0, '', 10, 35, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(39, 'jungle', '', 'shadg', 0, '', 10, 50, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(40, 'laurisylve', '', 'shadg', 0, '', 30, 35, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(41, 'forêt de nuages', '', 'shadg', 0, '', 30, 50, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(42, 'inlandsis', 'snow', '', 30, 'neige', 0, 0, 0, 0, 0, 5, 0, 0, '', '', '', '', ''),
+(43, 'lande', '', 'shadg', 0, '', 10, 20, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(44, 'bush', '', 'shadg', 0, '', 10, 20, 0, 0, 35, 45, 25, 1, '', '', '', '', ''),
+(45, 'garrigue', '', 'shadg', 0, '', 10, 20, 0, 0, 25, 35, 25, 1, '', '', '', '', ''),
+(46, 'brousse', 'brousse', 'shadg', 0, '', 10, 20, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(47, 'maquis', '', 'shadg', 0, '', 20, 20, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(48, 'chaparral', '', 'shadg', 0, '', 20, 20, 0, 0, 25, 45, 25, 1, '', '', '', '', ''),
+(49, 'miombo', 'miombo', 'shadg', 0, '', 20, 25, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(50, 'caatinga', '', 'shadg', 0, '', 20, 30, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(52, 'mer', 'mer', '', 0, '', 0, 0, 100, 0, 15, 50, 52, 0, '', '', '', '', ''),
+(53, 'lac (1)', 'lac', '', 0, '', 0, 0, 75, 0, 0, 50, 35, 0, '', '', '', '', ''),
+(54, 'océan', 'ocean', '', 0, '', 0, 0, 110, 0, 0, 50, 55, 0, '', '', '', '', ''),
+(55, 'mer (récifs)', 'recifs', '', 20, 'recifs', 0, 10, 85, 0, 15, 50, 53, 0, '', '', '', '', ''),
+(56, 'abysses', 'abyss', '', 0, '', 0, 0, 125, 0, 0, 50, 60, 0, '', '', '', '', ''),
+(57, 'hautes montagnes (1)', 'hmount', 'shadg', 0, '', 50, 0, 0, 0, 5, 45, 25, 1, '', '', '', '', ''),
+(58, 'collines (boisées)', 'colbois', 'shadg', 0, '', 25, 30, 0, 0, 25, 50, 25, 1, '', '', '', '', ''),
+(59, 'collines (verdoyantes)', 'collinesvertes', 'shadg', 0, '', 25, 10, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(60, 'lac (étocs)', 'etocs', '', 20, 'recifs', 0, 10, 70, 0, 0, 50, 37, 0, '', '', '', '', ''),
+(61, 'océan (brisants)', 'brisants', '', 20, 'recifs', 0, 10, 85, 0, 0, 50, 57, 0, '', '', '', '', ''),
+(62, 'pâturages', 'varenne', 'shadg', 0, '', 0, 15, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(63, 'pâturages (secs)', 'herbage', 'shadg', 0, '', 0, 15, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(64, 'dunes', 'dunes', '', 40, 'sable', 15, 0, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(65, 'oasis (dunes)', 'oadunes', 'shadg', 20, 'sable', 15, 25, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(66, 'banquise (2)', 'icehole', '', 40, 'neige', 0, 0, 0, 0, 0, 5, 0, 0, '', '', '', '', ''),
+(67, 'neiges éternelles (1)', 'mntsnow', '', 40, 'neige', 45, 0, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(68, 'collines (polaires)', 'colneige', '', 30, 'neige', 25, 5, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(69, 'taïga (dense)', 'taigadense', 'shadg', 20, 'neige', 10, 35, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(70, 'taïga (clairsemée)', 'taigaclaire', '', 20, 'neige', 10, 25, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(71, 'désert (subarctique)', 'dessub', '', 0, '', 0, 0, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(72, 'désert rocailleux (polaire)', 'rockneige', '', 20, 'neige', 10, 5, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(74, 'inlandsis (péril)', 'snowskull', '', 30, 'neige', 0, 0, 0, 0, 0, 5, 0, 0, '', '', '', '', ''),
+(75, 'fleuve', 'fleuve', '', 0, '', 0, 0, 75, 0, 15, 50, 10, 0, '', '', '', '', ''),
+(77, 'fleuve (gué)', 'gue', '', 0, '', 0, 0, 40, 0, 15, 50, 13, 0, '', '', '', '', ''),
+(78, 'étang (1)', 'etang', '', 0, '', 0, 0, 65, 0, 5, 50, 30, 0, '', '', '', '', ''),
+(79, 'pâquis (1)', 'paquis', 'shadg', 0, '', 0, 15, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(80, 'savane (2)', 'savanebis', 'shadg', 0, '', 0, 15, 0, 0, 45, 50, 50, 1, '', '', '', '', ''),
+(81, 'lac (2)', 'lillies', '', 0, '', 0, 5, 75, 0, 15, 50, 36, 0, '', '', '', '', ''),
+(82, 'étang (2)', 'etangveg', '', 0, '', 0, 10, 65, 0, 5, 50, 30, 0, '', '', '', '', ''),
+(83, 'fleuve (gué non vu)', 'fleuve', '', 0, '', 0, 0, 75, 0, 15, 50, 11, 0, '', '', '', '', ''),
+(84, 'fleuve (étocs)', 'fletocs', '', 20, 'recifs', 0, 10, 70, 0, 15, 50, 12, 0, '', '', '', '', ''),
+(85, 'fleuve (étocs non vus)', 'fleuve', '', 0, '', 0, 0, 75, 0, 15, 50, 10, 0, '', '', '', '', ''),
+(86, 'lac (étocs non vus)', 'lac', '', 0, '', 0, 0, 75, 0, 0, 50, 35, 0, '', '', '', '', ''),
+(87, 'mer (récifs non vus)', 'mer', '', 0, '', 0, 0, 100, 0, 15, 50, 52, 0, '', '', '', '', ''),
+(88, 'océan (brisants non vus)', 'ocean', '', 0, '', 0, 0, 110, 0, 0, 50, 56, 0, '', '', '', '', ''),
+(89, 'neiges éternelles (2)', 'mntsnowbis', '', 40, 'neige', 45, 0, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(91, 'forêt mixte (clairsemée)', 'mixclair', 'shadg', 0, '', 10, 25, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(92, 'désert rocailleux', 'rock', '', 0, '', 10, 0, 0, 0, 15, 50, 25, 1, '', '', '', '', ''),
+(93, 'forêt mixte', 'mix', 'shadg', 0, '', 10, 30, 0, 0, 15, 25, 25, 1, '', '', '', '', ''),
+(94, 'forêt', 'mixvert', 'shadg', 0, '', 10, 30, 0, 0, 25, 35, 25, 1, '', '', '', '', ''),
+(95, 'forêt décidue', 'autumn', 'shadg', 0, '', 10, 30, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(96, 'montagnes (2)', 'montbis', 'shadg', 0, '', 40, 5, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(97, 'terres cultivées', 'tcult', 'shadg', 0, '', 0, 15, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(98, 'terres cultivées (riches)', 'tcultrich', 'shadg', 0, '', 0, 20, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(99, 'terres cultivées (pauvres)', 'tcultpoor', 'shadg', 0, '', 0, 10, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(100, 'pâquis (2)', 'paquibis', 'shadg', 0, '', 0, 15, 0, 0, 15, 35, 25, 1, '', '', '', '', ''),
+(101, 'volcan', 'volcan', 'shadg', 40, 'lave', 40, 0, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(102, 'hautes montagnes (2)', 'hmountbis', 'shadg', 0, '', 50, 0, 0, 0, 5, 45, 25, 1, '', '', '', '', ''),
+(103, 'puy (1)', 'lonemnt', 'shadg', 0, '', 30, 5, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(104, 'puy (2)', 'lonemntbis', 'shadg', 0, '', 38, 5, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(105, 'mer froide', 'merfroide', '', 0, '', 0, 0, 100, 0, 0, 15, 51, 0, '', '', '', '', ''),
+(106, 'fleuve froid', 'fleufroid', '', 0, '', 0, 0, 75, 0, 0, 15, 9, 0, '', '', '', '', ''),
+(107, 'steppe (subarctique)', 'steppesub', '', 0, '', 10, 5, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(108, 'désert (polaire)', 'despol', '', 20, 'neige', 0, 0, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(109, 'collines (subarctiques)', 'colsub', '', 10, 'neige', 25, 5, 0, 0, 0, 15, 0, 1, '', '', '', '', ''),
+(110, 'plaine (subarctique)', 'plainesub', 'shadg', 0, '', 0, 5, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(111, 'prairie (subarctique)', 'prairiesub', 'shadg', 0, '', 0, 10, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(112, 'pâturages (subarctiques)', 'patusub', 'shadg', 0, '', 0, 15, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(113, 'terres cultivées (subarctiques)', 'tcultsub', 'shadg', 0, '', 0, 10, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(114, 'terres cultivées (tropicales)', 'tcultrop', 'shadg', 0, '', 0, 10, 0, 0, 35, 50, 50, 1, '', '', '', '', ''),
+(115, 'forêt boréale (dense)', 'taigadensesub', 'shadg', 0, '', 10, 35, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(116, 'forêt boréale (clairsemée)', 'taigasub', 'shadg', 0, '', 10, 25, 0, 0, 5, 15, 5, 1, '', '', '', '', ''),
+(117, 'rien', 'rien', '', 0, '', 0, 0, 0, 0, 0, 50, 25, 0, '', '', '', '', ''),
+(118, 'désert (2)', 'desertbis', '', 0, '', 0, 0, 0, 0, 5, 50, 25, 1, '', '', '', '', ''),
+(119, 'forêt (clairsemée)', 'mixvertclair', 'shadg', 0, '', 10, 25, 0, 0, 25, 35, 25, 1, '', '', '', '', ''),
+(120, 'forêt de conifères (clairsemée)', 'sapinclair', 'shadg', 0, '', 10, 25, 0, 0, 5, 35, 25, 1, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -404,16 +419,16 @@ CREATE TABLE `unitTypes` (
 --
 
 INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `cat`, `illu`, `attitude`, `apts`, `hp`, `stature`, `nature`, `domaine`, `categorie`, `armure`, `esquive`, `parade`, `coverAdj`, `ammo`, `rapidite`, `actions`, `portee`, `puissance`, `penetration`, `attaque`, `defense`, `degatsSurNatures`, `degatsSurDomaines`, `combatBoost`, `endurance`, `moral`, `loyaute`, `move`, `moveAdj`, `moveType`, `escarpAdj`, `innondAdj`, `vegetAdj`, `cargRes`, `cargUnits`, `detection`, `discretion`, `skills`, `prod_tempsConst`) VALUES
-(1, 'Barbares', 'Barbare', 'sld', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 8, 150, -1, 40, 3, '0', 6, 100, 15, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 'ter', 100, 100, 100, 0, 0, 65, 45, '', 5),
-(2, 'Piquiers', 'Piquier', 'sld', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 35, 6, 9, 75, -1, 35, 3, '0', 5, 100, 10, 12, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 60, 100, 'ter', 100, 100, 100, 0, 0, 60, 25, 'regu_', 5),
-(3, 'Pisteurs', 'Pisteur', 'spy', NULL, 'af', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 30, 'ter', 100, 100, 100, 0, 0, 110, 85, 'explo_info_cland_', 5),
-(4, 'Forgerons', 'Forgeron', 'wrk', NULL, 'd', 0, 12, '3', 'Vivant', 'Terrestre', '', 10, 5, 5, 50, -1, 30, 3, '0', 6, 100, 5, 6, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 60, 100, 'ter', 100, 100, 100, 0, 0, 60, 25, '', 5),
-(5, 'Chamanes', 'Chamane', 'spy', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 5, 150, -1, 40, 3, '0', 5, 100, 10, 13, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 'ter', 100, 100, 100, 0, 0, 75, 75, '', 5),
-(6, 'Eclaireurs', 'Eclaireur', 'spy', NULL, 'af', 0, 11, '3', 'Vivant', 'Terrestre', '', 15, 7, 5, 150, -1, 45, 3, '0', 4, 100, 6, 7, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 70, 30, 'ter', 100, 100, 100, 0, 0, 120, 120, 'explo_info_cland_', 5),
-(7, 'Espions', 'Espion', 'spy', NULL, 'd', 0, 11, '3', 'Vivant', 'Terrestre', '', 10, 9, 5, 120, -1, 55, 3, '0', 4, 100, 5, 5, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 70, 50, 'ter', 100, 100, 100, 0, 0, 150, 150, 'spy_', 5),
-(8, 'Cartographes', 'Cartographe', 'wrk', NULL, 'f', 0, 10, '3', 'Vivant', 'Terrestre', '', 10, 4, 3, 100, -1, 30, 3, '0', 3, 100, 4, 5, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 'ter', 100, 100, 100, 0, 0, 80, 30, 'carto_', 5),
+(1, 'Barbares', 'Barbare', 'sld', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 8, 150, -1, 40, 3, '0', 6, 100, 15, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 50, 'ter', 100, 100, 100, 0, 0, 65, 45, '', 5),
+(2, 'Piquiers', 'Piquier', 'sld', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 35, 6, 9, 75, -1, 35, 3, '0', 5, 100, 10, 12, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 45, 100, 'ter', 100, 100, 100, 0, 0, 60, 25, 'regu_', 5),
+(3, 'Pisteurs', 'Pisteur', 'spy', NULL, 'af', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 30, 'ter', 100, 100, 100, 0, 0, 110, 85, 'explo_info_cland_', 5),
+(4, 'Forgerons', 'Forgeron', 'wrk', NULL, 'd', 0, 12, '3', 'Vivant', 'Terrestre', '', 10, 5, 5, 50, -1, 30, 3, '0', 6, 100, 5, 6, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 45, 100, 'ter', 100, 100, 100, 0, 0, 60, 25, '', 5),
+(5, 'Chamanes', 'Chamane', 'spy', NULL, 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 5, 150, -1, 40, 3, '0', 5, 100, 10, 13, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 50, 'ter', 100, 100, 100, 0, 0, 75, 75, '', 5),
+(6, 'Eclaireurs', 'Eclaireur', 'spy', NULL, 'af', 0, 11, '3', 'Vivant', 'Terrestre', '', 15, 7, 5, 150, -1, 45, 3, '0', 4, 100, 6, 7, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 30, 'ter', 100, 100, 100, 0, 0, 120, 120, 'explo_info_cland_', 5),
+(7, 'Espions', 'Espion', 'spy', NULL, 'd', 0, 11, '3', 'Vivant', 'Terrestre', '', 10, 9, 5, 120, -1, 55, 3, '0', 4, 100, 5, 5, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 50, 'ter', 100, 100, 100, 0, 0, 150, 150, 'spy_', 5),
+(8, 'Cartographes', 'Cartographe', 'wrk', NULL, 'f', 0, 10, '3', 'Vivant', 'Terrestre', '', 10, 4, 3, 100, -1, 30, 3, '0', 3, 100, 4, 5, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 45, 50, 'ter', 100, 100, 100, 0, 0, 80, 30, 'carto_', 5),
 (9, 'Châteaux', 'Château', 'bld', NULL, 'd', 0, 2000, '3', 'Vivant', 'Terrestre', '', 120, 0, 0, 0, -1, 20, 3, '0', 10, 100, 0, 15, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 0, 100, 'ter', 100, 100, 100, 0, 0, 80, 0, 'regu_', 5),
-(10, 'Chasseurs de sorcières', 'Chasseur de sorcières', 'spy', NULL, 'ass', 0, 17, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 30, 'ter', 100, 100, 100, 0, 0, 110, 85, 'explo_info_cland_', 5);
+(10, 'Chasseurs de sorcières', 'Chasseur de sorcières', 'spy', NULL, 'ass', 0, 17, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 30, 'ter', 100, 100, 100, 0, 0, 110, 85, 'explo_info_cland_', 5);
 
 -- --------------------------------------------------------
 
@@ -449,7 +464,7 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (11, '', 'a', '_', 13, 1, 11),
 (12, '', 'b', '_', 13, 1, 12),
 (13, '', 'b', '_', 66, 1, 13),
-(14, '', 'a', '_', 13, 1, 14),
+(14, '', 'b', '_', 13, 1, 14),
 (15, '', 'b', '_', 13, 1, 15),
 (16, '', 'a', '_', 13, 1, 16),
 (17, '', 'a', '_', 13, 1, 17),
@@ -2825,7 +2840,7 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (2386, '', 'b', '_', 107, 19, 10),
 (2387, '', 'c', '_', 71, 19, 11),
 (2388, '', 'a', '_', 115, 19, 12),
-(2389, '', 'a', '_', 115, 19, 13),
+(2389, '', 'c', '_', 115, 19, 13),
 (2390, '', 'a', '_', 77, 19, 14),
 (2391, '', 'b', '_', 115, 19, 15),
 (2392, '', 'a', '_', 117, 19, 16),
@@ -2953,13 +2968,13 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (2514, '', 'a', '_river_river_', 109, 20, 6),
 (2515, '', 'c', '_', 109, 20, 7),
 (2516, '', 'a', '_', 111, 20, 8),
-(2517, '', 'b', '_', 111, 20, 9),
+(2517, '', 'c', '_', 111, 20, 9),
 (2518, '', 'c', '_', 71, 20, 10),
 (2519, '', 'a', '_', 115, 20, 11),
-(2520, '', 'a', '_', 115, 20, 12),
+(2520, '', 'b', '_', 115, 20, 12),
 (2521, '', 'a', '_', 115, 20, 13),
 (2522, '', 'a', '_', 75, 20, 14),
-(2523, '', 'c', '_', 115, 20, 15),
+(2523, '', 'a', '_', 115, 20, 15),
 (2524, '', 'a', '_', 117, 20, 16),
 (2525, '', 'a', '_', 117, 20, 17),
 (2526, '', 'a', '_', 117, 20, 18),
@@ -3085,13 +3100,13 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (2646, '', 'b', '_', 111, 21, 6),
 (2647, '', 'c', '_', 112, 21, 7),
 (2648, '', 'a', '_', 112, 21, 8),
-(2649, '', 'c', '_', 111, 21, 9),
+(2649, '', 'b', '_', 111, 21, 9),
 (2650, '', 'b', '_', 115, 21, 10),
 (2651, '', 'c', '_', 115, 21, 11),
 (2652, '', 'b', '_', 109, 21, 12),
 (2653, '', 'a', '_', 109, 21, 13),
 (2654, '', 'a', '_', 75, 21, 14),
-(2655, '', 'b', '_', 115, 21, 15),
+(2655, '', 'c', '_', 115, 21, 15),
 (2656, '', 'a', '_', 117, 21, 16),
 (2657, '', 'a', '_', 117, 21, 17),
 (2658, '', 'a', '_', 117, 21, 18),
@@ -3223,7 +3238,7 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (2784, '', 'a', '_', 75, 22, 12),
 (2785, '', 'a', '_', 75, 22, 13),
 (2786, '', 'a', '_', 75, 22, 14),
-(2787, '', 'a', '_', 115, 22, 15),
+(2787, '', 'b', '_', 115, 22, 15),
 (2788, '', 'a', '_', 117, 22, 16),
 (2789, '', 'a', '_', 117, 22, 17),
 (2790, '', 'a', '_', 117, 22, 18),
@@ -3746,7 +3761,7 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (3306, '', 'c', '_', 118, 26, 6),
 (3307, '', 'a', '_', 8, 26, 7),
 (3308, '', 'a', '_', 118, 26, 8),
-(3309, '', 'a', '_', 14, 26, 9),
+(3309, '', 'a', '_', 96, 26, 9),
 (3310, '', 'a', '_', 118, 26, 10),
 (3311, '', 'b', '_', 118, 26, 11),
 (3312, '', 'a', '_', 75, 26, 12),
@@ -3877,11 +3892,11 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (3437, '', 'c', '_', 118, 27, 5),
 (3438, '', 'a', '_', 8, 27, 6),
 (3439, '', 'a', '_', 118, 27, 7),
-(3440, '', 'a', '_', 118, 27, 8),
-(3441, '', 'c', '_', 118, 27, 9),
-(3442, '', 'c', '_', 118, 27, 10),
+(3440, '', 'a', '_', 4, 27, 8),
+(3441, '', 'a', '_', 101, 27, 9),
+(3442, '', 'a', '_', 4, 27, 10),
 (3443, '', 'b', '_', 14, 27, 11),
-(3444, '', 'c', '_', 118, 27, 12),
+(3444, '', 'a', '_', 8, 27, 12),
 (3445, '', 'a', '_', 75, 27, 13),
 (3446, '', 'b', '_', 115, 27, 14),
 (3447, '', 'c', '_', 115, 27, 15),
@@ -4009,11 +4024,11 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (3569, '', 'b', '_', 52, 28, 5),
 (3570, '', 'a', '_', 118, 28, 6),
 (3571, '', 'b', '_', 118, 28, 7),
-(3572, '', 'a', '_', 118, 28, 8),
-(3573, '', 'a', '_', 118, 28, 9),
-(3574, '', 'a', '_', 118, 28, 10),
-(3575, '', 'c', '_', 118, 28, 11),
-(3576, '', 'c', '_', 118, 28, 12),
+(3572, '', 'b', '_', 57, 28, 8),
+(3573, '', 'c', '_', 1, 28, 9),
+(3574, '', 'a', '_', 1, 28, 10),
+(3575, '', 'c', '_', 1, 28, 11),
+(3576, '', 'c', '_', 1, 28, 12),
 (3577, '', 'a', '_', 75, 28, 13),
 (3578, '', 'a', '_', 77, 28, 14),
 (3579, '', 'a', '_', 75, 28, 15),
@@ -4139,16 +4154,16 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (3699, '', 'b', '_', 54, 29, 3),
 (3700, '', 'c', '_', 54, 29, 4),
 (3701, '', 'c', '_', 52, 29, 5),
-(3702, '', 'b', '_', 92, 29, 6),
-(3703, '', 'b', '_', 14, 29, 7),
-(3704, '', 'b', '_', 118, 29, 8),
-(3705, '', 'a', '_', 118, 29, 9),
-(3706, '', 'c', '_', 118, 29, 10),
-(3707, '', 'c', '_', 118, 29, 11),
-(3708, '', 'c', '_', 118, 29, 12),
-(3709, '', 'a', '_', 92, 29, 13),
-(3710, '', 'c', '_', 92, 29, 14),
-(3711, '', 'b', '_', 118, 29, 15),
+(3702, '', 'b', '_', 1, 29, 6),
+(3703, '', 'b', '_', 1, 29, 7),
+(3704, '', 'b', '_', 1, 29, 8),
+(3705, '', 'b', '_', 1, 29, 9),
+(3706, '', 'a', '_', 1, 29, 10),
+(3707, '', 'b', '_', 91, 29, 11),
+(3708, '', 'c', '_', 1, 29, 12),
+(3709, '', 'a', '_', 91, 29, 13),
+(3710, '', 'c', '_', 62, 29, 14),
+(3711, '', 'b', '_', 97, 29, 15),
 (3712, '', 'a', '_', 117, 29, 16),
 (3713, '', 'a', '_', 117, 29, 17),
 (3714, '', 'a', '_', 117, 29, 18),
@@ -4271,16 +4286,16 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (3831, '', 'a', '_', 54, 30, 3),
 (3832, '', 'c', '_', 52, 30, 4),
 (3833, '', 'b', '_', 52, 30, 5),
-(3834, '', 'c', '_', 118, 30, 6),
-(3835, '', 'b', '_', 118, 30, 7),
-(3836, '', 'c', '_', 118, 30, 8),
-(3837, '', 'b', '_', 118, 30, 9),
-(3838, '', 'a', '_', 118, 30, 10),
-(3839, '', 'b', '_', 118, 30, 11),
-(3840, '', 'b', '_', 92, 30, 12),
-(3841, '', 'a', '_', 118, 30, 13),
-(3842, '', 'b', '_', 118, 30, 14),
-(3843, '', 'c', '_', 118, 30, 15),
+(3834, '', 'c', '_', 1, 30, 6),
+(3835, '', 'b', '_', 1, 30, 7),
+(3836, '', 'c', '_', 120, 30, 8),
+(3837, '', 'b', '_', 120, 30, 9),
+(3838, '', 'a', '_', 1, 30, 10),
+(3839, '', 'a', '_', 120, 30, 11),
+(3840, '', 'b', '_', 99, 30, 12),
+(3841, '', 'a', '_', 99, 30, 13),
+(3842, '', 'b', '_', 99, 30, 14),
+(3843, '', 'c', '_', 62, 30, 15),
 (3844, '', 'a', '_', 117, 30, 16),
 (3845, '', 'a', '_', 117, 30, 17),
 (3846, '', 'a', '_', 117, 30, 18),
@@ -5028,9 +5043,9 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (4588, '', 'a', '_', 117, 35, 100),
 (4589, '', 'a', '_', 117, 35, 101),
 (4590, '', 'a', '_', 117, 35, 102),
-(4591, '', 'a', '_', 117, 35, 103);
+(4591, '', 'a', '_', 117, 35, 103),
+(4592, '', 'a', '_', 117, 35, 104);
 INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
-(4592, '', 'a', '_', 117, 35, 104),
 (4593, '', 'a', '_', 117, 35, 105),
 (4594, '', 'a', '_', 117, 35, 106),
 (4595, '', 'a', '_', 117, 35, 107),
@@ -5195,14 +5210,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (4754, '', 'a', '_', 117, 37, 2),
 (4755, '', 'a', '_', 117, 37, 3),
 (4756, '', 'a', '_', 117, 37, 4),
-(4757, '', 'a', '_', 117, 37, 5),
-(4758, '', 'a', '_', 117, 37, 6),
-(4759, '', 'a', '_', 117, 37, 7),
-(4760, '', 'a', '_', 117, 37, 8),
-(4761, '', 'a', '_', 117, 37, 9),
-(4762, '', 'a', '_', 117, 37, 10),
-(4763, '', 'a', '_', 117, 37, 11),
-(4764, '', 'a', '_', 117, 37, 12),
+(4757, '', 'c', '_', 93, 37, 5),
+(4758, '', 'b', '_', 93, 37, 6),
+(4759, '', 'c', '_', 93, 37, 7),
+(4760, '', 'a', '_', 93, 37, 8),
+(4761, '', 'c', '_', 94, 37, 9),
+(4762, '', 'a', '_', 94, 37, 10),
+(4763, '', 'b', '_', 94, 37, 11),
+(4764, '', 'c', '_', 94, 37, 12),
 (4765, '', 'a', '_', 117, 37, 13),
 (4766, '', 'a', '_', 117, 37, 14),
 (4767, '', 'a', '_', 117, 37, 15),
@@ -5327,14 +5342,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (4886, '', 'a', '_', 117, 38, 2),
 (4887, '', 'a', '_', 117, 38, 3),
 (4888, '', 'a', '_', 117, 38, 4),
-(4889, '', 'a', '_', 117, 38, 5),
-(4890, '', 'a', '_', 117, 38, 6),
-(4891, '', 'a', '_', 117, 38, 7),
-(4892, '', 'a', '_', 117, 38, 8),
-(4893, '', 'a', '_', 117, 38, 9),
-(4894, '', 'a', '_', 117, 38, 10),
-(4895, '', 'a', '_', 117, 38, 11),
-(4896, '', 'a', '_', 117, 38, 12),
+(4889, '', 'c', '_', 1, 38, 5),
+(4890, '', 'a', '_', 91, 38, 6),
+(4891, '', 'a', '_', 1, 38, 7),
+(4892, '', 'a', '_', 1, 38, 8),
+(4893, '', 'a', '_', 119, 38, 9),
+(4894, '', 'a', '_', 1, 38, 10),
+(4895, '', 'b', '_', 100, 38, 11),
+(4896, '', 'c', '_', 100, 38, 12),
 (4897, '', 'a', '_', 117, 38, 13),
 (4898, '', 'a', '_', 117, 38, 14),
 (4899, '', 'a', '_', 117, 38, 15),
@@ -5459,14 +5474,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (5018, '', 'a', '_', 117, 39, 2),
 (5019, '', 'a', '_', 117, 39, 3),
 (5020, '', 'a', '_', 117, 39, 4),
-(5021, '', 'a', '_', 117, 39, 5),
-(5022, '', 'a', '_', 117, 39, 6),
-(5023, '', 'a', '_', 117, 39, 7),
-(5024, '', 'a', '_', 117, 39, 8),
-(5025, '', 'a', '_', 117, 39, 9),
-(5026, '', 'a', '_', 117, 39, 10),
-(5027, '', 'a', '_', 117, 39, 11),
-(5028, '', 'a', '_', 117, 39, 12),
+(5021, '', 'b', '_', 91, 39, 5),
+(5022, '', 'c', '_', 91, 39, 6),
+(5023, '', 'a', '_', 1, 39, 7),
+(5024, '', 'a', '_', 119, 39, 8),
+(5025, '', 'c', '_', 119, 39, 9),
+(5026, '', 'a', '_', 119, 39, 10),
+(5027, '', 'a', '_', 100, 39, 11),
+(5028, '', 'c', '_', 79, 39, 12),
 (5029, '', 'a', '_', 117, 39, 13),
 (5030, '', 'a', '_', 117, 39, 14),
 (5031, '', 'a', '_', 117, 39, 15),
@@ -5591,14 +5606,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (5150, '', 'a', '_', 117, 40, 2),
 (5151, '', 'a', '_', 117, 40, 3),
 (5152, '', 'a', '_', 117, 40, 4),
-(5153, '', 'a', '_', 117, 40, 5),
-(5154, '', 'a', '_', 117, 40, 6),
-(5155, '', 'a', '_', 117, 40, 7),
-(5156, '', 'a', '_', 117, 40, 8),
-(5157, '', 'a', '_', 117, 40, 9),
-(5158, '', 'a', '_', 117, 40, 10),
-(5159, '', 'a', '_', 117, 40, 11),
-(5160, '', 'a', '_', 117, 40, 12),
+(5153, '', 'a', '_', 1, 40, 5),
+(5154, '', 'a', '_', 1, 40, 6),
+(5155, '', 'a', '_', 1, 40, 7),
+(5156, '', 'a', '_', 1, 40, 8),
+(5157, '', 'a', '_', 1, 40, 9),
+(5158, '', 'a', '_', 1, 40, 10),
+(5159, '', 'a', '_', 79, 40, 11),
+(5160, '', 'b', '_', 79, 40, 12),
 (5161, '', 'a', '_', 117, 40, 13),
 (5162, '', 'a', '_', 117, 40, 14),
 (5163, '', 'a', '_', 117, 40, 15),
@@ -5723,14 +5738,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (5282, '', 'a', '_', 117, 41, 2),
 (5283, '', 'a', '_', 117, 41, 3),
 (5284, '', 'a', '_', 117, 41, 4),
-(5285, '', 'a', '_', 117, 41, 5),
-(5286, '', 'a', '_', 117, 41, 6),
-(5287, '', 'a', '_', 117, 41, 7),
-(5288, '', 'a', '_', 117, 41, 8),
-(5289, '', 'a', '_', 117, 41, 9),
-(5290, '', 'a', '_', 117, 41, 10),
-(5291, '', 'a', '_', 117, 41, 11),
-(5292, '', 'a', '_', 117, 41, 12),
+(5285, '', 'a', '_', 36, 41, 5),
+(5286, '', 'c', '_', 36, 41, 6),
+(5287, '', 'b', '_', 36, 41, 7),
+(5288, '', 'a', '_', 36, 41, 8),
+(5289, '', 'b', '_', 2, 41, 9),
+(5290, '', 'c', '_', 2, 41, 10),
+(5291, '', 'a', '_', 2, 41, 11),
+(5292, '', 'b', '_', 2, 41, 12),
 (5293, '', 'a', '_', 117, 41, 13),
 (5294, '', 'a', '_', 117, 41, 14),
 (5295, '', 'a', '_', 117, 41, 15),
@@ -5855,14 +5870,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (5414, '', 'a', '_', 117, 42, 2),
 (5415, '', 'a', '_', 117, 42, 3),
 (5416, '', 'a', '_', 117, 42, 4),
-(5417, '', 'a', '_', 117, 42, 5),
-(5418, '', 'a', '_', 117, 42, 6),
-(5419, '', 'a', '_', 117, 42, 7),
-(5420, '', 'a', '_', 117, 42, 8),
-(5421, '', 'a', '_', 117, 42, 9),
-(5422, '', 'a', '_', 117, 42, 10),
-(5423, '', 'a', '_', 117, 42, 11),
-(5424, '', 'a', '_', 117, 42, 12),
+(5417, '', 'b', '_', 1, 42, 5),
+(5418, '', 'a', '_', 120, 42, 6),
+(5419, '', 'b', '_', 1, 42, 7),
+(5420, '', 'a', '_', 1, 42, 8),
+(5421, '', 'a', '_', 1, 42, 9),
+(5422, '', 'a', '_', 1, 42, 10),
+(5423, '', 'a', '_', 1, 42, 11),
+(5424, '', 'a', '_', 1, 42, 12),
 (5425, '', 'a', '_', 117, 42, 13),
 (5426, '', 'a', '_', 117, 42, 14),
 (5427, '', 'a', '_', 117, 42, 15),
@@ -5987,14 +6002,14 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (5546, '', 'a', '_', 117, 43, 2),
 (5547, '', 'a', '_', 117, 43, 3),
 (5548, '', 'a', '_', 117, 43, 4),
-(5549, '', 'a', '_', 117, 43, 5),
-(5550, '', 'a', '_', 117, 43, 6),
-(5551, '', 'a', '_', 117, 43, 7),
-(5552, '', 'a', '_', 117, 43, 8),
-(5553, '', 'a', '_', 117, 43, 9),
-(5554, '', 'a', '_', 117, 43, 10),
-(5555, '', 'a', '_', 117, 43, 11),
-(5556, '', 'a', '_', 117, 43, 12),
+(5549, '', 'a', '_', 1, 43, 5),
+(5550, '', 'c', '_', 120, 43, 6),
+(5551, '', 'b', '_', 120, 43, 7),
+(5552, '', 'b', '_', 1, 43, 8),
+(5553, '', 'a', '_', 95, 43, 9),
+(5554, '', 'b', '_', 95, 43, 10),
+(5555, '', 'c', '_', 95, 43, 11),
+(5556, '', 'a', '_', 95, 43, 12),
 (5557, '', 'a', '_', 117, 43, 13),
 (5558, '', 'a', '_', 117, 43, 14),
 (5559, '', 'a', '_', 117, 43, 15),
@@ -6532,12 +6547,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (6091, '', 'a', '_', 117, 47, 19),
 (6092, '', 'a', '_', 117, 47, 20),
 (6093, '', 'a', '_', 117, 47, 21),
-(6094, '', 'a', '_', 117, 47, 22);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(6094, '', 'a', '_', 117, 47, 22),
 (6095, '', 'a', '_', 117, 47, 23),
 (6096, '', 'a', '_', 117, 47, 24),
 (6097, '', 'a', '_', 117, 47, 25),
-(6098, '', 'a', '_', 117, 47, 26),
+(6098, '', 'a', '_', 117, 47, 26);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (6099, '', 'a', '_', 117, 47, 27),
 (6100, '', 'a', '_', 117, 47, 28),
 (6101, '', 'a', '_', 117, 47, 29),
@@ -8037,12 +8052,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (7595, '', 'a', '_', 117, 58, 71),
 (7596, '', 'a', '_', 117, 58, 72),
 (7597, '', 'a', '_', 117, 58, 73),
-(7598, '', 'a', '_', 117, 58, 74);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(7598, '', 'a', '_', 117, 58, 74),
 (7599, '', 'a', '_', 117, 58, 75),
 (7600, '', 'a', '_', 117, 58, 76),
 (7601, '', 'a', '_', 117, 58, 77),
-(7602, '', 'a', '_', 117, 58, 78),
+(7602, '', 'a', '_', 117, 58, 78);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (7603, '', 'a', '_', 117, 58, 79),
 (7604, '', 'a', '_', 117, 58, 80),
 (7605, '', 'a', '_', 117, 58, 81),
@@ -9541,12 +9556,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (9098, '', 'a', '_', 117, 69, 122),
 (9099, '', 'a', '_', 117, 69, 123),
 (9100, '', 'a', '_', 117, 69, 124),
-(9101, '', 'a', '_', 117, 69, 125);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(9101, '', 'a', '_', 117, 69, 125),
 (9102, '', 'a', '_', 117, 69, 126),
 (9103, '', 'a', '_', 117, 69, 127),
 (9104, '', 'a', '_', 117, 69, 128),
-(9105, '', 'a', '_', 117, 69, 129),
+(9105, '', 'a', '_', 117, 69, 129);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (9106, '', 'a', '_', 117, 69, 130),
 (9107, '', 'a', '_', 117, 69, 131),
 (9108, '', 'a', '_', 117, 69, 132),
@@ -11028,12 +11043,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (10584, '', 'a', '_', 117, 81, 24),
 (10585, '', 'a', '_', 117, 81, 25),
 (10586, '', 'a', '_', 117, 81, 26),
-(10587, '', 'a', '_', 117, 81, 27);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(10587, '', 'a', '_', 117, 81, 27),
 (10588, '', 'a', '_', 117, 81, 28),
 (10589, '', 'a', '_', 117, 81, 29),
 (10590, '', 'a', '_', 117, 81, 30),
-(10591, '', 'a', '_', 117, 81, 31),
+(10591, '', 'a', '_', 117, 81, 31);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (10592, '', 'a', '_', 117, 81, 32),
 (10593, '', 'a', '_', 117, 81, 33),
 (10594, '', 'a', '_', 117, 81, 34),
@@ -12489,12 +12504,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (12044, '', 'a', '_', 117, 92, 32),
 (12045, '', 'a', '_', 117, 92, 33),
 (12046, '', 'a', '_', 117, 92, 34),
-(12047, '', 'a', '_', 117, 92, 35);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(12047, '', 'a', '_', 117, 92, 35),
 (12048, '', 'a', '_', 117, 92, 36),
 (12049, '', 'a', '_', 117, 92, 37),
 (12050, '', 'a', '_', 117, 92, 38),
-(12051, '', 'a', '_', 117, 92, 39),
+(12051, '', 'a', '_', 117, 92, 39);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (12052, '', 'a', '_', 117, 92, 40),
 (12053, '', 'a', '_', 117, 92, 41),
 (12054, '', 'a', '_', 117, 92, 42),
@@ -13937,12 +13952,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (13491, '', 'a', '_', 117, 103, 27),
 (13492, '', 'a', '_', 117, 103, 28),
 (13493, '', 'a', '_', 117, 103, 29),
-(13494, '', 'a', '_', 117, 103, 30);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(13494, '', 'a', '_', 117, 103, 30),
 (13495, '', 'a', '_', 117, 103, 31),
 (13496, '', 'a', '_', 117, 103, 32),
 (13497, '', 'a', '_', 117, 103, 33),
-(13498, '', 'a', '_', 117, 103, 34),
+(13498, '', 'a', '_', 117, 103, 34);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (13499, '', 'a', '_', 117, 103, 35),
 (13500, '', 'a', '_', 117, 103, 36),
 (13501, '', 'a', '_', 117, 103, 37),
@@ -15356,12 +15371,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (14909, '', 'a', '_', 117, 113, 125),
 (14910, '', 'a', '_', 117, 113, 126),
 (14911, '', 'a', '_', 117, 113, 127),
-(14912, '', 'a', '_', 117, 113, 128);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(14912, '', 'a', '_', 117, 113, 128),
 (14913, '', 'a', '_', 117, 113, 129),
 (14914, '', 'a', '_', 117, 113, 130),
 (14915, '', 'a', '_', 117, 113, 131),
-(14916, '', 'a', '_', 117, 113, 132),
+(14916, '', 'a', '_', 117, 113, 132);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (14917, '', 'a', '_', 117, 114, 1),
 (14918, '', 'a', '_', 117, 114, 2),
 (14919, '', 'a', '_', 117, 114, 3),
@@ -16776,12 +16791,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (16328, '', 'a', '_', 117, 124, 92),
 (16329, '', 'a', '_', 117, 124, 93),
 (16330, '', 'a', '_', 117, 124, 94),
-(16331, '', 'a', '_', 117, 124, 95);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(16331, '', 'a', '_', 117, 124, 95),
 (16332, '', 'a', '_', 117, 124, 96),
 (16333, '', 'a', '_', 117, 124, 97),
 (16334, '', 'a', '_', 117, 124, 98),
-(16335, '', 'a', '_', 117, 124, 99),
+(16335, '', 'a', '_', 117, 124, 99);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (16336, '', 'a', '_', 117, 124, 100),
 (16337, '', 'a', '_', 117, 124, 101),
 (16338, '', 'a', '_', 117, 124, 102),
@@ -18196,12 +18211,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (17747, '', 'a', '_', 117, 135, 59),
 (17748, '', 'a', '_', 117, 135, 60),
 (17749, '', 'a', '_', 117, 135, 61),
-(17750, '', 'a', '_', 117, 135, 62);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(17750, '', 'a', '_', 117, 135, 62),
 (17751, '', 'a', '_', 117, 135, 63),
 (17752, '', 'a', '_', 117, 135, 64),
 (17753, '', 'a', '_', 117, 135, 65),
-(17754, '', 'a', '_', 117, 135, 66),
+(17754, '', 'a', '_', 117, 135, 66);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (17755, '', 'a', '_', 117, 135, 67),
 (17756, '', 'a', '_', 117, 135, 68),
 (17757, '', 'a', '_', 117, 135, 69),
@@ -19615,12 +19630,12 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (19165, '', 'a', '_', 117, 146, 25),
 (19166, '', 'a', '_', 117, 146, 26),
 (19167, '', 'a', '_', 117, 146, 27),
-(19168, '', 'a', '_', 117, 146, 28);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(19168, '', 'a', '_', 117, 146, 28),
 (19169, '', 'a', '_', 117, 146, 29),
 (19170, '', 'a', '_', 117, 146, 30),
 (19171, '', 'a', '_', 117, 146, 31),
-(19172, '', 'a', '_', 117, 146, 32),
+(19172, '', 'a', '_', 117, 146, 32);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (19173, '', 'a', '_', 117, 146, 33),
 (19174, '', 'a', '_', 117, 146, 34),
 (19175, '', 'a', '_', 117, 146, 35),
@@ -21034,18 +21049,25 @@ INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) V
 (20583, '', 'a', '_', 117, 156, 123),
 (20584, '', 'a', '_', 117, 156, 124),
 (20585, '', 'a', '_', 117, 156, 125),
-(20586, '', 'a', '_', 117, 156, 126);
-INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
+(20586, '', 'a', '_', 117, 156, 126),
 (20587, '', 'a', '_', 117, 156, 127),
 (20588, '', 'a', '_', 117, 156, 128),
 (20589, '', 'a', '_', 117, 156, 129),
-(20590, '', 'a', '_', 117, 156, 130),
+(20590, '', 'a', '_', 117, 156, 130);
+INSERT INTO `world` (`id`, `tileName`, `seed`, `flags`, `terrainId`, `x`, `y`) VALUES
 (20591, '', 'a', '_', 117, 156, 131),
 (20592, '', 'a', '_', 117, 156, 132);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bataillons`
+--
+ALTER TABLE `bataillons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- Indexes for table `players`
@@ -21057,16 +21079,9 @@ ALTER TABLE `players`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `pop`
+-- Indexes for table `ressources`
 --
-ALTER TABLE `pop`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Indexes for table `resources`
---
-ALTER TABLE `resources`
+ALTER TABLE `ressources`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `name` (`name`);
@@ -21108,25 +21123,25 @@ ALTER TABLE `world`
 --
 
 --
+-- AUTO_INCREMENT for table `bataillons`
+--
+ALTER TABLE `bataillons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+--
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `pop`
+-- AUTO_INCREMENT for table `ressources`
 --
-ALTER TABLE `pop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
---
--- AUTO_INCREMENT for table `resources`
---
-ALTER TABLE `resources`
-  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+ALTER TABLE `ressources`
+  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `terrains`
 --
 ALTER TABLE `terrains`
-  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 --
 -- AUTO_INCREMENT for table `tracks`
 --

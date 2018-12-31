@@ -18,6 +18,7 @@ let ter = [];
 let players = [];
 let unitTypes = [];
 let tracks = [];
+let ress = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -57,6 +58,12 @@ db.con.connect(function(error) {
         if (error) throw error;
         tracks = JSON.parse(JSON.stringify(result));
         console.log('tracks loaded');
+    });
+    sql = "SELECT * FROM ressources";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        ress = JSON.parse(JSON.stringify(result));
+        console.log('resources loaded');
     });
 });
 
@@ -105,6 +112,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         // socket.emit('terload', ter);
         populatePop();
         socket.emit('popload', pop);
+        improveRess();
+        socket.emit('ressload', ress);
     });
 
     function populatePop() {
@@ -121,6 +130,28 @@ io.sockets.on('connection', function (socket, pseudo) {
             });
         });
         // console.log(pop);
+    };
+    function improveRess() {
+        let resIndex = 0;
+        let resCostIndex = 0;
+        let resCost = 0;
+        ress.forEach(function(ressource) {
+            resIndex = ress.findIndex((obj => obj.id == ressource.id));
+            // console.log(ressource.name);
+            if (ressource.costRes != '') {
+                resCostIndex = ress.findIndex((obj => obj.name == ressource.costRes));
+                if (ressource.costNum == 0) {
+                    resCost = Math.round(ress[resCostIndex].price/10);
+                } else {
+                    resCost = ressource.costNum*ress[resCostIndex].price;
+                }
+                ress[resIndex].profit = ressource.price-resCost;
+            } else {
+                ress[resIndex].profit = ressource.price;
+            }
+            ress[resIndex].enkval = Math.round(10*ressource.price/ressource.enk);
+        });
+        console.log(ress);
     };
 
     // SINGLE PROPERTY POP CHANGE

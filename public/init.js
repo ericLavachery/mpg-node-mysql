@@ -5,6 +5,7 @@ let yOffset = 0;
 let pop = [];
 let world = [];
 let ter = [];
+let ress = [];
 let unhiddenTiles = [];
 let perso = {};
 let mygroups = [];
@@ -212,3 +213,8 @@ function loadGroups(wpop) {
         }
     });
 };
+
+// Ressources
+socket.on('ressload', function(ressources) {
+    ress = ressources;
+});
