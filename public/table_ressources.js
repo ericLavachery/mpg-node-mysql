@@ -19,19 +19,33 @@ function ressourcesTable(sortField) {
         $('#ressTable').append('<tr'+trClass+'><td class="name">'+ressource.name+' &nbsp;</td><td class="road">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense">'+ressource.costNum+' '+ressource.costRes+'</td></tr>');
     });
 };
-function resOnTerTable(sortField) {
-    $('#ressTerTable').empty().append('<tr id="ressTitres"><td class="colTitle klik" onclick="resOnTerTable(`name`)">Terrain</td></tr>');
+function resOnTerRowTitle(num) {
+    $('#ressTerTable').append('<tr id="ressTitres'+num+'"><td class="colTitle klik" onclick="resOnTerTable(`name`)">Terrain</td></tr>');
     let recoltRess = _.filter(ress, function(ressource) {
         return (ressource.costRes == '');
     });
     let sortedRess = _.sortBy(_.sortBy(recoltRess,'name'),'price');
     sortedRess.forEach(function(ressource) {
-        $('#ressTitres').append('<td class="colTitle klik" onclick="resqChange('+ressource.id+')">&nbsp;'+ressource.name+'&nbsp;</td>');
+        $('#ressTitres'+num).append('<td class="colTitle klik" onclick="resqLoopChange('+ressource.id+')">&nbsp;'+ressource.name+'&nbsp;</td>');
     });
+};
+function resOnTerTable(sortField) {
+    let numTitle = 1;
+    $('#ressTerTable').empty();
+    resOnTerRowTitle(numTitle);
+    // $('#ressTerTable').empty().append('<tr id="ressTitres"><td class="colTitle klik" onclick="resOnTerTable(`name`)">Terrain</td></tr>');
+    // let recoltRess = _.filter(ress, function(ressource) {
+    //     return (ressource.costRes == '');
+    // });
+    // let sortedRess = _.sortBy(_.sortBy(recoltRess,'name'),'price');
+    // sortedRess.forEach(function(ressource) {
+    //     $('#ressTitres').append('<td class="colTitle klik" onclick="resqLoopChange('+ressource.id+')">&nbsp;'+ressource.name+'&nbsp;</td>');
+    // });
     let trClass ='';
     let rowId ='bio0';
     let lastBiome = {};
     let numRes = '';
+    let rowTitleCount = 0;
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),sortField);
     sortedTer.forEach(function(biome) {
         if (!biome.name.includes('non vu') && biome.name != 'rien') {
@@ -45,26 +59,79 @@ function resOnTerTable(sortField) {
             $('#ressTerTable').append('<tr'+trClass+' id="bio'+biome.id+'"><td class="name">'+biome.name+' &nbsp;</td></tr>');
             lastBiome = biome;
             rowId ='#bio'+biome.id;
+            let recoltRess = _.filter(ress, function(ressource) {
+                return (ressource.costRes == '');
+            });
+            let sortedRess = _.sortBy(_.sortBy(recoltRess,'name'),'price');
             sortedRess.forEach(function(ressource) {
                 numRes = calcNumRes(ressource,lastBiome);
                 if (numRes == 0) {numRes = '';}
-                $(rowId).append('<td class="cover">&nbsp;'+numRes+'&nbsp;</td>');
+                $(rowId).append('<td class="cover klik" onclick="resqChange('+ressource.id+','+lastBiome.id+')">&nbsp;'+numRes+'&nbsp;</td>');
             });
+            rowTitleCount = rowTitleCount+1;
+            if (rowTitleCount == 31) {
+                rowTitleCount = 1;
+                numTitle = numTitle+1;
+                resOnTerRowTitle(numTitle);
+            }
         }
     });
 };
-function resqChange(ressId) {
+function resqChange(ressId,terId) {
+    let ressIndex = ress.findIndex((obj => obj.id == ressId));
+    let ressource = ress[ressIndex];
+    let terIndex = ter.findIndex((obj => obj.id == terId));
+    let biome = ter[terIndex];
+    resqSave(ressource,biome);
+    resOnTerTable('name');
+};
+function resqLoopChange(ressId) {
     let ressIndex = ress.findIndex((obj => obj.id == ressId));
     let ressource = ress[ressIndex];
     let pdval = '';
     let resq = '';
+    let terIndex = 0;
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),'name');
     sortedTer.forEach(function(biome) {
         if (biome.name != 'rien') {
-            pdval = resqFind(ressource,biome);
-            resq = prompt(ressource.name+' : '+biome.name, pdval);
+            resqSave(ressource,biome);
         }
     });
+    resOnTerTable('name');
+};
+function resqSave(ressource,biome) {
+    terIndex = ter.findIndex((obj => obj.id == biome.id));
+    let pdval = resqFind(ressource,biome);
+    let resq = prompt(ressource.name+' : '+biome.name, pdval);
+    ter[terIndex].resq1 = ter[terIndex].resq1.replace(ressource.name+'_','');
+    ter[terIndex].resq2 = ter[terIndex].resq2.replace(ressource.name+'_','');
+    ter[terIndex].resq3 = ter[terIndex].resq3.replace(ressource.name+'_','');
+    ter[terIndex].resq4 = ter[terIndex].resq4.replace(ressource.name+'_','');
+    ter[terIndex].resq5 = ter[terIndex].resq5.replace(ressource.name+'_','');
+    switch (resq) {
+        case '1':
+            ter[terIndex].resq1 = ter[terIndex].resq1+ressource.name+'_';
+            break;
+        case '2':
+            ter[terIndex].resq2 = ter[terIndex].resq2+ressource.name+'_';
+            break;
+        case '3':
+            ter[terIndex].resq3 = ter[terIndex].resq3+ressource.name+'_';
+            break;
+        case '4':
+            ter[terIndex].resq4 = ter[terIndex].resq4+ressource.name+'_';
+            break;
+        case '5':
+            ter[terIndex].resq5 = ter[terIndex].resq5+ressource.name+'_';
+            break;
+    }
+    if (resq != pdval) {
+        emitSingleTerChange(biome.id,'resq1',ter[terIndex].resq1);
+        emitSingleTerChange(biome.id,'resq2',ter[terIndex].resq2);
+        emitSingleTerChange(biome.id,'resq3',ter[terIndex].resq3);
+        emitSingleTerChange(biome.id,'resq4',ter[terIndex].resq4);
+        emitSingleTerChange(biome.id,'resq5',ter[terIndex].resq5);
+    }
 };
 function resqFind(ressource,biome) {
     let resq = 0;

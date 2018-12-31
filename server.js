@@ -186,6 +186,20 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('single_world_changed', data);
     });
 
+    // SINGLE PROPERTY TER CHANGE
+    socket.on('single_ter_change', function(data) {
+        // change ter
+        let prop = data.prop;
+        let objIndex = ter.findIndex((obj => obj.id == data.id));
+        ter[objIndex].prop = data.value;
+        // change db
+        let sql = "UPDATE terrains SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            // console.log('single ter changed');
+        });
+    });
+
     // SINGLE PROPERTY TRACKS CHANGE
     socket.on('single_tracks_change', function(data) {
         // change db

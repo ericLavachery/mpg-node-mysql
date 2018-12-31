@@ -61,6 +61,9 @@ function emitSingleWorldChange(id,prop,value) {
 function emitSingleTracksChange(id,prop,value) {
     socket.emit('single_tracks_change', {id: id, prop: prop, value: value});
 };
+function emitSingleTerChange(id,prop,value) {
+    socket.emit('single_ter_change', {id: id, prop: prop, value: value});
+};
 function emitPlayersChange(perso) {
     socket.emit('player_change', perso);
 };
