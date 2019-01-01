@@ -5,6 +5,7 @@ let vegetAdjSp = 20;
 let escarpAdjSp = 20;
 let innondAdjSp = 20;
 let iconSize = 12;
+let terSortField = 'name';
 $("#moves").hide();
 $("#ressources").hide();
 socket.on('terload', function(wter) {

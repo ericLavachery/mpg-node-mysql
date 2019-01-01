@@ -30,17 +30,10 @@ function resOnTerRowTitle(num) {
     });
 };
 function resOnTerTable(sortField) {
+    terSortField = sortField;
     let numTitle = 1;
     $('#ressTerTable').empty();
     resOnTerRowTitle(numTitle);
-    // $('#ressTerTable').empty().append('<tr id="ressTitres"><td class="colTitle klik" onclick="resOnTerTable(`name`)">Terrain</td></tr>');
-    // let recoltRess = _.filter(ress, function(ressource) {
-    //     return (ressource.costRes == '');
-    // });
-    // let sortedRess = _.sortBy(_.sortBy(recoltRess,'name'),'price');
-    // sortedRess.forEach(function(ressource) {
-    //     $('#ressTitres').append('<td class="colTitle klik" onclick="resqLoopChange('+ressource.id+')">&nbsp;'+ressource.name+'&nbsp;</td>');
-    // });
     let trClass ='';
     let rowId ='bio0';
     let lastBiome = {};
@@ -56,7 +49,7 @@ function resOnTerTable(sortField) {
             } else {
                 trClass = '';
             }
-            $('#ressTerTable').append('<tr'+trClass+' id="bio'+biome.id+'"><td class="name">'+biome.name+' &nbsp;</td></tr>');
+            $('#ressTerTable').append('<tr'+trClass+' id="bio'+biome.id+'"><td class="name tooltip klik">'+biome.name+' &nbsp;<span><img src="/static/img/wtiles/'+biome.icon+'.png"></span></td></tr>');
             lastBiome = biome;
             rowId ='#bio'+biome.id;
             let recoltRess = _.filter(ress, function(ressource) {
@@ -83,7 +76,7 @@ function resqChange(ressId,terId) {
     let terIndex = ter.findIndex((obj => obj.id == terId));
     let biome = ter[terIndex];
     resqSave(ressource,biome);
-    resOnTerTable('name');
+    resOnTerTable(terSortField);
 };
 function resqLoopChange(ressId) {
     let ressIndex = ress.findIndex((obj => obj.id == ressId));
@@ -97,7 +90,7 @@ function resqLoopChange(ressId) {
             resqSave(ressource,biome);
         }
     });
-    resOnTerTable('name');
+    resOnTerTable(terSortField);
 };
 function resqSave(ressource,biome) {
     terIndex = ter.findIndex((obj => obj.id == biome.id));
