@@ -86,8 +86,19 @@ function showTileUnitList(tileId) {
     }
 };
 function unitTooltip(unitId) {
-    let dossier = 'icon-player'
-    let ttip = '<span><img src="/static/img/'+dossier+'/'+perso.pic+'.svg">'+perso.pseudo+'</span>'
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let unit = pop[unitIndex];
+    let dossier = 'icon-other';
+    if (unit.player == pseudo) {
+        dossier = 'icon-player';
+    }
+    let pic = 'def.svg';
+    let play = 'Inconnu';
+    if (perso.unitIdent.includes(unit.id) || perso.bldIdent.includes(unit.id) || unit.player == pseudo) {
+        pic = unit.pic;
+        play = unit.player;
+    }
+    let ttip = '<span><img src="/static/img/'+dossier+'/'+pic+'">'+play+'</span>'
     return ttip;
 };
 function uListSelected(unit,ownerShort,gfollow) {
