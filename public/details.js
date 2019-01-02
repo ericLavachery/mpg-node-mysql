@@ -162,6 +162,9 @@ function showTileInfos(tileId,linked,cssId) {
             renameLink = 'Renommer';
         }
         $(cssi).append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
+        if (ter[terrainIndex].illu != '') {
+            $(cssi).append('<span class="loupe infoBiome klik"><i class="fas fa-image"></i><span><img src="/static/img/biomes/'+ter[terrainIndex].illu+'.jpg" width="600"></span></span><br>');
+        }
     }
 };
 function toggleExpandTileDetail(tileId,linked) {
