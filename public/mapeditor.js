@@ -1,32 +1,40 @@
-$('#mapeditButton').click(mapeditMode);
-function mapeditMode() {
+$('#mapeditButton').click(toggleMapedit);
+function toggleMapedit() {
+    console.log('toggleMapedit');
     if (mode == 'mapedit') {
-        $("#sidebarInfos").show();
-        $("#sidebarCommand").show();
-        $("#sidebarMapEdit").hide();
-        inspectMode();
-        showMap(world);
-        showVisiblePop(world);
-        loadGroups(pop);
-        inspectMode();
+        backToInspectMode();
     } else {
-        mode = 'mapedit';
-        cursorSwitch('.','grid-item','pointer');
-        $('#mapeditButton').addClass('boutonVert');
-        $('#inspectButton').removeClass('boutonVert');
-        $('#gmoveButton').removeClass('boutonVert');
-        $('#smoveButton').removeClass('boutonVert');
-        $('#cadreMap').css("background-color", "#2f372a");
-        clearMovesLeft();
-        $("#sidebarInfos").hide();
-        $("#sidebarCommand").hide();
-        $("#sidebarMapEdit").show();
-        showMap(world);
-        tempSelector();
-        terrainTypesSelector();
-        areaSelector();
+        mapeditMode();
     }
     expTileDetail = true;
+};
+function mapeditMode() {
+    mode = 'mapedit';
+    cursorSwitch('.','grid-item','pointer');
+    $('#mapeditButton').addClass('boutonVert');
+    $('#inspectButton').removeClass('boutonVert');
+    $('#gmoveButton').removeClass('boutonVert');
+    $('#smoveButton').removeClass('boutonVert');
+    $('#cadreMap').css("background-color", "#2f372a");
+    clearMovesLeft();
+    $("#sidebarInfos").hide();
+    $("#sidebarCommand").hide();
+    $("#sidebarMapEdit").show();
+    showMap(world);
+    tempSelector();
+    terrainTypesSelector();
+    areaSelector();
+};
+function backToInspectMode() {
+    console.log('backToInspectMode');
+    $("#sidebarInfos").show();
+    $("#sidebarCommand").show();
+    $("#sidebarMapEdit").hide();
+    inspectMode();
+    showMap(world);
+    showVisiblePop(world);
+    loadGroups(pop);
+    inspectMode();
 };
 $('#viewUnitsButton').click(viewUnits);
 function viewUnits() {

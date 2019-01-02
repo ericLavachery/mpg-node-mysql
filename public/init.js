@@ -26,6 +26,19 @@ let exploMLfactor = 2.1; // explo move loss = moveCost*exploMLfactor
 let maxMoveCost = 240; // 180 default
 let baseMoveCost = 40; // moveCost is x baseMoveCost /30
 
+$(document).keypress(function(e) {
+    if (e.which == 32) {
+        toggleMode();
+    } else if (e.which == 53 || e.which == 233) {
+        gmoveMode();
+    } else if (e.which == 178) {
+        inspectMode();
+    } else if (e.which == 0 || e.which == 38) {
+        smoveMode();
+    }
+    // alert('You pressed '+e.which);
+});
+
 // Tracks
 socket.on('tracksload', function(tracks) {
     myTracks = tracks;

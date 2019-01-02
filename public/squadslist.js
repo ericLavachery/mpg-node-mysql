@@ -98,7 +98,8 @@ function unitTooltip(unitId) {
         pic = unit.pic;
         play = unit.player;
     }
-    let ttip = '<span><img src="/static/img/'+dossier+'/'+pic+'">'+play+'</span>'
+    let illu = unit.illu;
+    let ttip = '<span><img src="/static/img/'+dossier+'/'+pic+'" width="42"><br>'+play+'<img src="/static/img/units/'+illu+'" width="300"></span>'
     return ttip;
 };
 function uListSelected(unit,ownerShort,gfollow) {

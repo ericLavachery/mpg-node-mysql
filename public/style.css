@@ -379,36 +379,38 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
 }
 .tooltip
 {
-  text-decoration:none;
-  position:relative;
+    text-decoration:none;
+    position:relative;
 }
 .tooltip span
 {
-  display:none;
-  -moz-border-radius:6px;
-  -webkit-border-radius:6px;
-  border-radius:6px;
-  color:white;
-  background:#8e9f80;
+    display: none;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    color: white;
+    text-shadow: 1px black;
+    background: #8e9f80;
 }
 .tooltip span img
 {
-  float:left;
-  margin:0;
+    margin: 5px 0 0 0;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 .tooltip:hover span
 {
-  display:block;
-  position:absolute;
-  top:0;
-  left:0;
-  z-index:1000;
-  width:auto;
-  border:4px solid #3b7d3d;
-  min-width: 50px;
-  margin-top:-25px;
-  margin-left:120px;
-  overflow:hidden;
-  padding:4px;
-  text-align: center;
+    display: block;
+    position: fixed;
+    margin-top: 55px;
+    margin-left: 750px;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 300px;
+    border: 4px solid #3b7d3d;
+    overflow: hidden;
+    padding: 0 8px 8px 8px;
+    text-align: center;
 }
