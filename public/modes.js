@@ -1,6 +1,7 @@
 $('#gmoveButton').click(gmoveMode);
 function gmoveMode() {
     mode = 'g_move';
+    document.title = pseudo + ' - Group Move';
     $("#sidebarMapEdit").hide();
     $('#gmoveButton').addClass('boutonVert');
     $('#smoveButton').removeClass('boutonVert');
@@ -20,6 +21,7 @@ function gmoveMode() {
 $('#smoveButton').click(smoveMode);
 function smoveMode() {
     mode = 's_move';
+    document.title = pseudo + ' - Move';
     $("#sidebarMapEdit").hide();
     cursorSwitch('.','grid-item','stop');
     $('#smoveButton').addClass('boutonVert');
@@ -40,6 +42,7 @@ function smoveMode() {
 $('#inspectButton').click(inspectMode);
 function inspectMode() {
     mode = 'inspect';
+    document.title = pseudo + ' - Inspect';
     $("#sidebarMapEdit").hide();
     cursorSwitch('.','grid-item','insp');
     $('#inspectButton').addClass('boutonVert');

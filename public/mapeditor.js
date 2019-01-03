@@ -1,6 +1,5 @@
 $('#mapeditButton').click(toggleMapedit);
 function toggleMapedit() {
-    console.log('toggleMapedit');
     if (mode == 'mapedit') {
         backToInspectMode();
     } else {
@@ -10,6 +9,7 @@ function toggleMapedit() {
 };
 function mapeditMode() {
     mode = 'mapedit';
+    document.title = 'Map Editor';
     cursorSwitch('.','grid-item','pointer');
     $('#mapeditButton').addClass('boutonVert');
     $('#inspectButton').removeClass('boutonVert');
@@ -26,7 +26,6 @@ function mapeditMode() {
     areaSelector();
 };
 function backToInspectMode() {
-    console.log('backToInspectMode');
     $("#sidebarInfos").show();
     $("#sidebarCommand").show();
     $("#sidebarMapEdit").hide();

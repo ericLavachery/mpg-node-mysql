@@ -1,13 +1,13 @@
 function showRess() {
     $("#moves").hide();
     $("#ressources").show();
-    ressourcesTable('name');
+    ressourcesTable('cat');
     resOnTerTable('name');
 };
 function ressourcesTable(sortField) {
     let trClass ='';
     $('#ressTable').empty().append('<tr><td class="colTitle klik" onclick="ressourcesTable(`name`)">Ressource</td><td class="colTitle klik" onclick="ressourcesTable(`price`)">Prix</td><td class="colTitle klik" onclick="ressourcesTable(`profit`)">Profit</td><td class="colTitle klik" onclick="ressourcesTable(`enk`)">Enk</td><td class="colTitle klik" onclick="ressourcesTable(`enkval`)">Prix/Enk</td><td class="colTitle">Coût</td></tr>');
-    let sortedRess = _.sortBy(_.sortBy(ress,'name'),sortField);
+    let sortedRess = _.sortBy(_.sortBy(_.sortBy(ress,'name'),'cat'),sortField);
     sortedRess.forEach(function(ressource) {
         if (trClass == '') {
             trClass = ' class="greyRow"';
@@ -24,7 +24,7 @@ function resOnTerRowTitle(num) {
     let recoltRess = _.filter(ress, function(ressource) {
         return (ressource.costRes == '');
     });
-    let sortedRess = _.sortBy(_.sortBy(recoltRess,'name'),'price');
+    let sortedRess = _.sortBy(_.sortBy(_.sortBy(recoltRess,'name'),'price'),'cat');
     sortedRess.forEach(function(ressource) {
         $('#ressTitres'+num).append('<td class="colTitle klik" onclick="resqLoopChange('+ressource.id+')">&nbsp;'+ressource.name+'&nbsp;</td>');
     });
@@ -55,7 +55,7 @@ function resOnTerTable(sortField) {
             let recoltRess = _.filter(ress, function(ressource) {
                 return (ressource.costRes == '');
             });
-            let sortedRess = _.sortBy(_.sortBy(recoltRess,'name'),'price');
+            let sortedRess = _.sortBy(_.sortBy(_.sortBy(recoltRess,'name'),'price'),'cat');
             sortedRess.forEach(function(ressource) {
                 numRes = calcNumRes(ressource,lastBiome);
                 if (numRes == 0) {numRes = '';}
