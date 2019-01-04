@@ -169,6 +169,7 @@ function terrainTypesSelector() {
             return (terrain.tempMin <= mapEditTemp && terrain.tempMax >= mapEditTemp);
         });
     }
+    let illupop = ''
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(filteredTer,'name'),'vegetation'),'escarpement'),'innondation'),'ordre');
     sortedTer.forEach(function(terrain) {
         if (!terrain.name.includes('non vu') && terrain.name != 'rien') {
@@ -177,7 +178,12 @@ function terrainTypesSelector() {
             } else {
                 terricon = 'def';
             }
-            $('#terrainTypes').append('<img class="terTypeButton" id="tt'+terrain.id+'" src="/static/img/wtiles/'+terricon+'.png" title="'+terrain.name+'" onclick="selectTerrainType('+terrain.id+')">');
+            if (terrain.illu != '') {
+                illupop = '<span><img src="/static/img/biomes/'+terrain.illu+'.jpg" width="600"></span>'
+            } else {
+                illupop = '';
+            }
+            $('#terrainTypes').append('<span class="infoBiome"><img class="terTypeButton" id="tt'+terrain.id+'" src="/static/img/wtiles/'+terricon+'.png" title="'+terrain.name+'" onclick="selectTerrainType('+terrain.id+')">'+illupop+'</span>');
         }
     });
 };
@@ -235,7 +241,7 @@ function showTerrainInfos(terrainId) {
     let terrainIndex = ter.findIndex((obj => obj.id == terrainId));
     let linkH = 'h4'
     // TYPE TERRAIN
-    $('#terrainDetails').append('<span class="blockTitle"><'+linkH+'>'+terName(ter[terrainIndex].name)+'</'+linkH+'></span>');
+    $('#terrainDetails').append('<span class="blockTitle infoMapEdit"><'+linkH+'>'+terName(ter[terrainIndex].name)+'</'+linkH+'></span>');
     // Terrain SPEC
     let spec = terSpec(ter[terrainIndex].name);
     if (spec != '') {
