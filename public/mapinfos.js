@@ -106,6 +106,7 @@ function showUnitMovesLeft(tileId,unitId) {
     let movesLeft = move-fatigue;
     let movesLeftAfter = 0;
     let moveCost = 999;
+    let noDiagMoveCost = 999;
     let titleString = '';
     let moveOK = true;
     world.forEach(function(tile) {
@@ -115,9 +116,10 @@ function showUnitMovesLeft(tileId,unitId) {
                 if (tile.y == myTileY && tile.x == myTileX) {
                     moveCost = 0;
                 } else {
-                    moveCost = calcMoveCost(tile.id,unitId,false);
+                    moveCost = calcMoveCost(tile.id,unitId,false,true);
+                    noDiagMoveCost = calcMoveCost(tile.id,unitId,false,false);
                 }
-                if (moveCost > maxMoveCost || movesLeft < 1 || move <= 0 || pop[unitIndex].onTrack >=1) {
+                if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0 || pop[unitIndex].onTrack >=1) {
                     moveOK = false;
                 } else {
                     moveOK = true;
@@ -143,6 +145,7 @@ function showGroupMovesLeft(tileId,popToMove) {
     let movesLeft = 0;
     let movesLeftAfter = 0;
     let moveCost = 999;
+    let noDiagMoveCost = 999;
     let worstML = 999;
     let titleString = '';
     let moveOK = true;
@@ -162,8 +165,9 @@ function showGroupMovesLeft(tileId,popToMove) {
                             fatigue = pop[unitIndex].fatigue;
                             if (fatigue < 0) {fatigue = 0;};
                             movesLeft = move-fatigue;
-                            moveCost = calcMoveCost(tile.id,unit.id,false);
-                            if (moveCost > maxMoveCost || movesLeft < 1 || move <= 0 || unit.onTrack >=1) {
+                            moveCost = calcMoveCost(tile.id,unit.id,false,true);
+                            noDiagMoveCost = calcMoveCost(tile.id,unit.id,false,false);
+                            if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0 || unit.onTrack >=1) {
                                 moveOK = false;
                             }
                             movesLeftAfter = movesLeft-moveCost;

@@ -26,7 +26,7 @@ function explore(free) {
                         bestDetect = unit.detection;
                     }
                     // moveLoss en fonction du moveCost, si trop élevé, réduit numDetectUnits!
-                    uMoveLoss = calcMoveCost(unit.tileId,unit.id,true)*exploMLfactor;
+                    uMoveLoss = calcMoveCost(unit.tileId,unit.id,true,false)*exploMLfactor;
                     if (uMoveLoss > unit.move*3) {
                         uMoveLoss = unit.move*3;
                         numDetectUnits = numDetectUnits - Math.round(unit.number/3);
@@ -46,7 +46,7 @@ function explore(free) {
             numDetectUnits = selectedUnit.number;
             groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
             // moveLoss en fonction du moveCost, si trop élevé, réduit numDetectUnits!
-            uMoveLoss = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true)*exploMLfactor;
+            uMoveLoss = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true,false)*exploMLfactor;
             if (uMoveLoss > selectedUnit.move*3) {
                 uMoveLoss = selectedUnit.move*3;
                 numDetectUnits = numDetectUnits - Math.round(selectedUnit.number/3);
@@ -369,7 +369,7 @@ function cartography() {
 };
 function cartoMoveLoss() {
     let ml = 110;
-    let moveCost = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true);
+    let moveCost = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true,false);
     ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*10000/selectedUnit.detection);
     if (selectedUnit.skills.includes('carto_')) {
         ml = Math.round(ml/16);

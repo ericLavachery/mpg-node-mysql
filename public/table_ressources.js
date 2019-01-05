@@ -41,7 +41,7 @@ function resOnTerTable(sortField) {
     let rowTitleCount = 0;
     let sortedTer = _.sortBy(_.sortBy(_.sortBy(_.sortBy(_.sortBy(ter,'name'),'vegetation'),'escarpement'),'innondation'),sortField);
     sortedTer.forEach(function(biome) {
-        if (!biome.name.includes('non vu') && biome.name != 'rien') {
+        if (biome.name != 'rien') {
             if (trClass == '') {
                 trClass = ' class="greyRow"';
             } else if (trClass == ' class="greyRow"') {

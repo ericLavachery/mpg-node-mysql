@@ -38,14 +38,16 @@ function moveGroup(targetTileId) {
     // check if all units can move
     let moveOK = true;
     let moveCost = 0;
+    let noDiagMoveCost = 0;
     let fatigue = 0;
     let movesLeft = 0;
     popToMove.forEach(function(unit) {
         // move the whole group only if not null
         if (unit.follow !== null || unit.id == selectedUnit.id) {
-            moveCost = calcMoveCost(targetTileId,unit.id,false);
+            moveCost = calcMoveCost(targetTileId,unit.id,false,true);
+            noDiagMoveCost = calcMoveCost(targetTileId,unit.id,false,false);
             movesLeft = unit.move - unit.fatigue;
-            if (moveCost > maxMoveCost || movesLeft < 1) {
+            if (noDiagMoveCost > maxMoveCost || movesLeft < 1) {
                 moveOK = false;
             }
         }
@@ -59,7 +61,7 @@ function moveGroup(targetTileId) {
         popToMove.forEach(function(unit) {
             // move the whole group only if not null
             if (unit.follow !== null || unit.id == selectedUnit.id) {
-                moveCost = calcMoveCost(targetTileId,unit.id,false);
+                moveCost = calcMoveCost(targetTileId,unit.id,false,true);
                 fatigue = unit.fatigue + about(moveCost,10);
                 movesLeft = unit.move - fatigue;
                 // change infos dans pop
@@ -98,6 +100,7 @@ function moveUnit(targetTileId) {
     let tileIndex = world.findIndex((obj => obj.id == targetTileId));
     let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let moveCost = ter[terrainIndex].moveCost;
+    let noDiagMoveCost = ter[terrainIndex].moveCost;
     // unit move cost
     let unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
     let move = pop[unitIndex].move;
@@ -107,9 +110,10 @@ function moveUnit(targetTileId) {
         fatigue = 0;
     };
     let movesLeft = move-fatigue;
-    moveCost = calcMoveCost(targetTileId,selectedUnit.id,false);
+    moveCost = calcMoveCost(targetTileId,selectedUnit.id,false,true);
+    noDiagMoveCost = calcMoveCost(targetTileId,selectedUnit.id,false,false);
     // console.log(moveCost);
-    if (maxMoveCost >= moveCost || movesLeft < 1) {
+    if (maxMoveCost >= noDiagMoveCost || movesLeft < 1) {
         fatigue = fatigue + about(moveCost,15);
         movesLeft = move-fatigue;
         // clear old tile
@@ -314,7 +318,7 @@ function calcEscarpMoveAdj(escarpement) {
 function calcInnondMoveAdj(innondation) {
     return innondation*2;
 };
-function calcMoveCost(targetTileId,unitId,explo) {
+function calcMoveCost(targetTileId,unitId,explo,countdiag) {
     // xxxxxxxxxx AMPHIBIENS ????
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let oldTileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
@@ -369,7 +373,7 @@ function calcMoveCost(targetTileId,unitId,explo) {
         if (moveCost >= 31) {
             moveCost = Math.round(((moveCost-30)*moveAdj/100)+30);
         }
-        if (isDiag(unitTileId,targetTileId)) {
+        if (isDiag(unitTileId,targetTileId) && countdiag) {
             moveCost = Math.round(moveCost*1414/1000);
         }
     } else {
