@@ -22,23 +22,26 @@ function visibleUnitsOnTile(tileId) {
         }
         if (unit.player === pseudo) {
             vuHere.numPlayer = vuHere.numPlayer+unit.number;
-            if (uvp == 'wrk' && unit.cat == 'wrk') {
+            if (uvp == 'res' && unit.cat == 'res') {
                 vuHere.catPlayer = 1;
                 prioStop = true;
-            } else if (uvp == 'spy' && unit.cat == 'spy') {
+            } else if (uvp == 'wrk' && unit.cat == 'wrk') {
                 vuHere.catPlayer = 2;
                 prioStop = true;
-            } else if (uvp == 'bsp' && unit.cat == 'bsp') {
-                vuHere.catPlayer = 5;
-                prioStop = true;
-            } else if (uvp == 'shp' && unit.cat == 'shp') {
-                vuHere.catPlayer = 4;
-                prioStop = true;
-            } else if (uvp == 'sld' && unit.cat == 'sld') {
+            } else if (uvp == 'spy' && unit.cat == 'spy') {
                 vuHere.catPlayer = 3;
                 prioStop = true;
-            } else if (uvp == 'bld' && unit.cat == 'bld') {
+            } else if (uvp == 'bsp' && unit.cat == 'bsp') {
                 vuHere.catPlayer = 6;
+                prioStop = true;
+            } else if (uvp == 'shp' && unit.cat == 'shp') {
+                vuHere.catPlayer = 5;
+                prioStop = true;
+            } else if (uvp == 'sld' && unit.cat == 'sld') {
+                vuHere.catPlayer = 4;
+                prioStop = true;
+            } else if (uvp == 'bld' && unit.cat == 'bld') {
+                vuHere.catPlayer = 7;
                 prioStop = true;
             } else if (!prioStop) {
                 if (catToPriority(unit.cat) > vuHere.catPlayer) {
@@ -170,36 +173,39 @@ function showTileBar(tileId,vuHere) {
 function catToPriority(cat) {
     switch (cat)
     {
-        case 'wrk': return 1;
-        case 'spy': return 2;
-        case 'sld': return 3;
-        case 'shp': return 4;
-        case 'bsp': return 5;
-        case 'bld': return 6;
+        case 'res': return 1;
+        case 'wrk': return 2;
+        case 'spy': return 3;
+        case 'sld': return 4;
+        case 'shp': return 5;
+        case 'bsp': return 6;
+        case 'bld': return 7;
         default: return 0;
     }
 };
 function priorityToCat(prio) {
     switch (prio)
     {
-        case 1: return 'wrk';
-        case 2: return 'spy';
-        case 3: return 'sld';
-        case 4: return 'shp';
-        case 5: return 'bsp';
-        case 6: return 'bld';
+        case 1: return 'res';
+        case 2: return 'wrk';
+        case 3: return 'spy';
+        case 4: return 'sld';
+        case 5: return 'shp';
+        case 6: return 'bsp';
+        case 7: return 'bld';
         default: return '';
     }
 };
 function priorityToIcon(prio) {
     switch (prio)
     {
-        case 1: return 'wrk';
-        case 2: return 'spy';
-        case 3: return 'sld';
-        case 4: return 'shp';
-        case 5: return 'bld';
+        case 1: return 'res';
+        case 2: return 'wrk';
+        case 3: return 'spy';
+        case 4: return 'sld';
+        case 5: return 'shp';
         case 6: return 'bld';
+        case 7: return 'bld';
         case 9: return 'army';
         default: return '';
     }
@@ -213,6 +219,7 @@ function catPriorityChange(cat) {
         uvp = cat;
     }
     showVisiblePop(world);
+    $('#res-button').attr("src","/static/img/cat-player/res.png");
     $('#wrk-button').attr("src","/static/img/cat-player/wrk.png");
     $('#spy-button').attr("src","/static/img/cat-player/spy.png");
     $('#bsp-button').attr("src","/static/img/cat-player/bsp.png");

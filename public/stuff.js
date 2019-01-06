@@ -11,7 +11,7 @@ function xType(unitId) {
     if (pop[unitIndex].number == 1) {
         correctType = pop[unitIndex].typeSing;
     }
-    return correctType;
+    return capitalizeFirstLetter(correctType);
 };
 function terName(name) {
     if (name.includes('(') && name.includes(')')) {

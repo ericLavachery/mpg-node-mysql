@@ -99,7 +99,10 @@ function unitTooltip(unitId) {
         play = unit.player;
     }
     let illu = unit.illu;
-    let ttip = '<span><img src="/static/img/'+dossier+'/'+pic+'" width="42"><br>'+play+'<br><img src="/static/img/units/'+illu+'" width="300"></span>'
+    let ttip = '<span><img src="/static/img/'+dossier+'/'+pic+'" width="42"><br>'+play+'<br><img src="/static/img/units/'+illu+'" width="300"></span>';
+    if (illu == '') {
+        ttip = '';
+    }
     return ttip;
 };
 function uListSelected(unit,ownerShort,gfollow) {

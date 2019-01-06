@@ -13,4 +13,5 @@ socket.on('terload', function(wter) {
 });
 socket.on('ressload', function(ressources) {
     ress = ressources;
+    showRess();
 });
