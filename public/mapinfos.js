@@ -126,7 +126,7 @@ function showUnitMovesLeft(tileId,unitId) {
                 }
                 movesLeftAfter = movesLeft-moveCost;
                 if (perso.mapView.includes(tile.id)) {
-                    titleString = '#'+tile.id+' / '+Math.round(movesLeftAfter/10)+' moves left';
+                    titleString = selectedUnit.number+' '+xType(selectedUnit.id)+' ('+Math.round(movesLeftAfter/10)+' moves left) -> #'+tile.id;
                     $("#"+tile.id).attr("title", titleString);
                 }
                 adjacentTileInfos(tile.id,moveOK);
@@ -149,6 +149,10 @@ function showGroupMovesLeft(tileId,popToMove) {
     let worstML = 999;
     let titleString = '';
     let moveOK = true;
+    let totalTrans = 0;
+    let totalEnk = 0;
+    let bulk = 1;
+    let transUnits = [];
     world.forEach(function(tile) {
         worstML = 999;
         $("#"+tile.id).attr("title", "#"+tile.id);
@@ -158,28 +162,58 @@ function showGroupMovesLeft(tileId,popToMove) {
                 if (tile.y == myTileY && tile.x == myTileX) {
                     moveCost = 0;
                 } else {
+                    totalTrans = 0;
+                    totalEnk = 0;
+                    bulk = 1;
+                    transUnits = [];
                     popToMove.forEach(function(unit) {
                         if (unit.follow !== null || unit.id == selectedUnit.id) {
-                            unitIndex = pop.findIndex((obj => obj.id == unit.id));
-                            move = pop[unitIndex].move;
-                            fatigue = pop[unitIndex].fatigue;
+                            move = unit.move;
+                            fatigue = unit.fatigue;
                             if (fatigue < 0) {fatigue = 0;};
                             movesLeft = move-fatigue;
                             moveCost = calcMoveCost(tile.id,unit.id,false,true);
                             noDiagMoveCost = calcMoveCost(tile.id,unit.id,false,false);
-                            if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0 || unit.onTrack >=1) {
-                                moveOK = false;
-                            }
-                            movesLeftAfter = movesLeft-moveCost;
-                            if (movesLeftAfter < worstML) {
-                                worstML = movesLeftAfter;
+                            if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0) {
+                                totalEnk = totalEnk+(unit.enk*unit.number);
+                            } else {
+                                totalTrans = totalTrans+(unit.trans*unit.number);
+                                transUnits.push(unit.id);
                             }
                         }
                     });
+                    // check if immobilized units can be carried
+                    // check if units are bulked
+                    if (totalTrans >= totalEnk) {
+                        bulk = calcBulk(totalEnk,totalTrans);
+                    } else {
+                        moveOK = false;
+                    }
+                    if (moveOK) {
+                        popToMove.forEach(function(unit) {
+                            if (unit.follow !== null || unit.id == selectedUnit.id) {
+                                moveCost = calcMoveCost(tile.id,unit.id,false,true);
+                                if (unit.move > 0) {
+                                    if (transUnits.includes(unit.id)) {
+                                        fatigue = unit.fatigue + (moveCost*bulk);
+                                    } else {
+                                        fatigue = unit.fatigue + Math.round(unit.move/5);
+                                    }
+                                } else {
+                                    fatigue = 0;
+                                }
+                                movesLeftAfter = unit.move-fatigue;
+                                if (movesLeftAfter < worstML) {
+                                    worstML = movesLeftAfter;
+                                }
+                            }
+                        });
+                    }
                 }
                 if (perso.mapView.includes(tile.id)) {
                     if (moveCost >= 1) {
-                        titleString = '#'+tile.id+' / '+Math.round(worstML/10)+' moves left';
+                        // titleString = '#'+tile.id+' / '+Math.round(worstML/10)+' moves left (GROUPE)';
+                        titleString = 'GROUPE ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;
                     } else {
                         titleString = '#'+tile.id;
                     }

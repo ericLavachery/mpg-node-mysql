@@ -29,6 +29,17 @@ function moveHere(targetTileId) {
         }
     }
 };
+function calcBulk(totalEnk,totalTrans) {
+    if (totalTrans >= totalEnk) {
+        if (totalEnk > Math.round(totalTrans/10)) {
+            return (Math.round((totalEnk-Math.round(totalTrans/10))*20/totalTrans)/10)+1.2;
+        } else {
+            return 1;
+        }
+    } else {
+        return 4; // move impossible
+    }
+};
 function moveGroup(targetTileId) {
     oldTileId = selectedUnit.tileId;
     // units to be moved
@@ -36,22 +47,38 @@ function moveGroup(targetTileId) {
         return (unit.follow == selectedUnit.follow && unit.player === pseudo && unit.tileId == selectedUnit.tileId);
     });
     // check if all units can move
+    // check total enk (of units that cannot move) and total trans (of units that can move)
     let moveOK = true;
     let moveCost = 0;
     let noDiagMoveCost = 0;
     let fatigue = 0;
     let movesLeft = 0;
+    let totalTrans = 0;
+    let totalEnk = 0;
+    let bulk = 1;
+    let transUnits = [];
     popToMove.forEach(function(unit) {
         // move the whole group only if not null
         if (unit.follow !== null || unit.id == selectedUnit.id) {
             moveCost = calcMoveCost(targetTileId,unit.id,false,true);
             noDiagMoveCost = calcMoveCost(targetTileId,unit.id,false,false);
-            movesLeft = unit.move - unit.fatigue;
+            movesLeft = unit.move-unit.fatigue;
             if (noDiagMoveCost > maxMoveCost || movesLeft < 1) {
-                moveOK = false;
+                totalEnk = totalEnk+(unit.enk*unit.number);
+            } else {
+                totalTrans = totalTrans+(unit.trans*unit.number);
+                transUnits.push(unit.id);
             }
         }
     });
+    // check if immobilized units can be carried
+    // check if units are bulked
+    if (totalTrans >= totalEnk) {
+        bulk = calcBulk(totalEnk,totalTrans);
+        // console.log(bulk);
+    } else {
+        moveOK = false;
+    }
     // move all units
     let unitIndex = 0;
     if (moveOK) {
@@ -62,8 +89,17 @@ function moveGroup(targetTileId) {
             // move the whole group only if not null
             if (unit.follow !== null || unit.id == selectedUnit.id) {
                 moveCost = calcMoveCost(targetTileId,unit.id,false,true);
-                fatigue = unit.fatigue + about(moveCost,10);
-                movesLeft = unit.move - fatigue;
+                // fatigue réduite pour les unités portées!
+                if (unit.move > 0) {
+                    if (transUnits.includes(unit.id)) {
+                        fatigue = unit.fatigue + about(moveCost*bulk,10);
+                    } else {
+                        fatigue = unit.fatigue + about(Math.round(unit.move/5),10);
+                    }
+                } else {
+                    fatigue = 0;
+                }
+                movesLeft = unit.move-fatigue;
                 // change infos dans pop
                 unitIndex = pop.findIndex((obj => obj.id == unit.id));
                 pop[unitIndex].tileId = targetTileId;
