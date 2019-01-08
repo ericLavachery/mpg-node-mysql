@@ -109,13 +109,36 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('tracksload', myTracks);
         socket.emit('terload', ter);
         socket.emit('mapload', world);
-        // socket.emit('terload', ter);
+        correctPop();
         populatePop();
         socket.emit('popload', pop);
         improveRess();
         socket.emit('ressload', ress);
     });
 
+    function correctPop() {
+        // Change les valeurs de move et endurance dans la table bataillons si ces valeurs ont changé dans la table unitTypes 
+        let pIndex = 0;
+        let uIndex = 0;
+        pop.forEach(function(squad) {
+            pIndex = players.findIndex((obj => obj.pseudo == squad.player));
+            uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
+            if (squad.endurance != unitTypes[uIndex].endurance) {
+                let sql = "UPDATE bataillons SET endurance = '"+unitTypes[uIndex].endurance+"' WHERE id = "+squad.id;
+                db.con.query(sql, function (error, result) {
+                    if (error) throw error;
+                    console.log('change to '+squad.type+' : endurance');
+                });
+            }
+            if (squad.move != unitTypes[uIndex].move) {
+                let sql = "UPDATE bataillons SET move = '"+unitTypes[uIndex].move+"' WHERE id = "+squad.id;
+                db.con.query(sql, function (error, result) {
+                    if (error) throw error;
+                    console.log('change to '+squad.type+' : move');
+                });
+            }
+        });
+    };
     function populatePop() {
         let pIndex = 0;
         let uIndex = 0;
