@@ -206,6 +206,9 @@ function showVisiblePop(wmap) {
     wmap.forEach(function(tile) {
         drawTileDefaultUnit(tile.id)
     });
+    if (selectedUnit.id >= 1) {
+        selectUnit(selectedUnit.id);
+    }
 };
 // infos groupes
 function loadGroups(wpop) {

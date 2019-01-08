@@ -60,10 +60,8 @@ function inspectMode() {
 };
 function toggleMode() {
     if (mode == 'inspect') {
-        smoveMode();
-    } else if (mode == 's_move') {
         gmoveMode();
-    } else if (mode == 'g_move') {
+    } else {
         inspectMode();
     }
 };

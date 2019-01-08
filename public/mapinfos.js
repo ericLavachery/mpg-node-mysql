@@ -220,7 +220,6 @@ function showGroupMovesLeft(tileId,popToMove) {
                     $("#"+tile.id).attr("title", titleString);
                 }
                 adjacentTileInfos(tile.id,moveOK);
-                
             }
         }
     });
