@@ -32,12 +32,12 @@ function moveHere(targetTileId) {
 function calcBulk(totalEnk,totalTrans) {
     if (totalTrans >= totalEnk) {
         if (totalEnk > Math.round(totalTrans/10)) {
-            return (Math.round((totalEnk-Math.round(totalTrans/10))*20/totalTrans)/10)+1.2;
+            return (Math.round((totalEnk-Math.round(totalTrans/10))*20/totalTrans)/10)+1.1;
         } else {
             return 1;
         }
     } else {
-        return 4; // move impossible
+        return 9; // move impossible
     }
 };
 function moveGroup(targetTileId) {

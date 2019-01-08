@@ -211,8 +211,7 @@ function showGroupMovesLeft(tileId,popToMove) {
                     }
                 }
                 if (perso.mapView.includes(tile.id)) {
-                    if (moveCost >= 1) {
-                        // titleString = '#'+tile.id+' / '+Math.round(worstML/10)+' moves left (GROUPE)';
+                    if (moveOK) {
                         titleString = 'GROUPE ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;
                     } else {
                         titleString = '#'+tile.id;

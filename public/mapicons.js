@@ -1,5 +1,5 @@
 function visibleUnitsOnTile(tileId) {
-    let vuHere = {domLogin:'xxx',domUnitId:0,domPic:'ppp',numPlayer:0,numAllies:0,numEnemies:0,numOthers:0,catPlayer:0,catAllies:0,catEnemies:0,catOthers:0,numBld:0};
+    let vuHere = {domLogin:'xxx',domUnitId:0,domPic:'ppp',numPlayer:0,numAllies:0,numEnemies:0,numOthers:0,catPlayer:0,catAllies:0,catEnemies:0,catOthers:0,numBld:0,isMov:false};
     let auHere = {numAllies:0,numEnemies:0,numOthers:0,numBld:0};
     let tilePop = _.filter(pop, function(unit) {
         return (unit.tileId == tileId);
@@ -21,6 +21,9 @@ function visibleUnitsOnTile(tileId) {
             auHere.numBld = auHere.numBld+1;
         }
         if (unit.player === pseudo) {
+            if (unit.move > unit.fatigue && vuHere.isMov === false) {
+                vuHere.isMov = true;
+            }
             vuHere.numPlayer = vuHere.numPlayer+unit.number;
             if (uvp == 'res' && unit.cat == 'res') {
                 vuHere.catPlayer = 1;
@@ -144,6 +147,8 @@ function drawTileDefaultUnit(tileId) {
     let folder = 'icon-player';
     if (vuHere.domLogin != pseudo) {
         folder = 'icon-other';
+    } else if (vuHere.isMov === false) {
+        folder = 'icon-nomove';
     }
     if (vuHere.domLogin != 'xxx') {
         showUnit(vuHere.domUnitId, tileId, vuHere.domPic, folder);
