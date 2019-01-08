@@ -102,7 +102,9 @@ function showUnitMovesLeft(tileId,unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let move = pop[unitIndex].move;
     let fatigue = pop[unitIndex].fatigue;
-    if (fatigue < 0) {fatigue = 0;};
+    let endurance = pop[unitIndex].endurance;
+    if (fatigue+endurance < 0) {fatigue = 0-endurance;};
+    // if (fatigue < 0) {fatigue = 0;};
     let movesLeft = move-fatigue;
     let movesLeftAfter = 0;
     let moveCost = 999;
@@ -142,6 +144,7 @@ function showGroupMovesLeft(tileId,popToMove) {
     let unitIndex = 0;
     let move = 0;
     let fatigue = 0;
+    let endurance = 50;
     let movesLeft = 0;
     let movesLeftAfter = 0;
     let moveCost = 999;
@@ -170,7 +173,9 @@ function showGroupMovesLeft(tileId,popToMove) {
                         if (unit.follow !== null || unit.id == selectedUnit.id) {
                             move = unit.move;
                             fatigue = unit.fatigue;
-                            if (fatigue < 0) {fatigue = 0;};
+                            endurance = unit.endurance;
+                            if (fatigue+endurance < 0) {fatigue = 0-endurance;};
+                            // if (fatigue < 0) {fatigue = 0;};
                             movesLeft = move-fatigue;
                             moveCost = calcMoveCost(tile.id,unit.id,false,true);
                             noDiagMoveCost = calcMoveCost(tile.id,unit.id,false,false);

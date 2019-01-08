@@ -142,8 +142,9 @@ function moveUnit(targetTileId) {
     let move = pop[unitIndex].move;
     let moveAdj = pop[unitIndex].moveAdj;
     let fatigue = pop[unitIndex].fatigue;
-    if (fatigue < 0) {
-        fatigue = 0;
+    let endurance = pop[unitIndex].endurance;
+    if (fatigue-endurance < 0) {
+        fatigue = 0-endurance;
     };
     let movesLeft = move-fatigue;
     moveCost = calcMoveCost(targetTileId,selectedUnit.id,false,true);

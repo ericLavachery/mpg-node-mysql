@@ -347,21 +347,21 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change pop
         pop.forEach(function(unit) {
             if (unit.player === data.pseudo) {
-                if (unit.fatigue-unit.move >= 0) {
+                if (unit.fatigue+unit.endurance-unit.move >= 0) {
                     unit.fatigue = unit.fatigue-unit.move;
                 } else {
-                    unit.fatigue = 0;
+                    unit.fatigue = 0-unit.endurance;
                 }
             }
         });
         // récup = move
-        let sql = "UPDATE bataillons SET fatigue = fatigue-move WHERE player = '"+data.pseudo+"' AND fatigue >= 0";
+        let sql = "UPDATE bataillons SET fatigue = fatigue-move WHERE player = '"+data.pseudo+"' AND fatigue+endurance >= 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
         });
-        // fatigue non négative
-        sql = "UPDATE bataillons SET fatigue = 0 WHERE fatigue < 0";
+        // fatigue+endurance non négative
+        sql = "UPDATE bataillons SET fatigue = 0 WHERE fatigue+endurance < 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');

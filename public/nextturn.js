@@ -20,10 +20,10 @@ function nextTurn() {
     });
     ownPop.forEach(function(unit) {
         // récup fatigue
-        if (unit.fatigue-unit.move >= 0) {
+        if (unit.fatigue+unit.endurance-unit.move >= 0) {
             unit.fatigue = unit.fatigue-unit.move;
         } else {
-            unit.fatigue = 0;
+            unit.fatigue = 0-unit.endurance;
         }
         // note les tiles occupés
         if (!occupiedTiles.includes(unit.tileId)) {
