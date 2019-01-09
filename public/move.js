@@ -31,8 +31,9 @@ function moveHere(targetTileId) {
 };
 function calcBulk(totalEnk,totalTrans) {
     if (totalTrans >= totalEnk) {
-        if (totalEnk > Math.round(totalTrans/10)) {
-            return (Math.round((totalEnk-Math.round(totalTrans/10))*20/totalTrans)/10)+1.1;
+        if (totalEnk > totalTrans/10) {
+            let bulk = ((totalEnk-(totalTrans/10))*2/totalTrans)+1.1;
+            return Math.round(bulk*10)/10;
         } else {
             return 1;
         }

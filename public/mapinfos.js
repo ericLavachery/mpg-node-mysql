@@ -216,15 +216,15 @@ function showGroupMovesLeft(tileId,popToMove) {
                                 if (unit.move > 0) {
                                     if (transUnits.includes(unit.id)) {
                                         fatigue = unit.fatigue + (moveCost*bulk);
+                                        movesLeftAfter = unit.move-fatigue;
+                                        if (movesLeftAfter < worstML) {
+                                            worstML = movesLeftAfter;
+                                        }
                                     } else {
                                         fatigue = unit.fatigue + Math.round(unit.move/5);
                                     }
                                 } else {
                                     fatigue = 0;
-                                }
-                                movesLeftAfter = unit.move-fatigue;
-                                if (movesLeftAfter < worstML) {
-                                    worstML = movesLeftAfter;
                                 }
                             }
                         });
@@ -232,7 +232,11 @@ function showGroupMovesLeft(tileId,popToMove) {
                 }
                 if (perso.mapView.includes(tile.id)) {
                     if (moveOK) {
-                        titleString = 'GROUPE ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;
+                        if (bulk > 1) {
+                            titleString = 'GROUPE : encombrement '+bulk+' ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;
+                        } else {
+                            titleString = 'GROUPE ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;
+                        }
                     } else {
                         titleString = '#'+tile.id;
                     }
