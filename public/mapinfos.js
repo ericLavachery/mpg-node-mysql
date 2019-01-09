@@ -154,6 +154,8 @@ function showGroupMovesLeft(tileId,popToMove) {
     let moveOK = true;
     let totalTrans = 0;
     let totalEnk = 0;
+    let totalResCarg = 0;
+    let totalResEnk = 0;
     let bulk = 1;
     let transUnits = [];
     world.forEach(function(tile) {
@@ -167,6 +169,8 @@ function showGroupMovesLeft(tileId,popToMove) {
                 } else {
                     totalTrans = 0;
                     totalEnk = 0;
+                    totalResCarg = 0;
+                    totalResEnk = 0;
                     bulk = 1;
                     transUnits = [];
                     popToMove.forEach(function(unit) {
@@ -180,13 +184,24 @@ function showGroupMovesLeft(tileId,popToMove) {
                             moveCost = calcMoveCost(tile.id,unit.id,false,true);
                             noDiagMoveCost = calcMoveCost(tile.id,unit.id,false,false);
                             if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0) {
-                                totalEnk = totalEnk+(unit.enk*unit.number);
+                                if (unit.genre == 'coffre') {
+                                    totalEnk = totalEnk+(unit.enk*unit.number);
+                                    totalResCarg = totalResCarg+(unit.cargRes*unit.number);
+                                } else if (unit.genre == 'ressource') {
+                                    totalResEnk = totalResEnk+(unit.enk*unit.number);
+                                } else if (unit.genre == 'unité') {
+                                    totalEnk = totalEnk+(unit.enk*unit.number);
+                                }
                             } else {
                                 totalTrans = totalTrans+(unit.trans*unit.number);
                                 transUnits.push(unit.id);
                             }
                         }
                     });
+                    // add ressources enk if not enough place in barrels etc...
+                    if (totalResEnk > totalResCarg) {
+                        totalEnk = totalEnk+totalResEnk-totalResCarg;
+                    }
                     // check if immobilized units can be carried
                     // check if units are bulked
                     if (totalTrans >= totalEnk) {

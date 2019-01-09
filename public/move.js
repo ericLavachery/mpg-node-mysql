@@ -55,6 +55,8 @@ function moveGroup(targetTileId) {
     let movesLeft = 0;
     let totalTrans = 0;
     let totalEnk = 0;
+    let totalResCarg = 0;
+    let totalResEnk = 0;
     let bulk = 1;
     let transUnits = [];
     popToMove.forEach(function(unit) {
@@ -64,18 +66,28 @@ function moveGroup(targetTileId) {
             noDiagMoveCost = calcMoveCost(targetTileId,unit.id,false,false);
             movesLeft = unit.move-unit.fatigue;
             if (noDiagMoveCost > maxMoveCost || movesLeft < 1) {
-                totalEnk = totalEnk+(unit.enk*unit.number);
+                if (unit.genre == 'coffre') {
+                    totalEnk = totalEnk+(unit.enk*unit.number);
+                    totalResCarg = totalResCarg+(unit.cargRes*unit.number);
+                } else if (unit.genre == 'ressource') {
+                    totalResEnk = totalResEnk+(unit.enk*unit.number);
+                } else if (unit.genre == 'unité') {
+                    totalEnk = totalEnk+(unit.enk*unit.number);
+                }
             } else {
                 totalTrans = totalTrans+(unit.trans*unit.number);
                 transUnits.push(unit.id);
             }
         }
     });
+    // add ressources enk if not enough place in barrels etc...
+    if (totalResEnk > totalResCarg) {
+        totalEnk = totalEnk+totalResEnk-totalResCarg;
+    }
     // check if immobilized units can be carried
     // check if units are bulked
     if (totalTrans >= totalEnk) {
         bulk = calcBulk(totalEnk,totalTrans);
-        // console.log(bulk);
     } else {
         moveOK = false;
     }
@@ -143,7 +155,7 @@ function moveUnit(targetTileId) {
     let moveAdj = pop[unitIndex].moveAdj;
     let fatigue = pop[unitIndex].fatigue;
     let endurance = pop[unitIndex].endurance;
-    if (fatigue-endurance < 0) {
+    if (fatigue+endurance < 0) {
         fatigue = 0-endurance;
     };
     let movesLeft = move-fatigue;

@@ -12,7 +12,8 @@ function showTileUnitList(tileId) {
     let ownPopHere = _.filter(pop, function(unit) {
         return (unit.tileId == tileId && unit.player === pseudo);
     });
-    let sortedOwnPopHere = _.sortBy(_.sortBy(_.sortBy(ownPopHere,'id'),'type'),'follow');
+    let sortedOwnPopHere = _.sortBy(_.sortBy(_.sortBy(_.sortBy(ownPopHere,'id'),'type'),'genre'),'follow');
+    sortedOwnPopHere = sortedOwnPopHere.reverse();
     sortedOwnPopHere.forEach(function(unit) {
         squadsHere = squadsHere+1;
         ownerShort = unit.player.substring(0,4);
