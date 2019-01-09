@@ -22,7 +22,7 @@ let uvp = ''; // unit view priority
 let showTracks = false;
 let expSquadDetail = false;
 let expTileDetail = false;
-let exploMLfactor = 2.1; // explo move loss = moveCost*exploMLfactor
+let exploMLfactor = 1; // explo move loss = moveCost*exploMLfactor
 let maxMoveCost = 240; // 180 default
 let baseMoveCost = 40; // moveCost is x baseMoveCost /30
 let viewOutPerc = 0; // % qu'un tile soit perdu de vue en passant au jour suivant (defaut 5 / dev 0)

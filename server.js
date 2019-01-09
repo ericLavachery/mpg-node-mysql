@@ -182,7 +182,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change pop
         let prop = data.prop;
         let objIndex = pop.findIndex((obj => obj.id == data.id));
-        pop[objIndex].prop = data.value;
+        pop[objIndex][prop] = data.value;
         // change db
         let sql = "UPDATE bataillons SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
@@ -198,7 +198,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change world
         let prop = data.prop;
         let objIndex = world.findIndex((obj => obj.id == data.id));
-        world[objIndex].prop = data.value;
+        world[objIndex][prop] = data.value;
         // change db
         let sql = "UPDATE world SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
@@ -214,7 +214,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change ter
         let prop = data.prop;
         let objIndex = ter.findIndex((obj => obj.id == data.id));
-        ter[objIndex].prop = data.value;
+        ter[objIndex][prop] = data.value;
         // change db
         let sql = "UPDATE terrains SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
@@ -320,7 +320,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         delete newUnit.id;
         delete newUnit.pic;
         Object.keys(unitTypes[0]).forEach(function(key,index) {
-            if (key != 'id' && key != 'type' && key != 'move') {
+            if (key != 'id' && key != 'type' && key != 'move' && key != 'endurance') {
                 delete newUnit[key];
             }
         });

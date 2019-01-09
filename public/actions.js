@@ -27,9 +27,9 @@ function explore(free) {
                     }
                     // moveLoss en fonction du moveCost, si trop élevé, réduit numDetectUnits!
                     uMoveLoss = calcMoveCost(unit.tileId,unit.id,true,false)*exploMLfactor;
-                    if (uMoveLoss > unit.move*3) {
-                        uMoveLoss = unit.move*3;
-                        numDetectUnits = numDetectUnits - Math.round(unit.number/3);
+                    if (uMoveLoss > unit.move*(exploMLfactor+1)) {
+                        uMoveLoss = unit.move*(exploMLfactor+1);
+                        numDetectUnits = numDetectUnits - Math.round(unit.number/2);
                         if (numDetectUnits < 1) {
                             numDetectUnits = 1;
                         }
@@ -47,9 +47,9 @@ function explore(free) {
             groupDetection = Math.round(selectedUnit.detection*(selectedUnit.move+50)/120);
             // moveLoss en fonction du moveCost, si trop élevé, réduit numDetectUnits!
             uMoveLoss = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true,false)*exploMLfactor;
-            if (uMoveLoss > selectedUnit.move*3) {
-                uMoveLoss = selectedUnit.move*3;
-                numDetectUnits = numDetectUnits - Math.round(selectedUnit.number/3);
+            if (uMoveLoss > selectedUnit.move*(exploMLfactor+1)) {
+                uMoveLoss = selectedUnit.move*(exploMLfactor+1);
+                numDetectUnits = numDetectUnits - Math.round(selectedUnit.number/2);
                 if (numDetectUnits < 1) {
                     numDetectUnits = 1;
                 }

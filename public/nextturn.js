@@ -68,13 +68,13 @@ function nextTurn() {
     });
     showMap(world);
     showVisiblePop(world);
-    // if (selectedUnit.id >= 1) {
-    //     drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'icon-selected');
-    //     showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
-    //     showUnitInfos(selectedUnit.id);
-    //     showTileInfos(selectedUnit.tileId,true);
-    //     showTileUnitList(selectedUnit.tileId);
-    // };
+    if (selectedUnit.id >= 1) {
+        drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'icon-selected');
+        showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
+        showUnitInfos(selectedUnit.id);
+        showTileInfos(selectedUnit.tileId,true);
+        showTileUnitList(selectedUnit.tileId);
+    };
     socket.emit('next_turn', { pseudo: pseudo, turns: 1 });
     emitPlayersChange(perso);
 }

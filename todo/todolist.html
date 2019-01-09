@@ -22,7 +22,13 @@ WORLD MAP :
 
 <!-- 'move' n'est plus dans la table 'pop' -->
 <!-- Du coup il faut un système pour faire un upgrade du move dans POP quand il change dans UNITTYPES ! -->
-
+<!-- BUG SPLIT/EXPLORE !!!!!!!!!!
+OK : explication : emitSinglePopChange rajoutait un champ .prop dans pop (ok si remplacé par [prop])
+un bataillon qui a exploré ne peut plus être splitté!!!
+crash au moment du split
+mais semble pointer l'exploration (prop n'existe pas!)
+DONC emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
+(sans cette ligne ça ne crash pas) -->
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 squadlist.js => unitTooltip !!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
