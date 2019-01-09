@@ -189,7 +189,7 @@ function showGroupMovesLeft(tileId,popToMove) {
                                     totalResCarg = totalResCarg+(unit.cargRes*unit.number);
                                 } else if (unit.genre == 'ressource') {
                                     totalResEnk = totalResEnk+(unit.enk*unit.number);
-                                } else if (unit.genre == 'unité') {
+                                } else {
                                     totalEnk = totalEnk+(unit.enk*unit.number);
                                 }
                             } else {
