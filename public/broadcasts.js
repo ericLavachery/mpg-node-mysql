@@ -3,7 +3,7 @@ socket.on('single_pop_changed', function(data) {
     // change pop
     let prop = data.prop;
     let objIndex = pop.findIndex((obj => obj.id == data.id));
-    pop[objIndex].prop = data.value;
+    pop[objIndex][prop] = data.value;
 });
 
 // OPPONENT SINGLE WORLD CHANGE
@@ -11,7 +11,7 @@ socket.on('single_world_changed', function(data) {
     // change world
     let prop = data.prop;
     let objIndex = world.findIndex((obj => obj.id == data.id));
-    world[objIndex].prop = data.value;
+    world[objIndex][prop] = data.value;
 });
 
 // OPPONENT MOVES

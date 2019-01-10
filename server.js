@@ -177,6 +177,35 @@ io.sockets.on('connection', function (socket, pseudo) {
         // console.log(ress);
     };
 
+    // ANY SINGLE PROPERTY CHANGE
+    socket.on('single_pop_change', function(data) {
+        let prop = data.prop;
+        let table = data.table;
+        let arr = data.table;
+        switch (arr) {
+            case 'bataillons':
+            let objIndex = pop.findIndex((obj => obj.id == data.id));
+            pop[objIndex][prop] = data.value;
+            socket.broadcast.emit('single_pop_changed', data);
+            break;
+            case 'terrains':
+            let objIndex = ter.findIndex((obj => obj.id == data.id));
+            ter[objIndex][prop] = data.value;
+            break;
+            case 'world':
+            let objIndex = world.findIndex((obj => obj.id == data.id));
+            world[objIndex][prop] = data.value;
+            socket.broadcast.emit('single_world_changed', data);
+            break;
+        }
+        // change db
+        let sql = "UPDATE "+table+" SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        db.con.query(sql, function (error, result) {
+            if (error) throw error;
+            console.log('single table change');
+        });
+    });
+
     // SINGLE PROPERTY POP CHANGE
     socket.on('single_pop_change', function(data) {
         // change pop
