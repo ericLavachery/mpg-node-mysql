@@ -123,6 +123,13 @@ io.sockets.on('connection', function (socket, pseudo) {
         pop.forEach(function(squad) {
             pIndex = players.findIndex((obj => obj.pseudo == squad.player));
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
+            if (squad.type != unitTypes[uIndex].type) {
+                let sql = "UPDATE bataillons SET type = '"+unitTypes[uIndex].type+"' WHERE id = "+squad.id;
+                db.con.query(sql, function (error, result) {
+                    if (error) throw error;
+                    console.log('change to '+squad.type+' : type');
+                });
+            }
             if (squad.endurance != unitTypes[uIndex].endurance) {
                 let sql = "UPDATE bataillons SET endurance = '"+unitTypes[uIndex].endurance+"' WHERE id = "+squad.id;
                 db.con.query(sql, function (error, result) {
@@ -178,23 +185,23 @@ io.sockets.on('connection', function (socket, pseudo) {
     };
 
     // ANY SINGLE PROPERTY CHANGE
-    socket.on('single_pop_change', function(data) {
+    socket.on('single_any_change', function(data) {
         let prop = data.prop;
         let table = data.table;
         let arr = data.table;
         switch (arr) {
             case 'bataillons':
-            let objIndex = pop.findIndex((obj => obj.id == data.id));
-            pop[objIndex][prop] = data.value;
+            let unitIndex = pop.findIndex((obj => obj.id == data.id));
+            pop[unitIndex][prop] = data.value;
             socket.broadcast.emit('single_pop_changed', data);
             break;
             case 'terrains':
-            let objIndex = ter.findIndex((obj => obj.id == data.id));
-            ter[objIndex][prop] = data.value;
+            let terIndex = ter.findIndex((obj => obj.id == data.id));
+            ter[terIndex][prop] = data.value;
             break;
             case 'world':
-            let objIndex = world.findIndex((obj => obj.id == data.id));
-            world[objIndex][prop] = data.value;
+            let mapIndex = world.findIndex((obj => obj.id == data.id));
+            world[mapIndex][prop] = data.value;
             socket.broadcast.emit('single_world_changed', data);
             break;
         }

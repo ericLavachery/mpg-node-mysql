@@ -151,13 +151,11 @@ function showGroupMovesLeft(tileId,popToMove) {
     let noDiagMoveCost = 999;
     let worstML = 999;
     let titleString = '';
+    let groupMove = {};
     let moveOK = true;
-    let totalTrans = 0;
-    let totalEnk = 0;
-    let totalResCarg = 0;
-    let totalResEnk = 0;
     let bulk = 1;
     let transUnits = [];
+    let charUnits = [];
     world.forEach(function(tile) {
         worstML = 999;
         $("#"+tile.id).attr("title", "#"+tile.id);
@@ -167,55 +165,25 @@ function showGroupMovesLeft(tileId,popToMove) {
                 if (tile.y == myTileY && tile.x == myTileX) {
                     moveCost = 0;
                 } else {
-                    totalTrans = 0;
-                    totalEnk = 0;
-                    totalResCarg = 0;
-                    totalResEnk = 0;
-                    bulk = 1;
-                    transUnits = [];
-                    popToMove.forEach(function(unit) {
-                        if (unit.follow !== null || unit.id == selectedUnit.id) {
-                            move = unit.move;
-                            fatigue = unit.fatigue;
-                            endurance = unit.endurance;
-                            if (fatigue+endurance < 0) {fatigue = 0-endurance;};
-                            // if (fatigue < 0) {fatigue = 0;};
-                            movesLeft = move-fatigue;
-                            moveCost = calcMoveCost(tile.id,unit.id,false,true);
-                            noDiagMoveCost = calcMoveCost(tile.id,unit.id,false,false);
-                            if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0) {
-                                if (unit.genre == 'coffre') {
-                                    totalEnk = totalEnk+(unit.enk*unit.number);
-                                    totalResCarg = totalResCarg+(unit.cargRes*unit.number);
-                                } else if (unit.genre == 'ressource') {
-                                    totalResEnk = totalResEnk+(unit.enk*unit.number);
-                                } else {
-                                    totalEnk = totalEnk+(unit.enk*unit.number);
-                                }
-                            } else {
-                                totalTrans = totalTrans+(unit.trans*unit.number);
-                                transUnits.push(unit.id);
-                            }
-                        }
-                    });
-                    // add ressources enk if not enough place in barrels etc...
-                    if (totalResEnk > totalResCarg) {
-                        totalEnk = totalEnk+totalResEnk-totalResCarg;
-                    }
-                    // check if immobilized units can be carried
-                    // check if units are bulked
-                    if (totalTrans >= totalEnk) {
-                        bulk = calcBulk(totalEnk,totalTrans);
-                    } else {
-                        moveOK = false;
-                    }
+                    groupMove = calcGroupBulk(popToMove,tile.id);
+                    moveOK = groupMove.moveOK;
+                    bulk = groupMove.bulk;
+                    transUnits = groupMove.transUnits;
+                    charUnits = groupMove.charUnits;
                     if (moveOK) {
                         popToMove.forEach(function(unit) {
                             if (unit.follow !== null || unit.id == selectedUnit.id) {
                                 moveCost = calcMoveCost(tile.id,unit.id,false,true);
+
                                 if (unit.move > 0) {
                                     if (transUnits.includes(unit.id)) {
-                                        fatigue = unit.fatigue + (moveCost*bulk);
+                                        fatigue = unit.fatigue + moveCost*bulk;
+                                        movesLeftAfter = unit.move-fatigue;
+                                        if (movesLeftAfter < worstML) {
+                                            worstML = movesLeftAfter;
+                                        }
+                                    } else if (charUnits.includes(unit.id)) {
+                                        fatigue = unit.fatigue + moveCost;
                                         movesLeftAfter = unit.move-fatigue;
                                         if (movesLeftAfter < worstML) {
                                             worstML = movesLeftAfter;
@@ -232,7 +200,7 @@ function showGroupMovesLeft(tileId,popToMove) {
                 }
                 if (perso.mapView.includes(tile.id)) {
                     if (moveOK) {
-                        if (bulk > 1) {
+                        if (bulk != 1) {
                             titleString = 'GROUPE : encombrement '+bulk+' ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;
                         } else {
                             titleString = 'GROUPE ('+Math.round(worstML/10)+' moves left) -> #'+tile.id;

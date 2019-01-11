@@ -142,7 +142,6 @@ function areaGo(x,y) {
         showVisiblePop(world);
     }
     areaSelector();
-    console.log('x'+xOffset+' y'+yOffset);
 };
 function tempSelector() {
     $('#tempDropdown').empty();
