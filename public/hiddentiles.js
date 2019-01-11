@@ -31,6 +31,13 @@ function unhideTiles(tileId,single,show) {
                         $('#'+tile.id).removeClass('ter83a').removeClass('ter83b').removeClass('ter83c').addClass('ter77a');
                         showTile(tile.id,77,'a');
                     }
+                    if (tile.terrainId == 133) { // gués subarctique
+                        unhiddenTiles.push(tile.id);
+                        tileIndex = world.findIndex((obj => obj.id == tile.id));
+                        world[tileIndex].terrainId = 132;
+                        $('#'+tile.id).removeClass('ter133a').removeClass('ter133b').removeClass('ter133c').addClass('ter132a');
+                        showTile(tile.id,132,'a');
+                    }
                     if (tile.terrainId == 87) { // mer récifs
                         unhiddenTiles.push(tile.id);
                         tileIndex = world.findIndex((obj => obj.id == tile.id));
@@ -60,7 +67,7 @@ function unhideTiles(tileId,single,show) {
                         showTile(tile.id,84,tile.seed);
                     }
                 } else {
-                    if (tile.terrainId == 77 || tile.terrainId == 60 || tile.terrainId == 61 || tile.terrainId == 55 || tile.terrainId == 84) {
+                    if (tile.terrainId == 77 || tile.terrainId == 60 || tile.terrainId == 61 || tile.terrainId == 55 || tile.terrainId == 84 || tile.terrainId == 132) {
                         unhiddenTiles.push(tile.id);
                     }
                 }
@@ -76,8 +83,15 @@ function unhideTiles(tileId,single,show) {
                         $('#'+tile.id).removeClass('ter83a').removeClass('ter83b').removeClass('ter83c').addClass('ter77a');
                         showTile(tile.id,77,'a');
                     }
+                    if (tile.terrainId == 133) {
+                        unhiddenTiles.push(tile.id);
+                        tileIndex = world.findIndex((obj => obj.id == tile.id));
+                        world[tileIndex].terrainId = 132;
+                        $('#'+tile.id).removeClass('ter133a').removeClass('ter133b').removeClass('ter133c').addClass('ter132a');
+                        showTile(tile.id,132,'a');
+                    }
                 } else {
-                    if (tile.terrainId == 77) {
+                    if (tile.terrainId == 77 || tile.terrainId == 132) {
                         unhiddenTiles.push(tile.id);
                     }
                 }
@@ -94,6 +108,11 @@ function hideHidden() {
             if (tile.terrainId == 77) {
                 tileIndex = world.findIndex((obj => obj.id == tile.id));
                 world[tileIndex].terrainId = 83;
+            }
+            // gués sub
+            if (tile.terrainId == 132) {
+                tileIndex = world.findIndex((obj => obj.id == tile.id));
+                world[tileIndex].terrainId = 133;
             }
             // océan brisants
             if (tile.terrainId == 61) {
