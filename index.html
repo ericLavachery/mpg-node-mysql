@@ -29,14 +29,14 @@
                                     <button type="button" class="modeButtons" id="mapeditButton" title="">Map editor &nbsp;<i class="fas fa-globe"></i></button><br>
                                     <button type="button" class="modeButtons" id="viewUnitsButton" title="">Show units &nbsp;<i class="fas fa-chess-pawn"></i></button><br>
                                 </td>
-                                <td class="sidebar"><div class="woodBlock maped" id="terrainDetails"></div></td>
-                                <td class="sidebar"><div class="woodBlock maped" id="tileDetails"></div></td>
-                                <td class="sidebar"><div class="woodBlock maped" id="tempDropdown"></div></td>
-                                <td class="sidebar">
+                                <td class="sidebar edonly"><div class="woodBlock maped" id="terrainDetails"></div></td>
+                                <td class="sidebar edonly"><div class="woodBlock maped" id="tileDetails"></div></td>
+                                <td class="sidebar edonly"><div class="woodBlock maped" id="tempDropdown"></div></td>
+                                <td class="sidebar edonly">
                                     <div class="woodBlock maped">
                                         <table>
                                             <tr>
-                                                <td id="areaDropdown"></td>
+                                                <td id="areaDropdownME"></td>
                                                 <td>
                                                     <table>
                                                         <tr>
@@ -82,7 +82,7 @@
                     <td class="sidebar" id="sidebarCommand">
                         <div class="woodBlock" id="playerInfos"><h1 id="pseu"></h1><br></div>
                         <div class="woodBlock" id="timeInfos">
-                            <h3>Time</h3><br>
+                            <h3>Temps</h3><br>
                             <button type="button" class="boutonMauve modeButtons" name="nextTurn" id="nextButton" title="Passer au jour suivant"><i class="fas fa-sun"></i> &nbsp;<i class="fas fa-caret-right"></i>&nbsp; <i class="fas fa-moon"></i> &nbsp;<i class="fas fa-caret-right"></i>&nbsp; <i class="fas fa-sun"></i></button><br>
                         </div>
                         <div class="woodBlock" id="modesInfos">
@@ -91,8 +91,29 @@
                             <button type="button" class="modeButtons" id="gmoveButton" title="">Groupe &nbsp;<i class="fas fa-walking"></i>&nbsp;<i class="fas fa-walking"></i>&nbsp;<i class="fas fa-walking"></i></button><br>
                             <button type="button" class="modeButtons" id="smoveButton" title="">Bataillon seul &nbsp;<i class="fas fa-walking"></i></button><br>
                         </div>
+                        <div class="woodBlock" id="modesInfos">
+                            <h3>Carte</h3><br>
+                            <div id="areaDropdown"></div>
+                            <table>
+                                <tr>
+                                    <td class="rosevents"></td>
+                                    <td class="rosevents klik" onclick="areaMove('n')" title="nord"><i class="fas fa-angle-up"></i></td>
+                                    <td class="rosevents"></td>
+                                </tr>
+                                <tr>
+                                    <td class="rosevents klik" onclick="areaMove('w')" title="ouest"><i class="fas fa-angle-left"></i></td>
+                                    <td class="rosevents"></td>
+                                    <td class="rosevents klik" onclick="areaMove('e')" title="est"><i class="fas fa-angle-right"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="rosevents"></td>
+                                    <td class="rosevents klik" onclick="areaMove('s')" title="sud"><i class="fas fa-angle-down"></i></td>
+                                    <td class="rosevents"></td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
-                    <td class="sidebar" id="sidebarMapEdit">
+                    <td class="sidebar edonly" id="sidebarMapEdit">
                         <div class="woodBlock" id="terrainTypes"></div>
                     </td>
                 </tr>

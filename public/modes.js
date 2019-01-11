@@ -2,7 +2,7 @@ $('#gmoveButton').click(gmoveMode);
 function gmoveMode() {
     mode = 'g_move';
     document.title = pseudo + ' - Group Move';
-    $("#sidebarMapEdit").hide();
+    $(".edonly").hide();
     $('#gmoveButton').addClass('boutonVert');
     $('#smoveButton').removeClass('boutonVert');
     $('#inspectButton').removeClass('boutonVert');
@@ -22,7 +22,7 @@ $('#smoveButton').click(smoveMode);
 function smoveMode() {
     mode = 's_move';
     document.title = pseudo + ' - Move';
-    $("#sidebarMapEdit").hide();
+    $(".edonly").hide();
     cursorSwitch('.','grid-item','stop');
     $('#smoveButton').addClass('boutonVert');
     $('#gmoveButton').removeClass('boutonVert');
@@ -43,7 +43,7 @@ $('#inspectButton').click(inspectMode);
 function inspectMode() {
     mode = 'inspect';
     document.title = pseudo + ' - Inspect';
-    $("#sidebarMapEdit").hide();
+    $(".edonly").hide();
     cursorSwitch('.','grid-item','insp');
     $('#inspectButton').addClass('boutonVert');
     $('#gmoveButton').removeClass('boutonVert');

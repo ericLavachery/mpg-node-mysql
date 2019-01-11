@@ -1,7 +1,9 @@
 let numHTiles = 15;
 let numVTiles = 9;
-let xOffset = 0;
-let yOffset = 0;
+let xOffset = Number(new URLSearchParams(document.location.search).get("x"));
+if (xOffset == null) {xOffset = 0;}
+let yOffset = Number(new URLSearchParams(document.location.search).get("y"));
+if (yOffset == null) {yOffset = 0;}
 let pop = [];
 let world = [];
 let ter = [];

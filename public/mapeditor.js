@@ -19,7 +19,7 @@ function mapeditMode() {
     clearMovesLeft();
     $("#sidebarInfos").hide();
     $("#sidebarCommand").hide();
-    $("#sidebarMapEdit").show();
+    $(".edonly").show();
     showMap(world);
     tempSelector();
     terrainTypesSelector();
@@ -28,7 +28,7 @@ function mapeditMode() {
 function backToInspectMode() {
     $("#sidebarInfos").show();
     $("#sidebarCommand").show();
-    $("#sidebarMapEdit").hide();
+    $(".edonly").hide();
     inspectMode();
     showMap(world);
     showVisiblePop(world);
@@ -40,8 +40,16 @@ function viewUnits() {
     showVisiblePop(world);
 };
 function areaSelector() {
-    $('#areaDropdown').empty();
-    $('#areaDropdown').append('<select name="areaX" id="areaDropX" title="Région (N-S)" onchange="areaXSelect(this);"><option value="0">&nbsp;N-S (x)</option></select>');
+    let drop = '#areaDropdown';
+    let klas = ' class="modeButtons"';
+    let klim = 'Climat ';
+    if (mode == 'mapedit') {
+        drop = '#areaDropdownME';
+        klas = '';
+        klim = '';
+    }
+    $(drop).empty();
+    $(drop).append('<select'+klas+' name="areaX" id="areaDropX" title="Région (N-S)" onchange="areaXSelect(this);"><option value="0">&nbsp;N-S (x)</option></select>');
     let i = 0;
     while (i < 150) {
         if (i == xOffset) {
@@ -49,10 +57,13 @@ function areaSelector() {
         } else {
             $('#areaDropX').append('<option value="'+i+'">&nbsp;'+i+'</option>');
         }
+        if (i < xOffset && i+7 > xOffset) {
+            $('#areaDropX').append('<option value="'+xOffset+'" selected>&nbsp;'+xOffset+'</option>');
+        }
         i = i+7;
         if (i >= 150) {break;}
     }
-    $('#areaDropdown').append('<br><select name="areaY" id="areaDropY" title="Région (O-E)" onchange="areaYSelect(this);"><option value="0">&nbsp;O-E (y)</option></select>');
+    $(drop).append('<br><select'+klas+' name="areaY" id="areaDropY" title="Région (O-E)" onchange="areaYSelect(this);"><option value="0">&nbsp;O-E (y)</option></select>');
     i = 0;
     while (i < 120) {
         if (i == yOffset) {
@@ -60,21 +71,24 @@ function areaSelector() {
         } else {
             $('#areaDropY').append('<option value="'+i+'">&nbsp;'+i+'</option>');
         }
+        if (i < yOffset && i+13 > yOffset) {
+            $('#areaDropY').append('<option value="'+yOffset+'" selected>&nbsp;'+yOffset+'</option>');
+        }
         i = i+13;
         if (i >= 120) {break;}
     }
     if (xOffset >= 126) {
-        $('#areaDropdown').append('<br><div class="klim">Tropical</div>');
+        $(drop).append('<br><div class="klim">'+klim+'Tropical</div>');
     } else if (xOffset >= 105) {
-        $('#areaDropdown').append('<br><div class="klim">Subtropical</div>');
+        $(drop).append('<br><div class="klim">'+klim+'Subtropical</div>');
     } else if (xOffset >= 70) {
-        $('#areaDropdown').append('<br><div class="klim">Tempéré chaud</div>');
+        $(drop).append('<br><div class="klim">'+klim+'Tempéré chaud</div>');
     } else if (xOffset >= 35) {
-        $('#areaDropdown').append('<br><div class="klim">Tempéré froid</div>');
+        $(drop).append('<br><div class="klim">'+klim+'Tempéré froid</div>');
     } else if (xOffset >= 14) {
-        $('#areaDropdown').append('<br><div class="klim">Subarctique</div>');
+        $(drop).append('<br><div class="klim">'+klim+'Subarctique</div>');
     } else {
-        $('#areaDropdown').append('<br><div class="klim">Polaire</div>');
+        $(drop).append('<br><div class="klim">'+klim+'Polaire</div>');
     }
 };
 function areaXSelect(x) {
@@ -100,34 +114,30 @@ function areaMove(direction) {
     let y = 0;
     switch(direction) {
         case 'n':
-        if (xOffset >= 7) {
-            x = Number(xOffset)-7;
-        } else {
-            x = Number(xOffset);
+        x = Number(xOffset)-3;
+        if (x < 0) {
+            x = 0;
         }
         y = Number(yOffset);
         break;
         case 's':
-        if (xOffset < 147) {
-            x = Number(xOffset)+7;
-        } else {
-            x = Number(xOffset);
+        x = Number(xOffset)+3;
+        if (x > 147) {
+            x = 147;
         }
         y = Number(yOffset);
         break;
         case 'e':
-        if (yOffset < 117) {
-            y = Number(yOffset)+13;
-        } else {
-            y = Number(yOffset);
+        y = Number(yOffset)+3;
+        if (y > 117) {
+            y = 117;
         }
         x = Number(xOffset);
         break;
         case 'w':
-        if (yOffset >= 13) {
-            y = Number(yOffset)-13;
-        } else {
-            y = Number(yOffset);
+        y = Number(yOffset)-3;
+        if (y < 0) {
+            y = 0;
         }
         x = Number(xOffset);
         break;

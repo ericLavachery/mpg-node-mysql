@@ -117,7 +117,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     function correctPop() {
-        // Change move et endurance dans la table bataillons si ils ont changé dans la table unitTypes
+        // Change type, move et endurance dans la table bataillons si ils ont changé dans la table unitTypes
         let pIndex = 0;
         let uIndex = 0;
         pop.forEach(function(squad) {
