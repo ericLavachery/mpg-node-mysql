@@ -117,7 +117,13 @@ function showTileTags(tileId) {
     if (tileFlags.includes('river_')) {
         $('#r'+tileId).append('<i class="fas fa-water river"></i>');
     }
-    if (tileFlags.includes('road_')) {
+    if (tileFlags.includes('city_')) {
+        $('#r'+tileId).append('<img src="/static/img/cities/village3.png" width="36">');
+        // $('#r'+tileId).append('<i class="fas fa-landmark siti"></i>');
+    } else if (tileFlags.includes('town_')) {
+        $('#r'+tileId).append('<img src="/static/img/cities/village1.png" width="36">');
+        // $('#r'+tileId).append('<i class="fas fa-home siti"></i>');
+    } else if (tileFlags.includes('road_')) {
         $('#r'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
     }
     let terrainIndex = ter.findIndex((obj => obj.id == tileTerrainId));
