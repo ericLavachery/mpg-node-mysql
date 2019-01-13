@@ -171,6 +171,9 @@ function terrainTypesSelector() {
     $('#terrainTypes').append('<img class="terTypeButton" id="togroad" src="/static/img/wtiles/road.png" title="ajouter ou enlever une route" onclick="toggleAddons(`road`)">');
     // river
     $('#terrainTypes').append('<img class="terTypeButton" id="togriver" src="/static/img/wtiles/river.png" title="ajouter ou enlever une rivière" onclick="toggleAddons(`river`)">');
+    // cities
+    $('#terrainTypes').append('<img class="terTypeButton" id="togvillage" src="/static/img/wtiles/village.png" title="ajouter ou enlever un village" onclick="toggleCities(`v`)">');
+    $('#terrainTypes').append('<img class="terTypeButton" id="togcity" src="/static/img/wtiles/city.png" title="ajouter ou enlever une ville" onclick="toggleCities(`c`)">');
     let terricon = '';
     let filteredTer = ter;
     if (mapEditTemp != -1) {
@@ -200,20 +203,36 @@ function toggleAddons(addon) {
     cursorSwitch('.','grid-item','copy');
     selTer = [];
     selAddon = addon;
+    selCity = '';
     $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
     $('#tog'+addon).removeClass('terTypeButton').addClass('terTypeButtonSel');
+    $('#terrainDetails').empty();
+};
+function toggleCities(townType) {
+    cursorSwitch('.','grid-item','copy');
+    selTer = [];
+    selAddon = '';
+    selCity = townType;
+    $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
+    if (selCity == 'v') {
+        $('#togvillage').removeClass('terTypeButton').addClass('terTypeButtonSel');
+    } else {
+        $('#togcity').removeClass('terTypeButton').addClass('terTypeButtonSel');
+    }
     $('#terrainDetails').empty();
 };
 function pointMap() {
     cursorSwitch('.','grid-item','pointer');
     selTer = [];
     selAddon = 'point';
+    selCity = '';
     $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
     $('#point').removeClass('terTypeButton').addClass('terTypeButtonSel');
     $('#terrainDetails').empty();
 };
 function selectTerrainType(terrainId) {
     selAddon = '';
+    selCity = '';
     // toggle terrain image on re-click
     let tericon = selTer.icon;
     if (terrainId == selTer.id) {
@@ -266,8 +285,14 @@ function mapEdit(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     selectedTile = world[tileIndex];
     let terIndex = ter.findIndex((obj => obj.id == selectedTile.terrainId));
+    let townImg = '';
     // console.log(selectedTile);
-    if (selAddon == '') {
+    if (selCity != '') {
+        nextkur = 'copy';
+        townImg = toggleCity(selectedTile.flags,selCity);
+        console.log(townImg);
+        // xxxxxxxxxx A TERMINER!
+    } else if (selAddon == '') {
         if (selTer.id >= 1) {
             nextkur = 'copy';
             if (selectedTile.terrainId == selTer.id) {
@@ -302,6 +327,38 @@ function mapEdit(tileId) {
         showMap(world);
         cursorSwitch('.','grid-item',nextkur);
     }
+};
+function toggleCity(tileFlags,townType) {
+    let townImg = '';
+    if (townType == 'v') {
+        townImg = 'town_';
+    } else {
+        townImg = 'city_';
+    }
+    if (tileFlags.includes('orc_')) {
+        townImg = townImg+'trog-'+townType;
+    } else if (tileFlags.includes('trog_')) {
+        townImg = townImg+'barb-'+townType;
+    } else if (tileFlags.includes('barb_')) {
+        townImg = townImg+'cult-'+townType;
+    } else if (tileFlags.includes('cult_')) {
+        townImg = townImg+'desert-'+townType;
+    } else if (tileFlags.includes('desert_')) {
+        townImg = townImg+'nomad-'+townType;
+    } else if (tileFlags.includes('nomad_')) {
+        townImg = townImg+'dwarf-'+townType;
+    } else if (tileFlags.includes('dwarf_')) {
+        townImg = townImg+'gond-'+townType;
+    } else if (tileFlags.includes('gond_')) {
+        townImg = townImg+'mahoud-'+townType;
+    } else if (tileFlags.includes('mahoud_')) {
+        townImg = townImg+'roh-'+townType;
+    } else if (tileFlags.includes('roh_')) {
+        townImg = townImg+'orc-'+townType;
+    } else {
+        townImg = '';
+    }
+    return townImg;
 };
 function toggleTilePic(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));

@@ -18,6 +18,7 @@ let selectedTrack = [];
 let selectedTile = [];
 let selTer = [];
 let selAddon = 'point';
+let selCity = '';
 let mapEditTemp = -1;
 let mode = 'inspect';
 let uvp = ''; // unit view priority
@@ -118,11 +119,11 @@ function showTileTags(tileId) {
         $('#r'+tileId).append('<i class="fas fa-water river"></i>');
     }
     if (tileFlags.includes('city_')) {
-        $('#r'+tileId).append('<img src="/static/img/cities/village3.png" width="36">');
-        // $('#r'+tileId).append('<i class="fas fa-landmark siti"></i>');
+        townImg = cityImg(tileFlags,'c');
+        $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
     } else if (tileFlags.includes('town_')) {
-        $('#r'+tileId).append('<img src="/static/img/cities/village1.png" width="36">');
-        // $('#r'+tileId).append('<i class="fas fa-home siti"></i>');
+        townImg = cityImg(tileFlags,'v');
+        $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
     } else if (tileFlags.includes('road_')) {
         $('#r'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
     }
@@ -132,6 +133,33 @@ function showTileTags(tileId) {
         $('#c'+tileId).addClass(shad);
         $('#r'+tileId).addClass(shad);
     }
+};
+function cityImg(tileFlags,townType) {
+    let townImg = '';
+    if (tileFlags.includes('orc_')) {
+        townImg = 'orc-'+townType;
+    } else if (tileFlags.includes('trog_')) {
+        townImg = 'trog-'+townType;
+    } else if (tileFlags.includes('barb_')) {
+        townImg = 'barb-'+townType;
+    } else if (tileFlags.includes('cult_')) {
+        townImg = 'cult-'+townType;
+    } else if (tileFlags.includes('desert_')) {
+        townImg = 'desert-'+townType;
+    } else if (tileFlags.includes('nomad_')) {
+        townImg = 'nomad-'+townType;
+    } else if (tileFlags.includes('dwarf_')) {
+        townImg = 'dwarf-'+townType;
+    } else if (tileFlags.includes('gond_')) {
+        townImg = 'gond-'+townType;
+    } else if (tileFlags.includes('mahoud_')) {
+        townImg = 'mahoud-'+townType;
+    } else if (tileFlags.includes('roh_')) {
+        townImg = 'roh-'+townType;
+    } else {
+        townImg = 'roh-'+townType;
+    }
+    return townImg;
 };
 // infos terrains
 socket.on('terload', function(wter) {
