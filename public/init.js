@@ -121,7 +121,7 @@ function showTileTags(tileId) {
     if (tileFlags.includes('city_')) {
         townImg = cityImg(tileFlags,'c');
         $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
-    } else if (tileFlags.includes('town_')) {
+    } else if (tileFlags.includes('village_')) {
         townImg = cityImg(tileFlags,'v');
         $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
     } else if (tileFlags.includes('road_')) {

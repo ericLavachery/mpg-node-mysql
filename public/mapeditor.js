@@ -172,8 +172,8 @@ function terrainTypesSelector() {
     // river
     $('#terrainTypes').append('<img class="terTypeButton" id="togriver" src="/static/img/wtiles/river.png" title="ajouter ou enlever une rivière" onclick="toggleAddons(`river`)">');
     // cities
-    $('#terrainTypes').append('<img class="terTypeButton" id="togvillage" src="/static/img/wtiles/village.png" title="ajouter ou enlever un village" onclick="toggleCities(`v`)">');
-    $('#terrainTypes').append('<img class="terTypeButton" id="togcity" src="/static/img/wtiles/city.png" title="ajouter ou enlever une ville" onclick="toggleCities(`c`)">');
+    $('#terrainTypes').append('<img class="terTypeButton" id="togvillage" src="/static/img/wtiles/village.png" title="ajouter ou enlever un village" onclick="toggleCities(`village_`)">');
+    $('#terrainTypes').append('<img class="terTypeButton" id="togcity" src="/static/img/wtiles/city.png" title="ajouter ou enlever une ville" onclick="toggleCities(`city_`)">');
     let terricon = '';
     let filteredTer = ter;
     if (mapEditTemp != -1) {
@@ -214,7 +214,7 @@ function toggleCities(townType) {
     selAddon = '';
     selCity = townType;
     $('.terTypeButtonSel').addClass('terTypeButton').removeClass('terTypeButtonSel');
-    if (selCity == 'v') {
+    if (selCity == 'village_') {
         $('#togvillage').removeClass('terTypeButton').addClass('terTypeButtonSel');
     } else {
         $('#togcity').removeClass('terTypeButton').addClass('terTypeButtonSel');
@@ -285,12 +285,18 @@ function mapEdit(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     selectedTile = world[tileIndex];
     let terIndex = ter.findIndex((obj => obj.id == selectedTile.terrainId));
-    let townImg = '';
-    // console.log(selectedTile);
+    let cityFlag = '';
     if (selCity != '') {
         nextkur = 'copy';
-        townImg = toggleCity(selectedTile.flags,selCity);
-        console.log(townImg);
+        cityFlags = newCityFlag(selectedTile.flags,selCity);
+        if (cityFlags.old == '') {
+            selectedTile.flags = selectedTile.flags+cityFlags.new;
+            emitSingleWorldChange(tileId,'flags',selectedTile.flags);
+        } else {
+            selectedTile.flags = selectedTile.flags.replace(cityFlags.old,cityFlags.new);
+            emitSingleWorldChange(tileId,'flags',selectedTile.flags);
+        }
+        console.log(world[tileIndex].flags);
         // xxxxxxxxxx A TERMINER!
     } else if (selAddon == '') {
         if (selTer.id >= 1) {
@@ -298,7 +304,6 @@ function mapEdit(tileId) {
             if (selectedTile.terrainId == selTer.id) {
                 toggleTilePic(tileId);
             } else {
-                world[tileIndex].terrainId = selTer.id;
                 selectedTile.terrainId = selTer.id;
                 emitSingleWorldChange(tileId,'terrainId',selTer.id);
             }
@@ -312,12 +317,10 @@ function mapEdit(tileId) {
             if (!ter[terIndex].road && selAddon == 'road') {
                 // no road here
             } else {
-                world[tileIndex].flags = selectedTile.flags+selAddon+'_';
                 selectedTile.flags = selectedTile.flags+selAddon+'_';
                 emitSingleWorldChange(tileId,'flags',selectedTile.flags);
             }
         } else {
-            world[tileIndex].flags = selectedTile.flags.replace(selAddon+'_','');
             selectedTile.flags = selectedTile.flags.replace(selAddon+'_','');
             emitSingleWorldChange(tileId,'flags',selectedTile.flags);
         }
@@ -328,37 +331,52 @@ function mapEdit(tileId) {
         cursorSwitch('.','grid-item',nextkur);
     }
 };
-function toggleCity(tileFlags,townType) {
-    let townImg = '';
-    if (townType == 'v') {
-        townImg = 'town_';
+function newCityFlag(tileFlags,townType) {
+    let cityFlags = {old:'',new:''};
+    cityFlags.new = townType;
+    if (tileFlags.includes('city_')) {
+        cityFlags.old = 'city_';
+    } else if (tileFlags.includes('village_')) {
+        cityFlags.old = 'village_';
     } else {
-        townImg = 'city_';
+        cityFlags.old = '';
     }
-    if (tileFlags.includes('orc_')) {
-        townImg = townImg+'trog-'+townType;
-    } else if (tileFlags.includes('trog_')) {
-        townImg = townImg+'barb-'+townType;
-    } else if (tileFlags.includes('barb_')) {
-        townImg = townImg+'cult-'+townType;
-    } else if (tileFlags.includes('cult_')) {
-        townImg = townImg+'desert-'+townType;
-    } else if (tileFlags.includes('desert_')) {
-        townImg = townImg+'nomad-'+townType;
-    } else if (tileFlags.includes('nomad_')) {
-        townImg = townImg+'dwarf-'+townType;
-    } else if (tileFlags.includes('dwarf_')) {
-        townImg = townImg+'gond-'+townType;
-    } else if (tileFlags.includes('gond_')) {
-        townImg = townImg+'mahoud-'+townType;
-    } else if (tileFlags.includes('mahoud_')) {
-        townImg = townImg+'roh-'+townType;
-    } else if (tileFlags.includes('roh_')) {
-        townImg = townImg+'orc-'+townType;
+    if (cityFlags.old == '') {
+        cityFlags.new = townType+'roh_';
     } else {
-        townImg = '';
+        if (tileFlags.includes('roh_')) {
+            cityFlags.old = cityFlags.old+'roh_';
+            cityFlags.new = cityFlags.new+'gond_';
+        } else if (tileFlags.includes('gond_')) {
+            cityFlags.old = cityFlags.old+'gond_';
+            cityFlags.new = cityFlags.new+'barb_';
+        } else if (tileFlags.includes('barb_')) {
+            cityFlags.old = cityFlags.old+'barb_';
+            cityFlags.new = cityFlags.new+'desert_';
+        } else if (tileFlags.includes('desert_')) {
+            cityFlags.old = cityFlags.old+'desert_';
+            cityFlags.new = cityFlags.new+'nomad_';
+        } else if (tileFlags.includes('nomad_')) {
+            cityFlags.old = cityFlags.old+'nomad_';
+            cityFlags.new = cityFlags.new+'mahoud_';
+        } else if (tileFlags.includes('mahoud_')) {
+            cityFlags.old = cityFlags.old+'mahoud_';
+            cityFlags.new = cityFlags.new+'dwarf_';
+        } else if (tileFlags.includes('dwarf_')) {
+            cityFlags.old = cityFlags.old+'dwarf_';
+            cityFlags.new = cityFlags.new+'orc_';
+        } else if (tileFlags.includes('orc_')) {
+            cityFlags.old = cityFlags.old+'orc_';
+            cityFlags.new = cityFlags.new+'trog_';
+        } else if (tileFlags.includes('trog_')) {
+            cityFlags.old = cityFlags.old+'trog_';
+            cityFlags.new = cityFlags.new+'cult_';
+        } else if (tileFlags.includes('cult_')) {
+            cityFlags.old = cityFlags.old+'cult_';
+            cityFlags.new = '';
+        }
     }
-    return townImg;
+    return cityFlags;
 };
 function toggleTilePic(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
