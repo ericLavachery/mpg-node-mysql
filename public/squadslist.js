@@ -29,7 +29,7 @@ function showTileUnitList(tileId) {
         if (selectedUnit.id == unit.id) {
             uListSelected(selectedUnit,ownerShort,gfollow);
         } else {
-            if (unit.type == selectedUnit.type && unit.onTrack == selectedUnit.onTrack && unit.follow == selectedUnit.follow) {
+            if (unit.type == selectedUnit.type && unit.onTrack == selectedUnit.onTrack && unit.follow == selectedUnit.follow && unit.time >= 1) {
                 numSameType = numSameType+1;
             }
             if (unit.follow >= 1 && unit.follow == selectedUnit.follow) {
@@ -39,8 +39,9 @@ function showTileUnitList(tileId) {
             }
         }
         if (unit.onTrack >= 1) {
-            // $("#uc"+unit.id).addClass("bleu");
-            $('#tileUnitList').append('<span class="unitTrack" title="'+unit.onTrack+'"><i class="fas fa-lock"></i></span>');
+            $('#tileUnitList').append('<span class="unitTrack" title="'+unit.onTrack+'"><i class="fas fa-shoe-prints"></i></span>');
+        } else if (unit.time < 1) {
+            $('#tileUnitList').append('<span class="unitTrack" title="Bataillon occupé (exploration?)"><i class="fas fa-lock"></i></span>');
         }
         $('#tileUnitList').append('<br>');
     });
@@ -70,7 +71,7 @@ function showTileUnitList(tileId) {
     $('#tileUnitList').append('<div class="espace"></div>');
     let isSpace = false;
     // bouton JOIN
-    if (numSameType >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp') {
+    if (numSameType >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp' && selectedUnit.time >= 1) {
         joinButton();
         isSpace = true;
     }

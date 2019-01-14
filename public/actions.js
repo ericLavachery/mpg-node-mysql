@@ -37,6 +37,8 @@ function explore(free) {
                     moveLoss(unit.id,uMoveLoss);
                     unitIndex = pop.findIndex((obj => obj.id == unit.id));
                     emitSinglePopChange(unit.id,'fatigue',pop[unitIndex].fatigue);
+                    pop[unitIndex].time = 0;
+                    emitSinglePopChange(unit.id,'time',0);
                 }
             });
             groupDetection = Math.round((totalDetect+(bestDetect*4))/(numDetectUnits+4));
@@ -57,6 +59,8 @@ function explore(free) {
             moveLoss(selectedUnit.id,uMoveLoss);
             unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
             emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
+            pop[unitIndex].time = 0;
+            emitSinglePopChange(selectedUnit.id,'time',0);
         }
         let numAdj = Math.round((Math.sqrt(numDetectUnits)-5)*8);
         if (numAdj >= 75) {
@@ -298,6 +302,8 @@ function identify() {
     moveLossPerc(selectedUnit.id,moveLossFactor);
     unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
     emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
+    pop[unitIndex].time = 0;
+    emitSinglePopChange(selectedUnit.id,'time',0);
     // rajoute les unités détectées dans la liste (sauf celles qui y sont déjà)
     let toPush;
     if (bldIdent === null) {
@@ -359,6 +365,8 @@ function cartography() {
         moveLoss(selectedUnit.id,ml);
         unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
         emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
+        pop[unitIndex].time = 0;
+        emitSinglePopChange(selectedUnit.id,'time',0);
         cartoTile(selectedUnit.tileId,true);
         drawUnit(selectedUnit.id, selectedUnit.tileId, selectedUnit.pic, 'icon-selected');
         showMovesLeft(selectedUnit.tileId, selectedUnit.id);

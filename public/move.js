@@ -72,23 +72,29 @@ function calcGroupBulk(popToMove,targetTileId) {
             noDiagMoveCost = calcMoveCost(targetTileId,unit.id,false,false);
             movesLeft = unit.move-unit.fatigue;
             if (noDiagMoveCost > maxMoveCost || movesLeft < 1) {
-                if (unit.genre == 'coffre') {
-                    totalEnk = totalEnk+(unit.enk*unit.number);
-                    totalContenu = totalContenu+(unit.contenu*unit.number);
-                } else if (unit.genre == 'ressource') {
-                    totalResEnk = totalResEnk+(unit.enk*unit.number);
-                } else if (unit.genre == 'unité') {
-                    if (unit.move >= 1) {
-                        if (unit.charge >= 1) {
-                            moveOK = false;
-                        } else {
-                            totalUnitEnk = totalUnitEnk+(unit.enk*unit.number);
-                        }
-                    } else {
-                        totalEnk = totalEnk+(unit.enk*unit.number);
-                    }
-                } else if (unit.genre == 'bâtiment') {
+                if (unit.time < 1 && movesLeft < 1) {
+                    // plus de temps !!!
                     moveOK = false;
+                    console.log(moveOK);
+                } else {
+                    if (unit.genre == 'coffre') {
+                        totalEnk = totalEnk+(unit.enk*unit.number);
+                        totalContenu = totalContenu+(unit.contenu*unit.number);
+                    } else if (unit.genre == 'ressource') {
+                        totalResEnk = totalResEnk+(unit.enk*unit.number);
+                    } else if (unit.genre == 'unité') {
+                        if (unit.move >= 1) {
+                            if (unit.charge >= 1) {
+                                moveOK = false;
+                            } else {
+                                totalUnitEnk = totalUnitEnk+(unit.enk*unit.number);
+                            }
+                        } else {
+                            totalEnk = totalEnk+(unit.enk*unit.number);
+                        }
+                    } else if (unit.genre == 'bâtiment') {
+                        moveOK = false;
+                    }
                 }
             } else {
                 totalFardeau = totalFardeau+(unit.fardeau*unit.number);
@@ -140,6 +146,7 @@ function calcGroupBulk(popToMove,targetTileId) {
     groupMove.moveOK = moveOK;
     groupMove.transUnits = transUnits;
     groupMove.charUnits = charUnits;
+    console.log(groupMove);
     return groupMove;
 }
 function moveGroup(targetTileId) {
@@ -227,7 +234,7 @@ function moveUnit(targetTileId) {
     moveCost = calcMoveCost(targetTileId,selectedUnit.id,false,true);
     noDiagMoveCost = calcMoveCost(targetTileId,selectedUnit.id,false,false);
     // console.log(moveCost);
-    if (maxMoveCost >= noDiagMoveCost || movesLeft < 1) {
+    if (maxMoveCost >= noDiagMoveCost && movesLeft >= 1) {
         fatigue = fatigue + about(moveCost,15);
         movesLeft = move-fatigue;
         // clear old tile

@@ -25,6 +25,8 @@ function nextTurn() {
         } else {
             unit.fatigue = 0-unit.endurance;
         }
+        // récup time
+        unit.time = 1;
         // note les tiles occupés
         if (!occupiedTiles.includes(unit.tileId)) {
             occupiedTiles.push(unit.tileId);
@@ -40,23 +42,18 @@ function nextTurn() {
         perso.unitIdent = _.without(perso.unitIdent, unit.id);
     });
     // re-fogging
-    // NOT IF : Occupied - Carto - Road - SeaRoute
+    // NOT IF : Occupied - Carto - Road - SeaRoute - City
     let check = 0;
     let tileIndex = 0;
     let tileFlags = 0;
-    let noOccupyNoCartoWorld = _.filter(world, function(tile) {
-        return (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id));
+    let refogableWorld = _.filter(world, function(tile) {
+        return (!occupiedTiles.includes(tile.id) && !perso.mapCarto.includes(tile.id) && !tile.flags.includes('road_') && !tile.flags.includes('searoute_') && !tile.flags.includes('city_'));
     });
-    noOccupyNoCartoWorld.forEach(function(tile) {
-        tileIndex = world.findIndex((obj => obj.id == tile.id));
-        tileFlags = world[tileIndex].flags;
-        if (!tileFlags.includes('road_') && !tileFlags.includes('searoute_')) {
-            check = rand.rand(1,100);
-            if (check <= viewOutPerc) {
-                perso.mapView = _.without(perso.mapView, tile.id);
-            }
+    refogableWorld.forEach(function(tile) {
+        check = rand.rand(1,100);
+        if (check <= viewOutPerc) {
+            perso.mapView = _.without(perso.mapView, tile.id);
         }
-        // $("#"+tile.id).attr("title", ""); // erase "moves left" infos
         // purgeGroups(tile.id); // purge unused groups
     });
     // unfog tiles around occupied carto
@@ -75,6 +72,6 @@ function nextTurn() {
         showTileInfos(selectedUnit.tileId,true);
         showTileUnitList(selectedUnit.tileId);
     };
-    socket.emit('next_turn', { pseudo: pseudo, turns: 1 });
+    socket.emit('next_turn', {pseudo:pseudo,turns:1});
     emitPlayersChange(perso);
 }

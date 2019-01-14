@@ -404,17 +404,19 @@ io.sockets.on('connection', function (socket, pseudo) {
     // NEXT TURN
     socket.on('next_turn', function(data) {
         // change pop
-        pop.forEach(function(unit) {
-            if (unit.player === data.pseudo) {
-                if (unit.fatigue+unit.endurance-unit.move >= 0) {
-                    unit.fatigue = unit.fatigue-unit.move;
-                } else {
-                    unit.fatigue = 0-unit.endurance;
-                }
+        let ownPop = _.filter(pop, function(unit) {
+            return (unit.player === data.pseudo);
+        });
+        ownPop.forEach(function(unit) {
+            if (unit.fatigue+unit.endurance-unit.move >= 0) {
+                unit.fatigue = unit.fatigue-unit.move;
+            } else {
+                unit.fatigue = 0-unit.endurance;
             }
+            unit.time = 1;
         });
         // récup = move
-        let sql = "UPDATE bataillons SET fatigue = fatigue-move WHERE player = '"+data.pseudo+"' AND fatigue+endurance >= 0";
+        let sql = "UPDATE bataillons SET fatigue = fatigue-move, time = 1 WHERE player = '"+data.pseudo+"' AND fatigue+endurance >= 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');

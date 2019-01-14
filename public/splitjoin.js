@@ -18,7 +18,7 @@ function joinUnits(joinToId,unitType,tileId,owner) {
     let joinToThisUnitMove = pop[unitIndex].move;
     let idsToDelete = '';
     pop.slice().reverse().forEach(function(unit) {
-        if (unit.cat != 'bld' && unit.cat != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.follow == group && unit.onTrack == onTrack) {
+        if (unit.cat != 'bld' && unit.cat != 'bsp' && unit.type == unitType && unit.player == owner && unit.tileId == tileId && unit.id != joinToId && unit.time >= 1 && unit.follow == group && unit.onTrack == onTrack) {
             if (idsToDelete == '') {
                 idsToDelete = unit.id;
             } else {

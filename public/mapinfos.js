@@ -121,7 +121,7 @@ function showUnitMovesLeft(tileId,unitId) {
                     moveCost = calcMoveCost(tile.id,unitId,false,true);
                     noDiagMoveCost = calcMoveCost(tile.id,unitId,false,false);
                 }
-                if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0 || pop[unitIndex].onTrack >=1) {
+                if (noDiagMoveCost > maxMoveCost || movesLeft < 1 || move <= 0 || pop[unitIndex].onTrack >= 1) {
                     moveOK = false;
                 } else {
                     moveOK = true;
