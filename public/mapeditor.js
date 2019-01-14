@@ -296,8 +296,7 @@ function mapEdit(tileId) {
             selectedTile.flags = selectedTile.flags.replace(cityFlags.old,cityFlags.new);
             emitSingleWorldChange(tileId,'flags',selectedTile.flags);
         }
-        console.log(world[tileIndex].flags);
-        // xxxxxxxxxx A TERMINER!
+        // console.log(world[tileIndex].flags);
     } else if (selAddon == '') {
         if (selTer.id >= 1) {
             nextkur = 'copy';
