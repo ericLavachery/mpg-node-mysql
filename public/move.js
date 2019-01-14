@@ -75,7 +75,6 @@ function calcGroupBulk(popToMove,targetTileId) {
                 if (unit.time < 1 && movesLeft < 1) {
                     // plus de temps !!!
                     moveOK = false;
-                    console.log(moveOK);
                 } else {
                     if (unit.genre == 'coffre') {
                         totalEnk = totalEnk+(unit.enk*unit.number);
@@ -146,7 +145,6 @@ function calcGroupBulk(popToMove,targetTileId) {
     groupMove.moveOK = moveOK;
     groupMove.transUnits = transUnits;
     groupMove.charUnits = charUnits;
-    console.log(groupMove);
     return groupMove;
 }
 function moveGroup(targetTileId) {
