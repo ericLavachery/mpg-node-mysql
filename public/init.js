@@ -103,6 +103,8 @@ function showTileTags(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let tileFlags = world[tileIndex].flags;
     let tileTerrainId = world[tileIndex].terrainId;
+    let terrainIndex = ter.findIndex((obj => obj.id == tileTerrainId));
+    let tempMax = ter[terrainIndex].tempMax;
     if (selectedTrack.id >= 1) {
         if (selectedTrack.tiles.includes('_'+tileId+'_')) {
             $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
@@ -119,29 +121,30 @@ function showTileTags(tileId) {
         $('#r'+tileId).append('<i class="fas fa-water river"></i>');
     }
     if (tileFlags.includes('city_')) {
-        townImg = cityImg(tileFlags,'c');
+        townImg = cityImg(tileFlags,'c',tempMax);
         $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
     } else if (tileFlags.includes('village_')) {
-        townImg = cityImg(tileFlags,'v');
+        townImg = cityImg(tileFlags,'v',tempMax);
         $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
     } else if (tileFlags.includes('road_')) {
         $('#r'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
     }
-    let terrainIndex = ter.findIndex((obj => obj.id == tileTerrainId));
     let shad = ter[terrainIndex].shad;
     if (shad != '') {
         $('#c'+tileId).addClass(shad);
         $('#r'+tileId).addClass(shad);
     }
 };
-function cityImg(tileFlags,townType) {
+function cityImg(tileFlags,townType,tempMax) {
     let townImg = '';
     if (tileFlags.includes('orc_')) {
         townImg = 'orc-'+townType;
+        if (tempMax < 18) {townImg = townImg+'s';}
     } else if (tileFlags.includes('trog_')) {
         townImg = 'trog-'+townType;
     } else if (tileFlags.includes('barb_')) {
         townImg = 'barb-'+townType;
+        if (tempMax < 18) {townImg = townImg+'s';}
     } else if (tileFlags.includes('cult_')) {
         townImg = 'cult-'+townType;
     } else if (tileFlags.includes('desert_')) {
@@ -152,12 +155,15 @@ function cityImg(tileFlags,townType) {
         townImg = 'dwarf-'+townType;
     } else if (tileFlags.includes('gond_')) {
         townImg = 'gond-'+townType;
+        if (tempMax < 18) {townImg = townImg+'s';}
     } else if (tileFlags.includes('mahoud_')) {
         townImg = 'mahoud-'+townType;
     } else if (tileFlags.includes('roh_')) {
         townImg = 'roh-'+townType;
+        if (tempMax < 18) {townImg = townImg+'s';}
     } else {
         townImg = 'roh-'+townType;
+        if (tempMax < 18) {townImg = townImg+'s';}
     }
     return townImg;
 };
