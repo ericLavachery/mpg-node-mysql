@@ -88,7 +88,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.pseudo = pseudo;
         let playerIndex = players.findIndex((obj => obj.pseudo == pseudo));
         let perso = players[playerIndex];
-        if (isJSON.isJSON(perso.unitView) && isJSON.isJSON(perso.unitIdent) && isJSON.isJSON(perso.mapCarto) && isJSON.isJSON(perso.mapView) && isJSON.isJSON(perso.exploredTiles) && isJSON.isJSON(perso.enemies) && isJSON.isJSON(perso.allies) && isJSON.isJSON(perso.bldIdent) && isJSON.isJSON(perso.bldView)) {
+        if (isJSON.isJSON(perso.unitView) && isJSON.isJSON(perso.unitIdent) && isJSON.isJSON(perso.mapCarto) && isJSON.isJSON(perso.mapView) && isJSON.isJSON(perso.exploredTiles) && isJSON.isJSON(perso.enemies) && isJSON.isJSON(perso.allies) && isJSON.isJSON(perso.bldIdent) && isJSON.isJSON(perso.bldView) && isJSON.isJSON(perso.prefs)) {
             perso.unitView = JSON.parse(perso.unitView);
             perso.unitIdent = JSON.parse(perso.unitIdent);
             perso.mapCarto = JSON.parse(perso.mapCarto);
@@ -98,6 +98,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             perso.allies = JSON.parse(perso.allies);
             perso.bldIdent = JSON.parse(perso.bldIdent);
             perso.bldView = JSON.parse(perso.bldView);
+            perso.prefs = JSON.parse(perso.prefs);
             console.log('login : '+pseudo);
         } else {
             console.log('re-login : '+pseudo);
@@ -282,7 +283,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         let mapCarto = JSON.stringify(data.mapCarto);
         let mapView = JSON.stringify(data.mapView);
         let exploredTiles = JSON.stringify(data.exploredTiles);
-        let sql = "UPDATE players SET bldView = '"+bldView+"', bldIdent = '"+bldIdent+"', unitView = '"+unitView+"', unitIdent = '"+unitIdent+"', mapView = '"+mapView+"', mapCarto = '"+mapCarto+"', exploredTiles = '"+exploredTiles+"' WHERE id = "+data.id;
+        let prefs = JSON.stringify(data.prefs);
+        let sql = "UPDATE players SET prefs = '"+prefs+"', bldView = '"+bldView+"', bldIdent = '"+bldIdent+"', unitView = '"+unitView+"', unitIdent = '"+unitIdent+"', mapView = '"+mapView+"', mapCarto = '"+mapCarto+"', exploredTiles = '"+exploredTiles+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('perso updated');

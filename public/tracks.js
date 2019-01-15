@@ -76,7 +76,7 @@ function trackButtons() {
     }
     // FOLLOW TRACK
     if (selectedTrack.tiles.includes('_'+selectedUnit.tileId+'_') && selectedTrack.tiles.includes('_'+selectedUnit.prevTileId+'_') && selectedUnit.onTrack != selectedTrack.id) {
-        buttonInfos = "Faire suivre l'itinéraire ("+selectedTrack.name+") par ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+")";
+        buttonInfos = "Faire suivre l'itinéraire ("+selectedTrack.name+") par ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id,false)+")";
         let nextTile = findNextTile();
         let theNextTile = '';
         if (nextTile.tileName != '') {
@@ -88,7 +88,7 @@ function trackButtons() {
     }
     // UNFOLLOW TRACK
     if (selectedUnit.onTrack == selectedTrack.id) {
-        buttonInfos = "Libérer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id)+") de l'itinéraire ("+selectedTrack.name+")";
+        buttonInfos = "Libérer ce bataillon ("+selectedUnit.number+" "+xType(selectedUnit.id,false)+") de l'itinéraire ("+selectedTrack.name+")";
         let nextTile = findNextTile();
         $('#tracksList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" onclick="unGoTo('+selectedUnit.id+')" onmouseover="highlightTile('+nextTile.id+',`cancel`)" onmouseout="drawTileDefaultUnit('+nextTile.id+')"><i class="fas fa-lock-open"></i></button><span class="butSpace"></span>');
     }

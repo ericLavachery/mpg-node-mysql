@@ -147,6 +147,9 @@ function areaMove(direction) {
 function areaGo(x,y) {
     xOffset = x;
     yOffset = y;
+    let offset = {x:xOffset,y:yOffset};
+    perso.prefs.offset = offset;
+    emitPlayersChange(perso);
     showMap(world);
     if (mode != 'mapedit') {
         showVisiblePop(world);

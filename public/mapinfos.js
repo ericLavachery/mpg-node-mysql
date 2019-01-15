@@ -128,7 +128,7 @@ function showUnitMovesLeft(tileId,unitId) {
                 }
                 movesLeftAfter = movesLeft-moveCost;
                 if (perso.mapView.includes(tile.id)) {
-                    titleString = selectedUnit.number+' '+xType(selectedUnit.id)+' ('+Math.round(movesLeftAfter/10)+' moves left) -> #'+tile.id;
+                    titleString = selectedUnit.number+' '+xType(selectedUnit.id,false)+' ('+Math.round(movesLeftAfter/10)+' moves left) -> #'+tile.id;
                     $("#"+tile.id).attr("title", titleString);
                 }
                 adjacentTileInfos(tile.id,moveOK);

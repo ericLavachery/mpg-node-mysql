@@ -13,7 +13,7 @@ function showUnitInfos(unitId) {
     let defense = calcBaseDefense(unitId);
     let attaque = calcBaseAttaque(unitId);
     // Number + Type
-    $('#unitInfos').append('<span class="blockTitle"><h3 id="squadTitle">'+pop[unitIndex].number+' '+xType(unitId)+'</h3></span>');
+    $('#unitInfos').append('<span class="blockTitle"><h3 id="squadTitle">'+pop[unitIndex].number+' '+xType(unitId,false)+'</h3></span>');
     if (pop[unitIndex].onTrack >= 1) {
         $("#squadTitle").addClass("bleu");
     }
@@ -69,6 +69,9 @@ function toggleExpandSquadDetail(unitId) {
         expSquadDetail = true;
     }
     showUnitInfos(unitId);
+    let detail = {squad:expSquadDetail,tile:expTileDetail};
+    perso.prefs.detail = detail;
+    emitPlayersChange(perso);
 }
 
 // TILE DETAIL ---------------------------------------------------------------------------------------------------------
@@ -175,6 +178,9 @@ function toggleExpandTileDetail(tileId,linked) {
         expTileDetail = true;
     }
     showTileInfos(tileId,linked);
+    let detail = {squad:expSquadDetail,tile:expTileDetail};
+    perso.prefs.detail = detail;
+    emitPlayersChange(perso);
 }
 function renameTile(tileId) {
     let newName = prompt('Donnez un nom à cet emplacement :');

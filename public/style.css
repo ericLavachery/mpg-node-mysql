@@ -24,7 +24,7 @@ body {
     display: inline-grid;
     /* grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px; */
     /* grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px; */
-    background-image: url(/static/img/dawn-fog-big-dark.jpg);
+    background-image: url(/static/img/dawn-fog-big-dark2.jpg);
 }
 .grid-item {
     /* border: 1px solid rgba(0, 0, 0, 0.6); */
@@ -250,7 +250,7 @@ td {
 }
 .paramName {
     display: inline-block;
-    width: 150px;
+    width: 137px;
     /* font-weight: bold; */
 }
 .tracksList {

@@ -5,11 +5,16 @@ function capitalizeFirstLetter(string) {
 function isDiv(n,d) {
    return n % d == 0;
 }
-function xType(unitId) {
+function xType(unitId,sqlist) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let correctType = pop[unitIndex].type;
     if (pop[unitIndex].number == 1) {
         correctType = pop[unitIndex].typeSing;
+    }
+    if (sqlist) {
+        if (pop[unitIndex].genre == 'ressource' || pop[unitIndex].genre == 'coffre') {
+            correctType = '&vltri; '+correctType;
+        }
     }
     return capitalizeFirstLetter(correctType);
 };

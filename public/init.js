@@ -1,9 +1,19 @@
 let numHTiles = 15; // default 15
 let numVTiles = 9; // default 9
+let xOffsetForced = 0;
 let xOffset = Number(new URLSearchParams(document.location.search).get("x"));
-if (xOffset == null) {xOffset = 0;}
+if (xOffset == null) {
+    xOffset = 0;
+} else {
+    xOffsetForced = xOffset;
+}
+let yOffsetForced = 0;
 let yOffset = Number(new URLSearchParams(document.location.search).get("y"));
-if (yOffset == null) {yOffset = 0;}
+if (yOffset == null) {
+    yOffset = 0;
+} else {
+    yOffsetForced = yOffset;
+}
 let pop = [];
 let world = [];
 let ter = [];
@@ -195,8 +205,11 @@ function writeTerStyles(wter) {
     });
 };
 function yourMapSize() {
-    numHTiles = Number(prompt('Nombre de terrains horizontalement (x)',15));
-    numVTiles = Number(prompt('Nombre de terrains horizontalement (y)',9));
+    numHTiles = Number(prompt('Nombre de terrains vus horizontalement (x)',15));
+    numVTiles = Number(prompt('Nombre de terrains vus horizontalement (y)',9));
+    let numTiles = {h:numHTiles,v:numVTiles};
+    perso.prefs.numTiles = numTiles;
+    emitPlayersChange(perso);
     writeMapStyles();
     showMap(world);
     showVisiblePop(world);
@@ -220,11 +233,19 @@ function writeMapStyles() {
 // infos persos
 socket.on('persoload', function(wperso) {
     perso = wperso;
-    if (perso.prefs.includes('_detu_')) {
-        expSquadDetail = true;
+    if (typeof perso.prefs.detail != 'undefined') {
+        expSquadDetail = perso.prefs.detail.squad;
+        expTileDetail = perso.prefs.detail.tile;
     }
-    if (perso.prefs.includes('_dett_')) {
-        expTileDetail = true;
+    if (typeof perso.prefs.numTiles != 'undefined') {
+        numHTiles = perso.prefs.numTiles.h;
+        numVTiles = perso.prefs.numTiles.v;
+    }
+    if (xOffsetForced == 0 && yOffsetForced == 0) {
+        if (typeof perso.prefs.offset != 'undefined') {
+            xOffset = perso.prefs.offset.x;
+            yOffset = perso.prefs.offset.y;
+        }
     }
     if (perso.bldIdent === null) {
         perso.bldIdent = [];
@@ -252,6 +273,9 @@ socket.on('persoload', function(wperso) {
     }
     if (perso.allies === null) {
         perso.allies = [];
+    }
+    if (perso.prefs === null) {
+        perso.prefs = {};
     }
 });
 
