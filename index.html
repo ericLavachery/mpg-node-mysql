@@ -5,6 +5,7 @@
         <title>MPG</title>
         <link href="https://fonts.googleapis.com/css?family=Raleway|Uncial+Antiqua|Cinzel+Decorative|Crushed|Dosis|Montserrat+Alternates|Roboto|Roboto+Condensed" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <style media="screen" id="mapStyles"></style>
         <link rel="stylesheet" href="/static/style.css">
         <link rel="stylesheet" href="/static/stylebuttons.css">
         <style media="screen" id="terStyles"></style>
@@ -96,19 +97,26 @@
                             <div id="areaDropdown"></div>
                             <table>
                                 <tr>
-                                    <td class="rosevents"></td>
-                                    <td class="rosevents klik" onclick="areaMove('n')" title="nord"><i class="fas fa-angle-up"></i></td>
-                                    <td class="rosevents"></td>
-                                </tr>
-                                <tr>
-                                    <td class="rosevents klik" onclick="areaMove('w')" title="ouest"><i class="fas fa-angle-left"></i></td>
-                                    <td class="rosevents"></td>
-                                    <td class="rosevents klik" onclick="areaMove('e')" title="est"><i class="fas fa-angle-right"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="rosevents"></td>
-                                    <td class="rosevents klik" onclick="areaMove('s')" title="sud"><i class="fas fa-angle-down"></i></td>
-                                    <td class="rosevents"></td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td class="rosevents"></td>
+                                                <td class="rosevents klik" onclick="areaMove('n')" title="nord"><i class="fas fa-angle-up"></i></td>
+                                                <td class="rosevents"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="rosevents klik" onclick="areaMove('w')" title="ouest"><i class="fas fa-angle-left"></i></td>
+                                                <td class="rosevents"></td>
+                                                <td class="rosevents klik" onclick="areaMove('e')" title="est"><i class="fas fa-angle-right"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="rosevents"></td>
+                                                <td class="rosevents klik" onclick="areaMove('s')" title="sud"><i class="fas fa-angle-down"></i></td>
+                                                <td class="rosevents"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><i class="fas fa-expand-arrows-alt mapSize klik" onclick="yourMapSize()" title="Changer la taille de la carte"></i></td>
                                 </tr>
                             </table>
                         </div>

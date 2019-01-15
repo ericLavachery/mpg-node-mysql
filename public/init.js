@@ -1,5 +1,5 @@
-let numHTiles = 15;
-let numVTiles = 9;
+let numHTiles = 15; // default 15
+let numVTiles = 9; // default 9
 let xOffset = Number(new URLSearchParams(document.location.search).get("x"));
 if (xOffset == null) {xOffset = 0;}
 let yOffset = Number(new URLSearchParams(document.location.search).get("y"));
@@ -57,6 +57,7 @@ socket.on('mapload', function(wmap) {
         defineUnhiddenTiles();
         hideHidden();
     }
+    writeMapStyles();
     showMap(wmap);
 });
 // Dessine la carte
@@ -193,7 +194,29 @@ function writeTerStyles(wter) {
         $('#terStyles').append('.ter'+terrain.id+'c {background-color: #FFFF00;'+bg3+'}');
     });
 };
-
+function yourMapSize() {
+    numHTiles = Number(prompt('Nombre de terrains horizontalement (x)',15));
+    numVTiles = Number(prompt('Nombre de terrains horizontalement (y)',9));
+    writeMapStyles();
+    showMap(world);
+    showVisiblePop(world);
+};
+function writeMapStyles() {
+    $('#mapStyles').empty();
+    $('#mapStyles').append('.grid-container {grid-template-columns:');
+    let i = 0;
+    while (i < numHTiles) {
+        $('#mapStyles').append(' 72px');
+        i++;
+    }
+    $('#mapStyles').append(';grid-template-rows:');
+    i = 0;
+    while (i < numVTiles) {
+        $('#mapStyles').append(' 72px');
+        i++;
+    }
+    $('#mapStyles').append(';}');
+};
 // infos persos
 socket.on('persoload', function(wperso) {
     perso = wperso;

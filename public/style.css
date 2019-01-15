@@ -9,21 +9,11 @@ font-family: 'Dosis', sans-serif;
 */
 body {
     margin: 6px 2px 0 2px;
-    /* font-family: 'Raleway', sans-serif; */
     font-family: 'Roboto Condensed', sans-serif;
-    /* font-family: 'Crushed', cursive; */
-    /* font-family: 'Montserrat Alternates', sans-serif; */
-    /* font-family: 'Dosis', sans-serif; */
     background-color: black;
     /* background-image: url(/static/img/blackrockbg_dark.jpg); */
     /* background-image: url(/static/img/bgwooddark.jpg); */
     background-image: url(/static/img/bg-forest-vdark.jpg);
-}
-.unitMove,.unitNum,.paramValue {
-    /* font-family: 'Montserrat Alternates', sans-serif; */
-    /* font-family: 'Raleway', sans-serif; */
-    /* font-family: 'Dosis', sans-serif; */
-    /* font-family: 'Crushed', cursive; */
 }
 #cadreMap {
     background-color: #323232;
@@ -32,9 +22,9 @@ body {
 }
 .grid-container {
     display: inline-grid;
-    grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px;
-    grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px;
-    background-image: url(/static/img/dawn-fog-small-dark.jpg);
+    /* grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px; */
+    /* grid-template-rows: 72px 72px 72px 72px 72px 72px 72px 72px 72px; */
+    background-image: url(/static/img/dawn-fog-big-dark.jpg);
 }
 .grid-item {
     /* border: 1px solid rgba(0, 0, 0, 0.6); */
@@ -44,6 +34,11 @@ body {
     text-align: center;
     line-height: 1px;
     cursor: url(/static/img/pointer.cur),auto;
+}
+.mapSize {
+    margin: 28px 0 0 15px;
+    color: #a5b896;
+    font-size: 18px;
 }
 .bigIcon {
     text-align: center;
