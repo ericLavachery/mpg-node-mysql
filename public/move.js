@@ -44,7 +44,7 @@ function calcBulk(totalEnk,totalFardeau) {
 function calcSpur(lazyEnk,restCharge) {
     let onChar = restCharge;
     let onFoot = lazyEnk-restCharge;
-    let bulk = ((onChar*0.2)+onFoot)/lazyEnk;
+    let bulk = ((onChar*0.3)+onFoot)/lazyEnk;
     return Math.round(bulk*10)/10;
 };
 function calcGroupBulk(popToMove,targetTileId) {
@@ -176,7 +176,7 @@ function moveGroup(targetTileId) {
                     } else if (charUnits.includes(unit.id)) {
                         fatigue = unit.fatigue + about(moveCost,10);
                     } else {
-                        fatigue = unit.fatigue + about(Math.round(unit.move/5),10);
+                        fatigue = unit.fatigue + about(moveCost*3/10,10);
                     }
                 } else {
                     fatigue = 0;

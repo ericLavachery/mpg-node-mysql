@@ -94,7 +94,7 @@ function showMap(wmap) {
             } else {
                 tertitle = '#'+tile.id;
             }
-            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+terclass+'" onclick="selectOrMove('+tile.id+')" title="'+tertitle+'"><span class="mapNote" id="r'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNote" id="c'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
+            $('#zone_map').append('<div id="'+tile.id+'" class="grid-item '+terclass+'" onclick="selectOrMove('+tile.id+')" title="'+tertitle+'"><span class="mapCity" id="c'+tile.id+'"></span><span class="mapNoteL" id="l'+tile.id+'"></span><span class="bigIcon" id="b'+tile.id+'"></span><span class="mapNoteR" id="r'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
             showTileTags(tile.id);
         } else {
             $('#zone_map').append('<div id="'+tile.id+'" class="grid-item fog" onclick="selectOrMove('+tile.id+')" title="#'+tile.id+'"><span class="bigIcon" id="b'+tile.id+'"></span><br><span class="smallIcons" id="s'+tile.id+'"></span><br></div>');
@@ -105,12 +105,13 @@ function showTile(tileId,tileTerrainId,tileSeed) {
     if ( $('#'+tileId).hasClass('fog') ) {
         $('#'+tileId).removeClass('fog').addClass('ter'+tileTerrainId+tileSeed);
     }
-    $('#'+tileId).empty().append('<span class="mapNote" id="r'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNote" id="c'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
+    $('#'+tileId).empty().append('<span class="mapCity" id="c'+tileId+'"></span><span class="mapNoteL" id="l'+tileId+'"></span><span class="bigIcon" id="b'+tileId+'"></span><span class="mapNoteR" id="r'+tileId+'"></span><br><span class="smallIcons" id="s'+tileId+'"></span><br>');
     showTileTags(tileId);
 };
 function showTileTags(tileId) {
-    $('#c'+tileId).empty();
     $('#r'+tileId).empty();
+    $('#l'+tileId).empty();
+    $('#c'+tileId).empty();
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let tileFlags = world[tileIndex].flags;
     let tileTerrainId = world[tileIndex].terrainId;
@@ -118,32 +119,36 @@ function showTileTags(tileId) {
     let tempMax = ter[terrainIndex].tempMax;
     if (selectedTrack.id >= 1) {
         if (selectedTrack.tiles.includes('_'+tileId+'_')) {
-            $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
+            $('#r'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
         }
     } else {
         if (showTracks && trackedTiles.includes('_'+tileId+'_')) {
-            $('#c'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
+            $('#r'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
         }
     }
     if (perso.mapCarto.includes(tileId)) {
-        $('#c'+tileId).append('<i class="far fa-map karto"></i>');
+        $('#r'+tileId).append('<i class="far fa-map karto"></i>');
+    }
+    if (tileFlags.includes('road_')) {
+        $('#l'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
+    }
+    if (tileFlags.includes('river_') && tileFlags.includes('road_')) {
+        $('#l'+tileId).append('<br>');
     }
     if (tileFlags.includes('river_')) {
-        $('#r'+tileId).append('<i class="fas fa-water river"></i>');
+        $('#l'+tileId).append('<i class="fas fa-water river"></i>');
     }
     if (tileFlags.includes('city_')) {
         townImg = cityImg(tileFlags,'c',tempMax);
-        $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
+        $('#c'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="54">');
     } else if (tileFlags.includes('village_')) {
         townImg = cityImg(tileFlags,'v',tempMax);
-        $('#r'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="36">');
-    } else if (tileFlags.includes('road_')) {
-        $('#r'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
+        $('#c'+tileId).append('<img src="/static/img/cities/'+townImg+'.png" width="54">');
     }
     let shad = ter[terrainIndex].shad;
     if (shad != '') {
-        $('#c'+tileId).addClass(shad);
         $('#r'+tileId).addClass(shad);
+        $('#l'+tileId).addClass(shad);
     }
 };
 function cityImg(tileFlags,townType,tempMax) {

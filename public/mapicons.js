@@ -223,6 +223,11 @@ function catPriorityChange(cat) {
     } else {
         uvp = cat;
     }
+    if (uvp == 'bld') {
+        $('.mapCity').css('z-index',50);
+    } else {
+        $('.mapCity').css('z-index',1);
+    }
     showVisiblePop(world);
     $('#res-button').attr("src","/static/img/cat-player/res.png");
     $('#wrk-button').attr("src","/static/img/cat-player/wrk.png");
