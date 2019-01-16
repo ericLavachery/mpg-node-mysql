@@ -1,54 +1,6 @@
-let numHTiles = 15; // default 15
-let numVTiles = 9; // default 9
-let xOffsetForced = 0;
-let xOffset = Number(new URLSearchParams(document.location.search).get("x"));
-if (xOffset == null) {
-    xOffset = 0;
-} else {
-    xOffsetForced = xOffset;
-}
-let yOffsetForced = 0;
-let yOffset = Number(new URLSearchParams(document.location.search).get("y"));
-if (yOffset == null) {
-    yOffset = 0;
-} else {
-    yOffsetForced = yOffset;
-}
-let pop = [];
-let world = [];
-let ter = [];
-let ress = [];
-let unhiddenTiles = [];
-let perso = {};
-let mygroups = [];
-let myTracks = [];
-let trackedTiles = '';
-let selectedUnit = [];
-let selectedTrack = [];
-let selectedTile = [];
-let selTer = [];
-let selAddon = 'point';
-let selCity = '';
-let mapEditTemp = -1;
-let mode = 'inspect';
-let uvp = ''; // unit view priority
-let showTracks = false;
-let expSquadDetail = false;
-let expTileDetail = false;
-let exploMLfactor = 1; // explo move loss = moveCost*exploMLfactor
-let maxMoveCost = 240; // 180 default
-let baseMoveCost = 40; // moveCost is x baseMoveCost /30
-let viewOutPerc = 0; // % qu'un tile soit perdu de vue en passant au jour suivant (defaut 5 / dev 0)
-
 $(document).keypress(function(e) {
-    if (e.which == 32) {
+    if (e.which == 178) {
         toggleMode();
-    } else if (e.which == 53 || e.which == 233) {
-        gmoveMode();
-    } else if (e.which == 178) {
-        inspectMode();
-    } else if (e.which == 0 || e.which == 38) {
-        smoveMode();
     }
     // alert('You pressed '+e.which);
 });
@@ -117,6 +69,9 @@ function showTileTags(tileId) {
     let tileTerrainId = world[tileIndex].terrainId;
     let terrainIndex = ter.findIndex((obj => obj.id == tileTerrainId));
     let tempMax = ter[terrainIndex].tempMax;
+    if (perso.mapCarto.includes(tileId)) {
+        $('#r'+tileId).append('<i class="far fa-map karto"></i>');
+    }
     if (selectedTrack.id >= 1) {
         if (selectedTrack.tiles.includes('_'+tileId+'_')) {
             $('#r'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
@@ -126,9 +81,7 @@ function showTileTags(tileId) {
             $('#r'+tileId).append('<i class="fas fa-arrows-alt-v karto"></i>');
         }
     }
-    if (perso.mapCarto.includes(tileId)) {
-        $('#r'+tileId).append('<i class="far fa-map karto"></i>');
-    }
+
     if (tileFlags.includes('road_')) {
         $('#l'+tileId).append('<i class="fas fa-grip-vertical road"></i>');
     }

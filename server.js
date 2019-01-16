@@ -424,7 +424,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             // console.log('turn passed');
         });
         // fatigue+endurance non négative
-        sql = "UPDATE bataillons SET fatigue = 0 WHERE fatigue+endurance < 0";
+        sql = "UPDATE bataillons SET fatigue = 0-endurance WHERE fatigue+endurance < 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');

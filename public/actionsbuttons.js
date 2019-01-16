@@ -3,7 +3,7 @@ function actionsButtons() {
     // EXPLORE
     if (!perso.exploredTiles.includes(selectedUnit.tileId)) {
         if (selectedUnit.move > selectedUnit.fatigue) {
-            buttonInfos = 'Exploration : Rechercher les unités présentes (avec ';
+            buttonInfos = 'Exploration : Rechercher les unités présentes et voir les terrains adjacents (avec ';
             if (mode == 'g_move' && selectedUnit.follow >= 1) {
                 buttonInfos = buttonInfos+'le GROUPE '+selectedUnit.follow+')';
             } else {

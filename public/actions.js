@@ -376,16 +376,30 @@ function cartography() {
     }
 };
 function cartoMoveLoss() {
-    let ml = 110;
+    let ml = 25*cartMLfactor;
     let moveCost = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true,false);
+    let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
+    let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
+    let vegetation = ter[terIndex].vegetation;
+    if (vegetation >= 30) {
+        // pas facile, la forêt! 
+        moveCost = moveCost+((vegetation-15)*4);
+    }
     ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*10000/selectedUnit.detection);
     if (selectedUnit.skills.includes('carto_')) {
         ml = Math.round(ml/16);
     } else if (selectedUnit.skills.includes('explo_')) {
         ml = Math.round(ml/4);
+    } else if (selectedUnit.number < 24 && ml < 300) {
+        // pas de carto à moins de 24 sans habileté spéciale
+        ml = 300;
+    } else {
+        if (ml < minCartoML*3) {
+            ml = minCartoML*3;
+        }
     }
-    if (ml < selectedUnit.move) {
-        ml = selectedUnit.move;
+    if (ml < minCartoML) {
+        ml = minCartoML;
     }
     return ml;
 };

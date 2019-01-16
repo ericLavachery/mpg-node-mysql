@@ -67,7 +67,7 @@ function nextTurn() {
     showVisiblePop(world);
     if (selectedUnit.id >= 1) {
         drawUnit(selectedUnit.id,selectedUnit.tileId,selectedUnit.pic,'icon-selected');
-        showUnitMovesLeft(selectedUnit.tileId, selectedUnit.id);
+        showMovesLeft(selectedUnit.tileId, selectedUnit.id);
         showUnitInfos(selectedUnit.id);
         showTileInfos(selectedUnit.tileId,true);
         showTileUnitList(selectedUnit.tileId);
