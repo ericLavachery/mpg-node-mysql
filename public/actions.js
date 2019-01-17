@@ -378,7 +378,8 @@ function cartography() {
 function cartoMoveLoss() {
     let cm = {loss:0,message:''}
     let ml = 25*cartoMLfactor;
-    let message = "Vous manquez d'unités";
+    let ml36 = 25*cartoMLfactor;
+    let message = "";
     let moveCost = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true,false);
     let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
     let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
@@ -390,7 +391,6 @@ function cartoMoveLoss() {
     let number = selectedUnit.number;
     if (number > 36) {
         number = 36;
-        message = "Vous ne pouvez pas cartographier ce terrain avec ces unités";
     }
     ml = Math.round((ml*moveCost/50)/(number+(Math.sqrt(number)*3))*10000/selectedUnit.detection);
     if (selectedUnit.skills.includes('carto_')) {
@@ -407,6 +407,15 @@ function cartoMoveLoss() {
     }
     if (ml < minCartoML) {
         ml = minCartoML;
+    }
+    // détermine le message
+    if (ml > selectedUnit.move*4) {
+        ml36 = Math.round((ml36*moveCost/50)/(36+(Math.sqrt(36)*3))*10000/selectedUnit.detection);
+        if (ml36 > selectedUnit.move*4) {
+            message = "Vous ne pouvez pas cartographier ce terrain avec ces unités";
+        } else {
+            message = "Vous manquez d'unités";
+        }
     }
     cm.loss = ml;
     cm.message = message;

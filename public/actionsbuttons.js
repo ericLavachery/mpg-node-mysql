@@ -30,7 +30,7 @@ function actionsButtons() {
     // CARTO
     let cm = cartoMoveLoss();
     if (!perso.mapCarto.includes(selectedUnit.tileId)) {
-        if (selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= cm.loss) {
+        if (selectedUnit.move > selectedUnit.fatigue && cm.message == '') {
             buttonInfos = 'Cartographier ce terrain (avec ';
             buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+' : '+Math.round(cm.loss/10)+' mv)';
             $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="carto" onclick="cartography()"><i class="far fa-map"></i></button><span class="butSpace"></span>');
@@ -39,7 +39,7 @@ function actionsButtons() {
                 buttonInfos = "Cartographier : Vous n'avez plus assez d'unités de mouvement !";
                 $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map"></i></button><span class="butSpace"></span>');
             } else {
-                buttonInfos = "Cartographier : "+cm.message+" ("+Math.round(cm.loss/10)+" mv) !";
+                buttonInfos = "Cartographier : "+cm.message+" !";
                 $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map"></i></button><span class="butSpace"></span>');
             }
         }

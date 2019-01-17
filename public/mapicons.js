@@ -219,7 +219,7 @@ function catPriorityChange(cat) {
     let folder = 'cat-selected'
     if (uvp == cat) {
         uvp = '';
-        folder = 'cat-player'
+        folder = 'cat-unsel'
     } else {
         uvp = cat;
     }
@@ -229,12 +229,12 @@ function catPriorityChange(cat) {
         $('.mapCity').css('z-index',1);
     }
     showVisiblePop(world);
-    $('#res-button').attr("src","/static/img/cat-player/res.png");
-    $('#wrk-button').attr("src","/static/img/cat-player/wrk.png");
-    $('#spy-button').attr("src","/static/img/cat-player/spy.png");
-    $('#bsp-button').attr("src","/static/img/cat-player/bsp.png");
-    $('#bld-button').attr("src","/static/img/cat-player/bld.png");
-    $('#sld-button').attr("src","/static/img/cat-player/sld.png");
-    $('#shp-button').attr("src","/static/img/cat-player/shp.png");
-    $('#'+cat+'-button').attr("src","/static/img/"+folder+"/"+cat+".png");
+    $('#res-button').attr("src","/static/img/cat-player/res.svg");
+    $('#wrk-button').attr("src","/static/img/cat-player/wrk.svg");
+    $('#spy-button').attr("src","/static/img/cat-player/spy.svg");
+    $('#bsp-button').attr("src","/static/img/cat-player/bsp.svg");
+    $('#bld-button').attr("src","/static/img/cat-player/bld.svg");
+    $('#sld-button').attr("src","/static/img/cat-player/sld.svg");
+    $('#shp-button').attr("src","/static/img/cat-player/shp.svg");
+    $('#'+cat+'-button').attr("src","/static/img/"+folder+"/"+cat+".svg");
 };

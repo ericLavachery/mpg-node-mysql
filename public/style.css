@@ -188,13 +188,17 @@ td {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
     background-position: 0% 25%;
 }
-#tileInfos {
+#nameInfos {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
     background-position: 0% 35%;
 }
+#tileInfos {
+    background-image: url(/static/img/bg-wood-dark-small.jpg);
+    background-position: 0% 40%;
+}
 #tracksList {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
-    background-position: 0% 45%;
+    background-position: 0% 50%;
 }
 #playerInfos {
     background-image: url(/static/img/bg-wood-dark-small.jpg);
@@ -251,6 +255,10 @@ td {
 .klik:hover {
     color: #ff001f;
     cursor: pointer;
+}
+.catButton {
+    margin: 0 2px 0 0;
+    width: 24px;
 }
 #vuPriority {
     padding: 0 7px 0 7px;

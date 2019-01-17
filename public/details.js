@@ -117,11 +117,17 @@ function showTileInfos(tileId,linked,cssId) {
     if (linked) {
         linkH = 'h3';
     }
-    // NOM
-    if (world[tileIndex].tileName != '') {
-        let lieu = world[tileIndex].tileName;
-        $(cssi).append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
+    // BLOCK NOM et VILLES
+    $('#tileName').empty();
+    if (world[tileIndex].tileName != '' || world[tileIndex].flags.includes('city_') || world[tileIndex].flags.includes('village_')) {
+        $('#tileName').append('<div class="woodBlock" id="nameInfos"></div>');
     }
+    // NOM
+    let lieu = 'Inconnu';
+    if (world[tileIndex].tileName != '') {
+        lieu = world[tileIndex].tileName;
+    }
+    $('#nameInfos').empty().append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
     // VILLE?
     if (world[tileIndex].flags.includes('city_') || world[tileIndex].flags.includes('village_')) {
         let vType = 'village';
@@ -138,7 +144,7 @@ function showTileInfos(tileId,linked,cssId) {
                 vNation = town.nation;
             }
         });
-        $(cssi).append('<span class="paramName vert">'+capitalizeFirstLetter(vType)+'</span><span class="paramValue vert">'+capitalizeFirstLetter(vNation)+'</span><br>');
+        $('#nameInfos').append('<span class="paramName vert">'+capitalizeFirstLetter(vType)+'</span><span class="paramValue vert">'+capitalizeFirstLetter(vNation)+'</span><br>');
     }
     // TYPE TERRAIN
     $(cssi).append('<span class="blockTitle"><'+linkH+'>'+terName(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');
