@@ -19,6 +19,7 @@ let players = [];
 let unitTypes = [];
 let tracks = [];
 let ress = [];
+let towns = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -65,6 +66,12 @@ db.con.connect(function(error) {
         ress = JSON.parse(JSON.stringify(result));
         console.log('resources loaded');
     });
+    sql = "SELECT * FROM villes";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        towns = JSON.parse(JSON.stringify(result));
+        console.log('cities loaded');
+    });
 });
 
 // pages statiques dossier public/
@@ -108,6 +115,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             return (track.player === pseudo);
         });
         socket.emit('tracksload', myTracks);
+        socket.emit('cityload', towns);
         socket.emit('terload', ter);
         socket.emit('mapload', world);
         correctPop();

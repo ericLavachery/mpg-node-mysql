@@ -141,6 +141,10 @@ socket.on('terload', function(wter) {
     ter = wter;
     writeTerStyles(wter);
 });
+// infos villes
+socket.on('cityload', function(wtown) {
+    towns = wtown;
+});
 // write 3!! classes per terrain type to CSS
 function writeTerStyles(wter) {
     let bg = '';

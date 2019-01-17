@@ -46,9 +46,9 @@ function showUnitInfos(unitId) {
         // couverture
         $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
         // direction
-        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low">#'+pop[unitIndex].prevTileId+' &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> #'+pop[unitIndex].tileId+'</span><br>');
+        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low"><span title="id terrain précédent">#'+pop[unitIndex].prevTileId+'</span> &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> <span title="id terrain actuel">#'+pop[unitIndex].tileId+'</span></span><br>');
         // id
-        $('#unitInfos').append('<span class="paramName low">id</span><span class="paramValue low">#'+pop[unitIndex].id+'</span><br>');
+        $('#unitInfos').append('<span class="paramName low">id</span><span class="paramValue low" title="id bataillon">#'+pop[unitIndex].id+'</span><br>');
     }
 };
 function displayMove(move,fatigue) {
@@ -121,6 +121,24 @@ function showTileInfos(tileId,linked,cssId) {
     if (world[tileIndex].tileName != '') {
         let lieu = world[tileIndex].tileName;
         $(cssi).append('<span class="blockTitle"><h3 class="vert">'+capitalizeFirstLetter(lieu)+'</h3></span>');
+    }
+    // VILLE?
+    if (world[tileIndex].flags.includes('city_') || world[tileIndex].flags.includes('village_')) {
+        let vType = 'village';
+        let vFlag = 'village';
+        if (world[tileIndex].flags.includes('city_')) {
+            vType = 'ville';
+            vFlag = 'city';
+        }
+        let vNation = '';
+        let disTown = '';
+        towns.forEach(function(town) {
+            disTown = vFlag+'_'+town.icon.replace('-v','').replace('-c','')+'_';
+            if (world[tileIndex].flags.includes(disTown)) {
+                vNation = town.nation;
+            }
+        });
+        $(cssi).append('<span class="paramName vert">'+capitalizeFirstLetter(vType)+'</span><span class="paramValue vert">'+capitalizeFirstLetter(vNation)+'</span><br>');
     }
     // TYPE TERRAIN
     $(cssi).append('<span class="blockTitle"><'+linkH+'>'+terName(ter[terrainIndex].name)+'<span class="detailIcons">'+showCarto+'</span></'+linkH+'></span>');

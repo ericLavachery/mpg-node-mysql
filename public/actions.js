@@ -359,10 +359,10 @@ function isIdentified(searchSkills,targetSkills) {
     }
 };
 function cartography() {
-    let ml = cartoMoveLoss();
-    // console.log(ml);
-    if (!perso.mapCarto.includes(selectedUnit.tileId) && selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
-        moveLoss(selectedUnit.id,ml);
+    let cm = cartoMoveLoss();
+    // console.log(cm.loss);
+    if (!perso.mapCarto.includes(selectedUnit.tileId) && selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= cm.loss) {
+        moveLoss(selectedUnit.id,cm.loss);
         unitIndex = pop.findIndex((obj => obj.id == selectedUnit.id));
         emitSinglePopChange(selectedUnit.id,'fatigue',pop[unitIndex].fatigue);
         pop[unitIndex].time = 0;
@@ -376,16 +376,23 @@ function cartography() {
     }
 };
 function cartoMoveLoss() {
-    let ml = 25*cartMLfactor;
+    let cm = {loss:0,message:''}
+    let ml = 25*cartoMLfactor;
+    let message = "Vous manquez d'unités";
     let moveCost = calcMoveCost(selectedUnit.tileId,selectedUnit.id,true,false);
     let tileIndex = world.findIndex((obj => obj.id == selectedUnit.tileId));
     let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
     let vegetation = ter[terIndex].vegetation;
     if (vegetation >= 30) {
-        // pas facile, la forêt! 
+        // pas facile, la forêt!
         moveCost = moveCost+((vegetation-15)*4);
     }
-    ml = Math.round((ml*moveCost/50)/(selectedUnit.number+(Math.sqrt(selectedUnit.number)*3))*10000/selectedUnit.detection);
+    let number = selectedUnit.number;
+    if (number > 36) {
+        number = 36;
+        message = "Vous ne pouvez pas cartographier ce terrain avec ces unités";
+    }
+    ml = Math.round((ml*moveCost/50)/(number+(Math.sqrt(number)*3))*10000/selectedUnit.detection);
     if (selectedUnit.skills.includes('carto_')) {
         ml = Math.round(ml/16);
     } else if (selectedUnit.skills.includes('explo_')) {
@@ -401,7 +408,9 @@ function cartoMoveLoss() {
     if (ml < minCartoML) {
         ml = minCartoML;
     }
-    return ml;
+    cm.loss = ml;
+    cm.message = message;
+    return cm;
 };
 function cartoTile(tileId,save) {
     if (!perso.mapCarto.includes(tileId)) {

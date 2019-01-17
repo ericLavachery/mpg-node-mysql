@@ -18,6 +18,7 @@ let pop = [];
 let world = [];
 let ter = [];
 let ress = [];
+let towns = [];
 let unhiddenTiles = [];
 let perso = {};
 let mygroups = [];
@@ -36,7 +37,7 @@ let showTracks = false;
 let expSquadDetail = false;
 let expTileDetail = false;
 let exploMLfactor = 1.5; // explo move loss = moveCost*exploMLfactor
-let cartMLfactor = 1;
+let cartoMLfactor = 1;
 let minCartoML = 60; // perte de move min (x3 si sans hab spéciale)
 let maxMoveCost = 240; // 180 default
 let baseMoveCost = 40; // moveCost is x baseMoveCost /30

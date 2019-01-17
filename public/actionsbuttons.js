@@ -28,18 +28,18 @@ function actionsButtons() {
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-fingerprint"></i></button><span class="butSpace"></span>');
     }
     // CARTO
-    let ml = cartoMoveLoss();
+    let cm = cartoMoveLoss();
     if (!perso.mapCarto.includes(selectedUnit.tileId)) {
-        if (selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= ml) {
+        if (selectedUnit.move > selectedUnit.fatigue && selectedUnit.move*4 >= cm.loss) {
             buttonInfos = 'Cartographier ce terrain (avec ';
-            buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+' : '+Math.round(ml/10)+' mv)';
+            buttonInfos = buttonInfos+selectedUnit.number+' '+selectedUnit.type+' : '+Math.round(cm.loss/10)+' mv)';
             $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="carto" onclick="cartography()"><i class="far fa-map"></i></button><span class="butSpace"></span>');
         } else {
             if (selectedUnit.move <= selectedUnit.fatigue) {
                 buttonInfos = "Cartographier : Vous n'avez plus assez d'unités de mouvement !";
                 $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map"></i></button><span class="butSpace"></span>');
             } else {
-                buttonInfos = "Cartographier : Vous manquez d'unités ("+Math.round(ml/10)+" mv) !";
+                buttonInfos = "Cartographier : "+cm.message+" ("+Math.round(cm.loss/10)+" mv) !";
                 $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map"></i></button><span class="butSpace"></span>');
             }
         }
@@ -52,5 +52,7 @@ function actionsButtons() {
     // GUARD
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Garder" id="guard" onclick="guard('+selectedUnit.id+')"><i class="fas fa-shield-alt"></i></button><span class="butSpace"></span>');
     // EAT
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Manger" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button>');
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Manger" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button><span class="butSpace"></span>');
+    // MEOW
+    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Miaou!" id="meow"><i class="fas fa-cat"></i></button>');
 };
