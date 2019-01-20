@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway|Uncial+Antiqua|Roboto+Condensed" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
         <link rel="stylesheet" href="/static/tables.css">
+        <link rel="stylesheet" href="/static/stylemodal.css">
     </head>
 
     <body>
@@ -28,11 +29,31 @@
                 <br>
                 <table>
                     <tr>
-                        <td><table id="ressTable"></table></td>
+                        <td>
+                            <table id="ressTable"></table>
+                            <span class="frog klik" onclick="addRes()" title="Ajouter une ressource">&nbsp<i class="far fa-plus-square"></i>&nbsp</span>
+                        </td>
                         <td class="separ">&nbsp;</td>
                         <td><table id="ressTerTable"></table></td>
                     </tr>
                 </table>
+            </div>
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2 id="modalHead">Modal Header</h2>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <p>Some text in the Modal Body</p>
+                    <p>Some other text...</p>
+                </div>
+                <div class="modal-footer">
+                    <h3 id="modalFoot">Modal Footer</h3>
+                </div>
             </div>
         </div>
         <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
@@ -42,6 +63,7 @@
         <script src="/static/libs/underscore-min.js"></script>
         <script src="/static/baseinit.js"></script>
         <script src="/static/tables_init.js"></script>
+        <script src="/static/modal.js"></script>
         <script src="/static/move.js"></script>
         <script src="/static/stuff.js"></script>
         <script src="/static/table_moves.js"></script>

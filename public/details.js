@@ -35,6 +35,9 @@ function showUnitInfos(unitId) {
     }
     // EXPAND ONLY
     if (expSquadDetail) {
+        // Organisation
+        let org = calcOrg(unitId);
+        $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramValue">'+org+'/'+pop[unitIndex].org+'</span><br>');
         // HP
         $('#unitInfos').append('<span class="paramName">PDV</span><span class="paramValue">'+pop[unitIndex].hp+'</span><br>');
         // attaque
@@ -50,6 +53,46 @@ function showUnitInfos(unitId) {
         // id
         $('#unitInfos').append('<span class="paramName low">id</span><span class="paramValue low" title="id bataillon">#'+pop[unitIndex].id+'</span><br>');
     }
+};
+function calcOrg(unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let org = pop[unitIndex].org;
+    let group = pop[unitIndex].follow;
+    if (group >= 1) {
+        let groupNumber = 0;
+        let groupOrg = 0;
+        let bestOrg = 0;
+        let unitOrg = 0;
+        let groupPop = _.filter(pop, function(unit) {
+            return (unit.follow == group && unit.player === pseudo && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
+        });
+        groupPop.forEach(function(unit) {
+            groupNumber = groupNumber+unit.number;
+            if (unit.org == 0) {
+                unitOrg = 100;
+            } else {
+                unitOrg = unit.org;
+            }
+            if (unit.fatigue > Math.round(unit.move/2)) {
+                unitOrg = Math.round(unitOrg/3);
+            }
+            groupOrg = groupOrg+(unitOrg*unit.number);
+            if (unitOrg > bestOrg) {
+                bestOrg = unitOrg;
+            }
+        });
+        org = Math.round((Math.round(groupOrg/groupNumber)+bestOrg)/2);
+    } else {
+        if (pop[unitIndex].fatigue > Math.round(pop[unitIndex].move/2)) {
+            org = Math.round(org/3);
+        } else {
+            org = pop[unitIndex].org;
+        }
+    }
+    if (org < 1) {
+        org = 1;
+    }
+    return org;
 };
 function displayMove(move,fatigue) {
     let shape = Math.round((move-fatigue)/(move/2)*100);

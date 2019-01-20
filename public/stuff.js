@@ -55,7 +55,7 @@ function onlyParString(string) {
 function about(number,aleat) {
     let numAleat = Math.round(number*aleat/100);
     let aboutNum = Math.floor((Math.random() * (numAleat*2)) + 1)+number-numAleat;
-    return aboutNum;
+    return Math.round(aboutNum);
 };
 function emitSingleChange(id,table,prop,value) {
     socket.emit('single_any_change', {id: id, table: table, prop: prop, value: value});

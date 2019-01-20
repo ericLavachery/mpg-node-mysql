@@ -8,6 +8,7 @@
         <style media="screen" id="mapStyles"></style>
         <link rel="stylesheet" href="/static/style.css">
         <link rel="stylesheet" href="/static/stylebuttons.css">
+        <link rel="stylesheet" href="/static/stylemodal.css">
         <style media="screen" id="terStyles"></style>
     </head>
 
@@ -128,6 +129,23 @@
                 </tr>
             </table>
         </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2 id="modalHead">Modal Header</h2>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <p>Some text in the Modal Body</p>
+                    <p>Some other text...</p>
+                </div>
+                <div class="modal-footer">
+                    <h3 id="modalFoot">Modal Footer</h3>
+                </div>
+            </div>
+        </div>
 
         <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
         <script src="/static/libs/jquery.min.js"></script>
@@ -136,6 +154,7 @@
         <script src="/static/libs/underscore-min.js"></script>
         <script src="/static/nav.js"></script>
         <script src="/static/settings.js"></script>
+        <script src="/static/modal.js"></script>
         <script src="/static/init.js"></script>
         <script src="/static/hiddentiles.js"></script>
         <script src="/static/broadcasts.js"></script>

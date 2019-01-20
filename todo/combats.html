@@ -5,7 +5,7 @@ hp
 parade
 esquive
     précision chance sur (précision + esquive) de toucher
-    utiliser parade si meilleur score, mais pas si puissance >= pdv*3 et pdv >= pdv*3
+    utiliser parade si meilleur score, mais pas si stature >= stature+2 ET puissance >= hp
 attaque
 defense
     précision dans ces circonstances
@@ -21,3 +21,12 @@ Terrain defense:
     % ajouté a : defense
 Terrain cover:
     % ajouté a : defense, attaque
+
+__________________________________________________________________________________________________________
+
+organisation
+    org max de la troupe = org moyenne*2 + org chef / 3
+    bataillons en mouvement (fatigue > 0) ont org/3
+    
+    va définir le nombre max d'unités pouvant en attaquer 1 seule
+    la défense des unités à couvrir

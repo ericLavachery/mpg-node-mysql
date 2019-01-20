@@ -213,6 +213,10 @@ io.sockets.on('connection', function (socket, pseudo) {
             world[mapIndex][prop] = data.value;
             socket.broadcast.emit('single_world_changed', data);
             break;
+            case 'ressources':
+            let resIndex = ress.findIndex((obj => obj.id == data.id));
+            ress[resIndex][prop] = data.value;
+            break;
         }
         // change db
         let sql = "UPDATE "+table+" SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
@@ -408,6 +412,24 @@ io.sockets.on('connection', function (socket, pseudo) {
             newTrack.id = newId;
             tracks.push(newTrack);
             socket.emit('track_added', newTrack);
+        }
+    });
+
+    // ADD RESSOURCE
+    socket.on('add_res', function(data) {
+        let newRes = data;
+        // change db
+        let sql = "INSERT INTO ressources SET ?";
+        db.con.query(sql, data, function (error, result) {
+            if (error) throw error;
+            // result.insertId is the id given by mysql to the last inserted record (by this client)
+            sendNewRes(result.insertId);
+        });
+        function sendNewRes(newId) {
+            newRes.id = newId;
+            ress.push(newRes);
+            improveRess();
+            socket.emit('ressload', ress);
         }
     });
 

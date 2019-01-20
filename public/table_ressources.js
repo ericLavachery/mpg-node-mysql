@@ -6,7 +6,7 @@ function showRess() {
 };
 function ressourcesTable(sortField) {
     let trClass ='';
-    $('#ressTable').empty().append('<tr><td class="colTitle klik" onclick="ressourcesTable(`name`)">Ressource</td><td class="colTitle klik" onclick="ressourcesTable(`price`)">Prix</td><td class="colTitle klik" onclick="ressourcesTable(`profit`)">Profit</td><td class="colTitle klik" onclick="ressourcesTable(`enk`)">Enk</td><td class="colTitle klik" onclick="ressourcesTable(`enkval`)">Prix/Enk</td><td class="colTitle">Coût</td></tr>');
+    $('#ressTable').empty().append('<tr><td class="colTitle klik" onclick="ressourcesTable(`name`)">Ressource</td><td class="colTitle klik" onclick="ressourcesTable(`price`)">Prix</td><td class="colTitle klik" onclick="ressourcesTable(`profit`)">Profit</td><td class="colTitle klik" onclick="ressourcesTable(`enk`)">Enk</td><td class="colTitle klik" onclick="ressourcesTable(`enkval`)">Prix/Enk</td><td class="colTitle">Coût</td><td class="colTitle klik" title="Récoltes" onclick="ressourcesTable(`quant`)">Rec</td></tr>');
     let sortedRess = _.sortBy(_.sortBy(_.sortBy(ress,'name'),'cat'),sortField);
     sortedRess.forEach(function(ressource) {
         if (trClass == '') {
@@ -16,7 +16,7 @@ function ressourcesTable(sortField) {
         } else {
             trClass = '';
         }
-        $('#ressTable').append('<tr'+trClass+'><td class="name">'+ressource.name+' &nbsp;</td><td class="road">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense">'+ressource.costNum+' '+ressource.costRes+'</td></tr>');
+        $('#ressTable').append('<tr'+trClass+'><td class="name klik" onclick="ressChange('+ressource.id+',`name`)">'+ressource.name+' &nbsp;</td><td class="road klik" onclick="ressChange('+ressource.id+',`price`)">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move klik" onclick="ressChange('+ressource.id+',`enk`)">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense klik" onclick="ressChange('+ressource.id+',`costNum`)">'+ressource.costNum+' '+ressource.costRes+'</td><td class="moveBase klik" onclick="ressChange('+ressource.id+',`quant`)">'+ressource.quant+'</td></tr>');
     });
 };
 function resOnTerRowTitle(num) {
@@ -26,7 +26,7 @@ function resOnTerRowTitle(num) {
     });
     let sortedRess = _.sortBy(_.sortBy(_.sortBy(recoltRess,'name'),'price'),'cat');
     sortedRess.forEach(function(ressource) {
-        $('#ressTitres'+num).append('<td class="colTitle klik" onclick="resqLoopChange('+ressource.id+')">&nbsp;'+ressource.name+'&nbsp;</td>');
+        $('#ressTitres'+num).append('<td class="colTitle klik">&nbsp;'+ressource.name+'&nbsp;</td>');
     });
 };
 function resOnTerTable(sortField) {
@@ -69,6 +69,65 @@ function resOnTerTable(sortField) {
             }
         }
     });
+};
+function addRes() {
+    let name = prompt('NOM de la ressource :','caca');
+    let price = prompt('PRIX :',1);
+    let enk = prompt('ENK :',10);
+    let quant = prompt('QUANTITE récoltée :',0);
+    let costRes = prompt('Coût (RESSOURCE) :','');
+    let costNum = prompt('Coût (QUANTITE) :',1);
+    let cat = prompt('CAT (plante/animal/roche/minerai/nourriture) :','');
+    if (name != null) {
+        let newRes = {};
+        newRes.name = name;
+        newRes.price = Number(price);
+        newRes.enk = Number(enk);
+        newRes.costRes = costRes;
+        newRes.costNum = Number(costNum);
+        newRes.quant = Number(quant);
+        newRes.cat = cat;
+        newRes.altRes = '';
+        socket.emit('add_res', newRes);
+    }
+};
+function ressChange(ressId,field) {
+    let ressIndex = ress.findIndex((obj => obj.id == ressId));
+    let ressource = ress[ressIndex];
+    // costNum : changer aussi costRes
+    if (field == 'costNum') {
+        let newResValue = prompt('costRes : ',ress[ressIndex].costRes);
+        ress[ressIndex].costRes = newResValue;
+        emitSingleChange(ressId,'ressources','costRes',newResValue);
+    }
+    let newValue;
+    if (field == 'name') {
+        newValue = prompt(field+' : ',ress[ressIndex][field]);
+    } else {
+        newValue = Number(prompt(field+' : ',ress[ressIndex][field]));
+    }
+    ress[ressIndex][field] = newValue;
+    // changer les champs calculés
+    if (field == 'price' || field == 'enk') {
+        ressource.enkval = Math.round(10*ressource.price/ressource.enk);
+    }
+    if (field == 'price' || field == 'costNum') {
+        let resCostIndex = 0;
+        let resCost = 0;
+        if (ressource.costRes != '') {
+            resCostIndex = ress.findIndex((obj => obj.name == ressource.costRes));
+            if (ressource.costNum == 0) {
+                resCost = Math.round(ress[resCostIndex].price/10);
+            } else {
+                resCost = ressource.costNum*ress[resCostIndex].price;
+            }
+            ressource.profit = ressource.price-resCost;
+        } else {
+            ressource.profit = ressource.price;
+        }
+    }
+    emitSingleChange(ressId,'ressources',field,newValue);
+    ressourcesTable();
 };
 function resqChange(ressId,terId) {
     let ressIndex = ress.findIndex((obj => obj.id == ressId));

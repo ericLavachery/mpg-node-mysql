@@ -229,12 +229,12 @@ function catPriorityChange(cat) {
         $('.mapCity').css('z-index',1);
     }
     showVisiblePop(world);
-    $('#res-button').attr("src","/static/img/cat-player/res.svg");
-    $('#wrk-button').attr("src","/static/img/cat-player/wrk.svg");
-    $('#spy-button').attr("src","/static/img/cat-player/spy.svg");
-    $('#bsp-button').attr("src","/static/img/cat-player/bsp.svg");
-    $('#bld-button').attr("src","/static/img/cat-player/bld.svg");
-    $('#sld-button').attr("src","/static/img/cat-player/sld.svg");
-    $('#shp-button').attr("src","/static/img/cat-player/shp.svg");
+    $('#res-button').attr("src","/static/img/cat-unsel/res.svg");
+    $('#wrk-button').attr("src","/static/img/cat-unsel/wrk.svg");
+    $('#spy-button').attr("src","/static/img/cat-unsel/spy.svg");
+    $('#bsp-button').attr("src","/static/img/cat-unsel/bsp.svg");
+    $('#bld-button').attr("src","/static/img/cat-unsel/bld.svg");
+    $('#sld-button').attr("src","/static/img/cat-unsel/sld.svg");
+    $('#shp-button').attr("src","/static/img/cat-unsel/shp.svg");
     $('#'+cat+'-button').attr("src","/static/img/"+folder+"/"+cat+".svg");
 };
