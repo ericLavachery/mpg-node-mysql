@@ -1,12 +1,12 @@
 function showRess() {
     $("#moves").hide();
     $("#ressources").show();
-    ressourcesTable('cat');
+    ressourcesTable('name');
     resOnTerTable('name');
 };
 function ressourcesTable(sortField) {
     let trClass ='';
-    $('#ressTable').empty().append('<tr><td class="colTitle klik" onclick="ressourcesTable(`name`)">Ressource</td><td class="colTitle klik" onclick="ressourcesTable(`price`)">Prix</td><td class="colTitle klik" onclick="ressourcesTable(`profit`)">Profit</td><td class="colTitle klik" onclick="ressourcesTable(`enk`)">Enk</td><td class="colTitle klik" onclick="ressourcesTable(`enkval`)">Prix/Enk</td><td class="colTitle">Coût</td><td class="colTitle klik" title="Récoltes" onclick="ressourcesTable(`quant`)">Rec</td></tr>');
+    $('#ressTable').empty().append('<tr><td class="colTitle klik" onclick="ressourcesTable(`name`)">Ressource</td><td class="colTitle klik" onclick="ressourcesTable(`price`)">Prix</td><td class="colTitle klik" onclick="ressourcesTable(`profit`)">Profit</td><td class="colTitle klik" onclick="ressourcesTable(`enk`)">Enk</td><td class="colTitle klik" onclick="ressourcesTable(`enkval`)">Prix/Enk</td><td class="colTitle">Coût</td><td class="colTitle klik" title="Récoltes" onclick="ressourcesTable(`quant`)">Rec</td><td class="colTitle klik" onclick="ressourcesTable(`cat`)">Cat</td></tr>');
     let sortedRess = _.sortBy(_.sortBy(_.sortBy(ress,'name'),'cat'),sortField);
     sortedRess.forEach(function(ressource) {
         if (trClass == '') {
@@ -16,7 +16,7 @@ function ressourcesTable(sortField) {
         } else {
             trClass = '';
         }
-        $('#ressTable').append('<tr'+trClass+'><td class="name klik" onclick="ressChange('+ressource.id+',`name`)">'+ressource.name+' &nbsp;</td><td class="road klik" onclick="ressChange('+ressource.id+',`price`)">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move klik" onclick="ressChange('+ressource.id+',`enk`)">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense klik" onclick="ressChange('+ressource.id+',`costNum`)">'+ressource.costNum+' '+ressource.costRes+'</td><td class="moveBase klik" onclick="ressChange('+ressource.id+',`quant`)">'+ressource.quant+'</td></tr>');
+        $('#ressTable').append('<tr'+trClass+'><td class="name klik" onclick="ressChange('+ressource.id+',`name`)">'+ressource.name+' &nbsp;</td><td class="road klik" onclick="ressChange('+ressource.id+',`price`)">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move klik" onclick="ressChange('+ressource.id+',`enk`)">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense klik" onclick="ressChange('+ressource.id+',`costNum`)">'+ressource.costNum+' '+ressource.costRes+'</td><td class="moveBase klik" onclick="ressChange('+ressource.id+',`quant`)">'+ressource.quant+'</td><td class="name klik" onclick="catModChange('+ressource.id+',`cat`)">'+ressource.cat+'</td></tr>');
     });
 };
 function resOnTerRowTitle(num) {
@@ -127,7 +127,29 @@ function ressChange(ressId,field) {
         }
     }
     emitSingleChange(ressId,'ressources',field,newValue);
-    ressourcesTable();
+    ressourcesTable('name');
+};
+function catModChange(ressId,field) {
+    let ressIndex = ress.findIndex((obj => obj.id == ressId));
+    let ressource = ress[ressIndex];
+    $('#modalHead').empty().append(ressource.name+' : catégorie');
+    $('#modalFoot').empty();
+    $('#modalBody').empty().append('<select class="modeButtons" name="'+ressId+'" id="resCatChange" onchange="catModOut(this);"><option value="">&nbsp;</option></select>');
+    $('#resCatChange').append('<option value="animal">&nbsp;animal</option>');
+    $('#resCatChange').append('<option value="plante">&nbsp;plante</option>');
+    $('#resCatChange').append('<option value="roche">&nbsp;roche</option>');
+    $('#resCatChange').append('<option value="minerai">&nbsp;minerai</option>');
+    // $('#resCatChange').append('<option value="nourriture">&nbsp;nourriture</option>');
+    modal.style.display = "block";
+};
+function catModOut(select) {
+    let ressId = Number(select.name);
+    let ressIndex = ress.findIndex((obj => obj.id == ressId));
+    let newValue = select.value;
+    ress[ressIndex].cat = newValue;
+    emitSingleChange(ressId,'ressources','cat',newValue);
+    modal.style.display = "none";
+    ressourcesTable('name');
 };
 function resqChange(ressId,terId) {
     let ressIndex = ress.findIndex((obj => obj.id == ressId));

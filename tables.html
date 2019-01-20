@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Tableaux</title>
-        <link href="https://fonts.googleapis.com/css?family=Raleway|Uncial+Antiqua|Roboto+Condensed" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Crushed|Roboto|Roboto+Condensed" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
         <link rel="stylesheet" href="/static/tables.css">
         <link rel="stylesheet" href="/static/stylemodal.css">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <!-- The Modal -->
-        <div id="myModal" class="modal">
+        <div id="zeModal" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
@@ -48,14 +48,15 @@
                     <h2 id="modalHead">Modal Header</h2>
                 </div>
                 <div class="modal-body" id="modalBody">
-                    <p>Some text in the Modal Body</p>
-                    <p>Some other text...</p>
+                    Some text in the Modal Body <br>
+                    Some other text...
                 </div>
                 <div class="modal-footer">
-                    <h3 id="modalFoot">Modal Footer</h3>
+                    <p id="modalFoot">Modal Footer</p>
                 </div>
             </div>
         </div>
+        <button id="zeBtn">Open Modal</button>
         <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
         <script src="/static/libs/jquery.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>

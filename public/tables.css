@@ -70,25 +70,20 @@ td {
     display: inline-block;
 }
 h1 {
-    font-family: 'Uncial Antiqua', cursive;
-    font-weight: normal;
-    font-size: 20px;
-    color: #de0000;
-    margin: 0 0 3px 13px;
+    font-size: 22px;
+    color: #ff001f;
+    /* margin: 0 0 3px 13px; */
     padding: 0;
 }
 h3 {
-    font-family: 'Uncial Antiqua', cursive;
-    font-weight: normal;
-    font-size: 18px;
-    color: #e000e4;
+    font-size: 22px;
+    color: #85633e;
+    /* text-shadow: 1px 1px #241910; */
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
 h4 {
-    font-family: 'Uncial Antiqua', cursive;
-    font-weight: normal;
-    font-size: 18px;
+    font-size: 22px;
     color: #a5b896;
     margin: 0;
     padding: 0px 0px 5px 0px;

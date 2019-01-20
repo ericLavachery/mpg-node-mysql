@@ -12,33 +12,32 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 /* Modal Content */
 .modal-content {
     position: relative;
-    background-color: #fefefe;
+    background-color: #a5b896;
     margin: auto;
     padding: 0;
-    border: 1px solid #888;
-    width: 80%;
+    border: 6px solid #3b7d3d;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    width: 500px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s
 }
-
 /* Add Animation */
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
 }
-
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
 }
-
 /* The Close Button */
 .close {
     color: white;
@@ -46,24 +45,30 @@
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
-
 .modal-header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
+    font-family: 'Crushed', cursive;
+    font-size: 22px;
+    padding: 6px 8px;
+    background-color: #3b7d3d;
     color: white;
 }
-
-.modal-body {padding: 2px 16px;}
-
+.modal-body {
+    font-size: 14px;
+    padding: 6px 8px;
+}
 .modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
+    font-size: 14px;
+    padding: 6px 8px;
+    background-color: #3b7d3d;
     color: white;
+}
+h2 {
+    font-size: 22px;
+    font-weight: normal;
 }
