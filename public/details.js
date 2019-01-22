@@ -10,8 +10,6 @@ function showUnitInfos(unitId) {
     let endurance = pop[unitIndex].endurance;
     if (fatigue+endurance < 0) {fatigue = 0-endurance;};
     let movesLeft = move-fatigue;
-    let defense = calcBaseDefense(unitId);
-    let attaque = calcBaseAttaque(unitId);
     // Number + Type
     $('#unitInfos').append('<span class="blockTitle"><h3 id="squadTitle">'+pop[unitIndex].number+' '+xType(unitId,false)+'</h3></span>');
     if (pop[unitIndex].onTrack >= 1) {
@@ -25,33 +23,76 @@ function showUnitInfos(unitId) {
         $('#expSquad').empty().append('<i class="fas fa-search-plus"></i>');
     }
     // Player
-    $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
-    // Move
-    $('#unitInfos').append('<span class="paramName">Mouvements</span><span id="infosMovesLeft" class="paramValue">'+displayMove(pop[unitIndex].move,pop[unitIndex].fatigue)+'</span><br>');
+    $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
+    if (pop[unitIndex].move >= 1) {
+        // Move
+        $('#unitInfos').append('<span class="paramName">Mouvements</span><span class="paramIcon"><i class="fas fa-walking"></i></span><span id="infosMovesLeft" class="paramValue">'+displayMove(pop[unitIndex].move,pop[unitIndex].fatigue)+'</span><br>');
+    }
     // track follow
     if (pop[unitIndex].onTrack >= 1) {
         let trackIndex = myTracks.findIndex((obj => obj.id == pop[unitIndex].onTrack));
-        $('#unitInfos').append('<span class="paramName bleu">Mouvement auto</span><span class="paramValue bleu">'+myTracks[trackIndex].name+'</span><br>');
+        $('#unitInfos').append('<span class="paramName bleu">Mouvement auto</span><span class="paramIcon"><i class="fas fa-shoe-prints"></i></span><span class="paramValue bleu">'+myTracks[trackIndex].name+'</span><br>');
     }
     // EXPAND ONLY
     if (expSquadDetail) {
-        // Organisation
-        let org = calcOrg(unitId);
-        $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramValue">'+org+'/'+pop[unitIndex].org+'</span><br>');
-        // HP
-        $('#unitInfos').append('<span class="paramName">PDV</span><span class="paramValue">'+pop[unitIndex].hp+'</span><br>');
-        // attaque
-        $('#unitInfos').append('<span class="paramName">Attaque</span><span class="paramValue">'+attaque+'&nbsp;/&nbsp;'+pop[unitIndex].attaque+'</span><br>');
-        // défense
-        $('#unitInfos').append('<span class="paramName">Défense</span><span class="paramValue">'+defense+'&nbsp;/&nbsp;'+pop[unitIndex].defense+'</span><br>');
-        // puissance
-        $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
-        // couverture
-        $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
+        if (pop[unitIndex].attitude != 'i') {
+            // attitude
+            let attitude = displayAttitude(pop[unitIndex].attitude);
+            $('#unitInfos').append('<span class="paramName">Attitude</span><span class="paramIcon"></span><span class="paramValue" title="'+attitude.expl+'">'+attitude.name+'</span><br>');
+            // Organisation
+            let org = calcOrg(unitId);
+            $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramIcon"></span><span class="paramValue">'+org+'/'+pop[unitIndex].org+'</span><br>');
+        }
+        if (pop[unitIndex].puissance >= 1) {
+            // HP
+            $('#unitInfos').append('<span class="paramName">PDV</span><span class="paramIcon"><i class="far fa-heart"></i></span><span class="paramValue">'+pop[unitIndex].hp+'</span><br>');
+            // armure
+            $('#unitInfos').append('<span class="paramName">Armure</span><span class="paramIcon"><i class="ra ra-knight-helmet"></i></span><span class="paramValue">'+pop[unitIndex].armure+'</span><br>');
+            // esquive
+            $('#unitInfos').append('<span class="paramName">Esquive</span><span class="paramIcon"><i class="ra ra-player-dodge"></i></span><span class="paramValue">'+pop[unitIndex].esquive+'</span><br>');
+            // parade
+            $('#unitInfos').append('<span class="paramName">Parade</span><span class="paramIcon"><i class="fas fa-shield-alt"></i></span><span class="paramValue">'+pop[unitIndex].parade+'</span><br>');
+            if (pop[unitIndex].portee >= 1) {
+                // portee
+                $('#unitInfos').append('<span class="paramName">Portée</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].portee+'</span><br>');
+            }
+            // actions
+            $('#unitInfos').append('<span class="paramName">Actions</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].actions+'</span><br>');
+            // attaque
+            let attaque = calcBaseAttaque(unitId);
+            $('#unitInfos').append('<span class="paramName">Précision (attaque)</span><span class="paramIcon"><i class="ra ra-sword"></i></span><span class="paramValue">'+attaque+'/'+pop[unitIndex].attaque+'</span><br>');
+            // défense
+            let defense = calcBaseDefense(unitId);
+            $('#unitInfos').append('<span class="paramName">Précision (défense)</span><span class="paramIcon"><i class="ra ra-sword"></i></span><span class="paramValue">'+defense+'/'+pop[unitIndex].defense+'</span><br>');
+            // puissance
+            $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramIcon"><i class="fas fa-fist-raised"></i></span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
+            // couverture
+            $('#unitInfos').append('<span class="paramName">Couverture</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].coverAdj+'%</span><br>');
+        }
+        if (pop[unitIndex].detection >= 1) {
+            // detection
+            $('#unitInfos').append('<span class="paramName">Détection</span><span class="paramIcon"><i class="far fa-eye"></i></span><span class="paramValue">'+pop[unitIndex].detection+'</span><br>');
+            // discretion
+            $('#unitInfos').append('<span class="paramName">Discrétion</span><span class="paramIcon"><i class="ra ra-hood"></i></span><span class="paramValue">'+pop[unitIndex].discretion+'</span><br>');
+        }
+        if (pop[unitIndex].charge >= 1) {
+            // charge
+            $('#unitInfos').append('<span class="paramName">Charge</span><span class="paramIcon"></span><span class="paramValue" title="Nombre de Enk transportable (sans réduction de mouvement)">'+pop[unitIndex].charge+' ('+pop[unitIndex].charge*pop[unitIndex].number+')</span><br>');
+        }
+        if (pop[unitIndex].contenu >= 1) {
+            // contenu
+            $('#unitInfos').append('<span class="paramName">Contenu</span><span class="paramIcon"></span><span class="paramValue" title="Nombre de Enk (en ressources uniquement) pouvant être contenu">'+pop[unitIndex].contenu+' ('+pop[unitIndex].contenu*pop[unitIndex].number+')</span><br>');
+        }
+        if (pop[unitIndex].fardeau >= 1) {
+            // fardeau
+            $('#unitInfos').append('<span class="paramName">Fardeau</span><span class="paramIcon"></span><span class="paramValue" title="Nombre de Enk transportable (avec réduction de mouvement)">'+pop[unitIndex].fardeau+' ('+pop[unitIndex].fardeau*pop[unitIndex].number+')</span><br>');
+        }
+        // enk
+        $('#unitInfos').append('<span class="paramName">Encombrement (Enk)</span><span class="paramIcon"><i class="ra ra-kettlebell"></i></span><span class="paramValue" title="Unité de mesure comprenant poids et taille">'+pop[unitIndex].enk+' ('+pop[unitIndex].enk*pop[unitIndex].number+')</span><br>');
         // direction
-        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramValue low"><span title="id terrain précédent">#'+pop[unitIndex].prevTileId+'</span> &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> <span title="id terrain actuel">#'+pop[unitIndex].tileId+'</span></span><br>');
+        $('#unitInfos').append('<span class="paramName low">Direction</span><span class="paramIcon"></span><span class="paramValue low"><span title="id terrain précédent">#'+pop[unitIndex].prevTileId+'</span> &nbsp;<i class="fas fa-caret-right"></i><i class="fas fa-caret-right"></i> <span title="id terrain actuel">#'+pop[unitIndex].tileId+'</span></span><br>');
         // id
-        $('#unitInfos').append('<span class="paramName low">id</span><span class="paramValue low" title="id bataillon">#'+pop[unitIndex].id+'</span><br>');
+        $('#unitInfos').append('<span class="paramName low">id</span><span class="paramIcon"></span><span class="paramValue low" title="id bataillon">#'+pop[unitIndex].id+'</span><br>');
     }
 };
 function calcOrg(unitId) {
@@ -104,6 +145,40 @@ function displayMove(move,fatigue) {
     } else {
         return Math.round((move-fatigue)/10)+'/'+Math.round(move/10);
     }
+};
+function displayAttitude(att) {
+    let attitude = {name:'',expl:''};
+    switch (att) {
+        case 'at':
+        attitude.name = 'AT';
+        attitude.expl = "Attitude face à l'ennemi : Attaque";
+        break;
+        case 'ass':
+        attitude.name = 'ASS';
+        attitude.expl = "Attitude face à l'ennemi : Attaque sauf si c'est du suicide";
+        break;
+        case 'amn':
+        attitude.name = 'AMN';
+        attitude.expl = "Attitude face à l'ennemi : Attaque si est supérieur en nombre";
+        break;
+        case 'af':
+        attitude.name = 'AF';
+        attitude.expl = "Attitude face à l'ennemi : Attaque si est supérieur";
+        break;
+        case 'd':
+        attitude.name = 'FD';
+        attitude.expl = "Attitude face à l'ennemi : Essaie de fuir, sinon se défend";
+        break;
+        case 'f':
+        attitude.name = 'FR';
+        attitude.expl = "Attitude face à l'ennemi : Essaie de fuir, sinon se rend";
+        break;
+        case 'i':
+        attitude.name = 'NA';
+        attitude.expl = "Attitude face à l'ennemi : Sans objet";
+        break;
+    }
+    return attitude;
 };
 function toggleExpandSquadDetail(unitId) {
     if (expSquadDetail) {
@@ -227,15 +302,17 @@ function showTileInfos(tileId,linked,cssId) {
         $(cssi).append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
         // defense
         $(cssi).append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
+    }
+    if (ter[terrainIndex].illu != '') {
+        $(cssi).append('<span class="loupe infoBiome klik"><i class="fas fa-image"></i><span><img src="/static/img/biomes/'+ter[terrainIndex].illu+'.jpg" width="600"></span></span><span class="bigSpace"></span>');
+    }
+    if (linked) {
         // RENOMMER LE TERRAIN
         let renameLink = 'Nommer';
         if (world[tileIndex].tileName != '') {
             renameLink = 'Renommer';
         }
-        $(cssi).append('<span class="paramName"><a href="#" onclick="renameTile('+tileId+')">'+renameLink+'</a></span><br>');
-    }
-    if (ter[terrainIndex].illu != '') {
-        $(cssi).append('<span class="loupe infoBiome klik"><i class="fas fa-image"></i><span><img src="/static/img/biomes/'+ter[terrainIndex].illu+'.jpg" width="600"></span></span><br>');
+        $(cssi).append('<span class="loupe klik" onclick="renameTile('+tileId+')" title="'+renameLink+' ce lieu"><i class="ra ra-wooden-sign"></i></span><span class="bigSpace"></span>');
     }
 };
 function toggleExpandTileDetail(tileId,linked) {

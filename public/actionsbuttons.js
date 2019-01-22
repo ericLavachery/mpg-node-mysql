@@ -48,11 +48,11 @@ function actionsButtons() {
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map-marked-alt"></i></button><span class="butSpace"></span>');
     }
     // ATTACK
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="fas fa-haykal"></i></button><span class="butSpace"></span>');
+    $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="ra ra-crossed-swords"></i></button><span class="butSpace"></span>');
     // GUARD
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Garder" id="guard" onclick="guard('+selectedUnit.id+')"><i class="fas fa-shield-alt"></i></button><span class="butSpace"></span>');
-    // EAT
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Manger" id="eat" onclick="eat('+selectedUnit.id+')"><i class="fas fa-drumstick-bite"></i></button><span class="butSpace"></span>');
+    // ALERTE
+    $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Mettre le territoire en alerte" id="eat" onclick="eat('+selectedUnit.id+')"><i class="ra ra-bell"></i></button><span class="butSpace"></span>');
     // MEOW
     $('#tileUnitList').append('<button type="button" class="iconButtons" title="Miaou!" id="meow"><i class="fas fa-cat"></i></button>');
 };

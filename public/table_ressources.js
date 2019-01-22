@@ -132,14 +132,20 @@ function ressChange(ressId,field) {
 function catModChange(ressId,field) {
     let ressIndex = ress.findIndex((obj => obj.id == ressId));
     let ressource = ress[ressIndex];
+    let sel = '';
     $('#modalHead').empty().append(ressource.name+' : catégorie');
     $('#modalFoot').empty();
-    $('#modalBody').empty().append('<select class="modeButtons" name="'+ressId+'" id="resCatChange" onchange="catModOut(this);"><option value="">&nbsp;</option></select>');
-    $('#resCatChange').append('<option value="animal">&nbsp;animal</option>');
-    $('#resCatChange').append('<option value="plante">&nbsp;plante</option>');
-    $('#resCatChange').append('<option value="roche">&nbsp;roche</option>');
-    $('#resCatChange').append('<option value="minerai">&nbsp;minerai</option>');
-    // $('#resCatChange').append('<option value="nourriture">&nbsp;nourriture</option>');
+    $('#modalBody').empty().append('<select class="modeButtons" name="'+ressId+'" id="resCatChange" onchange="catModOut(this);"><option value="" selected>&nbsp;</option></select>');
+    if (ressource.cat == 'animal') {sel = ' selected';} else {sel = '';}
+    $('#resCatChange').append('<option value="animal"'+sel+'>&nbsp;animal</option>');
+    if (ressource.cat == 'plante') {sel = ' selected';} else {sel = '';}
+    $('#resCatChange').append('<option value="plante"'+sel+'>&nbsp;plante</option>');
+    if (ressource.cat == 'roche') {sel = ' selected';} else {sel = '';}
+    $('#resCatChange').append('<option value="roche"'+sel+'>&nbsp;roche</option>');
+    if (ressource.cat == 'minerai') {sel = ' selected';} else {sel = '';}
+    $('#resCatChange').append('<option value="minerai"'+sel+'>&nbsp;minerai</option>');
+    // if (ressource.cat == 'nourriture') {sel = ' selected';} else {sel = '';}
+    // $('#resCatChange').append('<option value="nourriture"'+sel+'>&nbsp;nourriture</option>');
     modal.style.display = "block";
 };
 function catModOut(select) {

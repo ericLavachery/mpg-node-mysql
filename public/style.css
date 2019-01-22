@@ -284,6 +284,13 @@ td {
     width: 260px;
     /* font-weight: bold; */
 }
+.paramIcon {
+    text-align: center;
+    margin-right: 3px;
+    color: #85633e;
+    width: 18px;
+    display: inline-block;
+}
 .paramValue {
     display: inline-block;
 }
@@ -339,6 +346,18 @@ td {
 .espace {
     margin: 6px;
     padding: 0;
+}
+.smSpace {
+    width: 2px;
+    display: inline-block;
+}
+.butSpace {
+    width: 5px;
+    display: inline-block;
+}
+.bigSpace {
+    width: 12px;
+    display: inline-block;
 }
 h1,h2,h3,h4 {
     display: inline;
@@ -409,10 +428,6 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
     font-size: 13px;
     display: inline-block;
     vertical-align: top;
-}
-.butSpace {
-    width: 5px;
-    display: inline-block;
 }
 .infoUnit
 {

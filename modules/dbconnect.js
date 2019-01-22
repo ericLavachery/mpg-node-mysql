@@ -1,9 +1,9 @@
 // connect to mysql
 var mysql = require('mysql');
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "kqb",
-    password: "zen8070$mysql",
-    database: "mpg"
+    host: "remotemysql.com",
+    user: "wzW5xdQemU",
+    password: "bWVrHFaYhq",
+    database: "wzW5xdQemU"
 });
 module.exports.con = con;

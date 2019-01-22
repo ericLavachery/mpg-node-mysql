@@ -76,6 +76,8 @@ db.con.connect(function(error) {
 
 // pages statiques dossier public/
 app.use('/static', express.static(__dirname + '/public'));
+app.use('/static', express.static(__dirname + '/node_modules/rpg-awesome'));
+// app.use('/static', express.static(__dirname + '/node_modules/rpg-awesome/fonts'));
 
 // router - ouais, on disait...
 app.get('/tables/', function (req, res) {
@@ -362,6 +364,7 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     // SPLIT UNIT
     socket.on('split_unit', function(data) {
+        console.log('split required');
         // change db
         let unitIndex = pop.findIndex((obj => obj.id == data.splitedUnitId));
         let newUnit = JSON.parse(JSON.stringify(pop[unitIndex]));
@@ -378,13 +381,14 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
+            console.log('unit splited');
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
         sql = "UPDATE bataillons SET number = '"+splitedUnitNumber+"' WHERE id = "+data.splitedUnitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log('unit splited');
+            console.log('unit added');
         });
         function splitOnServerPop(data,newId) {
             newUnit.id = newId;
