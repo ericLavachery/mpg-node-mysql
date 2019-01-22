@@ -47,7 +47,7 @@ function showUnitInfos(unitId) {
             // HP
             $('#unitInfos').append('<span class="paramName">PDV</span><span class="paramIcon"><i class="far fa-heart"></i></span><span class="paramValue">'+pop[unitIndex].hp+'</span><br>');
             // armure
-            $('#unitInfos').append('<span class="paramName">Armure</span><span class="paramIcon"><i class="ra ra-knight-helmet"></i></span><span class="paramValue">'+pop[unitIndex].armure+'</span><br>');
+            $('#unitInfos').append('<span class="paramName">Armure</span><span class="paramIcon"><i class="ra ra-vest"></i></span><span class="paramValue">'+pop[unitIndex].armure+'</span><br>');
             // esquive
             $('#unitInfos').append('<span class="paramName">Esquive</span><span class="paramIcon"><i class="ra ra-player-dodge"></i></span><span class="paramValue">'+pop[unitIndex].esquive+'</span><br>');
             // parade
@@ -85,7 +85,7 @@ function showUnitInfos(unitId) {
         }
         if (pop[unitIndex].fardeau >= 1) {
             // fardeau
-            $('#unitInfos').append('<span class="paramName">Fardeau</span><span class="paramIcon"></span><span class="paramValue" title="Nombre de Enk transportable (avec réduction de mouvement)">'+pop[unitIndex].fardeau+' ('+pop[unitIndex].fardeau*pop[unitIndex].number+')</span><br>');
+            $('#unitInfos').append('<span class="paramName">Fardeau</span><span class="paramIcon"><i class="fas fa-people-carry"></i></span><span class="paramValue" title="Nombre de Enk transportable (avec réduction de mouvement)">'+pop[unitIndex].fardeau+' ('+pop[unitIndex].fardeau*pop[unitIndex].number+')</span><br>');
         }
         // enk
         $('#unitInfos').append('<span class="paramName">Encombrement (Enk)</span><span class="paramIcon"><i class="ra ra-kettlebell"></i></span><span class="paramValue" title="Unité de mesure comprenant poids et taille">'+pop[unitIndex].enk+' ('+pop[unitIndex].enk*pop[unitIndex].number+')</span><br>');
