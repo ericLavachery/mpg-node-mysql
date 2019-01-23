@@ -71,14 +71,28 @@ function resOnTerTable(sortField) {
     });
 };
 function addRes() {
+    let ok = true;
     let name = prompt('NOM de la ressource :','caca');
     let price = prompt('PRIX :',1);
     let enk = prompt('ENK :',10);
-    let quant = prompt('QUANTITE récoltée :',0);
+    let quant = prompt('QUANTITE récoltée : (0-100)',0);
     let costRes = prompt('Coût (RESSOURCE) :','');
-    let costNum = prompt('Coût (QUANTITE) :',1);
-    let cat = prompt('CAT (plante/animal/roche/minerai/nourriture) :','');
-    if (name != null) {
+    let costNum = prompt('Coût (QUANTITE) :',0);
+    if (name == '' || name == 'caca' || name == null) {
+        ok = false;
+        alert('NOM DE RESSOURCE INVALIDE !!');
+    }
+    if (price == '' || price === null || enk == '' || enk === null || quant == '' || quant === null || costNum == '' || costNum === null || costRes === null) {
+        ok = false;
+        alert('VALEUR INVALIDE !!');
+    }
+    if (ok) {
+        name = name.trim().toLowerCase();
+        costRes = costRes.trim().toLowerCase();
+        price = price.trim();
+        enk = enk.trim();
+        quant = quant.trim();
+        costNum = costNum.trim();
         let newRes = {};
         newRes.name = name;
         newRes.price = Number(price);
@@ -86,48 +100,68 @@ function addRes() {
         newRes.costRes = costRes;
         newRes.costNum = Number(costNum);
         newRes.quant = Number(quant);
-        newRes.cat = cat;
+        newRes.cat = 'animal';
         newRes.altRes = '';
         socket.emit('add_res', newRes);
     }
 };
 function ressChange(ressId,field) {
+    let ok = true;
     let ressIndex = ress.findIndex((obj => obj.id == ressId));
     let ressource = ress[ressIndex];
     // costNum : changer aussi costRes
     if (field == 'costNum') {
         let newResValue = prompt('costRes : ',ress[ressIndex].costRes);
-        ress[ressIndex].costRes = newResValue;
-        emitSingleChange(ressId,'ressources','costRes',newResValue);
+        if (newResValue === null) {
+            ok = false;
+            alert('NOM DE RESSOURCE INVALIDE !!');
+        }
+        if (ok) {
+            newResValue = newResValue.trim().toLowerCase();
+            ress[ressIndex].costRes = newResValue;
+            emitSingleChange(ressId,'ressources','costRes',newResValue);
+        }
     }
     let newValue;
     if (field == 'name') {
         newValue = prompt(field+' : ',ress[ressIndex][field]);
+        if (newValue == '' || newValue === null) {
+            ok = false;
+            alert('NOM DE RESSOURCE INVALIDE !!');
+        } else {
+            newValue = newValue.trim().toLowerCase();
+        }
     } else {
         newValue = Number(prompt(field+' : ',ress[ressIndex][field]));
-    }
-    ress[ressIndex][field] = newValue;
-    // changer les champs calculés
-    if (field == 'price' || field == 'enk') {
-        ressource.enkval = Math.round(10*ressource.price/ressource.enk);
-    }
-    if (field == 'price' || field == 'costNum') {
-        let resCostIndex = 0;
-        let resCost = 0;
-        if (ressource.costRes != '') {
-            resCostIndex = ress.findIndex((obj => obj.name == ressource.costRes));
-            if (ressource.costNum == 0) {
-                resCost = Math.round(ress[resCostIndex].price/10);
-            } else {
-                resCost = ressource.costNum*ress[resCostIndex].price;
-            }
-            ressource.profit = ressource.price-resCost;
-        } else {
-            ressource.profit = ressource.price;
+        if (newValue === null) {
+            ok = false;
+            alert('VALEUR INVALIDE !!');
         }
     }
-    emitSingleChange(ressId,'ressources',field,newValue);
-    ressourcesTable('name');
+    if (ok) {
+        ress[ressIndex][field] = newValue;
+        // changer les champs calculés
+        if (field == 'price' || field == 'enk') {
+            ressource.enkval = Math.round(10*ressource.price/ressource.enk);
+        }
+        if (field == 'price' || field == 'costNum') {
+            let resCostIndex = 0;
+            let resCost = 0;
+            if (ressource.costRes != '') {
+                resCostIndex = ress.findIndex((obj => obj.name == ressource.costRes));
+                if (ressource.costNum == 0) {
+                    resCost = Math.round(ress[resCostIndex].price/10);
+                } else {
+                    resCost = ressource.costNum*ress[resCostIndex].price;
+                }
+                ressource.profit = ressource.price-resCost;
+            } else {
+                ressource.profit = ressource.price;
+            }
+        }
+        emitSingleChange(ressId,'ressources',field,newValue);
+        ressourcesTable('name');
+    }
 };
 function catModChange(ressId,field) {
     let ressIndex = ress.findIndex((obj => obj.id == ressId));
@@ -182,35 +216,37 @@ function resqLoopChange(ressId) {
 function resqSave(ressource,biome) {
     terIndex = ter.findIndex((obj => obj.id == biome.id));
     let pdval = resqFind(ressource,biome);
-    let resq = prompt(ressource.name+' : '+biome.name, pdval);
-    ter[terIndex].resq1 = ter[terIndex].resq1.replace(ressource.name+'_','');
-    ter[terIndex].resq2 = ter[terIndex].resq2.replace(ressource.name+'_','');
-    ter[terIndex].resq3 = ter[terIndex].resq3.replace(ressource.name+'_','');
-    ter[terIndex].resq4 = ter[terIndex].resq4.replace(ressource.name+'_','');
-    ter[terIndex].resq5 = ter[terIndex].resq5.replace(ressource.name+'_','');
-    switch (resq) {
-        case '1':
-            ter[terIndex].resq1 = ter[terIndex].resq1+ressource.name+'_';
-            break;
-        case '2':
-            ter[terIndex].resq2 = ter[terIndex].resq2+ressource.name+'_';
-            break;
-        case '3':
-            ter[terIndex].resq3 = ter[terIndex].resq3+ressource.name+'_';
-            break;
-        case '4':
-            ter[terIndex].resq4 = ter[terIndex].resq4+ressource.name+'_';
-            break;
-        case '5':
-            ter[terIndex].resq5 = ter[terIndex].resq5+ressource.name+'_';
-            break;
-    }
-    if (resq != pdval) {
-        emitSingleTerChange(biome.id,'resq1',ter[terIndex].resq1);
-        emitSingleTerChange(biome.id,'resq2',ter[terIndex].resq2);
-        emitSingleTerChange(biome.id,'resq3',ter[terIndex].resq3);
-        emitSingleTerChange(biome.id,'resq4',ter[terIndex].resq4);
-        emitSingleTerChange(biome.id,'resq5',ter[terIndex].resq5);
+    let resq = prompt(ressource.name+' : '+biome.name+' (0-5)', pdval);
+    if (resq >= 0 && resq <= 5) {
+        ter[terIndex].resq1 = ter[terIndex].resq1.replace(ressource.name+'_','');
+        ter[terIndex].resq2 = ter[terIndex].resq2.replace(ressource.name+'_','');
+        ter[terIndex].resq3 = ter[terIndex].resq3.replace(ressource.name+'_','');
+        ter[terIndex].resq4 = ter[terIndex].resq4.replace(ressource.name+'_','');
+        ter[terIndex].resq5 = ter[terIndex].resq5.replace(ressource.name+'_','');
+        switch (resq) {
+            case '1':
+                ter[terIndex].resq1 = ter[terIndex].resq1+ressource.name+'_';
+                break;
+            case '2':
+                ter[terIndex].resq2 = ter[terIndex].resq2+ressource.name+'_';
+                break;
+            case '3':
+                ter[terIndex].resq3 = ter[terIndex].resq3+ressource.name+'_';
+                break;
+            case '4':
+                ter[terIndex].resq4 = ter[terIndex].resq4+ressource.name+'_';
+                break;
+            case '5':
+                ter[terIndex].resq5 = ter[terIndex].resq5+ressource.name+'_';
+                break;
+        }
+        if (resq != pdval) {
+            emitSingleTerChange(biome.id,'resq1',ter[terIndex].resq1);
+            emitSingleTerChange(biome.id,'resq2',ter[terIndex].resq2);
+            emitSingleTerChange(biome.id,'resq3',ter[terIndex].resq3);
+            emitSingleTerChange(biome.id,'resq4',ter[terIndex].resq4);
+            emitSingleTerChange(biome.id,'resq5',ter[terIndex].resq5);
+        }
     }
 };
 function resqFind(ressource,biome) {

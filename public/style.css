@@ -443,6 +443,9 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
     color: white;
     text-shadow: 1px black;
     background: #8e9f80;
+    margin-top: 55px;
+    margin-left: 55px;
+    /* margin-left: 750px; */
 }
 .infoUnit span img
 {
@@ -455,8 +458,6 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
 {
     display: block;
     position: fixed;
-    margin-top: 55px;
-    margin-left: 750px;
     top: 0;
     left: 0;
     z-index: 1000;
@@ -481,6 +482,9 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
     color: white;
     text-shadow: 1px black;
     background: #8e9f80;
+    margin-top: 55px;
+    margin-left: 55px;
+    /* margin-left: 430px; */
 }
 .infoBiome span img
 {
@@ -493,8 +497,6 @@ a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,.jaune:hover,a.grisf:hover,
 {
     display: block;
     position: fixed;
-    margin-top: 55px;
-    margin-left: 430px;
     top: 0;
     left: 0;
     z-index: 1000;

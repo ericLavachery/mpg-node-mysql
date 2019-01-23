@@ -427,6 +427,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, data, function (error, result) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
+            console.log('new res '+data.name+' added');
             sendNewRes(result.insertId);
         });
         function sendNewRes(newId) {

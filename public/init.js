@@ -169,9 +169,16 @@ function writeTerStyles(wter) {
 function yourMapSize() {
     numHTiles = Number(prompt('Nombre de terrains vus horizontalement (x)',15));
     numVTiles = Number(prompt('Nombre de terrains vus horizontalement (y)',9));
+    // change la position des images en hover
+    // let unitML = (numHTiles*72)-330;
+    // let biomeML = (numHTiles*72)-650;
+    // $(".infoUnit span").css({marginLeft : unitML+'px'});
+    // $(".infoBiome span").css({marginLeft : biomeML+'px'});
+    // sauvegarde les prefs
     let numTiles = {h:numHTiles,v:numVTiles};
     perso.prefs.numTiles = numTiles;
     emitPlayersChange(perso);
+    // redessine la carte
     writeMapStyles();
     showMap(world);
     showVisiblePop(world);

@@ -9,11 +9,18 @@ function selectOrMove(tileId) {
         });
         let sortedOwnPopHere = _.sortBy(ownPopHere,'number');
         let unitId = 0;
+        let anyUnitId = 0;
         let unitOwner = pseudo;
         sortedOwnPopHere.forEach(function(unit) {
-            unitId = unit.id;
-            unitOwner = unit.player;
+            anyUnitId = unit.id;
+            if (unit.genre != 'ressource' && unit.genre != 'coffre') {
+                unitId = unit.id;
+            }
+            // unitOwner = unit.player;
         });
+        if (unitId == 0) {
+            unitId = anyUnitId;
+        }
         let unitIndex = pop.findIndex((obj => obj.id == unitId));
         if (unitId >= 1) { // there is a unit
             if (selectedUnit.tileId == tileId) { // a unit is selected here => unselect
