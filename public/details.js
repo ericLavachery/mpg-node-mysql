@@ -41,7 +41,7 @@ function showUnitInfos(unitId) {
             $('#unitInfos').append('<span class="paramName">Attitude</span><span class="paramIcon"></span><span class="paramValue" title="'+attitude.expl+'">'+attitude.name+'</span><br>');
             // Organisation
             let org = calcOrg(unitId);
-            $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramIcon"></span><span class="paramValue">'+org+'/'+pop[unitIndex].org+'</span><br>');
+            $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramIcon"></span><span class="paramValue"><span title="Organisation du groupe">'+org+'</span> <span title="Organisation du bataillon (si il était en dehors du groupe)">('+pop[unitIndex].org+')</span></span><br>');
         }
         if (pop[unitIndex].puissance >= 1) {
             // HP
@@ -99,6 +99,7 @@ function calcOrg(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let org = pop[unitIndex].org;
     let group = pop[unitIndex].follow;
+    let deso = 3;
     if (group >= 1) {
         let groupNumber = 0;
         let groupOrg = 0;
@@ -109,13 +110,16 @@ function calcOrg(unitId) {
         });
         groupPop.forEach(function(unit) {
             groupNumber = groupNumber+unit.number;
+        });
+        deso = desorganisation(groupNumber);
+        groupPop.forEach(function(unit) {
             if (unit.org == 0) {
                 unitOrg = 100;
             } else {
                 unitOrg = unit.org;
             }
             if (unit.fatigue > Math.round(unit.move/2)) {
-                unitOrg = Math.round(unitOrg/3);
+                unitOrg = Math.round(unitOrg/deso);
             }
             groupOrg = groupOrg+(unitOrg*unit.number);
             if (unitOrg > bestOrg) {
@@ -124,8 +128,9 @@ function calcOrg(unitId) {
         });
         org = Math.round((Math.round(groupOrg/groupNumber)+bestOrg)/2);
     } else {
+        deso = desorganisation(pop[unitIndex].number);
         if (pop[unitIndex].fatigue > Math.round(pop[unitIndex].move/2)) {
-            org = Math.round(org/3);
+            org = Math.round(org/deso);
         } else {
             org = pop[unitIndex].org;
         }
@@ -134,6 +139,14 @@ function calcOrg(unitId) {
         org = 1;
     }
     return org;
+};
+function desorganisation(number) {
+    let deso = Math.round(Math.sqrt(number)*10/4);
+    deso = deso/10;
+    if (deso < 1) {
+        deso = 1;
+    }
+    return deso;
 };
 function displayMove(move,fatigue) {
     let shape = Math.round((move-fatigue)/(move/2)*100);

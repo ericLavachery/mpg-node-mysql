@@ -378,14 +378,14 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, newUnit, function (error, result) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
-            console.log('unit splited');
+            console.log('unit added');
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
         sql = "UPDATE bataillons SET number = '"+splitedUnitNumber+"' WHERE id = "+data.splitedUnitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log('unit added');
+            console.log('unit splitted');
         });
         function splitOnServerPop(data,newId) {
             newUnit.id = newId;
