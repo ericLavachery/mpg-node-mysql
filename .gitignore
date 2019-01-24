@@ -3,3 +3,5 @@
 /todo/.~lock.mpg.ods#
 /modules/dbconnect.js
 /modules/dbconnect_old.js
+/modules/dbconnect_remote.js
+/modules/dbconnect_helio.js

@@ -9,9 +9,6 @@ const isJSON = require('./public/share.js');
 const rand = require('./public/share.js');
 const _ = require('underscore');
 
-const numHTiles = 15;
-const numVTiles = 8;
-
 let pop = [];
 let world = [];
 let ter = [];
