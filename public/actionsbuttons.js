@@ -49,10 +49,10 @@ function actionsButtons() {
     }
     // ATTACK
     $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="ra ra-crossed-swords"></i></button><span class="butSpace"></span>');
-    // GUARD
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Garder" id="guard" onclick="guard('+selectedUnit.id+')"><i class="fas fa-shield-alt"></i></button><span class="butSpace"></span>');
+    // FORTIFICATION
+    $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Fortifier" id="fortif" onclick="fortif('+selectedUnit.id+')"><i class="ra ra-tower"></i></button><span class="butSpace"></span>');
+    // BARRAGE
+    $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Faire un barrage" id="barrage" onclick="barrage('+selectedUnit.id+')"><i class="ra ra-hand"></i></button><span class="butSpace"></span>');
     // ALERTE
     $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Mettre le territoire en alerte" id="eat" onclick="eat('+selectedUnit.id+')"><i class="ra ra-bell"></i></button><span class="butSpace"></span>');
-    // MEOW
-    $('#tileUnitList').append('<button type="button" class="iconButtons" title="Miaou!" id="meow"><i class="fas fa-cat"></i></button>');
 };

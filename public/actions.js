@@ -493,9 +493,9 @@ function unfogTile(tileId,save,fromMove) {
 function attack() {
 
 };
-function guard() {
+function fortif() {
 
 };
-function eat() {
+function barrage() {
 
 };

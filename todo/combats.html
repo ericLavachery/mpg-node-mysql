@@ -27,6 +27,73 @@ ________________________________________________________________________________
 organisation
     org max de la troupe = org moyenne*2 + org chef / 3
     bataillons en mouvement (fatigue > 0) ont org/3
-    
+
     va définir le nombre max d'unités pouvant en attaquer 1 seule
     la défense des unités à couvrir
+
+__________________________________________________________________________________________________________
+
+Fortification :
+    Augmente fortifications (en fonction du terrain - palissades etc...)
+    Coûte un peu de move.
+    s'annule dès qu'on bouge.
+
+Barrage :
+    ne donne pas de bonus
+    Coûte bcp de move
+    s'annule si les conditions ne sont plus remplies
+    minimum d'unités nécéssaires
+    unité de barrage nécéssaire
+    empêche de passer (sauf alliés)
+___________________________________________________________________________________________________________
+
+ARRAY COMBAT
+    Global
+        turn
+    Team
+        maxOpp (org, stature, rapport de nombre, fortif)
+        protection (org, protAllies, rapport de nombre, fortif)
+    Bataillons
+        priority (protAllies, GC, dice)
+        numOpp
+        targetOK
+
+PRIORITY
+           BASE      GC     Dice
+    P0     150    -30/+30
+    P1     100    -20/+20
+    P2     50     -10/+10
+    Capo   30
+    Boss   10
+
+    Dice: +(1-100)-50
+    Base: Varie avec protection: p35 = (35*BASE + 65*200) / 100
+
+    Priorité différente pour les unités avec portée 2+ (prioP2)
+        BASE différente (150,120,100,70,40)
+    Priorité différente pour les unités avec appui 3+ et portée 0 (prioA3)
+        Pas d'ajustement GC, ajustement dangerosité seulement (moins dangereux + prio)
+
+Search Target :
+    bataillons triés par priority
+    chercher uniquement dans les prio 100+
+        chercher uniquement dans les bataillons avec numOpp < nombre d'unités (no full)
+            Tour 1 : premier avec bonus
+            Tour 2 : premier OK puis/maxCibles
+            Tour 3 : premier sans malus
+            Tour 4 : premier
+        quand tous les prio 100+ sont full :
+        chercher dans les bataillons avec numOpp < 2 x nombre d'unités
+            Tour 1 : premier avec bonus
+            Tour 2 : premier OK puis/maxCibles
+            Tour 3 : premier sans malus
+            Tour 4 : premier
+        quand tous les prio 100+ sont 2xfull :
+        chercher dans les bataillons avec numOpp < 3 x nombre d'unités
+            Tour 1 : premier avec bonus
+            Tour 2 : premier OK puis/maxCibles
+            Tour 3 : premier sans malus
+            Tour 4 : premier
+    Unités portée 0 : mettre son target dans ses opposants
+
+Garder le même opposant au tour suivant???
