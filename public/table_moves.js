@@ -40,6 +40,8 @@ function terrainsTable(sortField) {
             if (biome.innondation >= 10) {
                 defense = defense+Math.round((biome.innondation-5)*4/5);
             }
+            cover = Math.round(cover*biomeCoverFac/100);
+            defense = Math.round(defense*biomeCoverFac/100);
             if (defense < 10) {
                 defense = 10;
             }

@@ -18,6 +18,7 @@ function calcTerDefense(tileId) {
         innondAdj = Math.round((ter[terIndex].innondation-5)*4/5);
     }
     terDefense = terDefense+innondAdj;
+    terDefense = Math.round(terDefense*biomeCoverFac/100);
     if (terDefense < 10) {
         terDefense = 10;
     }
@@ -41,6 +42,7 @@ function calcTerCover(tileId) {
         escarpAdj = Math.round(Math.sqrt(ter[terIndex].escarpement-15)*5);
     }
     terCover = terCover+escarpAdj;
+    terCover = Math.round(terCover*biomeCoverFac/100);
     return terCover;
 };
 function calcBaseDefense(unitId) {
@@ -175,4 +177,52 @@ function calcGlassCanon(oppResist,oppPower) {
         glassCanon = 80;
     }
     return glassCanon;
+};
+function calcDamage(puissance,penetration,armure) {
+    let penArmure = Math.round(armure*penetration/100);
+    let damage = Math.round(puissance-(penArmure*puissance/100));
+    damage = Math.round((damage+rand.rand(0,damage))/2);
+    return damage;
+};
+function calcDamageMix(puissance,penetration,armure) {
+    // ancien système (ne pas utiliser)
+    let penArmure = Math.round(armure*penetration/100);
+    let percDamage = Math.round(puissance-(penArmure*puissance/100));
+    let subDamage = Math.round(puissance-(penArmure/20));
+    let damage = Math.round((percDamage+subDamage)/2);
+    damage = Math.round((damage+rand.rand(0,damage))/2);
+    return damage;
+};
+function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills) {
+    let att = attPrecision;
+    let def = 0;
+    if (attStature >= defStature+2) {
+        defParade = Math.round(defParade*2/3);
+    }
+    if (attSkills.includes('noesq_')) {
+        if (attSkills.includes('nopar_')) {
+            def = 0;
+        } else {
+            if (attStature < defStature+3 || attPuissance < defHP) {
+                def = defParade;
+            } else {
+                def = 0;
+            }
+        }
+    } else {
+        if (attSkills.includes('nopar_')) {
+            def = defEsquive;
+        } else {
+            if (defParade > defEsquive) {
+                if (attStature < defStature+3 || attPuissance < defHP) {
+                    def = defParade;
+                }
+            }
+        }
+    }
+    if (rand.rand(1,att+def) <= att) {
+        return true;
+    } else {
+        return false;
+    }
 };

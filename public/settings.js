@@ -42,3 +42,5 @@ let minCartoML = 60; // perte de move min (x3 si sans hab spéciale)
 let maxMoveCost = 240; // 180 default
 let baseMoveCost = 40; // moveCost is x baseMoveCost /30
 let viewOutPerc = 0; // % qu'un tile soit perdu de vue en passant au jour suivant (defaut 5 / dev 0)
+let biomeCoverFac = 65; // terCover x biomeCoverFac / 100
+let biomeDefFac = 100; // terDefense x biomeDefFac / 100

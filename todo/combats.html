@@ -5,10 +5,16 @@ hp
 parade
 esquive
     précision chance sur (précision + esquive) de toucher
-    utiliser parade si meilleur score, mais pas si stature >= stature+2 ET puissance >= hp
+    utiliser parade si meilleur score, mais pas si stature >= stature+3 ET puissance >= hp
 attaque
 defense
     précision dans ces circonstances
+    !!! en fonction des ordres et des situations :
+        si un bataillon mauvais en défense se fait attaquer, il passe en attaque au bout d'un moment, sauf si il défend une position
+        en gros, au bout de x tours, chacun utilise son meilleur score
+        sauf si une des deux partie défend une position (fortification)
+        dans ce cas l'attaquant reste en attaque et le défenseur en défense
+        dans ce cas aussi, l'attaquant a un bonus pour fuir
 armure
 puissance
     dégâts faits si touché
@@ -16,11 +22,12 @@ actions
     nombre d'attaques
 rapidite
     qui frappe en premier
+    qui choisi d'abord son opposant (ajustement moveCost)
 
 Terrain defense:
-    % ajouté a : defense
+    % ajouté a : fortification (seulement si fortifié) -> parade et esquive du défenseur
 Terrain cover:
-    % ajouté a : defense, attaque
+    % ajouté a : parade et esquive des deux côtés
 
 __________________________________________________________________________________________________________
 
