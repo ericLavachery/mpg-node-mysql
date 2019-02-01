@@ -34,11 +34,14 @@ function terrainsTable(sortField) {
                 cover = cover+Math.round((biome.vegetation+5)*(biome.vegetation+5)/32);
             }
             if (biome.escarpement >= 15) {
-                defense = defense+Math.round((biome.escarpement-10)*5/4)+1;
+                defense = defense+Math.round((biome.escarpement-10)*5/4);
                 cover = cover+Math.round(Math.sqrt(biome.escarpement-15)*5);
             }
             if (biome.innondation >= 10) {
                 defense = defense+Math.round((biome.innondation-5)*4/5);
+            }
+            if (defense < 10) {
+                defense = 10;
             }
             moveCost300 = terMC(biome,300,300,300);
             if (moveCost300 > maxMoveCost) {mvClass300 = ' rouge';}

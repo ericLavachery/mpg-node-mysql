@@ -10,7 +10,7 @@ function calcTerDefense(tileId) {
     terDefense = terDefense+vegetAdj;
     // escarpement
     if (ter[terIndex].escarpement >= 15) {
-        escarpAdj = Math.round((ter[terIndex].escarpement-10)*5/4)+1;
+        escarpAdj = Math.round((ter[terIndex].escarpement-10)*5/4);
     }
     terDefense = terDefense+escarpAdj;
     // innondation
@@ -18,6 +18,9 @@ function calcTerDefense(tileId) {
         innondAdj = Math.round((ter[terIndex].innondation-5)*4/5);
     }
     terDefense = terDefense+innondAdj;
+    if (terDefense < 10) {
+        terDefense = 10;
+    }
     return terDefense;
 };
 function calcTerCover(tileId) {
@@ -86,4 +89,90 @@ function calcBaseAttaque(unitId) {
     if (shape > 100) {shape = 100;};
     attaque = Math.round(attaque*(shape+300)/400);
     return attaque;
+};
+function calcFortif(terDefense,wallsDefense,fortifie) {
+    let fortif = 0;
+    let appliedTerDef = 0;
+    if (fortifie) {
+        appliedTerDef = terDefense;
+    }
+    if (wallsDefense > terDefense) {
+        fortif = wallsDefense+(appliedTerDef/2);
+    } else {
+        fortif = appliedTerDef+(wallsDefense/2);
+    }
+    return Math.round(fortif);
+};
+function calcProtPercCovering(numToCover,numCovering) {
+    let percCovering = Math.round((numCovering*100)/(numToCover+numCovering));
+    return Math.round(100*percCovering*percCovering/6400);
+};
+function calcProtFortif(fortif) {
+    return Math.round(Math.sqrt(Math.sqrt(fortif+10))*47);
+};
+function calcProtection(org,numToCover,numCovering,fortif,numOwn,numOpp) {
+    let protection = Math.round(org*calcProtPercCovering(numToCover,numCovering)*calcProtFortif(fortif)/numOpp*numOwn/5000);
+    if (protection > 100) {
+        protection = 100;
+    }
+    return protection;
+};
+function calcPriority(oppAppui,oppProtection,oppResist,oppPower,prioType) {
+    // prioType = melee : calc prioMelee
+    // prioType = range : calc prioRange
+    // prioType = none : calc prioNone
+    let basePrio = 150;
+    let noProtPrio = 200;
+    if (prioType == 'range') {
+        if (oppAppui = 0) {
+            basePrio = 150;
+            noProtPrio = 150;
+        } else if (oppAppui == 1) {
+            basePrio = 120;
+            noProtPrio = 185;
+        } else if (oppAppui == 2) {
+            basePrio = 100;
+            noProtPrio = 200;
+        } else if (oppAppui == 3) {
+            basePrio = 70;
+            noProtPrio = 215;
+        } else if (oppAppui == 4) {
+            basePrio = 40;
+            noProtPrio = 230;
+        }
+    } else {
+        if (oppAppui = 0) {
+            basePrio = 150;
+            noProtPrio = 150;
+        } else if (oppAppui == 1) {
+            basePrio = 100;
+            noProtPrio = 185;
+        } else if (oppAppui == 2) {
+            basePrio = 50;
+            noProtPrio = 200;
+        } else if (oppAppui == 3) {
+            basePrio = 30;
+            noProtPrio = 215;
+        } else if (oppAppui == 4) {
+            basePrio = 10;
+            noProtPrio = 230;
+        }
+    }
+    if (oppAppui < 3 && prioType != 'none') {
+        basePrio = Math.round(basePrio*calcGlassCanon(oppResist,oppPower)/100);
+    }
+    if (prioType == 'none') {
+        noProtPrio = basePrio;
+    }
+    basePrio = Math.round(((oppProtection*basePrio)+((100-oppProtection)*noProtPrio))/100);
+    return basePrio-50+rand.rand(1,100);
+};
+function calcGlassCanon(oppResist,oppPower) {
+    let glassCanon = Math.round((15*oppPower/oppResist)+75);
+    if (glassCanon > 120) {
+        glassCanon = 120;
+    } else if (glassCanon < 80) {
+        glassCanon = 80;
+    }
+    return glassCanon;
 };
