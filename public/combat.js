@@ -167,7 +167,7 @@ function calcPriority(oppAppui,oppProtection,oppResist,oppPower,prioType) {
         noProtPrio = basePrio;
     }
     basePrio = Math.round(((oppProtection*basePrio)+((100-oppProtection)*noProtPrio))/100);
-    return basePrio-50+rand.rand(1,100);
+    return basePrio-50+rand.rand(1,prioDice);
 };
 function calcGlassCanon(oppResist,oppPower) {
     let glassCanon = Math.round((15*oppPower/oppResist)+75);
@@ -178,19 +178,56 @@ function calcGlassCanon(oppResist,oppPower) {
     }
     return glassCanon;
 };
-function calcDamage(puissance,penetration,armure) {
+function calcMCRap(rapidite,portee,tileId,unitId) {
+    let moveCost = calcMoveCost(tileId,unitId,false,false);
+    let adjRap = 0;
+    if (moveCost > 600) {
+        adjRap = 35;
+    } else {
+        adjRap = Math.round((Math.sqrt(moveCost)-5)*2);
+        if (adjRap < 0) {
+            adjRap = 0;
+        }
+        if (adjRap > 35) {
+            adjRap = 35;
+        }
+    }
+    if (portee >= 2) {
+        adjRap = Math.round(adjRap/2);
+    } else if (portee >=1) {
+        adjRap = Math.round(adjRap/3*2);
+    }
+    return rapidite-adjRap;
+}
+function rollChoiceDice(mcRap) {
+    let rollRap = mcRap+rand.rand(1,rapiditeDice);
+    return rollRap;
+}
+function calcDamage(crit,puissance,penetration,degNatures,degDomaines,armure,nature,domaine) {
+    if (crit) {
+        puissance = Math.round(puissance*critFac);
+    }
     let penArmure = Math.round(armure*penetration/100);
     let damage = Math.round(puissance-(penArmure*puissance/100));
-    damage = Math.round((damage+rand.rand(0,damage))/2);
-    return damage;
-};
-function calcDamageMix(puissance,penetration,armure) {
-    // ancien système (ne pas utiliser)
-    let penArmure = Math.round(armure*penetration/100);
-    let percDamage = Math.round(puissance-(penArmure*puissance/100));
-    let subDamage = Math.round(puissance-(penArmure/20));
-    let damage = Math.round((percDamage+subDamage)/2);
-    damage = Math.round((damage+rand.rand(0,damage))/2);
+    let damageDice = damage*2;
+    if (damageDice < 1) {
+        damageDice = 1;
+    }
+    damage = Math.round((damage+rand.rand(0,damageDice))/2);
+    if (!degNatures.includes(nature+'_')) {
+        if (!degDomaines.includes(domaine+'_')) {
+            // nature KO, domaine KO
+            damage = Math.round(damage/7);
+        } else {
+            // nature KO
+            damage = Math.round(damage/4);
+        }
+    } else {
+        if (!degDomaines.includes(domaine+'_')) {
+            // domaine KO
+            damage = Math.round(damage/3);
+        }
+    }
     return damage;
 };
 function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills) {
@@ -220,9 +257,19 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
             }
         }
     }
-    if (rand.rand(1,att+def) <= att) {
-        return true;
+    let critical = 0;
+    if (attSkills.includes('crit_')) {
+        critical = Math.round((att-def)/2);
+        if (critical < 1) {
+            critical = 1;
+        }
+    }
+    let checkHit = rand.rand(1,att+def);
+    if (checkHit <= critical) {
+        return 'crit';
+    } else if (checkHit <= att) {
+        return 'hit';
     } else {
-        return false;
+        return 'miss';
     }
 };

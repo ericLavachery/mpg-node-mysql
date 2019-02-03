@@ -44,3 +44,6 @@ let baseMoveCost = 40; // moveCost is x baseMoveCost /30
 let viewOutPerc = 0; // % qu'un tile soit perdu de vue en passant au jour suivant (defaut 5 / dev 0)
 let biomeCoverFac = 65; // terCover x biomeCoverFac / 100
 let biomeDefFac = 100; // terDefense x biomeDefFac / 100
+let rapiditeDice = 50; // dé rapidité (1-rapiditeDice)
+let prioDice = 100; // dé priorité (1-prioDice)
+let critFac = 3; // multiplication des dégâts quand coup critique

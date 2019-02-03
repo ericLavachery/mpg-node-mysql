@@ -54,17 +54,6 @@ Barrage :
     empêche de passer (sauf alliés)
 ___________________________________________________________________________________________________________
 
-ARRAY COMBAT
-    Global
-        turn
-    Team
-        maxOpp (org, stature, rapport de nombre, fortif)
-        protection (org, rapport de nombre, fortif, rapport couverture)
-    Bataillons
-        priority (protAllies, GC, dice)
-        numOpp
-        targetOK
-
 PRIORITY
            BASE      GC     Dice
     P0     150    -30/+30
@@ -85,23 +74,62 @@ Search Target :
     bataillons triés par priority
     chercher uniquement dans les prio 100+
         chercher uniquement dans les bataillons avec numOpp < nombre d'unités (no full)
-            Tour 1 : premier avec bonus
-            Tour 2 : premier OK puis/maxCibles
-            Tour 3 : premier sans malus
-            Tour 4 : premier
+            Loop 1 : premier avec bonus
+            Loop 2 : premier OK puiss/maxCibles etc...
+            Loop 3 : premier sans malus
+            Loop 4 : premier
         quand tous les prio 100+ sont full :
         chercher dans les bataillons avec numOpp < 2 x nombre d'unités
-            Tour 1 : premier avec bonus
-            Tour 2 : premier OK puis/maxCibles
-            Tour 3 : premier sans malus
-            Tour 4 : premier
-        quand tous les prio 100+ sont 2xfull :
-        chercher dans les bataillons avec numOpp < 3 x nombre d'unités
-            Tour 1 : premier avec bonus
-            Tour 2 : premier OK puis/maxCibles
-            Tour 3 : premier sans malus
-            Tour 4 : premier
+            Loop 1 : premier avec bonus
+            Loop 2 : premier OK puiss/maxCibles etc...
+            Loop 3 : premier sans malus
+            Loop 4 : premier
+        Continuer tant que maxOpp n'est pas atteint pour toutes les unités avec prio 100+
     Unités portée 0 : mettre son target dans ses opposants
 
 Garder le même opposant au tour suivant ???
+
 Bonus précision si plusieurs sur 1 homme !!!
+
+________________________________________________________________________________
+
+Dégâts avec aire d'effet ???
+    2 champs HP :
+        HPbat : (total des HP de chaque unité)
+            blessure individuelle : se retire ici
+            un individu tombe chaque fois que HPeach est retiré à HPbat
+        HPeach : (HP d'une unité)
+            blessure globale : se retire ici
+________________________________________________________________________________
+
+ARRAY COMBAT
+    Global
+        turn
+    Team
+        maxOpp (org, stature, rapport de nombre, fortif)
+        protection (org, rapport de nombre, fortif, rapport couverture)
+    Bataillons
+        priority (protAllies, GC, dice)
+        rollChoice
+        numOpp (en nombre d'unités)
+        targetOK (quand nombre d'unités des bataillons ciblés >= nombre d'unité)
+        targets (array : ids des bataillons ciblés)
+        HPbat
+        HPeach
+        COMBAT FIELDS (from pop array)
+            HP
+            esquive (avec bonus coverAdj/terCover)
+            parade (avec bonus coverAdj/terCover)
+            armure
+            stature
+            nature
+            domaine
+            endurance
+            actions
+            puissance
+            portee
+            penetration
+            rapidite
+            rapChoice (avec ajustement moveCost)
+            degNatures
+            degDomaines
