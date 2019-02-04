@@ -45,52 +45,43 @@ function calcTerCover(tileId) {
     terCover = Math.round(terCover*biomeCoverFac/100);
     return terCover;
 };
-function calcBaseDefense(unitId) {
+function calcBasePrec(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    let defense = pop[unitIndex].defense;
-    let tileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
-    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let terCover = calcTerCover(pop[unitIndex].tileId);
-    let terDefense = calcTerDefense(pop[unitIndex].tileId);
-    // ajustement carto
-    if (perso.mapCarto.includes(pop[unitIndex].tileId)) {
-        terCover = Math.round((terCover*110/100)+10);
-        terDefense = Math.round((terDefense*110/100)+10);
-    }
-    let cover = Math.round(terCover*pop[unitIndex].coverAdj/100);
-    defense = Math.round((defense*terDefense/100)+defense);
-    defense = Math.round((defense*cover/100)+defense);
+    let prec = pop[unitIndex].prec;
+    // effects of moveCost
+    let tileId = pop[unitIndex].tileId;
+    let mcAdj = calcMCAdj(tileId,unitId);
+    prec = Math.round(prec*(100-adjRap)/100);
     // effects of fatigue
-    let move = pop[unitIndex].move;
-    let fatigue = pop[unitIndex].fatigue;
-    if (fatigue < 0) {fatigue = 0;};
-    let movesLeft = move-fatigue;
-    let shape = Math.round(movesLeft/(move/2)*100);
-    if (shape > 100) {shape = 100;};
-    defense = Math.round(defense*(shape+300)/400);
-    return defense;
+    let shape = calcShape(unitId);
+    prec = Math.round(prec*shape/100);
+    return prec;
 };
-function calcBaseAttaque(unitId) {
-    let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    let attaque = pop[unitIndex].attaque;
-    let tileIndex = world.findIndex((obj => obj.id == pop[unitIndex].tileId));
-    let terrainIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));
-    let terCover = calcTerCover(pop[unitIndex].tileId);
-    // ajustement carto
-    if (perso.mapCarto.includes(pop[unitIndex].tileId)) {
-        terCover = Math.round((terCover*110/100)+10);
+function calcMCAdj(tileId,unitId) {
+    let moveCost = calcMoveCost(tileId,unitId,false,false);
+    let adjRap = 0;
+    if (moveCost > 600) {
+        adjRap = 35;
+    } else {
+        adjRap = Math.round((Math.sqrt(moveCost)-5)*2);
+        if (adjRap < 0) {
+            adjRap = 0;
+        }
+        if (adjRap > 35) {
+            adjRap = 35;
+        }
     }
-    let cover = Math.round(terCover*pop[unitIndex].coverAdj/100);
-    attaque = Math.round((attaque*cover/100)+attaque);
-    // effects of fatigue
+    return adjRap;
+};
+function calcShape(unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let move = pop[unitIndex].move;
     let fatigue = pop[unitIndex].fatigue;
-    if (fatigue < 0) {fatigue = 0;};
-    let movesLeft = move-fatigue;
-    let shape = Math.round(movesLeft/(move/2)*100);
+    let movesLeft = move+move-fatigue;
+    let shape = Math.round((movesLeft/3)+75);
     if (shape > 100) {shape = 100;};
-    attaque = Math.round(attaque*(shape+300)/400);
-    return attaque;
+    if (shape < 75) {shape = 75;};
+    return shape;
 };
 function calcFortif(terDefense,wallsDefense,fortifie) {
     let fortif = 0;
@@ -179,19 +170,7 @@ function calcGlassCanon(oppResist,oppPower) {
     return glassCanon;
 };
 function calcMCRap(rapidite,portee,tileId,unitId) {
-    let moveCost = calcMoveCost(tileId,unitId,false,false);
-    let adjRap = 0;
-    if (moveCost > 600) {
-        adjRap = 35;
-    } else {
-        adjRap = Math.round((Math.sqrt(moveCost)-5)*2);
-        if (adjRap < 0) {
-            adjRap = 0;
-        }
-        if (adjRap > 35) {
-            adjRap = 35;
-        }
-    }
+    let adjRap = calcMCAdj(tileId,unitId);
     if (portee >= 2) {
         adjRap = Math.round(adjRap/2);
     } else if (portee >=1) {

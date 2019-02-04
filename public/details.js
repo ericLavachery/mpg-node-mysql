@@ -58,12 +58,9 @@ function showUnitInfos(unitId) {
             }
             // actions
             $('#unitInfos').append('<span class="paramName">Actions</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].actions+'</span><br>');
-            // attaque
-            let attaque = calcBaseAttaque(unitId);
-            $('#unitInfos').append('<span class="paramName">Précision (attaque)</span><span class="paramIcon"><i class="ra ra-sword"></i></span><span class="paramValue">'+attaque+'/'+pop[unitIndex].attaque+'</span><br>');
-            // défense
-            let defense = calcBaseDefense(unitId);
-            $('#unitInfos').append('<span class="paramName">Précision (défense)</span><span class="paramIcon"><i class="ra ra-sword"></i></span><span class="paramValue">'+defense+'/'+pop[unitIndex].defense+'</span><br>');
+            // precision
+            let prec = calcBasePrec(unitId);
+            $('#unitInfos').append('<span class="paramName">Précision</span><span class="paramIcon"><i class="ra ra-sword"></i></span><span class="paramValue">'+prec+'/'+pop[unitIndex].prec+'</span><br>');
             // puissance
             $('#unitInfos').append('<span class="paramName">Puissance</span><span class="paramIcon"><i class="fas fa-fist-raised"></i></span><span class="paramValue">'+pop[unitIndex].puissance+'</span><br>');
             // couverture
@@ -313,8 +310,8 @@ function showTileInfos(tileId,linked,cssId) {
         }
         // couverture
         $(cssi).append('<span class="paramName">Couverture</span><span class="paramValue">'+terCover+'%</span><br>');
-        // defense
-        $(cssi).append('<span class="paramName">Défense</span><span class="paramValue">'+terDefense+'%</span><br>');
+        // Fortification
+        $(cssi).append('<span class="paramName">Fortification</span><span class="paramValue">'+terDefense+'%</span><br>');
     }
     if (ter[terrainIndex].illu != '') {
         $(cssi).append('<span class="loupe infoBiome klik"><i class="fas fa-image"></i><span><img src="/static/img/biomes/'+ter[terrainIndex].illu+'.jpg" width="600"></span></span><span class="bigSpace"></span>');
