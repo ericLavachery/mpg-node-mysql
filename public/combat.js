@@ -51,7 +51,7 @@ function calcBasePrec(unitId) {
     // effects of moveCost
     let tileId = pop[unitIndex].tileId;
     let mcAdj = calcMCAdj(tileId,unitId);
-    prec = Math.round(prec*(100-adjRap)/100);
+    prec = Math.round(prec*(100-mcAdj)/100);
     // effects of fatigue
     let shape = calcShape(unitId);
     prec = Math.round(prec*shape/100);
@@ -77,7 +77,8 @@ function calcShape(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let move = pop[unitIndex].move;
     let fatigue = pop[unitIndex].fatigue;
-    let movesLeft = move+move-fatigue;
+    let endurance = pop[unitIndex].endurance;
+    let movesLeft = move+endurance-fatigue;
     let shape = Math.round((movesLeft/3)+75);
     if (shape > 100) {shape = 100;};
     if (shape < 75) {shape = 75;};
@@ -209,32 +210,29 @@ function calcDamage(crit,puissance,penetration,degNatures,degDomaines,armure,nat
     }
     return damage;
 };
-function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills) {
+function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills,defSkills) {
     let att = attPrecision;
     let def = 0;
-    if (attStature >= defStature+2) {
+    if (attStature >= defStature+3 && attPuissance >= defHP) {
+        defParade = 0;
+    } else if (attStature >= defStature+2) {
         defParade = Math.round(defParade*2/3);
     }
     if (attSkills.includes('noesq_')) {
-        if (attSkills.includes('nopar_')) {
-            def = 0;
-        } else {
-            if (attStature < defStature+3 || attPuissance < defHP) {
-                def = defParade;
-            } else {
-                def = 0;
-            }
+        defEsquive = 0;
+    }
+    if (attSkills.includes('nopar_')) {
+        defParade = 0;
+    }
+    if (attSkills.includes('shpar_')) {
+        if (!defSkills.includes('shield_')) {
+            defParade = 0;
         }
+    }
+    if (defParade > defEsquive) {
+        def = defParade;
     } else {
-        if (attSkills.includes('nopar_')) {
-            def = defEsquive;
-        } else {
-            if (defParade > defEsquive) {
-                if (attStature < defStature+3 || attPuissance < defHP) {
-                    def = defParade;
-                }
-            }
-        }
+        def = defEsquive;
     }
     let critical = 0;
     if (attSkills.includes('crit_')) {
