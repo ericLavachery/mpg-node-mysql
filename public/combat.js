@@ -84,6 +84,68 @@ function calcShape(unitId) {
     if (shape < 75) {shape = 75;};
     return shape;
 };
+function calcOrg(unitId,combat) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let org = pop[unitIndex].org;
+    let group = pop[unitIndex].follow;
+    let combatId = pop[unitIndex].combatId;
+    let player = pop[unitIndex].player;
+    let deso = 3;
+    if ((group >= 1 && !combat) || (combatId >= 1 && combat)) {
+        let groupNumber = 0;
+        let groupOrg = 0;
+        let bestOrg = 0;
+        let unitOrg = 0;
+        let groupPop = [];
+        if (combat) {
+            groupPop = _.filter(pop, function(unit) {
+                return (unit.combatId == combatId && unit.player === player && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
+            });
+        } else {
+            groupPop = _.filter(pop, function(unit) {
+                return (unit.follow == group && unit.player === player && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
+            });
+        }
+        groupPop.forEach(function(unit) {
+            groupNumber = groupNumber+unit.number;
+        });
+        deso = desorganisation(groupNumber);
+        groupPop.forEach(function(unit) {
+            if (unit.org == 0) {
+                unitOrg = 100;
+            } else {
+                unitOrg = unit.org;
+            }
+            if (unit.fatigue > Math.round(unit.move/2)) {
+                unitOrg = Math.round(unitOrg/deso);
+            }
+            groupOrg = groupOrg+(unitOrg*unit.number);
+            if (unitOrg > bestOrg) {
+                bestOrg = unitOrg;
+            }
+        });
+        org = Math.round((Math.round(groupOrg/groupNumber)+bestOrg)/2);
+    } else {
+        deso = desorganisation(pop[unitIndex].number);
+        if (pop[unitIndex].fatigue > Math.round(pop[unitIndex].move/2)) {
+            org = Math.round(org/deso);
+        } else {
+            org = pop[unitIndex].org;
+        }
+    }
+    if (org < 1) {
+        org = 1;
+    }
+    return org;
+};
+function desorganisation(number) {
+    let deso = Math.round(Math.sqrt(number)*10/4);
+    deso = deso/10;
+    if (deso < 1) {
+        deso = 1;
+    }
+    return deso;
+};
 function calcFortif(terDefense,wallsDefense,fortifie) {
     let fortif = 0;
     let appliedTerDef = 0;
@@ -99,70 +161,72 @@ function calcFortif(terDefense,wallsDefense,fortifie) {
 };
 function calcProtPercCovering(numToCover,numCovering) {
     let percCovering = Math.round((numCovering*100)/(numToCover+numCovering));
-    return Math.round(100*percCovering*percCovering/6400);
+    return Math.round(percCovering*percCovering/72);
 };
 function calcProtFortif(fortif) {
     return Math.round(Math.sqrt(Math.sqrt(fortif+10))*47);
 };
 function calcProtection(org,numToCover,numCovering,fortif,numOwn,numOpp) {
-    let protection = Math.round(org*calcProtPercCovering(numToCover,numCovering)*calcProtFortif(fortif)/numOpp*numOwn/5000);
+    let rapport = Math.round(Math.sqrt(numOwn*100/numOpp));
+    let protection = Math.round(org*calcProtPercCovering(numToCover,numCovering)*calcProtFortif(fortif)/rapport/500);
+    protection = Math.round(protection*protectFac/100);
     if (protection > 100) {
         protection = 100;
     }
     return protection;
 };
-function calcPriority(oppAppui,oppProtection,oppResist,oppPower,prioType) {
+function calcPriority(ownAppui,ownProtection,ownResist,ownPower,prioType,prioRoll) {
     // prioType = melee : calc prioMelee
     // prioType = range : calc prioRange
     // prioType = none : calc prioNone
     let basePrio = 150;
     let noProtPrio = 200;
     if (prioType == 'range') {
-        if (oppAppui = 0) {
+        if (ownAppui == 0) {
             basePrio = 150;
             noProtPrio = 150;
-        } else if (oppAppui == 1) {
+        } else if (ownAppui == 1) {
             basePrio = 120;
             noProtPrio = 185;
-        } else if (oppAppui == 2) {
+        } else if (ownAppui == 2) {
             basePrio = 100;
             noProtPrio = 200;
-        } else if (oppAppui == 3) {
+        } else if (ownAppui == 3) {
             basePrio = 70;
             noProtPrio = 215;
-        } else if (oppAppui == 4) {
+        } else if (ownAppui == 4) {
             basePrio = 40;
             noProtPrio = 230;
         }
     } else {
-        if (oppAppui = 0) {
+        if (ownAppui == 0) {
             basePrio = 150;
             noProtPrio = 150;
-        } else if (oppAppui == 1) {
+        } else if (ownAppui == 1) {
             basePrio = 100;
             noProtPrio = 185;
-        } else if (oppAppui == 2) {
+        } else if (ownAppui == 2) {
             basePrio = 50;
             noProtPrio = 200;
-        } else if (oppAppui == 3) {
+        } else if (ownAppui == 3) {
             basePrio = 30;
             noProtPrio = 215;
-        } else if (oppAppui == 4) {
+        } else if (ownAppui == 4) {
             basePrio = 10;
             noProtPrio = 230;
         }
     }
-    if (oppAppui < 3 && prioType != 'none') {
-        basePrio = Math.round(basePrio*calcGlassCanon(oppResist,oppPower)/100);
-    }
+    // if (ownAppui < 3 && prioType != 'none') {
+    //     basePrio = Math.round(basePrio*calcGlassCanon(ownResist,ownPower)/100);
+    // }
     if (prioType == 'none') {
         noProtPrio = basePrio;
     }
-    basePrio = Math.round(((oppProtection*basePrio)+((100-oppProtection)*noProtPrio))/100);
-    return basePrio-50+rand.rand(1,prioDice);
+    basePrio = Math.round(((ownProtection*basePrio)+((100-ownProtection)*noProtPrio))/100);
+    return basePrio-50+prioRoll;
 };
-function calcGlassCanon(oppResist,oppPower) {
-    let glassCanon = Math.round((15*oppPower/oppResist)+75);
+function calcGlassCanon(ownResist,ownPower) {
+    let glassCanon = Math.round((15*ownPower/ownResist)+75);
     if (glassCanon > 120) {
         glassCanon = 120;
     } else if (glassCanon < 80) {

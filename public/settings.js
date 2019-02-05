@@ -42,11 +42,28 @@ let minCartoML = 60; // perte de move min (x3 si sans hab spéciale)
 let maxMoveCost = 240; // 180 default
 let baseMoveCost = 40; // moveCost is x baseMoveCost /30
 let viewOutPerc = 0; // % qu'un tile soit perdu de vue en passant au jour suivant (defaut 5 / dev 0)
+// FIGHT SETTINGS
+// FALSE
+let fightMapId = 541;
+let fightOpp = 'Zorglub';
+let attUnitId = 99;
+let defUnitId = 126;
+let fightOwn = 'Bob';
+// TRUE
+let cPop = [];
+let oppCount = 0;
+let ownCount = 0;
+let oppACouvrir = 0;
+let ownACouvrir = 0;
+let oppCouvreurs = 0;
+let ownCouvreurs = 0;
+let ownOrg = 0;
+let oppOrg = 0;
+let ownProtection = 0;
+let oppProtection = 0;
 let biomeCoverFac = 50; // terCover x biomeCoverFac / 100
 let biomeDefFac = 100; // terDefense x biomeDefFac / 100
 let rapiditeDice = 50; // dé rapidité (1-rapiditeDice)
 let prioDice = 100; // dé priorité (1-prioDice)
 let critFac = 3; // multiplication des dégâts quand coup critique
-// FIGHT SETTINGS
-let fightMapId = 541;
-let fightOpp = 'Zorglub';
+let protectFac = 90; // protection x protectFac / 100

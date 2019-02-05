@@ -40,7 +40,7 @@ function showUnitInfos(unitId) {
             let attitude = displayAttitude(pop[unitIndex].attitude);
             $('#unitInfos').append('<span class="paramName">Attitude</span><span class="paramIcon"></span><span class="paramValue" title="'+attitude.expl+'">'+attitude.name+'</span><br>');
             // Organisation
-            let org = calcOrg(unitId);
+            let org = calcOrg(unitId,false);
             $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramIcon"></span><span class="paramValue"><span title="Organisation du groupe">'+org+'</span> <span title="Organisation du bataillon (si il était en dehors du groupe)">('+pop[unitIndex].org+')</span></span><br>');
         }
         if (pop[unitIndex].puissance >= 1) {
@@ -91,59 +91,6 @@ function showUnitInfos(unitId) {
         // id
         $('#unitInfos').append('<span class="paramName low">id</span><span class="paramIcon"></span><span class="paramValue low" title="id bataillon">#'+pop[unitIndex].id+'</span><br>');
     }
-};
-function calcOrg(unitId) {
-    let unitIndex = pop.findIndex((obj => obj.id == unitId));
-    let org = pop[unitIndex].org;
-    let group = pop[unitIndex].follow;
-    let deso = 3;
-    if (group >= 1) {
-        let groupNumber = 0;
-        let groupOrg = 0;
-        let bestOrg = 0;
-        let unitOrg = 0;
-        let groupPop = _.filter(pop, function(unit) {
-            return (unit.follow == group && unit.player === pseudo && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
-        });
-        groupPop.forEach(function(unit) {
-            groupNumber = groupNumber+unit.number;
-        });
-        deso = desorganisation(groupNumber);
-        groupPop.forEach(function(unit) {
-            if (unit.org == 0) {
-                unitOrg = 100;
-            } else {
-                unitOrg = unit.org;
-            }
-            if (unit.fatigue > Math.round(unit.move/2)) {
-                unitOrg = Math.round(unitOrg/deso);
-            }
-            groupOrg = groupOrg+(unitOrg*unit.number);
-            if (unitOrg > bestOrg) {
-                bestOrg = unitOrg;
-            }
-        });
-        org = Math.round((Math.round(groupOrg/groupNumber)+bestOrg)/2);
-    } else {
-        deso = desorganisation(pop[unitIndex].number);
-        if (pop[unitIndex].fatigue > Math.round(pop[unitIndex].move/2)) {
-            org = Math.round(org/deso);
-        } else {
-            org = pop[unitIndex].org;
-        }
-    }
-    if (org < 1) {
-        org = 1;
-    }
-    return org;
-};
-function desorganisation(number) {
-    let deso = Math.round(Math.sqrt(number)*10/4);
-    deso = deso/10;
-    if (deso < 1) {
-        deso = 1;
-    }
-    return deso;
 };
 function displayMove(move,fatigue) {
     let shape = Math.round((move-fatigue)/(move/2)*100);
