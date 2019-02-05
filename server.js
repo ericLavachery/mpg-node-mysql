@@ -80,6 +80,9 @@ app.use('/static', express.static(__dirname + '/node_modules/rpg-awesome'));
 app.get('/tables/', function (req, res) {
     res.sendFile(__dirname + '/tables.html');
 });
+app.get('/fight/', function (req, res) {
+    res.sendFile(__dirname + '/fight.html');
+});
 app.get('/edit/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
@@ -122,6 +125,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('popload', pop);
         improveRess();
         socket.emit('ressload', ress);
+        socket.emit('fightload', true);
     });
 
     function correctPop() {

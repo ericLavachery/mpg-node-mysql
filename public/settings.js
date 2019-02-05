@@ -47,3 +47,6 @@ let biomeDefFac = 100; // terDefense x biomeDefFac / 100
 let rapiditeDice = 50; // dé rapidité (1-rapiditeDice)
 let prioDice = 100; // dé priorité (1-prioDice)
 let critFac = 3; // multiplication des dégâts quand coup critique
+// FIGHT SETTINGS
+let fightMapId = 541;
+let fightOpp = 'Zorglub';

@@ -1,3 +1,11 @@
+function fightInit() {
+    let fightPopHere = _.filter(pop, function(squad) {
+        return (squad.tileId == tileId && (squad.player === pseudo || squad.player === fightOpp));
+    });
+    fightPopHere.forEach(function(squad) {
+        
+    });
+};
 function calcTerDefense(tileId) {
     let tileIndex = world.findIndex((obj => obj.id == tileId));
     let terIndex = ter.findIndex((obj => obj.id == world[tileIndex].terrainId));

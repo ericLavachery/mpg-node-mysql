@@ -1,9 +1,11 @@
-$(document).keypress(function(e) {
-    if (e.which == 178) {
-        toggleMode();
-    }
-    // alert('You pressed '+e.which);
-});
+if (!window.location.href.includes('/fight') && !window.location.href.includes('/edit')) {
+    $(document).keypress(function(e) {
+        if (e.which == 178) {
+            toggleMode();
+        }
+        // alert('You pressed '+e.which);
+    });
+}
 
 // Tracks
 socket.on('tracksload', function(tracks) {
@@ -19,13 +21,15 @@ socket.on('mapload', function(wmap) {
         defineUnhiddenTiles();
         hideHidden();
     }
-    writeMapStyles();
-    showMap(wmap);
+    if (!window.location.href.includes('/fight')) {
+        writeMapStyles();
+        showMap(wmap);
+    }
 });
 // Dessine la carte
 function showMap(wmap) {
     // reset
-    document.getElementById("zone_map").innerHTML = '';
+    $('#zone_map').empty();
     // fill
     let minX = xOffset+1;
     let maxX = xOffset+numVTiles;
@@ -139,7 +143,9 @@ function cityImg(tileFlags,townType,tempMax) {
 // infos terrains
 socket.on('terload', function(wter) {
     ter = wter;
-    writeTerStyles(wter);
+    if (!window.location.href.includes('/fight')) {
+        writeTerStyles(wter);
+    }
 });
 // infos villes
 socket.on('cityload', function(wtown) {
@@ -251,15 +257,17 @@ socket.on('persoload', function(wperso) {
 // Affichage des unités
 socket.on('popload', function(wpop) {
     pop = wpop;
-    showVisiblePop(world);
-    loadGroups(wpop);
-    if (window.location.href.includes('/edit')) {
-        mapeditMode();
-    } else {
-        inspectMode();
+    if (!window.location.href.includes('/fight')) {
+        showVisiblePop(world);
+        loadGroups(wpop);
+        if (window.location.href.includes('/edit')) {
+            mapeditMode();
+        } else {
+            inspectMode();
+        }
+        areaSelector();
+        showOccupiedTiles();
     }
-    areaSelector();
-    showOccupiedTiles();
 });
 function showVisiblePop(wmap) {
     wmap.forEach(function(tile) {
@@ -292,4 +300,11 @@ function loadGroups(wpop) {
 // Ressources
 socket.on('ressload', function(ressources) {
     ress = ressources;
+});
+
+// FIGHT START
+socket.on('fightload', function(fight) {
+    if (window.location.href.includes('/fight')) {
+        fightInit();
+    }
 });

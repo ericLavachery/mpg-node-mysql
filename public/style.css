@@ -231,6 +231,12 @@ td {
     background-position: right 35%;
     width: 240px;
 }
+#fightDetail {
+    background-image: url(/static/img/bg-wood-dark-mid.jpg);
+    background-position: 0% 0%;
+    width: 850px;
+    min-height: 1950px;
+}
 .terTypeButton {
     margin: 0 0 0 0;
     border: 2px solid #000000;

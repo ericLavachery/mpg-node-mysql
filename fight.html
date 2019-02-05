@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>MPG - COMBAT</title>
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Crushed|Roboto|Roboto+Condensed" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <style media="screen" id="mapStyles"></style>
+        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="/static/stylebuttons.css">
+        <link rel="stylesheet" href="/static/stylemodal.css">
+        <link rel="stylesheet" href="/static/css/rpg-awesome.min.css">
+        <style media="screen" id="terStyles"></style>
+    </head>
+
+    <body>
+        <div id="pascon">
+            <p><input type="button" value="Connexion" id="hello" /></p>
+        </div>
+
+        <div id="con">
+            <table>
+                <tr>
+                    <td>
+                        <div class="woodBlock" id="fightDetail"></div>
+                    </td>
+                    <td>
+                        <div class="woodBlock" id="playerInfos"><h1 id="pseu"></h1><br></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- The Modal -->
+        <div id="zeModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2 id="modalHead">Modal Header</h2>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    Some text in the Modal Body <br>
+                    Some other text...
+                </div>
+                <div class="modal-footer">
+                    <p id="modalFoot">Modal Footer</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
+        <script src="/static/libs/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> -->
+        <script src="/static/libs/underscore-min.js"></script>
+        <script src="/static/nav.js"></script>
+        <script src="/static/settings.js"></script>
+        <script src="/static/modal.js"></script>
+        <script src="/static/init.js"></script>
+        <script src="/static/hiddentiles.js"></script>
+        <script src="/static/broadcasts.js"></script>
+        <script src="/static/modes.js"></script>
+        <script src="/static/mapeditor.js"></script>
+        <script src="/static/move.js"></script>
+        <script src="/static/clickmap.js"></script>
+        <script src="/static/combat.js"></script>
+        <script src="/static/details.js"></script>
+        <script src="/static/squadslist.js"></script>
+        <script src="/static/tracks.js"></script>
+        <script src="/static/actionsbuttons.js"></script>
+        <script src="/static/actions.js"></script>
+        <script src="/static/mapinfos.js"></script>
+        <script src="/static/mapicons.js"></script>
+        <script src="/static/splitjoin.js"></script>
+        <script src="/static/groups.js"></script>
+        <script src="/static/nextturn.js"></script>
+        <script src="/static/stuff.js"></script>
+        <script src="/static/share.js"></script>
+    </body>
+</html>

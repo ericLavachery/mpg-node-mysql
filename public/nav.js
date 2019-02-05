@@ -26,7 +26,9 @@ function connectMe(pseudo) {
     document.getElementById('con').style.display = 'block';
     document.getElementById('pascon').style.display = 'none';
     // change le titre du doc
-    document.title = pseudo + ' - MPG';
+    if (!window.location.href.includes('/fight')) {
+        document.title = pseudo + ' - MPG';
+    }    
     document.getElementById("pseu").innerHTML = pseudo;
 }
 
