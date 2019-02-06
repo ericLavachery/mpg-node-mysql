@@ -16,6 +16,7 @@ function fightInit() {
     let fightPopHere = _.filter(pop, function(squad) {
         return (squad.tileId == fightMapId && (squad.player === pseudo || squad.player === fightOpp));
     });
+    fightPopHere = _.sortBy(_.sortBy(fightPopHere,'appui'),'player');
     fightPopHere.forEach(function(squad,index) {
         if (squad.player === pseudo) {
             ownCount = ownCount+squad.number;
@@ -57,6 +58,8 @@ function fightInit() {
             cSquad.parade = squad.parade;
             cSquad.armure = squad.armure;
             cSquad.stature = squad.stature;
+            cSquad.size = calcSize(squad.stature);
+            cSquad.oppSlot = calcOppSlot(cSquad.size);
             cSquad.categorie = squad.categorie;
             cSquad.nature = squad.nature;
             cSquad.domaine = squad.domaine;
@@ -82,9 +85,6 @@ function fightInit() {
             cSquad.targets = [];
             cSquad.HPeach = squad.hp;
             cSquad.HPbat = cSquad.HPeach*cSquad.number;
-            cSquad.prioMelee = 0;
-            cSquad.prioRange = 0;
-            cSquad.prioNone = 0;
             cPop.push(cSquad);
             i = i+24;
         }
@@ -98,13 +98,16 @@ function fightInit() {
     cPop.forEach(function(squad) {
         if (squad.player === pseudo) {
             protection = ownProtection;
+            org = ownOrg;
         } else {
             protection = oppProtection;
+            org = oppOrg;
         }
         prioRoll = rand.rand(1,prioDice);
         squad.prioMelee = calcPriority(squad.appui,protection,10,10,'melee',prioRoll);
         squad.prioRange = calcPriority(squad.appui,protection,10,10,'range',prioRoll);
         squad.prioNone = calcPriority(squad.appui,protection,10,10,'none',prioRoll);
+        squad.maxOpp = calcMaxOpp(squad.size,org,0);
     });
     console.log(cPop);
     console.log('ownOrg '+ownOrg);

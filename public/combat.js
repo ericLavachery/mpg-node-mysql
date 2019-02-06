@@ -216,9 +216,9 @@ function calcPriority(ownAppui,ownProtection,ownResist,ownPower,prioType,prioRol
             noProtPrio = 230;
         }
     }
-    // if (ownAppui < 3 && prioType != 'none') {
-    //     basePrio = Math.round(basePrio*calcGlassCanon(ownResist,ownPower)/100);
-    // }
+    if (ownAppui < 3 && prioType != 'none') {
+        basePrio = Math.round(basePrio*calcGlassCanon(ownResist,ownPower)/100);
+    }
     if (prioType == 'none') {
         noProtPrio = basePrio;
     }
@@ -226,7 +226,7 @@ function calcPriority(ownAppui,ownProtection,ownResist,ownPower,prioType,prioRol
     return basePrio-50+prioRoll;
 };
 function calcGlassCanon(ownResist,ownPower) {
-    let glassCanon = Math.round((15*ownPower/ownResist)+75);
+    let glassCanon = Math.round((15*ownPower/ownResist)+85);
     if (glassCanon > 120) {
         glassCanon = 120;
     } else if (glassCanon < 80) {
@@ -313,4 +313,23 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
     } else {
         return 'miss';
     }
+};
+function calcSize(stature) {
+    switch (stature) {
+        case 1: return 2.5;
+        case 2: return 3;
+        case 3: return 4;
+        case 4: return 5;
+        case 5: return 6;
+        case 6: return 8;
+        case 7: return 11;
+        case 8: return 15;
+    }
+};
+function calcOppSlot(size) {
+    let slot = Math.round(size/4*10);
+    return slot/10;
+};
+function calcMaxOpp(size,org,fortif) {
+    return Math.round(size/(Math.sqrt(org+15))/calcProtFortif(fortif)*550);
 };
