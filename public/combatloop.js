@@ -16,21 +16,21 @@ function fightInit() {
     let fightPopHere = _.filter(pop, function(squad) {
         return (squad.tileId == fightMapId && (squad.player === pseudo || squad.player === fightOpp));
     });
-    fightPopHere = _.sortBy(_.sortBy(fightPopHere,'appui'),'player');
+    fightPopHere = _.sortBy(_.sortBy(_.sortBy(_.sortBy(fightPopHere,'number'),'type'),'appui'),'player');
     fightPopHere.forEach(function(squad,index) {
         if (squad.player === pseudo) {
-            ownCount = ownCount+squad.number;
+            cTeams.own.count = cTeams.own.count+squad.number;
             if (squad.appui >= 2) {
-                ownACouvrir = ownACouvrir+squad.number;
+                cTeams.own.aCouvrir = cTeams.own.aCouvrir+squad.number;
             } else if (squad.appui == 0) {
-                ownCouvreurs = ownCouvreurs+squad.number;
+                cTeams.own.couvreurs = cTeams.own.couvreurs+squad.number;
             }
         } else {
-            oppCount = oppCount+squad.number;
+            cTeams.opp.count = cTeams.opp.count+squad.number;
             if (squad.appui >= 2) {
-                oppACouvrir = oppACouvrir+squad.number;
+                cTeams.opp.aCouvrir = cTeams.opp.aCouvrir+squad.number;
             } else if (squad.appui == 0) {
-                oppCouvreurs = oppCouvreurs+squad.number;
+                cTeams.opp.couvreurs = cTeams.opp.couvreurs+squad.number;
             }
         }
         // Division en squad de 24-
@@ -42,6 +42,11 @@ function fightInit() {
             cSquad.popId = squad.id;
             cSquad.typeId = squad.typeId;
             cSquad.player = squad.player;
+            if (squad.player === pseudo) {
+                cSquad.team = 'own';
+            } else {
+                cSquad.team = 'opp';
+            }
             cSquad.type = squad.type;
             cSquad.typeSing = squad.typeSing;
             if (squad.number-i > 24) {
@@ -89,29 +94,60 @@ function fightInit() {
             i = i+24;
         }
     });
-    ownOrg = calcOrg(attUnitId,false); // ATTENTION!!! devra être TRUE quand combatId sera en place xxxxxxxxxx
-    oppOrg = calcOrg(defUnitId,false);
-    ownProtection = calcProtection(ownOrg,ownACouvrir,ownCouvreurs,0,ownCount,oppCount);
-    oppProtection = calcProtection(oppOrg,oppACouvrir,oppCouvreurs,0,oppCount,ownCount);
+    cTeams.own.org = calcOrg(attUnitId,false); // ATTENTION!!! devra être TRUE quand combatId sera en place xxxxxxxxxx
+    cTeams.opp.org = calcOrg(defUnitId,false);
+    cTeams.own.protection = calcProtection(cTeams.own.org,cTeams.own.aCouvrir,cTeams.own.couvreurs,0,cTeams.own.count,cTeams.opp.count);
+    cTeams.opp.protection = calcProtection(cTeams.opp.org,cTeams.opp.aCouvrir,cTeams.opp.couvreurs,0,cTeams.opp.count,cTeams.own.count);
     let protection = 0;
     let prioRoll = 50;
     cPop.forEach(function(squad) {
-        if (squad.player === pseudo) {
-            protection = ownProtection;
-            org = ownOrg;
-        } else {
-            protection = oppProtection;
-            org = oppOrg;
-        }
+        // if (squad.player === pseudo) {
+        //     protection = cTeams.own.protection;
+        //     org = cTeams.own.org;
+        // } else {
+        //     protection = cTeams.opp.protection;
+        //     org = cTeams.opp.org;
+        // }
         prioRoll = rand.rand(1,prioDice);
-        squad.prioMelee = calcPriority(squad.appui,protection,10,10,'melee',prioRoll);
-        squad.prioRange = calcPriority(squad.appui,protection,10,10,'range',prioRoll);
-        squad.prioNone = calcPriority(squad.appui,protection,10,10,'none',prioRoll);
-        squad.maxOpp = calcMaxOpp(squad.size,org,0);
+        squad.prioMelee = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'melee',prioRoll);
+        squad.prioRange = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'range',prioRoll);
+        squad.prioNone = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'none',prioRoll);
+        squad.prioAssa = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'assa',prioRoll);
+        squad.maxOpp = calcMaxOpp(squad.size,cTeams[squad.team].org,0);
     });
+    console.log(cTeams);
     console.log(cPop);
-    console.log('ownOrg '+ownOrg);
-    console.log('oppOrg '+oppOrg);
-    console.log('ownProtection '+ownProtection);
-    console.log('oppProtection '+oppProtection);
+    console.log('cTeams.own.org '+cTeams.own.org);
+    console.log('cTeams.opp.org '+cTeams.opp.org);
+    console.log('cTeams.own.protection '+cTeams.own.protection);
+    console.log('cTeams.opp.protection '+cTeams.opp.protection);
+    fightTurn('melee');
+};
+function fightTurn(turnType) {
+    $('#fightDetail').empty();
+    cTurn = cTurn+1;
+    let cpChoice = _.sortBy(cPop,'rollChoice').reverse();
+    let cppMelee = _.sortBy(cPop,'prioMelee').reverse();
+    let cppRange = _.sortBy(cPop,'prioRange').reverse();
+    let cppNone = _.sortBy(cPop,'prioNone').reverse();
+    let cppAssa = _.sortBy(cPop,'prioAssa').reverse();
+    let targetOK = false;
+    cpChoice.forEach(function(squad) {
+        $('#fightDetail').append(squad.player+' : '+squad.number+' '+xType(squad.popId,false)+'<br>');
+        targetOK = false;
+        if (squad.portee < 2) {
+            cppMelee.forEach(function(target) {
+                // console.log('squad '+squad.player+squad.number+squad.type);
+                // console.log('target '+target.player+target.number+target.type+target.prioMelee);
+                if (!targetOK && squad.player != target.player && (target.prioMelee > 100 || target.appui == 0)) {
+                    targetOK = true;
+                    $('#fightDetail').append('<span class="bigSpace"></span>'+target.number+' '+xType(target.popId,false)+'<br>');
+                }
+            });
+        } else {
+            cppRange.forEach(function(target) {
+
+            });
+        }
+    });
 };

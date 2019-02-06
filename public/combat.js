@@ -179,9 +179,27 @@ function calcPriority(ownAppui,ownProtection,ownResist,ownPower,prioType,prioRol
     // prioType = melee : calc prioMelee
     // prioType = range : calc prioRange
     // prioType = none : calc prioNone
+    // prioType = assa : calc prioAssa
     let basePrio = 150;
     let noProtPrio = 200;
-    if (prioType == 'range') {
+    if (prioType == 'assa') {
+        if (ownAppui == 0) {
+            basePrio = 150;
+            noProtPrio = 150;
+        } else if (ownAppui == 1) {
+            basePrio = 120;
+            noProtPrio = 185;
+        } else if (ownAppui == 2) {
+            basePrio = 100;
+            noProtPrio = 200;
+        } else if (ownAppui == 3) {
+            basePrio = 80;
+            noProtPrio = 215;
+        } else if (ownAppui == 4) {
+            basePrio = 60;
+            noProtPrio = 230;
+        }
+    } else if (prioType == 'range') {
         if (ownAppui == 0) {
             basePrio = 150;
             noProtPrio = 150;
@@ -216,8 +234,12 @@ function calcPriority(ownAppui,ownProtection,ownResist,ownPower,prioType,prioRol
             noProtPrio = 230;
         }
     }
-    if (ownAppui < 3 && prioType != 'none') {
-        basePrio = Math.round(basePrio*calcGlassCanon(ownResist,ownPower)/100);
+    if (ownAppui < 3) {
+        if (prioType == 'assa') {
+            basePrio = Math.round(basePrio*calcGlassCanon(ownPower,ownResist)/100);
+        } else if (prioType != 'none') {
+            basePrio = Math.round(basePrio*calcGlassCanon(ownResist,ownPower)/100);
+        }
     }
     if (prioType == 'none') {
         noProtPrio = basePrio;
