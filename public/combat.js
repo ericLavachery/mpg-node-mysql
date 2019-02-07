@@ -57,6 +57,19 @@ function calcBasePrec(unitId) {
     prec = Math.round(prec*shape/100);
     return prec;
 };
+function calcFightBasePrec(unitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let prec = pop[unitIndex].prec;
+    // effects of moveCost
+    let tileId = pop[unitIndex].tileId;
+    let mcAdj = calcMCAdj(tileId,unitId);
+    prec = Math.round(prec*(100-mcAdj)/100);
+    return prec;
+};
+function calcShapePrec(prec,shape) {
+    prec = Math.round(prec*shape/100);
+    return prec;
+};
 function calcMCAdj(tileId,unitId) {
     let moveCost = calcMoveCost(tileId,unitId,false,false);
     let adjRap = 0;
