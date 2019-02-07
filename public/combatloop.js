@@ -44,8 +44,10 @@ function fightInit() {
             cSquad.player = squad.player;
             if (squad.player === pseudo) {
                 cSquad.team = 'own';
+                cSquad.color = 'jaune';
             } else {
                 cSquad.team = 'opp';
+                cSquad.color = 'ciel';
             }
             cSquad.type = squad.type;
             cSquad.typeSing = squad.typeSing;
@@ -86,8 +88,8 @@ function fightInit() {
             cSquad.rapChoice = calcMCRap(squad.rapidite,squad.portee,fightMapId,squad.id);
             cSquad.rollChoice = rollChoiceDice(cSquad.rapChoice);
             cSquad.numOpp = 0;
-            cSquad.targetOK = false;
-            cSquad.targets = [];
+            cSquad.numTarg = 0;
+            cSquad.targetsOK = false;
             cSquad.HPeach = squad.hp;
             cSquad.HPbat = cSquad.HPeach*cSquad.number;
             cPop.push(cSquad);
@@ -113,7 +115,7 @@ function fightInit() {
         squad.prioRange = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'range',prioRoll);
         squad.prioNone = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'none',prioRoll);
         squad.prioAssa = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'assa',prioRoll);
-        squad.maxOpp = calcMaxOpp(squad.size,cTeams[squad.team].org,0);
+        squad.maxOpp = calcMaxOpp(squad.size,cTeams[squad.team].org,0)*squad.number;
     });
     console.log(cTeams);
     console.log(cPop);
@@ -126,28 +128,139 @@ function fightInit() {
 function fightTurn(turnType) {
     $('#fightDetail').empty();
     cTurn = cTurn+1;
-    let cpChoice = _.sortBy(cPop,'rollChoice').reverse();
-    let cppMelee = _.sortBy(cPop,'prioMelee').reverse();
-    let cppRange = _.sortBy(cPop,'prioRange').reverse();
-    let cppNone = _.sortBy(cPop,'prioNone').reverse();
-    let cppAssa = _.sortBy(cPop,'prioAssa').reverse();
-    let targetOK = false;
+    cpChoice = _.sortBy(cPop,'rollChoice').reverse();
+    cppMelee = _.sortBy(cPop,'prioMelee').reverse();
+    cppRange = _.sortBy(cPop,'prioRange').reverse();
+    cppNone = _.sortBy(cPop,'prioNone').reverse();
+    cppAssa = _.sortBy(cPop,'prioAssa').reverse();
+    $('#fightDetail').append('<span class="jaune">'+cTeams.own.player+'</span> vs <span class="ciel">'+cTeams.opp.player+'</span><br>');
+    $('#fightDetail').append('<span class="jaune">'+cTeams.own.count+' combatants | org '+cTeams.own.org+' | prot '+cTeams.own.protection+'</span><br>');
+    $('#fightDetail').append('<span class="ciel">'+cTeams.opp.count+' combatants | org '+cTeams.opp.org+' | prot '+cTeams.opp.protection+'</span><br>');
+    $('#fightDetail').append('<br>');
+    cPop.reverse().forEach(function(squad) {
+        $('#fightDetail').append('<span class="'+squad.color+'">'+squad.player+'</span> : '+squad.number+' '+xType(squad.popId,false)+' ('+squad.id+')<br>');
+    });
+    $('#fightDetail').append('<br>');
+    $('#fightDetail').append('<span class="mauve">Tour '+cTurn+'</span><br>');
     cpChoice.forEach(function(squad) {
-        $('#fightDetail').append(squad.player+' : '+squad.number+' '+xType(squad.popId,false)+'<br>');
-        targetOK = false;
-        if (squad.portee < 2) {
-            cppMelee.forEach(function(target) {
-                // console.log('squad '+squad.player+squad.number+squad.type);
-                // console.log('target '+target.player+target.number+target.type+target.prioMelee);
-                if (!targetOK && squad.player != target.player && (target.prioMelee > 100 || target.appui == 0)) {
-                    targetOK = true;
-                    $('#fightDetail').append('<span class="bigSpace"></span>'+target.number+' '+xType(target.popId,false)+'<br>');
-                }
-            });
-        } else {
-            cppRange.forEach(function(target) {
-
-            });
+        $('#fightDetail').append('<br>');
+        $('#fightDetail').append('<span class="'+squad.color+'">'+squad.player+' : '+squad.number+' '+xType(squad.popId,false)+'</span> ('+squad.id+')<br>');
+        $('#fightDetail').append('Targets Left : '+(squad.number-squad.numTarg)+'<br>');
+        if (squad.number-squad.numTarg > 0 && (squad.appui < 3 || squad.portee >= 1)) {
+            targetsLoop(squad,true);
+        }
+        if (squad.number-squad.numTarg > 0 && (squad.appui < 3 || squad.portee >= 1)) {
+            $('#fightDetail').append('--------------------<br>');
+            $('#fightDetail').append('Targets Left : '+(squad.number-squad.numTarg)+'<br>');
+            targetsLoop(squad,false);
         }
     });
+    $('#fightDetail').append('<br>');
+    cPop.reverse().forEach(function(squad) {
+        $('#fightDetail').append('<span class="'+squad.color+'">'+squad.player+'</span> : <span class="blanc">'+squad.number+'</span> '+xType(squad.popId,false)+' ('+squad.id+') cibles: <span class="blanc">'+squad.numTarg+'</span> opposants: <span class="vert">'+squad.numOpp+'</span><br>');
+    });
+};
+function targetsLoop(squad,first) {
+    let cpp = [];
+    let prio = 0;
+    let lessOpp = 99;
+    let relativeOpp = 99;
+    if (squad.portee < 2) {
+        cpp = cppMelee;
+    } else {
+        cpp = cppRange;
+    }
+    lessOpp = 99;
+    cpp.forEach(function(target) {
+        if (target.player != squad.player) {
+            if (squad.portee < 2) {
+                prio = target.prioMelee;
+            } else {
+                prio = target.prioRange;
+            }
+            if (prio > 100 || target.appui == 0) {
+                relativeOpp = calcRelativeOpp(target);
+                if (relativeOpp < lessOpp) {
+                    lessOpp = relativeOpp;
+                }
+            }
+        }
+    });
+    $('#fightDetail').append('lessOpp : '+lessOpp+'<br>');
+    cpp.forEach(function(target) {
+        if (target.player != squad.player && squad.number-squad.numTarg > 0) {
+            if (squad.portee < 2) {
+                prio = target.prioMelee;
+            } else {
+                prio = target.prioRange;
+            }
+            if (prio > 100 || target.appui == 0) {
+                $('#fightDetail').append('--------------------<br>');
+                $('#fightDetail').append('<span class="retrait"></span>'+target.player+' : '+target.number+' '+xType(target.popId,false)+' ('+target.id+') opposants: '+target.numOpp+'<br>');
+                relativeOpp = calcRelativeOpp(target);
+                $('#fightDetail').append('<span class="retrait"></span>relativeOpp : '+relativeOpp+'<br>');
+                if (!squad.targetsOK && (relativeOpp == lessOpp || !first) && target.numOpp < target.maxOpp) {
+                    bagarre(squad,target,lessOpp,first);
+                }
+            }
+        }
+    });
+};
+function calcRelativeOpp(target) {
+    let relativeOpp = 0;
+    if (target.number > target.numOpp) {
+        relativeOpp = 0;
+    } else if (target.number*2 > target.numOpp) {
+        relativeOpp = 1;
+    } else if (target.number*3 > target.numOpp) {
+        relativeOpp = 2;
+    } else if (target.number*4 > target.numOpp) {
+        relativeOpp = 3;
+    } else if (target.number*5 > target.numOpp) {
+        relativeOpp = 4;
+    } else if (target.number*6 > target.numOpp) {
+        relativeOpp = 5;
+    }
+    return relativeOpp;
+};
+function bagarre(squad,target,lessOpp,first) {
+    let numHitAtt = 0;
+    let numHitDef = 0;
+    let numTargsLeft = squad.number-squad.numTarg;
+    if (numTargsLeft < 0) {numTargsLeft = 0;}
+    let numTargsHere = target.number-target.numOpp+(lessOpp*target.number);
+    if (!first && squad.oppSlot < 1) {
+        // pour niquer l'anomalie des gobs qui ne remplissent jamais
+        numTargsHere = numTargsLeft;
+    }
+    if (numTargsHere < 0) {numTargsHere = 0;}
+    $('#fightDetail').append('<span class="retrait"></span>numTargsHere : '+numTargsHere+'<br>');
+
+    if (numTargsHere >= numTargsLeft) {
+        numHitAtt = numTargsLeft;
+    } else {
+        numHitAtt = numTargsHere;
+    }
+    if (numHitAtt < 0) {numHitAtt = 0;}
+    if (squad.portee == 0) {
+        if (target.numTarg+numHitAtt >= target.number) {
+            numHitDef = target.number-target.numTarg;
+        } else {
+            numHitDef = numHitAtt;
+        }
+    }
+    if (numHitDef < 0) {numHitDef = 0;}
+    $('#fightDetail').append('<span class="retrait"></span>numHitAtt : <span class="'+squad.color+'">'+numHitAtt+'</span><br>');
+    $('#fightDetail').append('<span class="retrait"></span>numHitDef : <span class="'+target.color+'">'+numHitDef+'</span><br>');
+
+    squad.numTarg = squad.numTarg+numHitAtt;
+    squad.numOpp = squad.numOpp+Math.round(numHitDef*target.oppSlot);
+    target.numTarg = target.numTarg+numHitDef;
+    target.numOpp = target.numOpp+Math.round(numHitAtt*squad.oppSlot);
+
+    if (squad.numTarg >= squad.number) {
+        squad.targetsOK = true;
+    }
+
+    $('#fightDetail').append('<span class="retrait"></span><span class="blanc">'+target.player+' : '+target.number+' '+xType(target.popId,false)+' ('+target.id+') opposants: '+target.numOpp+'</span><br>');
 };
