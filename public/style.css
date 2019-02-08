@@ -369,6 +369,10 @@ td {
     width: 30px;
     display: inline-block;
 }
+.retrait2 {
+    width: 60px;
+    display: inline-block;
+}
 h1,h2,h3,h4 {
     display: inline;
     font-weight: normal;

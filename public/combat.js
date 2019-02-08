@@ -310,6 +310,7 @@ function calcDamage(crit,puissance,penetration,degNatures,degDomaines,armure,nat
     return damage;
 };
 function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills,defSkills) {
+    let hit = {};
     let att = attPrecision;
     let def = 0;
     if (attStature >= defStature+3 && attPuissance >= defHP) {
@@ -330,8 +331,10 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
     }
     if (defParade > defEsquive) {
         def = defParade;
+        hit.ep = 'parade';
     } else {
         def = defEsquive;
+        hit.ep = 'esquive';
     }
     let critical = 0;
     if (attSkills.includes('crit_')) {
@@ -341,13 +344,24 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
         }
     }
     let checkHit = rand.rand(1,att+def);
+    hit.check = checkHit;
+    hit.chance = att;
+    hit.dice = att+def;
+    hit.perc = Math.round(att*100/(att+def));
     if (checkHit <= critical) {
-        return 'crit';
+        hit.text = 'critique!';
+        hit.res = 'crit';
+        hit.col = 'rouge';
     } else if (checkHit <= att) {
-        return 'hit';
+        hit.text = 'touché';
+        hit.res = 'hit';
+        hit.col = 'blanc';
     } else {
-        return 'miss';
+        hit.text = 'manqué';
+        hit.res = 'miss';
+        hit.col = 'gris';
     }
+    return hit;
 };
 function calcSize(stature) {
     switch (stature) {
