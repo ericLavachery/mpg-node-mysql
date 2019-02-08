@@ -282,19 +282,23 @@ function rollChoiceDice(mcRap) {
     let rollRap = mcRap+rand.rand(1,rapiditeDice);
     return rollRap;
 }
-function calcDamage(crit,puissance,penetration,degNatures,degDomaines,armure,nature,domaine) {
-    if (crit) {
+function calcDamage(hitRes,puissance,penetration,degNatures,degDomaines,armure,nature,domaine) {
+    let boom = {};
+    if (hitRes == 'crit') {
         puissance = Math.round(puissance*critFac);
     }
     let penArmure = Math.round(armure*penetration/100);
+    boom.armure = penArmure;
     let damage = Math.round(puissance-(penArmure*puissance/100));
+    boom.baseDamage = damage;
     let damageDice = damage*2;
     if (damageDice < 1) {
         damageDice = 1;
     }
     damage = Math.round((damage+rand.rand(0,damageDice))/2);
-    if (!degNatures.includes(nature+'_')) {
-        if (!degDomaines.includes(domaine+'_')) {
+    boom.preDamage = damage;
+    if (!degNatures.includes(nature)) {
+        if (!degDomaines.includes(domaine)) {
             // nature KO, domaine KO
             damage = Math.round(damage/7);
         } else {
@@ -302,12 +306,13 @@ function calcDamage(crit,puissance,penetration,degNatures,degDomaines,armure,nat
             damage = Math.round(damage/4);
         }
     } else {
-        if (!degDomaines.includes(domaine+'_')) {
+        if (!degDomaines.includes(domaine)) {
             // domaine KO
             damage = Math.round(damage/3);
         }
     }
-    return damage;
+    boom.damage = damage;
+    return boom;
 };
 function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills,defSkills) {
     let hit = {};
@@ -336,6 +341,7 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
         def = defEsquive;
         hit.ep = 'esquive';
     }
+    def = Math.round(def*defenseFac);
     let critical = 0;
     if (attSkills.includes('crit_')) {
         critical = Math.round((att-def)/2);
@@ -357,7 +363,11 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
         hit.res = 'hit';
         hit.col = 'blanc';
     } else {
-        hit.text = 'manqué';
+        if (hit.ep == 'parade') {
+            hit.text = 'parré';
+        } else {
+            hit.text = 'esquivé';
+        }
         hit.res = 'miss';
         hit.col = 'gris';
     }

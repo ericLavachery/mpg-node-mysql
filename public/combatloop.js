@@ -59,6 +59,7 @@ function fightInit() {
             cSquad.shape = calcShape(squad.id);
             cSquad.actions = squad.actions;
             cSquad.puissance = squad.puissance;
+            cSquad.maxCibles = squad.maxCibles;
             cSquad.portee = squad.portee;
             cSquad.appui = squad.appui;
             cSquad.penetration = squad.penetration;
@@ -249,8 +250,8 @@ function lockTarget(squad,target,lessOpp,first) {
         }
     }
     if (numHitDef < 0) {numHitDef = 0;}
-    $('#fightDetail').append('<span class="retrait"></span>Attaques : <span class="'+squad.color+'">'+numHitAtt+'</span><br>');
-    $('#fightDetail').append('<span class="retrait"></span>Défenses : <span class="'+target.color+'">'+numHitDef+'</span><br>');
+    $('#fightDetail').append('<span class="retrait"></span>Attaques : <span class="'+squad.color+'">'+numHitAtt+'</span>&times;'+squad.actions+'<br>');
+    $('#fightDetail').append('<span class="retrait"></span>Défenses : <span class="'+target.color+'">'+numHitDef+'</span>&times;'+target.actions+'<br>');
 
     squad.numTarg = squad.numTarg+numHitAtt;
     squad.numOpp = squad.numOpp+Math.round(numHitDef*target.oppSlot);
@@ -275,10 +276,11 @@ function hitsOrder(squad,target,numHitAtt,numHitDef) {
     let targetChance = Math.round(targetHits*(target.rapidite+rand.rand(1,rapiditeDice))/10);
     let totalHits = squadHits+targetHits;
     let nextHit = 'att';
+    let numDead = 0;
     for (i = 1; i <= totalHits; i++) {
-        if (squadHitsLeft == 0) {
+        if (squadHitsLeft <= 0) {
             nextHit = 'def';
-        } else if (targetHitsLeft == 0) {
+        } else if (targetHitsLeft <= 0) {
             nextHit = 'att';
         } else {
             if (rand.rand(1,squadChance+targetChance) <= squadChance) {
@@ -287,21 +289,66 @@ function hitsOrder(squad,target,numHitAtt,numHitDef) {
                 nextHit = 'def';
             }
         }
+        numDead = 0;
         if (nextHit == 'att') {
-            blow(squad,target);
+            numDead = blow(squad,target);
             squadHitsLeft = squadHitsLeft-1;
+            if (numDead >= 1) {
+                // si target mort avant d'avoir frappé, ne frappe pas
+                if (rand.rand(1,targetHitsLeft) <= targetHits) {
+                    targetHitsLeft = targetHitsLeft-numDead;
+                    if (targetHitsLeft >= 0) {
+                        i = i+numDead;
+                    } else {
+                        targetHitsLeft = 0;
+                    }
+                }
+            }
         } else {
-            blow(target,squad);
+            numDead = blow(target,squad);
             targetHitsLeft = targetHitsLeft-1;
+            if (numDead >= 1) {
+                // si squad mort avant d'avoir frappé, ne frappe pas
+                if (rand.rand(1,squadHitsLeft) <= squadHits) {
+                    squadHitsLeft = squadHitsLeft-numDead;
+                    if (squadHitsLeft >= 0) {
+                        i = i+numDead;
+                    } else {
+                        squadHitsLeft = 0;
+                    }
+                }
+            }
         }
     }
 };
 function blow(hitter,bashed) {
+    let numDead = 0;
+    let morts = bashed.typeSing+' mort';
+    let numberBefore = bashed.number;
     $('#fightDetail').append('<span class="retrait"></span><span class="'+hitter.color+'">'+hitter.typeSing+'</span>');
     let hit = calcHit(hitter.prec,bashed.esquive,bashed.parade,hitter.stature,bashed.stature,hitter.puissance,bashed.hp,hitter.skills,bashed.skills);
-    let hitText = 'manqué';
-    let hitColor = 'gris';
     $('#fightDetail').append(' <span title="'+bashed.typeSing+' : '+hit.ep+' '+(100-hit.perc)+'%" class="'+hit.col+'">'+hit.chance+'/'+hit.dice+' &map; '+hit.check+' : '+hit.text+'</span><br>');
+    if (hit.res != 'miss') {
+        let boom = calcDamage(hit.res,hitter.puissance,hitter.penetration,hitter.degNatures,hitter.degDomaines,bashed.armure,bashed.nature,bashed.domaine);
+        $('#fightDetail').append('<span class="retrait2"></span>damage='+boom.damage+' hp='+bashed.HPeach+' maxCibles='+hitter.maxCibles);
+        if (boom.damage > bashed.HPeach*hitter.maxCibles) {
+            boom.damage = bashed.HPeach*hitter.maxCibles;
+        }
+        bashed.HPbat = bashed.HPbat-boom.damage;
+        numDead = numberBefore-(Math.ceil(bashed.HPbat/bashed.HPeach));
+        bashed.number = bashed.number-numDead;
+
+        // numDead = Math.floor(boom.damage/bashed.HPeach);
+        $('#fightDetail').append(' <span class="blanc">-'+boom.damage+' hp</span>');
+        if (numDead >= 1) {
+            if (numDead >= 2) {
+                morts = bashed.type+' morts';
+            }
+            $('#fightDetail').append(' <span class="rouge">'+numDead+' '+morts+'</span>');
+        }
+        $('#fightDetail').append('<br>');
+    }
+    return numDead;
 };
 function calcRelativeOpp(target) {
     let relativeOpp = 0;

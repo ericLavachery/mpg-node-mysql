@@ -78,3 +78,4 @@ let rapiditeDice = 50; // dé rapidité (1-rapiditeDice)
 let prioDice = 100; // dé priorité (1-prioDice)
 let critFac = 3; // multiplication des dégâts quand coup critique
 let protectFac = 90; // protection x protectFac / 100
+let defenseFac = 2; // parade et esquive x defenseFac
