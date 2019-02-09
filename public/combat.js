@@ -276,10 +276,14 @@ function calcMCRap(rapidite,portee,tileId,unitId) {
     } else if (portee >=1) {
         adjRap = Math.round(adjRap/3*2);
     }
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    if (pop[unitIndex].moveType == 'air' || pop[unitIndex].moveType == 'alt') {
+        adjRap = adjRap-30;
+    }
     return rapidite-adjRap;
 }
 function rollChoiceDice(mcRap) {
-    let rollRap = mcRap+rand.rand(1,rapiditeDice);
+    let rollRap = mcRap+rand.rand(1,choiceDice);
     return rollRap;
 }
 function calcDamage(hitRes,puissance,penetration,degNatures,degDomaines,armure,nature,domaine) {
@@ -287,16 +291,16 @@ function calcDamage(hitRes,puissance,penetration,degNatures,degDomaines,armure,n
     if (hitRes == 'crit') {
         puissance = Math.round(puissance*critFac);
     }
+    boom.baseDamage = puissance;
     let penArmure = Math.round(armure*penetration/100);
-    boom.armure = penArmure;
     let damage = Math.round(puissance-(penArmure*puissance/100));
-    boom.baseDamage = damage;
+    boom.armorReduct = boom.baseDamage-damage;
     let damageDice = damage*2;
     if (damageDice < 1) {
         damageDice = 1;
     }
     damage = Math.round((damage+rand.rand(0,damageDice))/2);
-    boom.preDamage = damage;
+    boom.damageCheck = damage;
     if (!degNatures.includes(nature)) {
         if (!degDomaines.includes(domaine)) {
             // nature KO, domaine KO
@@ -311,6 +315,7 @@ function calcDamage(hitRes,puissance,penetration,degNatures,degDomaines,armure,n
             damage = Math.round(damage/3);
         }
     }
+    boom.dnReduct = boom.damageCheck-damage;
     boom.damage = damage;
     return boom;
 };
@@ -357,7 +362,7 @@ function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuis
     if (checkHit <= critical) {
         hit.text = 'critique!';
         hit.res = 'crit';
-        hit.col = 'rouge';
+        hit.col = 'rose';
     } else if (checkHit <= att) {
         hit.text = 'touché';
         hit.res = 'hit';
