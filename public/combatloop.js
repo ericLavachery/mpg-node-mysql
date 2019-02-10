@@ -63,6 +63,8 @@ function fightInit() {
             cSquad.puissance = squad.puissance;
             cSquad.maxCibles = squad.maxCibles;
             cSquad.moveType = squad.moveType;
+            cSquad.move = squad.move;
+            cSquad.fatigue = squad.fatigue;
             cSquad.portee = squad.portee;
             cSquad.appui = squad.appui;
             cSquad.penetration = squad.penetration;
@@ -113,8 +115,8 @@ function cTeamChecks() {
             }
         }
     });
-    cTeams.own.org = calcOrg(attUnitId,false); // ATTENTION!!! devra être TRUE quand combatId sera en place xxxxxxxxxx
-    cTeams.opp.org = calcOrg(defUnitId,false);
+    cTeams.own.org = calcCombatOrg(cTeams.own.player,cTurn);
+    cTeams.opp.org = calcCombatOrg(cTeams.opp.player,cTurn);
     cTeams.own.protection = calcProtection(cTeams.own.org,cTeams.own.aCouvrir,cTeams.own.couvreurs,0,cTeams.own.count,cTeams.opp.count);
     cTeams.opp.protection = calcProtection(cTeams.opp.org,cTeams.opp.aCouvrir,cTeams.opp.couvreurs,0,cTeams.opp.count,cTeams.own.count);
 };
@@ -244,6 +246,7 @@ function targetsLoop(squad,first) {
                 }
                 if (prio > 100 || target.appui == 0) {
                     $('#fightDetail').append('--------------------<br>');
+                    $('#fightDetail').append('<span class="retrait"></span>Priorité : '+prio+'<br>');
                     $('#fightDetail').append('<span class="retrait"></span>'+target.player+' : '+target.number+' '+xType(target.popId,false)+' ('+target.id+') opposants: '+target.numOpp+'<br>');
                     relativeOpp = calcRelativeOpp(target);
                     $('#fightDetail').append('<span class="retrait"></span>Opposants/Unité : '+relativeOpp+'<br>');

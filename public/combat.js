@@ -97,28 +97,20 @@ function calcShape(unitId) {
     if (shape < 75) {shape = 75;};
     return shape;
 };
-function calcOrg(unitId,combat) {
+function calcOrg(unitId) {
     let unitIndex = pop.findIndex((obj => obj.id == unitId));
     let org = pop[unitIndex].org;
     let group = pop[unitIndex].follow;
-    let combatId = pop[unitIndex].combatId;
     let player = pop[unitIndex].player;
     let deso = 3;
-    if ((group >= 1 && !combat) || (combatId >= 1 && combat)) {
+    if (group >= 1) {
         let groupNumber = 0;
         let groupOrg = 0;
         let bestOrg = 0;
         let unitOrg = 0;
-        let groupPop = [];
-        if (combat) {
-            groupPop = _.filter(pop, function(unit) {
-                return (unit.combatId == combatId && unit.player === player && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
-            });
-        } else {
-            groupPop = _.filter(pop, function(unit) {
-                return (unit.follow == group && unit.player === player && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
-            });
-        }
+        let groupPop = _.filter(pop, function(unit) {
+            return (unit.follow == group && unit.player === player && unit.tileId == pop[unitIndex].tileId && unit.org >= 0);
+        });
         groupPop.forEach(function(unit) {
             groupNumber = groupNumber+unit.number;
         });
@@ -151,8 +143,53 @@ function calcOrg(unitId,combat) {
     }
     return org;
 };
-function desorganisation(number) {
-    let deso = Math.round(Math.sqrt(number)*10/4);
+function calcCombatOrg(player,turn) {
+    let org = 0;
+    let groupNumber = 0;
+    let groupOrg = 0;
+    let bestOrg = 0;
+    let squadOrg = 0;
+    cPop.forEach(function(squad) {
+        if (squad.player === player) {
+            groupNumber = groupNumber+squad.number;
+        }
+    });
+    let deso = desorganisation(groupNumber,false);
+    let desoMv = desorganisation(groupNumber,true);
+    if (turn < 8) {
+        desoMV = Math.round((((turn-1)*deso)+((7-turn)*desoMv))/6);
+    }
+    cPop.forEach(function(squad) {
+        if (squad.player === player) {
+            if (squad.org == 0) {
+                squadOrg = 100;
+            } else {
+                squadOrg = squad.org;
+            }
+            if (squad.fatigue > Math.round(squad.move/2)) {
+                squadOrg = Math.round(squadOrg/desoMv);
+            } else {
+                squadOrg = Math.round(squadOrg/deso);
+            }
+            groupOrg = groupOrg+(squadOrg*squad.number);
+            if (squadOrg > bestOrg) {
+                bestOrg = squadOrg;
+            }
+        }
+    });
+    org = Math.round((Math.round(groupOrg/groupNumber)+bestOrg)/2);
+    if (org < 1) {
+        org = 1;
+    }
+    return org;
+};
+function desorganisation(number,mvmt) {
+    let deso = 1;
+    if (mvmt) {
+        deso = Math.round(Math.sqrt(number+40)*10/8);
+    } else {
+        deso = Math.round(Math.sqrt(number+376)*10/20);
+    }
     deso = deso/10;
     if (deso < 1) {
         deso = 1;

@@ -121,11 +121,11 @@ function uListOwner(unit,ownerShort,gfollow) {
 };
 function uListOthers(unit,ownerShort,gfollow) {
     let ttip = unitTooltip(unit.id);
-    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf infoUnit">'+xType(unit.id,true)+ttip+'</span></a><br>');
+    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner"></span></a>&nbsp;&nbsp;<span class="unitGroup grisf"><i class="far fa-circle"></i> '+gfollow+'</span><br>');
 };
 function uListOthersIdentified(unit,ownerShort,gfollow) {
     let ttip = unitTooltip(unit.id);
-    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner grisf">'+ownerShort+'</span></a><br>');
+    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'"><span class="unitNum grisf">'+unit.number+'</span> <span class="unitType grisf infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner grisf">'+ownerShort+'</span></a>&nbsp;&nbsp;<span class="unitGroup grisf"><i class="far fa-circle"></i> '+gfollow+'</span><br>');
 };
 function newGroupButton() {
     $('#tileUnitList').append('<button type="button" name="newGroup" title="Créer un nouveau groupe et y mettre le bataillon sélectionné" id="newGroup" onclick="createGroup('+selectedUnit.id+')">Nv. Groupe</button>');

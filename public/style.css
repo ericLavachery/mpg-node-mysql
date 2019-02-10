@@ -14,6 +14,7 @@ body {
     /* background-image: url(/static/img/blackrockbg_dark.jpg); */
     /* background-image: url(/static/img/bgwooddark.jpg); */
     background-image: url(/static/img/bg-forest-vdark.jpg);
+    background-repeat: no-repeat;
 }
 #cadreMap {
     background-color: #323232;

@@ -40,7 +40,7 @@ function showUnitInfos(unitId) {
             let attitude = displayAttitude(pop[unitIndex].attitude);
             $('#unitInfos').append('<span class="paramName">Attitude</span><span class="paramIcon"></span><span class="paramValue" title="'+attitude.expl+'">'+attitude.name+'</span><br>');
             // Organisation
-            let org = calcOrg(unitId,false);
+            let org = calcOrg(unitId);
             $('#unitInfos').append('<span class="paramName">Organisation</span><span class="paramIcon"></span><span class="paramValue"><span title="Organisation du groupe">'+org+'</span> <span title="Organisation du bataillon (si il était en dehors du groupe)">('+pop[unitIndex].org+')</span></span><br>');
         }
         if (pop[unitIndex].puissance >= 1) {
