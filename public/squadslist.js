@@ -109,15 +109,15 @@ function unitTooltip(unitId) {
 };
 function uListSelected(unit,ownerShort,gfollow) {
     let ttip = unitTooltip(unit.id);
-    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum jaune">'+unit.number+'</span> <span class="unitType jaune infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner jaune">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="unitGroup jaune"><i class="fas fa-check-circle"></i> '+gfollow+' <i class="fas fa-ruler-horizontal"></i></span></a><span class="unitMove">'+displayMove(unit.move,unit.fatigue)+'</span>');
+    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum jaune">'+unit.number+'</span> <span class="unitType jaune infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner jaune">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="unitGroup jaune"><i class="fas fa-check-circle"></i> '+gfollow+' <i class="fas fa-ruler-horizontal"></i></span></a><span class="unitMove">'+displayMove(unit.id)+'</span>');
 };
 function uListSelectedGroup(unit,ownerShort,gfollow) {
     let ttip = unitTooltip(unit.id);
-    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType inGroup infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="unitGroup"><i class="fas fa-check-circle"></i> '+gfollow+'</span></a><span class="unitMove">'+displayMove(unit.move,unit.fatigue)+'</span>');
+    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType inGroup infoUnit">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="unitGroup"><i class="fas fa-check-circle"></i> '+gfollow+'</span></a><span class="unitMove">'+displayMove(unit.id)+'</span>');
 };
 function uListOwner(unit,ownerShort,gfollow) {
     let ttip = unitTooltip(unit.id);
-    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType infoUnit" id="uc'+unit.id+'">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="unitGroup"><i class="far fa-circle"></i> '+gfollow+'</span></a><span class="unitMove">'+displayMove(unit.move,unit.fatigue)+'</span>');
+    $('#tileUnitList').append('<a href="#" id="tileUnitListId'+unit.id+'" onclick="selectUnit('+unit.id+')"><span class="unitNum">'+unit.number+'</span> <span class="unitType infoUnit" id="uc'+unit.id+'">'+xType(unit.id,true)+ttip+'</span><span class="unitOwner">'+ownerShort+'</span></a>&nbsp;&nbsp;<a href="#" id="followerId'+unit.id+'" onclick="groupSwitch('+unit.id+','+selectedUnit.follow+')"><span class="unitGroup"><i class="far fa-circle"></i> '+gfollow+'</span></a><span class="unitMove">'+displayMove(unit.id)+'</span>');
 };
 function uListOthers(unit,ownerShort,gfollow) {
     let ttip = unitTooltip(unit.id);

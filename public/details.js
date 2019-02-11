@@ -10,6 +10,7 @@ function showUnitInfos(unitId) {
     let endurance = pop[unitIndex].endurance;
     if (fatigue+endurance < 0) {fatigue = 0-endurance;};
     let movesLeft = move-fatigue;
+    let shape = calcShape(unitId);
     // Number + Type
     $('#unitInfos').append('<span class="blockTitle"><h3 id="squadTitle">'+pop[unitIndex].number+' '+xType(unitId,false)+'</h3></span>');
     if (pop[unitIndex].onTrack >= 1) {
@@ -26,7 +27,7 @@ function showUnitInfos(unitId) {
     $('#unitInfos').append('<span class="paramName">Propriétaire</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].player+'</span><br>');
     if (pop[unitIndex].move >= 1) {
         // Move
-        $('#unitInfos').append('<span class="paramName">Mouvements</span><span class="paramIcon"><i class="fas fa-walking"></i></span><span id="infosMovesLeft" class="paramValue">'+displayMove(pop[unitIndex].move,pop[unitIndex].fatigue)+'</span><br>');
+        $('#unitInfos').append('<span class="paramName">Mouvements</span><span class="paramIcon"><i class="fas fa-walking"></i></span><span id="infosMovesLeft" class="paramValue">'+displayMove(unitId)+'</span><br>');
     }
     // track follow
     if (pop[unitIndex].onTrack >= 1) {
@@ -49,9 +50,11 @@ function showUnitInfos(unitId) {
             // armure
             $('#unitInfos').append('<span class="paramName">Armure</span><span class="paramIcon"><i class="ra ra-vest"></i></span><span class="paramValue">'+pop[unitIndex].armure+'</span><br>');
             // esquive
-            $('#unitInfos').append('<span class="paramName">Esquive</span><span class="paramIcon"><i class="ra ra-player-dodge"></i></span><span class="paramValue">'+pop[unitIndex].esquive+'</span><br>');
+            let esquive = calcShapeEffects(pop[unitIndex].esquive,shape);
+            $('#unitInfos').append('<span class="paramName">Esquive</span><span class="paramIcon"><i class="ra ra-player-dodge"></i></span><span class="paramValue">'+esquive+'</span><br>');
             // parade
-            $('#unitInfos').append('<span class="paramName">Parade</span><span class="paramIcon"><i class="fas fa-shield-alt"></i></span><span class="paramValue">'+pop[unitIndex].parade+'</span><br>');
+            let parade = Math.round((calcShapeEffects(pop[unitIndex].parade,shape)+pop[unitIndex].parade)/2);
+            $('#unitInfos').append('<span class="paramName">Parade</span><span class="paramIcon"><i class="fas fa-shield-alt"></i></span><span class="paramValue">'+parade+'</span><br>');
             if (pop[unitIndex].portee >= 1) {
                 // portee
                 $('#unitInfos').append('<span class="paramName">Portée</span><span class="paramIcon"></span><span class="paramValue">'+pop[unitIndex].portee+'</span><br>');
@@ -92,9 +95,11 @@ function showUnitInfos(unitId) {
         $('#unitInfos').append('<span class="paramName low">id</span><span class="paramIcon"></span><span class="paramValue low" title="id bataillon">#'+pop[unitIndex].id+'</span><br>');
     }
 };
-function displayMove(move,fatigue) {
-    let shape = Math.round((move-fatigue)/(move/2)*100);
-    if (shape > 100) {shape = 100;};
+function displayMove(unitId) {
+    let shape = calcShape(unitId);
+    let unitIndex = pop.findIndex((obj => obj.id == unitId));
+    let move = pop[unitIndex].move;
+    let fatigue = pop[unitIndex].fatigue;
     if (shape < 100) {
         return '<span class="rouge">'+Math.round((move-fatigue)/10)+'</span>/'+Math.round(move/10);
     } else if (fatigue >= 1) {

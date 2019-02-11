@@ -47,9 +47,9 @@ function fightInit() {
             cSquad.illu = squad.illu;
             cSquad.attitude = squad.attitude;
             cSquad.hp = squad.hp;
-            cSquad.esquive = squad.esquive;
+            cSquad.esquiveBase = squad.esquive;
             // avec bonus coverAdj/terCover ?
-            cSquad.parade = squad.parade;
+            cSquad.paradeBase = squad.parade;
             cSquad.armure = squad.armure;
             cSquad.stature = squad.stature;
             cSquad.size = calcSize(squad.stature);
@@ -122,23 +122,43 @@ function cTeamChecks() {
 };
 function cPopChecks() {
     cPop.forEach(function(squad) {
-        if (rand.rand(1,100) > squad.endurance) {
-            squad.shape = squad.shape-3;
-        }
-        squad.prec = calcShapePrec(squad.precBase,squad.shape);
+        squad.shape = squad.shape-fightFatigue(squad.shape,squad.endurance);
+        squad.prec = calcShapeEffects(squad.precBase,squad.shape);
+        squad.esquive = calcShapeEffects(squad.esquiveBase,squad.shape);
+        squad.parade = Math.round((calcShapeEffects(squad.paradeBase,squad.shape)+squad.paradeBase)/2);
         squad.rollChoice = rollChoiceDice(squad.rapChoice);
+        squad.pa = calcPA(squad);
         let prioRoll = rand.rand(1,prioDice);
-        squad.prioMelee = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'melee',prioRoll); // 10,10 is PA attack,defense
-        squad.prioRange = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'range',prioRoll);
-        squad.prioNone = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'none',prioRoll);
-        squad.prioAssa = calcPriority(squad.appui,cTeams[squad.team].protection,10,10,'assa',prioRoll);
+        squad.prioMelee = calcPriority(squad.appui,cTeams[squad.team].protection,squad.pa.power,squad.pa.resist,'melee',prioRoll);
+        squad.prioRange = calcPriority(squad.appui,cTeams[squad.team].protection,squad.pa.power,squad.pa.resist,'range',prioRoll);
+        squad.prioNone = calcPriority(squad.appui,cTeams[squad.team].protection,squad.pa.power,squad.pa.resist,'none',prioRoll);
+        squad.prioAssa = calcPriority(squad.appui,cTeams[squad.team].protection,squad.pa.power,squad.pa.resist,'assa',prioRoll);
         squad.maxOpp = calcMaxOpp(squad.size,cTeams[squad.team].org,0)*squad.number; // 0 is fortification
         squad.oldNumber = squad.number;
         squad.realOpp = 0;
         squad.numOpp = 0;
         squad.numTarg = 0;
         squad.targetsOK = false;
+        console.log(squad.type+' p'+squad.pa.power+' r'+squad.pa.resist+' = '+squad.pa.pa+' PA');
     });
+    console.log('--------------------');
+};
+function fightFatigue(shape,endurance) {
+    let loss = 0;
+    let enduCheck = Math.round((endurance+10)*(endurance+10)/121);
+    if (shape <= 20 || endurance >= 100) {
+        loss = 0;
+    } else {
+        if (rand.rand(1,100) > enduCheck) {
+            if (endurance <= 50) {
+                loss = Math.round((95-endurance)/15);
+            } else {
+                loss = 3;
+            }
+        }
+    }
+    console.log(shape+' '+enduCheck+' '+loss);
+    return loss;
 };
 function pageBottom() {
     // $('html, body').animate({scrollTop:0},600);

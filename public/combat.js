@@ -66,9 +66,9 @@ function calcFightBasePrec(unitId) {
     prec = Math.round(prec*(100-mcAdj)/100);
     return prec;
 };
-function calcShapePrec(prec,shape) {
-    prec = Math.round(prec*shape/100);
-    return prec;
+function calcShapeEffects(field,shape) {
+    field = Math.round(field*shape/100);
+    return field;
 };
 function calcMCAdj(tileId,unitId) {
     let moveCost = calcMoveCost(tileId,unitId,false,false);
@@ -433,4 +433,48 @@ function calcOppSlot(size) {
 };
 function calcMaxOpp(size,org,fortif) {
     return Math.round(size/(Math.sqrt(org+15))/calcProtFortif(fortif)*550);
+};
+function calcPAtarg(squad,target) {
+    let pa = {};
+    // RESISTANCE
+    let esquive = 100-Math.round(target.prec*100/(squad.esquive+target.prec));
+    let parade = 100-Math.round(target.prec*100/(squad.parade+target.prec));
+    pa.resist = Math.round(squad.hp*esquive*parade*squad.armure/divPAres);
+    // POWER
+    let prec = Math.round(squad.prec*100/(squad.prec+((target.parade+target.esquive)/2)));
+    let penetration = 100-Math.round(target.armure*squad.penetration/100);
+    pa.power = Math.round(squad.actions*squad.puissance*prec*penetration/divPApow);
+    // PA
+    pa.pa = Math.round(pa.resist*pa.power/divPA);
+    return pa;
+};
+function calcPA(squad) {
+    let pa = {};
+    let target = {};
+    target.hp = 12;
+    target.esquive = 9;
+    target.parade = 11;
+    target.stature = 3;
+    target.armure = 25;
+    target.actions = 2;
+    target.portee = 0;
+    target.puissance = 6;
+    target.penetration = 100;
+    target.prec = 10;
+    let pa1 = calcPAtarg(squad,target);
+    target.hp = 18;
+    target.esquive = 15;
+    target.parade = 18;
+    target.stature = 3;
+    target.armure = 40;
+    target.actions = 2;
+    target.portee = 0;
+    target.puissance = 8;
+    target.penetration = 75;
+    target.prec = 18;
+    let pa2 = calcPAtarg(squad,target);
+    pa.resist = Math.round((pa1.resist+pa2.resist)/2);
+    pa.power = Math.round((pa1.power+pa2.power)/2);
+    pa.pa = Math.round((pa1.pa+pa2.pa)/2);
+    return pa;
 };

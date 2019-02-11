@@ -80,3 +80,6 @@ let prioDice = 100; // dé priorité (1-prioDice)
 let critFac = 4; // multiplication des dégâts quand coup critique
 let protectFac = 90; // protection x protectFac / 100
 let defenseFac = 2; // parade et esquive x defenseFac
+let divPAres = 10000;
+let divPApow = 700;
+let divPA = 100;
