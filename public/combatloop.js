@@ -380,14 +380,14 @@ function blow(hitter,bashed) {
     let morts = bashed.typeSing+' &dagger;';
     let numberBefore = bashed.number;
     $('#fightDetail').append('<span class="retrait"></span><span class="'+hitter.color+'">'+hitter.typeSing+'</span>');
-    let hit = calcHit(hitter.prec,bashed.esquive,bashed.parade,hitter.stature,bashed.stature,hitter.puissance,bashed.hp,hitter.skills,bashed.skills);
+    let hit = calcHit(hitter.prec,bashed.esquive,bashed.parade,hitter.stature,bashed.stature,hitter.puissance,bashed.hp,hitter.skills,bashed.skills,hitter.degDomaines,bashed.domaine);
     $('#fightDetail').append(' <span title="'+bashed.typeSing+' : '+hit.ep+' '+(100-hit.perc)+'%" class="'+hit.col+'">'+hit.chance+'/'+hit.dice+' &map; '+hit.check+' : '+hit.text+'</span><br>');
     if (hit.res != 'miss') {
         $('#fightDetail').append('<span class="retrait2"></span>');
-        let boom = calcDamage(hit.res,hitter.puissance,hitter.penetration,hitter.degNatures,hitter.degDomaines,bashed.armure,bashed.nature,bashed.domaine);
+        let boom = calcDamage(hit.res,hitter.puissance,hitter.penetration,hitter.degNatures,bashed.armure,bashed.nature);
         $('#fightDetail').append('<span title="'+bashed.typeSing+' : armure -'+boom.armorReduct+' dg">'+boom.damageCheck+' dg</span> ');
         if (boom.dnReduct >= 1) {
-            $('#fightDetail').append('&map; <span title="'+bashed.typeSing+' : domaine/nature -'+boom.dnReduct+' dg">dom/nat</span> ');
+            $('#fightDetail').append('&map; <span title="'+bashed.typeSing+' : nature -'+boom.dnReduct+' dg">nature</span> ');
         }
         if (boom.damage > bashed.HPeach*hitter.maxCibles) {
             boom.damage = bashed.HPeach*hitter.maxCibles;

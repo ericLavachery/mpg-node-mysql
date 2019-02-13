@@ -323,7 +323,7 @@ function rollChoiceDice(mcRap) {
     let rollRap = mcRap+rand.rand(1,choiceDice);
     return rollRap;
 }
-function calcDamage(hitRes,puissance,penetration,degNatures,degDomaines,armure,nature,domaine) {
+function calcDamage(hitRes,puissance,penetration,degNatures,armure,nature) {
     let boom = {};
     if (hitRes == 'crit') {
         puissance = Math.round(puissance*critFac);
@@ -339,26 +339,21 @@ function calcDamage(hitRes,puissance,penetration,degNatures,degDomaines,armure,n
     damage = Math.round((damage+rand.rand(0,damageDice))/2);
     boom.damageCheck = damage;
     if (!degNatures.includes(nature)) {
-        if (!degDomaines.includes(domaine)) {
-            // nature KO, domaine KO
-            damage = Math.round(damage/7);
-        } else {
-            // nature KO
-            damage = Math.round(damage/4);
-        }
-    } else {
-        if (!degDomaines.includes(domaine)) {
-            // domaine KO
-            damage = Math.round(damage/3);
-        }
+        damage = Math.round(damage/4);
     }
     boom.dnReduct = boom.damageCheck-damage;
     boom.damage = damage;
     return boom;
 };
-function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills,defSkills) {
+function calcHit(attPrecision,defEsquive,defParade,attStature,defStature,attPuissance,defHP,attSkills,defSkills,degDomaines,domaine) {
     let hit = {};
     let att = attPrecision;
+    if (!degDomaines.includes(domaine)) {
+        att = Math.round(att/4);
+        if (att < 1) {
+            att = 1;
+        }
+    }
     let def = 0;
     if (attStature >= defStature+3 && attPuissance >= defHP) {
         defParade = 0;

@@ -2,9 +2,9 @@ function unitsCRUD() {
     $('#unitsTable').empty();
     $('#unitsTable').append('<tr id="uTableFieldsRow"></tr>');
     Object.keys(unitTypes[0]).forEach(function(key,index) {
-        // key: the name of the object key
-        // index: the ordinal position of the key within the object
-        $('#uTableFieldsRow').append('<td class="colTitle">'+key+'</td>');
+        if (key != 'coverAdj' && key != 'moveAdj') {
+            $('#uTableFieldsRow').append('<td class="colTitle">'+key+'</td>');
+        }
     });
     let rowStyle = 0;
     let rowClass = 'colData';
@@ -18,9 +18,66 @@ function unitsCRUD() {
         }
         $('#unitsTable').append('<tr id="uTableValues'+unit.id+'"></tr>');
         Object.keys(unitTypes[0]).forEach(function(key,index) {
-            $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" onclick="unitEdit(`'+key+'`,`'+unit.id+'`)">'+unit[key]+'</td>');
+            if (key != 'coverAdj' && key != 'moveAdj') {
+                $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`)">'+unit[key]+'</td>');
+            }
         });
     });
+};
+function unitPromptEdit(field,unitId,number,min,max) {
+    let ok = true;
+    let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    let unit = unitTypes[unitIndex];
+
+    let newValue;
+    if (!number) {
+        newValue = prompt(field+' : ',unitTypes[unitIndex][field]);
+        if (newValue == '' || newValue === null) {
+            ok = false;
+            alert('VIDE !!');
+        } else {
+            newValue = newValue.trim().toLowerCase();
+        }
+    } else {
+        newValue = Number(prompt(field+' : ',unitTypes[unitIndex][field]));
+        if (newValue === null) {
+            ok = false;
+            alert('VIDE !!');
+        } else if (newValue > max || newValue < min) {
+            ok = false;
+            alert('INVALIDE : doit être compris entre '+min+' et '+max+' !!');
+        }
+    }
+    if (ok) {
+        if (unitTypes[unitIndex][field] != newValue) {
+            unitTypes[unitIndex][field] = newValue;
+            emitSingleChange(unitId,'unitTypes',field,newValue);
+            unitsCRUD();
+        }
+    }
+};
+function unitCheckboxEdit(field,unitId,options) {
+    // let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    // let unit = unitTypes[unitIndex];
+    // let sel = '';
+    // $('#modalHead').empty().append(unit.typeSing+' : '+field);
+    // $('#modalFoot').empty();
+    // $('#modalBody').empty().append('<select class="boutonVert" name="'+unitId+'" id="'+field+'" onchange="unitSelectOut(this);"><option value="" selected>&nbsp;</option></select>');
+    // options.forEach(function(option) {
+    //     if (unit[field] == option.value) {sel = ' selected';} else {sel = '';}
+    //     $('#'+field).append('<option value="'+option.value+'"'+sel+'>&nbsp;'+option.show+'</option>');
+    // });
+    // modal.style.display = "block";
+};
+function unitCheckboxOut(select) {
+    // let unitId = Number(select.name);
+    // let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    // let newValue = select.value;
+    // let field = select.id;
+    // unitTypes[unitIndex][field] = newValue;
+    // emitSingleChange(unitId,'unitTypes',field,newValue);
+    // modal.style.display = "none";
+    // unitsCRUD();
 };
 function unitSelectEdit(field,unitId,options) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
@@ -67,6 +124,7 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value;
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
     }
     if (field == 'cat') {
         newOpt = {};
@@ -98,6 +156,7 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value+'&nbsp; (bâtiment)';
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
     }
     if (field == 'attitude') {
         newOpt = {};
@@ -129,6 +188,7 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value+'&nbsp; (sans objet)';
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
     }
     if (field == 'appui') {
         newOpt = {};
@@ -152,6 +212,7 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value+'&nbsp; (chefs et autres unités très importantes)';
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
     }
     if (field == 'stature') {
         newOpt = {};
@@ -187,6 +248,7 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value+'&nbsp; (kraken)';
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
     }
     if (field == 'nature') {
         newOpt = {};
@@ -214,6 +276,7 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value;
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
     }
     if (field == 'domaine') {
         newOpt = {};
@@ -229,5 +292,417 @@ function unitEdit(field,unitId) {
         newOpt.show = newOpt.value;
         options.push(newOpt);
         unitSelectEdit(field,unitId,options);
+        return;
+    }
+    if (field == 'portee') {
+        newOpt = {};
+        newOpt.value = 0;
+        newOpt.show = newOpt.value+'&nbsp; (mêlée)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 1;
+        newOpt.show = newOpt.value+'&nbsp; (javelots)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 2;
+        newOpt.show = newOpt.value+'&nbsp; (arcs)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 3;
+        newOpt.show = newOpt.value+'&nbsp; (arcs longs)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 4;
+        newOpt.show = newOpt.value+'&nbsp; (engins)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 5;
+        newOpt.show = newOpt.value+'&nbsp; (engins)';
+        options.push(newOpt);
+        unitSelectEdit(field,unitId,options);
+        return;
+    }
+    if (field == 'moveType') {
+        newOpt = {};
+        newOpt.value = 'ter';
+        newOpt.show = newOpt.value+'&nbsp; (terrestre)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'air';
+        newOpt.show = newOpt.value+'&nbsp; (volant - bas)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'alt';
+        newOpt.show = newOpt.value+'&nbsp; (volant - altitude)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'cab';
+        newOpt.show = newOpt.value+'&nbsp; (cabbotage seulement)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'mix';
+        newOpt.show = newOpt.value+'&nbsp; (moyen partout)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'mer';
+        newOpt.show = newOpt.value+'&nbsp; (bonus haute mer, malus cabbotage)';
+        options.push(newOpt);
+        unitSelectEdit(field,unitId,options);
+        return;
+    }
+    if (field == 'vegetAdj' || field == 'escarpAdj' || field == 'innondAdj') {
+        newOpt = {};
+        newOpt.value = 0;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 5;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 10;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 15;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 20;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 25;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 30;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 35;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 40;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 50;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 55;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 60;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 65;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 70;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 75;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 80;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 85;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 90;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 95;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 100;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 105;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 110;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 115;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 120;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 125;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 130;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 140;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 150;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 160;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 170;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 180;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 200;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 225;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 250;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 275;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 300;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 350;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 400;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 450;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 500;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 600;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 700;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 800;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 1000;
+        newOpt.show = newOpt.value+'&nbsp; (xxxxx)';
+        options.push(newOpt);
+        unitSelectEdit(field,unitId,options);
+        return;
+    }
+    if (field == 'degatsSurNatures') {
+        newOpt = {};
+        newOpt.value = 'Vivant';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Magique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mécanique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Magique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Mécanique';
+        newOpt.show = newOpt.value+'&nbsp; (*) BASE';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Magique_Mécanique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Magique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Magique_Mécanique';
+        newOpt.show = newOpt.value+'&nbsp; (*) +MAGIQUE';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Magique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value+'&nbsp; (*) +BATIMENT';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Magique_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Vivant_Mort_Magique_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value+'&nbsp; (*) TOUT';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mécanique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mécanique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Magique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Mécanique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Magique_Mécanique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Magique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Mort_Magique_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Magique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Magique_Mécanique';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Magique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Magique_Mécanique_Bâtiment';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        unitSelectEdit(field,unitId,options);
+        return;
+    }
+    if (field == 'degatsSurDomaines') {
+        newOpt = {};
+        newOpt.value = 'Terrestre';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Terrestre_Marin_Volant';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Terrestre_Marin';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Marin';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Volant';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'Terrestre_Volant';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        unitSelectEdit(field,unitId,options);
+        return;
+    }
+    let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    let unit = unitTypes[unitIndex];
+    let min = Number.NEGATIVE_INFINITY;
+    let max = Number.POSITIVE_INFINITY;
+    if (field == 'endurance') {
+        min = -1;
+        max = 100;
+    }
+    if (field == 'armure') {
+        min = 0;
+        max = 300;
+    }
+    if (typeof unit[field] == 'number') {
+        unitPromptEdit(field,unitId,true,min,max);
+        return;
+    } else if (typeof unit[field] == 'string') {
+        unitPromptEdit(field,unitId,false,min,max);
+        return;
     }
 };
