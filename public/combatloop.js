@@ -157,7 +157,6 @@ function fightFatigue(shape,endurance) {
             }
         }
     }
-    console.log(shape+' '+enduCheck+' '+loss);
     return loss;
 };
 function pageBottom() {

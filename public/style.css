@@ -374,6 +374,19 @@ td {
     width: 60px;
     display: inline-block;
 }
+.colTitle {
+    font-size: 15px;
+    color: #7bbd46;
+}
+.colData {
+    font-size: 15px;
+    color: #46bd92;
+}
+.colDataBG {
+    font-size: 15px;
+    color: #46bd92;
+    background-color: #252525;
+}
 h1,h2,h3,h4 {
     display: inline;
     font-weight: normal;

@@ -1,4 +1,4 @@
-if (!window.location.href.includes('/fight') && !window.location.href.includes('/edit')) {
+if (!window.location.href.includes('/fight') && !window.location.href.includes('/edit') && !window.location.href.includes('/units')) {
     $(document).keypress(function(e) {
         if (e.which == 178) {
             toggleMode();
@@ -17,11 +17,11 @@ socket.on('tracksload', function(tracks) {
 // Quand on reçoit la carte, on l'insère dans la page
 socket.on('mapload', function(wmap) {
     world = wmap;
-    if (!window.location.href.includes('/edit')) {
+    if (!window.location.href.includes('/edit') && !window.location.href.includes('/units')) {
         defineUnhiddenTiles();
         hideHidden();
     }
-    if (!window.location.href.includes('/fight')) {
+    if (!window.location.href.includes('/fight') && !window.location.href.includes('/units')) {
         writeMapStyles();
         showMap(wmap);
     }
@@ -143,7 +143,7 @@ function cityImg(tileFlags,townType,tempMax) {
 // infos terrains
 socket.on('terload', function(wter) {
     ter = wter;
-    if (!window.location.href.includes('/fight')) {
+    if (!window.location.href.includes('/fight') && !window.location.href.includes('/units')) {
         writeTerStyles(wter);
     }
 });
@@ -257,7 +257,7 @@ socket.on('persoload', function(wperso) {
 // Affichage des unités
 socket.on('popload', function(wpop) {
     pop = wpop;
-    if (!window.location.href.includes('/fight')) {
+    if (!window.location.href.includes('/fight') && !window.location.href.includes('/units')) {
         showVisiblePop(world);
         loadGroups(wpop);
         if (window.location.href.includes('/edit')) {
@@ -306,5 +306,13 @@ socket.on('ressload', function(ressources) {
 socket.on('fightload', function(fight) {
     if (window.location.href.includes('/fight')) {
         fightInit();
+    }
+});
+
+// UNITS TABLES START
+socket.on('unitsCRUDload', function(uTypes) {
+    if (window.location.href.includes('/units')) {
+        unitTypes = uTypes;
+        unitsCRUD();
     }
 });

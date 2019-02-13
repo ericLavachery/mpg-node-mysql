@@ -26,10 +26,12 @@ function connectMe(pseudo) {
     document.getElementById('con').style.display = 'block';
     document.getElementById('pascon').style.display = 'none';
     // change le titre du doc
-    if (!window.location.href.includes('/fight')) {
+    if (!window.location.href.includes('/fight') && !window.location.href.includes('/units')) {
         document.title = pseudo + ' - MPG';
-    }    
-    document.getElementById("pseu").innerHTML = pseudo;
+    }
+    if (!window.location.href.includes('/units')) {
+        document.getElementById("pseu").innerHTML = pseudo;
+    }
 }
 
 $('#hello').click(promptMe);

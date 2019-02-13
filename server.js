@@ -80,6 +80,9 @@ app.use('/static', express.static(__dirname + '/node_modules/rpg-awesome'));
 app.get('/tables/', function (req, res) {
     res.sendFile(__dirname + '/tables.html');
 });
+app.get('/units/', function (req, res) {
+    res.sendFile(__dirname + '/units.html');
+});
 app.get('/fight/', function (req, res) {
     res.sendFile(__dirname + '/fight.html');
 });
@@ -126,6 +129,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         improveRess();
         socket.emit('ressload', ress);
         socket.emit('fightload', true);
+        socket.emit('unitsCRUDload', unitTypes);
     });
 
     function correctPop() {
@@ -203,8 +207,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         let arr = data.table;
         switch (arr) {
             case 'bataillons':
-            let unitIndex = pop.findIndex((obj => obj.id == data.id));
-            pop[unitIndex][prop] = data.value;
+            let squadIndex = pop.findIndex((obj => obj.id == data.id));
+            pop[squadIndex][prop] = data.value;
             socket.broadcast.emit('single_pop_changed', data);
             break;
             case 'terrains':
@@ -219,6 +223,10 @@ io.sockets.on('connection', function (socket, pseudo) {
             case 'ressources':
             let resIndex = ress.findIndex((obj => obj.id == data.id));
             ress[resIndex][prop] = data.value;
+            break;
+            case 'unitTypes':
+            let unitIndex = unitTypes.findIndex((obj => obj.id == data.id));
+            unitTypes[unitIndex][prop] = data.value;
             break;
         }
         // change db

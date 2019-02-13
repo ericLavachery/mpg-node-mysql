@@ -83,3 +83,5 @@ let defenseFac = 2; // parade et esquive x defenseFac
 let divPAres = 10000;
 let divPApow = 700;
 let divPA = 100;
+// UNITS CRUD
+let unitTypes = [];
