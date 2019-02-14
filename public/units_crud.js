@@ -57,27 +57,38 @@ function unitPromptEdit(field,unitId,number,min,max) {
     }
 };
 function unitCheckboxEdit(field,unitId,options) {
-    // let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
-    // let unit = unitTypes[unitIndex];
-    // let sel = '';
-    // $('#modalHead').empty().append(unit.typeSing+' : '+field);
-    // $('#modalFoot').empty();
-    // $('#modalBody').empty().append('<select class="boutonVert" name="'+unitId+'" id="'+field+'" onchange="unitSelectOut(this);"><option value="" selected>&nbsp;</option></select>');
-    // options.forEach(function(option) {
-    //     if (unit[field] == option.value) {sel = ' selected';} else {sel = '';}
-    //     $('#'+field).append('<option value="'+option.value+'"'+sel+'>&nbsp;'+option.show+'</option>');
-    // });
-    // modal.style.display = "block";
+    let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    let unit = unitTypes[unitIndex];
+    let sel = '';
+    $('#modalHead').empty().append(unit.typeSing+' : '+field);
+    $('#modalFoot').empty();
+    $('#modalBody').empty().append('<form id="'+field+'"></form>');
+    let i = 0;
+    options.forEach(function(option) {
+        if (unit[field].includes(option.value+'_')) {sel = ' checked';} else {sel = '';}
+        $('#'+field).append('<input type="checkbox" name="box'+i+'" value="'+option.value+'"'+sel+'> '+option.show+'<br>');
+        i++;
+    });
+    $('#'+field).append('<br><button class="boutonVert" name="'+unit.id+'" type="button" id="'+field+'" onclick="unitCheckboxOut(this)">ok</button>');
+    modal.style.display = "block";
 };
 function unitCheckboxOut(select) {
-    // let unitId = Number(select.name);
-    // let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
-    // let newValue = select.value;
-    // let field = select.id;
-    // unitTypes[unitIndex][field] = newValue;
-    // emitSingleChange(unitId,'unitTypes',field,newValue);
-    // modal.style.display = "none";
-    // unitsCRUD();
+    let unitId = Number(select.name);
+    let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    let newValue = '';
+    let field = select.id;
+    let i = 0;
+    while (i < numOpt) {
+        if (select.form[i].checked) {
+            console.log(select.form[i].value);
+            newValue = newValue+select.form[i].value+'_'
+        }
+        i++;
+    }
+    unitTypes[unitIndex][field] = newValue;
+    emitSingleChange(unitId,'unitTypes',field,newValue);
+    modal.style.display = "none";
+    unitsCRUD();
 };
 function unitSelectEdit(field,unitId,options) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
@@ -106,6 +117,80 @@ function unitEdit(field,unitId) {
     // quel type d'edit pour chaque champ?
     let options = [];
     let newOpt = {};
+    if (field == 'skills') {
+        newOpt = {};
+        newOpt.value = 'explo';
+        newOpt.show = newOpt.value+'&nbsp; (explorateur)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'carto';
+        newOpt.show = newOpt.value+'&nbsp; (cartographe)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'info';
+        newOpt.show = newOpt.value+'&nbsp; (informateur)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'spy';
+        newOpt.show = newOpt.value+'&nbsp; (espion)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'cland';
+        newOpt.show = newOpt.value+'&nbsp; (clandestin)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'regu';
+        newOpt.show = newOpt.value+'&nbsp; (armée régulière)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'shield';
+        newOpt.show = newOpt.value+'&nbsp; (bouclier)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'shpar';
+        newOpt.show = newOpt.value+'&nbsp; (parable seulement avec un bouclier)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'nopar';
+        newOpt.show = newOpt.value+'&nbsp; (imparable)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'noesq';
+        newOpt.show = newOpt.value+'&nbsp; (inesquivable)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'crit';
+        newOpt.show = newOpt.value+'&nbsp; (coups critiques)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'noemb';
+        newOpt.show = newOpt.value+'&nbsp; (pas de tir embarqué)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'insub';
+        newOpt.show = newOpt.value+'&nbsp; (insubbordoné)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'medic';
+        newOpt.show = newOpt.value+'&nbsp; (médecin de combat)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'armarch';
+        newOpt.show = newOpt.value+'&nbsp; (arrêt marchand)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'chefchan';
+        newOpt.show = newOpt.value+'&nbsp; (chef de chantier)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'produc';
+        newOpt.show = newOpt.value+'&nbsp; (producteur ou récolteur)';
+        options.push(newOpt);
+
+        numOpt = 17;
+        unitCheckboxEdit(field,unitId,options);
+        return;
+    }
     if (field == 'genre') {
         newOpt = {};
         newOpt.value = 'unité';

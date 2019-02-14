@@ -85,3 +85,4 @@ let divPApow = 700;
 let divPA = 100;
 // UNITS CRUD
 let unitTypes = [];
+let numOpt = 0;
