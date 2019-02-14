@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 10, 2019 at 10:33 AM
+-- Generation Time: Feb 14, 2019 at 09:25 AM
 -- Server version: 5.7.22
 -- PHP Version: 7.0.30-0ubuntu0.16.04.1
 
@@ -112,9 +112,9 @@ INSERT INTO `bataillons` (`id`, `player`, `type`, `typeId`, `number`, `x`, `y`, 
 (219, 'Bob', 'caporaux', 16, 1, 6, 1, 0, 50, -50, 50, 1, 541, 3846, 1, 0, 0),
 (220, 'Zorglub', 'archers', 17, 12, 6, 1, 0, 45, -17, 50, 1, 541, 674, 3, 0, 0),
 (221, 'Zorglub', 'pixies', 18, 37, 3, 15, 0, 35, -6, 70, 1, 541, 540, 3, 0, 0),
-(222, 'Zorglub', 'gobelins', 19, 45, 3, 15, 0, 40, -6, 50, 1, 541, 540, 3, 0, 0),
+(222, 'Zorglub', 'gobelins', 19, 45, 3, 15, 0, 40, -6, 25, 1, 541, 540, 3, 0, 0),
 (223, 'Bob', 'pavois', 20, 35, 6, 1, 0, 45, -17, 50, 1, 541, 674, 1, 0, 0),
-(224, 'Bob', 'phalanges', 21, 16, 6, 1, 0, 45, -17, 60, 1, 541, 674, 1, 0, 0);
+(224, 'Bob', 'phalanges', 21, 16, 6, 1, 0, 45, -17, 70, 1, 541, 674, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -216,7 +216,8 @@ INSERT INTO `ressources` (`id`, `name`, `price`, `enk`, `altRes`, `costRes`, `co
 (42, 'aromates', 15, 1, '', '', 0, 25, 'plante'),
 (43, 'onguents', 45, 1, '', 'aromates', 2, 0, 'plante'),
 (44, 'cervoise', 15, 10, '', 'céréales', 4, 0, 'plante'),
-(45, 'vin', 25, 10, '', 'fruits', 3, 0, 'plante');
+(45, 'vin', 25, 10, '', 'fruits', 3, 0, 'plante'),
+(46, 'munitions', 2, 1, '', 'métal', 0, 0, 'plante');
 
 -- --------------------------------------------------------
 
@@ -430,12 +431,7 @@ CREATE TABLE `unitTypes` (
   `prec` smallint(6) UNSIGNED NOT NULL DEFAULT '4',
   `puissance` smallint(6) UNSIGNED NOT NULL DEFAULT '3',
   `maxCibles` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
-  `defBonus` smallint(6) UNSIGNED NOT NULL DEFAULT '0',
-  `attBonus` smallint(6) UNSIGNED NOT NULL DEFAULT '0',
   `penetration` smallint(6) UNSIGNED NOT NULL DEFAULT '100',
-  `degatsSurNatures` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT 'Vivant_Mort_Mécanique' COMMENT 'Vivant_MortX2_Mécanique',
-  `degatsSurDomaines` enum('Terrestre','Terrestre_Marin','Terrestre_Volant','Terrestre_Marin_Volant','Marin','') COLLATE utf8_bin NOT NULL DEFAULT 'Terrestre',
-  `combatBoost` json NOT NULL COMMENT '[{"val":1,"prop":"puissance","cat":"orc"}]',
   `endurance` smallint(4) UNSIGNED NOT NULL DEFAULT '50',
   `moral` smallint(6) NOT NULL DEFAULT '35',
   `loyaute` smallint(6) NOT NULL DEFAULT '35',
@@ -453,6 +449,9 @@ CREATE TABLE `unitTypes` (
   `detection` smallint(6) NOT NULL DEFAULT '60',
   `discretion` smallint(6) NOT NULL DEFAULT '25',
   `skills` varchar(500) COLLATE utf8_bin NOT NULL COMMENT 'info_cland_explo_',
+  `degatsSurNatures` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT 'Vivant_Mort_Mécanique' COMMENT 'Vivant_MortX2_Mécanique',
+  `degatsSurDomaines` enum('Terrestre','Terrestre_Marin','Terrestre_Volant','Terrestre_Marin_Volant','Marin','') COLLATE utf8_bin NOT NULL DEFAULT 'Terrestre',
+  `combatBoost` json NOT NULL COMMENT '[{"val":1,"prop":"puissance","cat":"orc"}]',
   `prod_tempsConst` smallint(6) NOT NULL DEFAULT '5'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -460,28 +459,28 @@ CREATE TABLE `unitTypes` (
 -- Dumping data for table `unitTypes`
 --
 
-INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `genre`, `cat`, `illu`, `attitude`, `appui`, `hp`, `stature`, `nature`, `domaine`, `categorie`, `armure`, `esquive`, `parade`, `coverAdj`, `ammo`, `rapidite`, `actions`, `portee`, `prec`, `puissance`, `maxCibles`, `defBonus`, `attBonus`, `penetration`, `degatsSurNatures`, `degatsSurDomaines`, `combatBoost`, `endurance`, `moral`, `loyaute`, `org`, `move`, `moveAdj`, `moveType`, `vegetAdj`, `escarpAdj`, `innondAdj`, `contenu`, `fardeau`, `charge`, `enk`, `detection`, `discretion`, `skills`, `prod_tempsConst`) VALUES
-(1, 'barbares', 'barbare', 'unité', 'sld', 'bb2.jpg', 'ass', 0, 14, 3, 'Vivant', 'Terrestre', '', 20, 8, 8, 150, -1, 35, 2, 0, 10, 6, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 40, 50, 100, 'ter', 50, 40, 75, 0, 1, 0, 3, 65, 45, 'shield_', 5),
-(2, 'piquiers', 'piquier', 'unité', 'sld', 'newpiquier.jpg', 'ass', 0, 14, 3, 'Vivant', 'Terrestre', '', 35, 6, 9, 75, -1, 50, 2, 0, 10, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_', 5),
-(3, 'pisteurs', 'pisteur', 'unité', 'spy', 'pisteurbarb.jpg', 'af', 0, 14, 3, 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 2, 0, 12, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 65, 35, 35, 40, 50, 100, 'ter', 33, 33, 33, 0, 1, 0, 3, 110, 85, 'explo_info_cland_', 5),
-(4, 'forgerons', 'forgeron', 'unité', 'wrk', 'forgeron666.jpg', 'd', 3, 12, 3, 'Vivant', 'Terrestre', '', 10, 5, 5, 50, -1, 30, 2, 0, 5, 6, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 40, 35, 35, 30, 45, 100, 'ter', 100, 100, 100, 0, 1, 0, 3, 60, 25, '', 5),
-(5, 'chamanes', 'chamane', 'unité', 'spy', 'chamane3.jpg', 'ass', 4, 14, 3, 'Vivant', 'Terrestre', '', 20, 8, 5, 150, -1, 40, 2, 0, 10, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 65, 50, 100, 'ter', 50, 40, 75, 0, 1, 0, 3, 75, 75, '', 5),
-(6, 'éclaireurs', 'éclaireur', 'unité', 'spy', 'pathfinder.jpg', 'af', 3, 11, 3, 'Vivant', 'Terrestre', '', 15, 7, 5, 150, -1, 45, 2, 0, 6, 4, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 30, 50, 100, 'ter', 40, 40, 40, 0, 1, 0, 3, 120, 120, 'explo_info_cland_', 5),
-(7, 'espions', 'espion', 'unité', 'spy', 'espion.jpg', 'd', 3, 11, 3, 'Vivant', 'Terrestre', '', 10, 9, 5, 120, -1, 55, 2, 0, 5, 4, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 30, 50, 100, 'ter', 75, 75, 75, 0, 1, 0, 3, 150, 150, 'spy_', 5),
-(8, 'cartographes', 'cartographe', 'unité', 'wrk', 'cartograve.jpg', 'f', 3, 10, 3, 'Vivant', 'Terrestre', '', 10, 4, 3, 100, -1, 30, 2, 0, 4, 3, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 40, 35, 35, 30, 45, 100, 'ter', 80, 80, 80, 0, 1, 0, 3, 80, 30, 'carto_', 5),
-(9, 'châteaux', 'château', 'unité', 'bld', 'Chateau.jpg', 'd', 0, 2000, 3, 'Vivant', 'Terrestre', '', 120, 0, 0, 0, -1, 20, 2, 0, 0, 10, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, -1, 50, 0, 100, 'ter', 100, 100, 100, 0, 0, 0, 9999, 80, 0, 'regu_', 5),
-(10, 'chasseurs de sorcières', 'chasseur de sorcières', 'unité', 'spy', 'Chasseur de sorcieres.jpg', 'ass', 0, 17, 3, 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 2, 0, 12, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 50, 100, 'ter', 60, 60, 60, 0, 1, 0, 3, 110, 85, 'explo_info_cland_', 5),
-(11, 'engrenages', 'engrenage', 'ressource', 'res', '', 'i', 0, 0, 3, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, '', '', 'null', 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 0, 0, 0, 10, 0, 100, '', 0),
-(12, 'tonneaux', 'tonneau', 'coffre', 'res', '', 'i', 0, 0, 5, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, '', '', 'null', 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 9, 0, 0, 6, 0, 100, '', 0),
-(13, 'coffres', 'coffre', 'coffre', 'res', '', 'i', 0, 0, 4, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, '', '', 'null', 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 6, 0, 0, 4, 0, 100, '', 0),
-(14, 'sacs', 'sac', 'coffre', 'res', '', 'i', 0, 0, 3, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, '', '', 'null', 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 4, 0, 0, 3, 0, 100, '', 0),
-(15, 'transports de troupe', 'transport de troupe', 'unité', 'wrk', 'chariot12.jpg', 'i', 0, 50, 4, 'Mécanique', 'Terrestre', '', 30, 0, 0, 25, -1, 30, 0, 0, 0, 0, 1, 0, 0, 100, '', '', 'null', 35, 100, 100, 30, 65, 100, 'ter', 260, 300, 250, 0, 0, 24, 40, 0, 10, '', 5),
-(16, 'caporaux', 'caporal', 'unité', 'sld', 'capo.jpg', 'ass', 3, 15, 3, 'Vivant', 'Terrestre', '', 35, 6, 9, 100, -1, 40, 2, 0, 10, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 50, 85, 50, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_shield_', 5),
-(17, 'archers', 'archer', 'unité', 'sld', '', 'ass', 2, 13, 3, 'Vivant', 'Terrestre', '', 25, 7, 2, 75, -1, 40, 2, 2, 14, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 45, 100, 'ter', 100, 100, 100, 0, 1, 0, 3, 60, 25, 'regu_shpar_', 5),
-(18, 'pixies', 'pixie', 'unité', 'sld', '', 'af', 0, 3, 1, 'Magique', 'Terrestre', '', 5, 12, 5, 150, -1, 30, 2, 0, 10, 2, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 70, 35, 35, 35, 35, 100, 'air', 25, 25, 0, 0, 0, 0, 1, 75, 75, 'crit_', 5),
-(19, 'gobelins', 'gobelin', 'unité', 'sld', '', 'af', 0, 6, 2, 'Vivant', 'Terrestre', '', 15, 9, 5, 150, -1, 35, 2, 0, 7, 3, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 30, 40, 100, 'ter', 100, 100, 100, 0, 0, 0, 2, 45, 50, '', 5),
-(20, 'pavois', 'pavois', 'unité', 'sld', 'newshield.jpg', 'ass', 0, 14, 3, 'Vivant', 'Terrestre', '', 35, 5, 11, 75, -1, 35, 2, 0, 9, 5, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_shield_', 5),
-(21, 'phalanges', 'phalange', 'unité', 'sld', 'phal4.jpg', 'ass', 0, 17, 3, 'Vivant', 'Terrestre', '', 40, 8, 14, 75, -1, 50, 2, 0, 14, 6, 1, 0, 0, 100, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 60, 50, 50, 65, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_shield_', 5);
+INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `genre`, `cat`, `illu`, `attitude`, `appui`, `hp`, `stature`, `nature`, `domaine`, `categorie`, `armure`, `esquive`, `parade`, `coverAdj`, `ammo`, `rapidite`, `actions`, `portee`, `prec`, `puissance`, `maxCibles`, `penetration`, `endurance`, `moral`, `loyaute`, `org`, `move`, `moveAdj`, `moveType`, `vegetAdj`, `escarpAdj`, `innondAdj`, `contenu`, `fardeau`, `charge`, `enk`, `detection`, `discretion`, `skills`, `degatsSurNatures`, `degatsSurDomaines`, `combatBoost`, `prod_tempsConst`) VALUES
+(1, 'barbares', 'barbare', 'unité', 'sld', 'bb2.jpg', 'ass', 0, 14, 3, 'Vivant', 'Terrestre', '', 20, 8, 8, 150, -1, 35, 2, 0, 10, 6, 1, 100, 50, 35, 35, 40, 50, 100, 'ter', 50, 40, 75, 0, 1, 0, 3, 65, 45, 'shield_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(2, 'piquiers', 'piquier', 'unité', 'sld', 'newpiquier.jpg', 'ass', 0, 14, 3, 'Vivant', 'Terrestre', '', 35, 7, 8, 75, -1, 50, 2, 0, 11, 5, 1, 100, 50, 35, 35, 50, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(3, 'pisteurs', 'pisteur', 'unité', 'spy', 'pisteurbarb.jpg', 'af', 0, 14, 3, 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 2, 0, 12, 5, 1, 100, 65, 35, 35, 40, 50, 100, 'ter', 33, 33, 33, 0, 1, 0, 3, 110, 85, 'explo_info_cland_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(4, 'forgerons', 'forgeron', 'unité', 'wrk', 'forgeron666.jpg', 'd', 3, 12, 3, 'Vivant', 'Terrestre', '', 10, 5, 5, 50, -1, 30, 2, 0, 5, 6, 1, 100, 40, 35, 35, 30, 45, 100, 'ter', 100, 100, 100, 0, 1, 0, 3, 60, 25, '', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(5, 'chamanes', 'chamane', 'unité', 'spy', 'chamane3.jpg', 'ass', 4, 14, 3, 'Vivant', 'Terrestre', '', 20, 8, 5, 150, -1, 40, 2, 0, 10, 5, 1, 100, 50, 35, 35, 65, 50, 100, 'ter', 50, 40, 75, 0, 1, 0, 3, 75, 75, '', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(6, 'éclaireurs', 'éclaireur', 'unité', 'spy', 'pathfinder.jpg', 'af', 3, 11, 3, 'Vivant', 'Terrestre', '', 15, 7, 5, 150, -1, 45, 2, 0, 6, 4, 1, 100, 50, 35, 35, 30, 50, 100, 'ter', 40, 40, 40, 0, 1, 0, 3, 120, 120, 'explo_info_cland_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(7, 'espions', 'espion', 'unité', 'spy', 'espion.jpg', 'd', 3, 11, 3, 'Vivant', 'Terrestre', '', 10, 9, 5, 120, -1, 55, 2, 0, 5, 4, 1, 100, 50, 35, 35, 30, 50, 100, 'ter', 75, 75, 75, 0, 1, 0, 3, 150, 150, 'spy_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(8, 'cartographes', 'cartographe', 'unité', 'wrk', 'cartograve.jpg', 'f', 3, 10, 3, 'Vivant', 'Terrestre', '', 10, 4, 3, 100, -1, 30, 2, 0, 4, 3, 1, 100, 40, 35, 35, 30, 45, 100, 'ter', 80, 80, 80, 0, 1, 0, 3, 80, 30, 'carto_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(9, 'châteaux', 'château', 'bâtiment', 'bld', 'Chateau.jpg', 'at', 0, 2000, 3, 'Vivant', 'Terrestre', '', 100, 0, 0, 0, -1, 20, 2, 0, 0, 10, 1, 100, 50, 35, -1, 50, 0, 100, 'ter', 100, 100, 100, 0, 0, 0, 9999, 80, 0, 'regu_', 'Vivant_Mort_Mécanique', 'Terrestre_Volant', 'null', 5),
+(10, 'chasseurs de sorcières', 'chasseur de sorcières', 'unité', 'spy', 'Chasseur de sorcieres.jpg', 'ass', 0, 17, 3, 'Vivant', 'Terrestre', '', 30, 9, 7, 150, -1, 45, 2, 1, 12, 5, 1, 100, 50, 35, 35, 50, 50, 100, 'ter', 60, 60, 60, 0, 1, 0, 3, 110, 85, 'explo_info_cland_', 'Vivant_Mort_Mécanique', 'Terrestre_Marin_Volant', 'null', 5),
+(11, 'engrenages', 'engrenage', 'ressource', 'res', '', 'i', 0, 0, 3, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 0, 0, 0, 10, 0, 100, '', '', '', 'null', 0),
+(12, 'tonneaux', 'tonneau', 'coffre', 'res', '', 'i', 0, 0, 5, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 9, 0, 0, 6, 0, 100, '', '', '', 'null', 0),
+(13, 'coffres', 'coffre', 'coffre', 'res', '', 'i', 0, 0, 4, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 6, 0, 0, 4, 0, 100, '', '', '', 'null', 0),
+(14, 'sacs', 'sac', 'coffre', 'res', '', 'i', 0, 0, 3, 'Spécial', 'Terrestre', '', 0, 0, 0, 100, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 100, 'ter', 100, 100, 100, 4, 0, 0, 3, 0, 100, '', '', '', 'null', 0),
+(15, 'transports de troupe', 'transport de troupe', 'unité', 'wrk', 'chariot12.jpg', 'i', 0, 50, 4, 'Mécanique', 'Terrestre', '', 30, 0, 0, 25, -1, 30, 0, 0, 0, 0, 1, 100, 35, 100, 100, 30, 65, 100, 'ter', 260, 300, 250, 0, 0, 24, 40, 0, 10, '', '', '', 'null', 5),
+(16, 'caporaux', 'caporal', 'unité', 'sld', 'capo.jpg', 'ass', 3, 15, 3, 'Vivant', 'Terrestre', '', 35, 6, 9, 100, -1, 40, 2, 0, 10, 5, 1, 100, 50, 35, 50, 85, 50, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_shield_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(17, 'archers', 'archer', 'unité', 'sld', '', 'ass', 2, 13, 3, 'Vivant', 'Terrestre', '', 25, 7, 2, 75, -1, 40, 2, 2, 14, 5, 1, 100, 50, 35, 35, 50, 45, 100, 'ter', 100, 100, 100, 0, 1, 0, 3, 60, 25, 'regu_shpar_', 'Vivant_Mort_Mécanique', 'Terrestre_Marin_Volant', 'null', 5),
+(18, 'pixies', 'pixie', 'unité', 'sld', '', 'af', 0, 3, 1, 'Vivant', 'Volant', '', 5, 12, 5, 150, -1, 30, 2, 2, 10, 2, 1, 100, 70, 35, 35, 35, 35, 100, 'air', 25, 25, 0, 0, 0, 0, 1, 75, 75, 'crit_', 'Vivant_Mort_Magique', 'Terrestre_Marin_Volant', 'null', 5),
+(19, 'gobelins', 'gobelin', 'unité', 'sld', '', 'af', 0, 6, 2, 'Vivant', 'Terrestre', '', 15, 9, 5, 150, -1, 35, 2, 0, 7, 3, 1, 100, 25, 35, 35, 30, 40, 100, 'ter', 100, 100, 100, 0, 0, 0, 2, 45, 50, '', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(20, 'pavois', 'pavois', 'unité', 'sld', 'newshield.jpg', 'ass', 0, 14, 3, 'Vivant', 'Terrestre', '', 35, 6, 11, 75, -1, 35, 2, 0, 9, 5, 1, 100, 50, 35, 35, 50, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_shield_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5),
+(21, 'phalanges', 'phalange', 'unité', 'sld', 'phalange3.jpg', 'ass', 0, 17, 3, 'Vivant', 'Terrestre', '', 40, 8, 14, 75, -1, 50, 2, 0, 14, 6, 1, 100, 70, 50, 50, 65, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 3, 60, 25, 'regu_shield_', 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 5);
 
 -- --------------------------------------------------------
 
@@ -21241,7 +21240,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `ressources`
 --
 ALTER TABLE `ressources`
-  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT for table `terrains`
 --

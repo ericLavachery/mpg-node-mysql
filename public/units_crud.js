@@ -2,8 +2,8 @@ function unitsCRUD() {
     $('#unitsTable').empty();
     $('#unitsTable').append('<tr id="uTableFieldsRow"></tr>');
     Object.keys(unitTypes[0]).forEach(function(key,index) {
-        if (key != 'coverAdj' && key != 'moveAdj') {
-            $('#uTableFieldsRow').append('<td class="colTitle">'+key+'</td>');
+        if (!fieldsOut.includes(key)) {
+            $('#uTableFieldsRow').append('<td class="colTitle klik" title="retirer '+key+' du tableau" onclick="removeField(`'+key+'`)">'+key+'</td>');
         }
     });
     let rowStyle = 0;
@@ -18,31 +18,71 @@ function unitsCRUD() {
         }
         $('#unitsTable').append('<tr id="uTableValues'+unit.id+'"></tr>');
         Object.keys(unitTypes[0]).forEach(function(key,index) {
-            if (key != 'coverAdj' && key != 'moveAdj') {
+            if (!fieldsOut.includes(key)) {
                 $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`)">'+unit[key]+'</td>');
             }
         });
     });
 };
+function removeField(field) {
+    fieldsOut.push(field);
+    unitsCRUD();
+};
+function showAllFields() {
+    // let fieldIn = ['id','type','typeSing','genre','cat','illu','attitude','appui','hp','stature','nature','domaine','categorie','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
+    fieldsOut = ['coverAdj','moveAdj'];
+    unitsCRUD();
+};
+function showBaseFields() {
+    fieldsOut = ['coverAdj','moveAdj'];
+    let fieldIn = ['id','type','typeSing','genre','cat','illu','attitude','appui','stature','nature','domaine','categorie','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
+    Object.keys(unitTypes[0]).forEach(function(key,index) {
+        if (!fieldIn.includes(key)) {
+            fieldsOut.push(key);
+        }
+    });
+    unitsCRUD();
+};
+function showCombatFields() {
+    fieldsOut = ['coverAdj','moveAdj'];
+    let fieldIn = ['id','type','genre','cat','attitude','appui','hp','stature','nature','domaine','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','skills'];
+    Object.keys(unitTypes[0]).forEach(function(key,index) {
+        if (!fieldIn.includes(key)) {
+            fieldsOut.push(key);
+        }
+    });
+    unitsCRUD();
+};
+function showMoveFields() {
+    fieldsOut = ['coverAdj','moveAdj'];
+    let fieldIn = ['id','type','genre','cat','rapidite','endurance','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
+    Object.keys(unitTypes[0]).forEach(function(key,index) {
+        if (!fieldIn.includes(key)) {
+            fieldsOut.push(key);
+        }
+    });
+    unitsCRUD();
+};
 function unitPromptEdit(field,unitId,number,min,max) {
     let ok = true;
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
     let unit = unitTypes[unitIndex];
-
     let newValue;
     if (!number) {
         newValue = prompt(field+' : ',unitTypes[unitIndex][field]);
         if (newValue == '' || newValue === null) {
             ok = false;
-            alert('VIDE !!');
         } else {
             newValue = newValue.trim().toLowerCase();
         }
     } else {
-        newValue = Number(prompt(field+' : ',unitTypes[unitIndex][field]));
-        if (newValue === null) {
+        let minMax = '';
+        if (min > Number.NEGATIVE_INFINITY && max < Number.POSITIVE_INFINITY) {
+            minMax = '('+min+'-'+max+')';
+        }
+        newValue = Number(prompt(field+' : '+minMax,unitTypes[unitIndex][field]));
+        if (newValue == '' || newValue === null) {
             ok = false;
-            alert('VIDE !!');
         } else if (newValue > max || newValue < min) {
             ok = false;
             alert('INVALIDE : doit être compris entre '+min+' et '+max+' !!');
@@ -186,8 +226,108 @@ function unitEdit(field,unitId) {
         newOpt.value = 'produc';
         newOpt.show = newOpt.value+'&nbsp; (producteur ou récolteur)';
         options.push(newOpt);
-
         numOpt = 17;
+        unitCheckboxEdit(field,unitId,options);
+        return;
+    }
+    if (field == 'categorie') {
+        newOpt = {};
+        newOpt.value = 'civil';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'soldat';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'mage';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'religieux';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'chef';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'hll';
+        newOpt.show = newOpt.value+'&nbsp; (hors-la-loi)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'espion';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'milice';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'pv';
+        newOpt.show = newOpt.value+'&nbsp; (peau verte)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'orc';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'gobelin';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'nain';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'elfe';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'barbare';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'marin';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'archer';
+        newOpt.show = newOpt.value+'&nbsp; (ou autre arme à distance)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'garde';
+        newOpt.show = newOpt.value;
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'ugenie';
+        newOpt.show = newOpt.value+'&nbsp; (unité de génie)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'mortv';
+        newOpt.show = newOpt.value+'&nbsp; (mort-vivant)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'batciv';
+        newOpt.show = newOpt.value+'&nbsp; (bâtiment civil)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'batmil';
+        newOpt.show = newOpt.value+'&nbsp; (bâtiment militaire)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'fortif';
+        newOpt.show = newOpt.value+'&nbsp; (fortification)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'fdc';
+        newOpt.show = newOpt.value+'&nbsp; (feu de camp)';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 'produc';
+        newOpt.show = newOpt.value+'&nbsp; (producteur ou récolteur)';
+        options.push(newOpt);
+        numOpt = 24;
         unitCheckboxEdit(field,unitId,options);
         return;
     }

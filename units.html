@@ -18,6 +18,14 @@
             <p><input type="button" value="Connexion" id="hello" /></p>
         </div>
         <div id="con">
+            <div id="boutonsUnitsCRUD">
+                <button type="button" id="allFields" title="Tous les champs" onclick="showAllFields()">Tous</button>
+                <button type="button" id="baseFields" title="Champs de mouvement" onclick="showBaseFields()">Base</button>
+                <button type="button" id="combatFields" title="Champs de combat" onclick="showCombatFields()">Combat</button>
+                <button type="button" id="moveFields" title="Champs de mouvement" onclick="showMoveFields()">Mouvement</button>
+                <button type="button" id="createFields" title="Champs de création">Création</button>
+                <button type="button" id="prodFields" title="Champs de production">Production</button>
+            </div>
             <table id="unitsTable"></table>
         </div>
         <!-- The Modal -->

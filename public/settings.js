@@ -85,4 +85,5 @@ let divPApow = 700;
 let divPA = 100;
 // UNITS CRUD
 let unitTypes = [];
+let fieldsOut = ['coverAdj','moveAdj'];
 let numOpt = 0;
