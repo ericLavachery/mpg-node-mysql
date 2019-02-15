@@ -234,6 +234,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('single table change');
+            socket.emit('single_table_change', data);
         });
     });
 

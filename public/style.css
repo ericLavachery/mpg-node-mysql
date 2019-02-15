@@ -414,6 +414,12 @@ h4 {
     margin: 0;
     padding: 0px 0px 5px 0px;
 }
+#serverReturn {
+    font-family: 'Crushed', cursive;
+    font-size: 22px;
+    color: #ff001f;
+    margin: 15px 15px 0px 15px;
+}
 a.brun:hover,a.vert:hover,a.mauve:hover,a.ciel:hover,a.jaune:hover,a.grisf:hover,a.gris:hover,a.blanc:hover,.bleu:hover {
     color: #ff001f;
     text-decoration: none;

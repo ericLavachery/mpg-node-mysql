@@ -25,15 +25,33 @@
                 <button type="button" class="crudButtons" title="Champs de combat" onclick="showCombatFields()">Combat</button>
                 <button type="button" class="crudButtons" title="Champs de mouvement" onclick="showMoveFields()">Mouvement</button>
                 <button type="button" class="crudButtons" title="Champs de création">Création</button>
-                <button type="button" class="crudButtons" title="Champs de production">Production</button><br>
+                <button type="button" class="crudButtons" title="Champs de production">Production</button>
+                <span id="serverReturn"></span>
+                <br>
                 <button type="button" class="boutonRouge crudButtons" title="Unités">Unités</button>
                 <button type="button" class="boutonMauve crudButtons" title="Ajouter ou Remplacer les filtres?" onclick="toggleAddReplace()" id="arToggle">Remplacer</button>
                 <button type="button" class="crudButtons" title="Toutes les unités" onclick="tableShowAllUnits()">Toutes</button>
-                <button type="button" class="boutonVert crudButtons" title="Genre">Genre</button>
-                <button type="button" class="crudButtons" title="Genre : unité" onclick="tableShowUnits('genre','unité')">Unités</button>
-                <button type="button" class="crudButtons" title="Genre : bâtiment" onclick="tableShowUnits('genre','bâtiment')">Bâtiments</button>
-                <button type="button" class="crudButtons" title="Genre : ressource" onclick="tableShowUnits('genre','ressource')">Ressources</button>
-                <button type="button" class="crudButtons" title="Genre : coffre" onclick="tableShowUnits('genre','coffre')">Coffres</button>
+                <button type="button" class="boutonVert crudButtons" title="Genre">genre</button>
+                <select class="crudButtons" name="genre" title="Genre" onchange="tableShowUnitsSelect(this);">
+                    <option value="" selected>tous</option>
+                    <option value="unité">unité</option>
+                    <option value="bâtiment">bâtiment</option>
+                    <option value="ressource">ressource</option>
+                    <option value="coffre">coffre</option>
+                </select>
+                <button type="button" class="boutonVert crudButtons" title="Cat">cat (icône)</button>
+                <select class="crudButtons" name="cat" title="cat (icône)" onchange="tableShowUnitsSelect(this);">
+                    <option value="" selected>tout</option>
+                    <option value="bld">bld</option>
+                    <option value="bsp">bsp</option>
+                    <option value="shp">shp</option>
+                    <option value="sld">sld</option>
+                    <option value="spy">spy</option>
+                    <option value="wrk">wrk</option>
+                    <option value="res">res</option>
+                </select>
+                <button type="button" class="boutonVert crudButtons" title="Skills">skills</button>
+                <select class="crudButtons" name="skills" title="skills" onchange="tableShowUnitsSelect(this);" id="selectSkills"></select>
             </div>
             <table id="unitsTable"></table>
         </div>
@@ -66,6 +84,7 @@
         <script src="/static/init.js"></script>
         <!-- <script src="/static/hiddentiles.js"></script> -->
         <script src="/static/broadcasts.js"></script>
+        <script src="/static/serverreturn.js"></script>
         <!-- <script src="/static/modes.js"></script> -->
         <!-- <script src="/static/mapeditor.js"></script> -->
         <script src="/static/move.js"></script>
@@ -73,6 +92,7 @@
         <script src="/static/combat.js"></script>
         <!-- <script src="/static/combatloop.js"></script> -->
         <script src="/static/units_crud.js"></script>
+        <script src="/static/units_options.js"></script>
         <script src="/static/details.js"></script>
         <script src="/static/squadslist.js"></script>
         <!-- <script src="/static/tracks.js"></script> -->

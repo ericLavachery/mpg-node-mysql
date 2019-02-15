@@ -134,6 +134,9 @@ button:active {
     margin: 3px 0 5px 0;
 	min-width: 10px;
 }
+select.crudButtons {
+    padding: 3px 10px;
+}
 .iconButtons,.iconButtonsRA {
     min-width: 35px;
     font-size: 17px;
