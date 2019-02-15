@@ -124,9 +124,15 @@ button:active {
 .modeButtons {
 	font-size:14px;
     min-width: 130px;
-    padding:6px 13px;
+    padding: 6px 13px;
     margin: 3px 0 5px 0;
     text-align: left;
+}
+.crudButtons {
+	font-size:13px;
+    padding: 4px 10px;
+    margin: 3px 0 5px 0;
+	min-width: 10px;
 }
 .iconButtons,.iconButtonsRA {
     min-width: 35px;

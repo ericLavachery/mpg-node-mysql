@@ -10,19 +10,48 @@ function unitsCRUD() {
     let rowClass = 'colData';
     let sortedUnits = _.sortBy(unitTypes,'type');
     sortedUnits.forEach(function(unit) {
-        rowStyle = rowStyle+1;
-        rowClass = 'colData';
-        if (rowStyle > 1) {
-            rowStyle = 0;
-            rowClass = 'colDataBG';
-        }
-        $('#unitsTable').append('<tr id="uTableValues'+unit.id+'"></tr>');
-        Object.keys(unitTypes[0]).forEach(function(key,index) {
-            if (!fieldsOut.includes(key)) {
-                $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`)">'+unit[key]+'</td>');
+        if (!unitsOut.includes(unit.id)) {
+            rowStyle = rowStyle+1;
+            rowClass = 'colData';
+            if (rowStyle > 1) {
+                rowStyle = 0;
+                rowClass = 'colDataBG';
             }
-        });
+            $('#unitsTable').append('<tr id="uTableValues'+unit.id+'"></tr>');
+            Object.keys(unitTypes[0]).forEach(function(key,index) {
+                if (!fieldsOut.includes(key)) {
+                    $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`)">'+unit[key]+'</td>');
+                }
+            });
+        }
     });
+};
+function toggleAddReplace() {
+    if (filterAddMode) {
+        filterAddMode = false;
+        $('#arToggle').empty().append('Remplacer');
+    } else {
+        filterAddMode = true;
+        $('#arToggle').empty().append('Ajouter');
+    }
+};
+function tableShowAllUnits() {
+    unitsOut = [];
+    unitsCRUD();
+};
+function tableShowUnits(field,value) {
+    if (!filterAddMode) {
+        unitsOut = [];
+    }
+    let filterUT = _.filter(unitTypes, function(unit) {
+        return (!unit[field].includes(value));
+    });
+    filterUT.forEach(function(unit) {
+        if (!unitsOut.includes(unit.id)) {
+            unitsOut.push(unit.id);
+        }
+    });
+    unitsCRUD();
 };
 function removeField(field) {
     fieldsOut.push(field);

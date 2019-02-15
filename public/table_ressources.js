@@ -16,7 +16,7 @@ function ressourcesTable(sortField) {
         } else {
             trClass = '';
         }
-        $('#ressTable').append('<tr'+trClass+'><td class="name klik" onclick="ressChange('+ressource.id+',`name`)">'+ressource.name+' &nbsp;</td><td class="road klik" onclick="ressChange('+ressource.id+',`price`)">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move klik" onclick="ressChange('+ressource.id+',`enk`)">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense klik" onclick="ressChange('+ressource.id+',`costNum`)">'+ressource.costNum+' '+ressource.costRes+'</td><td class="moveBase klik" onclick="ressChange('+ressource.id+',`quant`)">'+ressource.quant+'</td><td class="name klik" onclick="catModChange('+ressource.id+',`cat`)">'+ressource.cat+'</td></tr>');
+        $('#ressTable').append('<tr'+trClass+'><td class="name klik" onclick="ressChange('+ressource.id+',`name`)" title="'+ressource.name+' : nom">'+ressource.name+' &nbsp;</td><td class="road klik" onclick="ressChange('+ressource.id+',`price`)" title="'+ressource.name+' : prix">'+ressource.price+'</td><td class="cover">'+ressource.profit+'</td><td class="move klik" onclick="ressChange('+ressource.id+',`enk`)" title="'+ressource.name+' : enk">'+ressource.enk+'</td><td class="moveBase">'+ressource.enkval+'</td><td class="defense klik" onclick="ressChange('+ressource.id+',`costNum`)" title="'+ressource.name+' : coût en ressources">'+ressource.costNum+' '+ressource.costRes+'</td><td class="moveBase klik" onclick="ressChange('+ressource.id+',`quant`)" title="'+ressource.name+' : récolte">'+ressource.quant+'</td><td class="name klik" onclick="catModChange('+ressource.id+',`cat`)" title="'+ressource.name+' : catégorie">'+ressource.cat+'</td></tr>');
     });
 };
 function resOnTerRowTitle(num) {
@@ -59,7 +59,7 @@ function resOnTerTable(sortField) {
             sortedRess.forEach(function(ressource) {
                 numRes = calcNumRes(ressource,lastBiome);
                 if (numRes == 0) {numRes = '';}
-                $(rowId).append('<td class="cover klik" onclick="resqChange('+ressource.id+','+lastBiome.id+')">&nbsp;'+numRes+'&nbsp;</td>');
+                $(rowId).append('<td class="cover klik" onclick="resqChange('+ressource.id+','+lastBiome.id+')" title="'+ressource.name+' : '+lastBiome.name+'">&nbsp;'+numRes+'&nbsp;</td>');
             });
             rowTitleCount = rowTitleCount+1;
             if (rowTitleCount == 31) {
