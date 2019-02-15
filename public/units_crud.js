@@ -35,6 +35,42 @@ function unitsCRUDbuttons() {
     options.forEach(function(option) {
         $('#selectSkills').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
+    options = fieldOptions('categorie');
+    $('#selectCategorie').empty();
+    $('#selectCategorie').append('<option value="" selected>toutes</option>');
+    options.forEach(function(option) {
+        $('#selectCategorie').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('nature');
+    $('#selectNature').empty();
+    $('#selectNature').append('<option value="" selected>toutes</option>');
+    options.forEach(function(option) {
+        $('#selectNature').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('stature');
+    $('#selectStature').empty();
+    $('#selectStature').append('<option value="" selected>toutes</option>');
+    options.forEach(function(option) {
+        $('#selectStature').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('moveType');
+    $('#selectMoveType').empty();
+    $('#selectMoveType').append('<option value="" selected>tous</option>');
+    options.forEach(function(option) {
+        $('#selectMoveType').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('portee');
+    $('#selectPortee').empty();
+    $('#selectPortee').append('<option value="" selected>toutes</option>');
+    options.forEach(function(option) {
+        $('#selectPortee').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('appui');
+    $('#selectAppui').empty();
+    $('#selectAppui').append('<option value="" selected>tous</option>');
+    options.forEach(function(option) {
+        $('#selectAppui').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
 };
 function toggleAddReplace() {
     if (filterAddMode) {
@@ -56,9 +92,16 @@ function tableShowUnits(field,value) {
     if (!filterAddMode) {
         unitsOut = [];
     }
-    let filterUT = _.filter(unitTypes, function(unit) {
-        return (!unit[field].includes(value));
-    });
+    let filterUT = [];
+    if (typeof Number(value) == 'number' && !isNaN(Number(value))) {
+        filterUT = _.filter(unitTypes, function(unit) {
+            return (unit[field] != value);
+        });
+    } else {
+        filterUT = _.filter(unitTypes, function(unit) {
+            return (!unit[field].includes(value));
+        });
+    }
     filterUT.forEach(function(unit) {
         if (!unitsOut.includes(unit.id)) {
             unitsOut.push(unit.id);
