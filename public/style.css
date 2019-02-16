@@ -379,16 +379,24 @@ td {
     display: inline-block;
 }
 .colTitle {
-    font-size: 15px;
+    font-size: 16px;
     color: #7bbd46;
+}
+.colDel {
+    font-size: 14px;
+    color: #c76f9c;
+}
+.colLoop {
+    font-size: 14px;
+    color: #2ec3b5;
 }
 .colData {
     font-size: 15px;
-    color: #46bd92;
+    color: #8f7151;
 }
 .colDataBG {
     font-size: 15px;
-    color: #46bd92;
+    color: #8f7151;
     background-color: #252525;
 }
 .colDataSel {

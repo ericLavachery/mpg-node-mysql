@@ -1,9 +1,21 @@
 function unitsCRUD() {
     $('#unitsTable').empty();
-    $('#unitsTable').append('<tr id="uTableFieldsRow"></tr>');
+    $('#unitsTable').append('<tr id="uTableFieldsDel"></tr>');
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldsOut.includes(key)) {
-            $('#uTableFieldsRow').append('<td class="colTitle klik" title="retirer '+key+' du tableau" onclick="removeField(`'+key+'`)">'+key+'</td>');
+            $('#uTableFieldsDel').append('<td class="colDel klik" title="retirer '+key+' du tableau" onclick="removeField(`'+key+'`)"><i class="fas fa-trash-alt"></i></td>');
+        }
+    });
+    $('#unitsTable').append('<tr id="uTableFieldsEdit"></tr>');
+    Object.keys(unitTypes[0]).forEach(function(key,index) {
+        if (!fieldsOut.includes(key)) {
+            $('#uTableFieldsEdit').append('<td class="colLoop klik" title="éditer '+key+' pour toutes les unités sélectionnées" onclick="loopEditField(`'+key+'`)"><i class="far fa-edit"></i></td>');
+        }
+    });
+    $('#unitsTable').append('<tr id="uTableFieldsSort"></tr>');
+    Object.keys(unitTypes[0]).forEach(function(key,index) {
+        if (!fieldsOut.includes(key)) {
+            $('#uTableFieldsSort').append('<td class="colTitle klik" title="classer par '+key+'" onclick="sortByField(`'+key+'`)">'+key+'</td>');
         }
     });
     let rowStyle = 0;
@@ -20,7 +32,7 @@ function unitsCRUD() {
             $('#unitsTable').append('<tr id="uTableValues'+unit.id+'"></tr>');
             Object.keys(unitTypes[0]).forEach(function(key,index) {
                 if (!fieldsOut.includes(key)) {
-                    $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`)">'+unit[key]+'</td>');
+                    $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`,false)">'+unit[key]+'</td>');
                 }
             });
         }
@@ -261,11 +273,11 @@ function unitSelectOut(select) {
     modal.style.display = "none";
     unitsCRUD();
 };
-function unitEdit(field,unitId) {
+function unitEdit(field,unitId,loop) {
     // quel type d'edit pour chaque champ?
     let options = fieldOptions(field);
     numOpt = options.length;
-    if (options.length > 1) {
+    if (options.length > 1 && !loop) {
         if (field == 'skills' || field == 'categorie') {
             unitCheckboxEdit(field,unitId,options);
             return;
@@ -293,4 +305,12 @@ function unitEdit(field,unitId) {
         unitPromptEdit(field,unitId,false,min,max);
         return;
     }
+};
+function loopEditField(field) {
+    let sortedUnits = _.sortBy(unitTypes,'type');
+    sortedUnits.forEach(function(unit) {
+        if (!unitsOut.includes(unit.id)) {
+            unitEdit(field,unit.id,true);
+        }
+    });
 };
