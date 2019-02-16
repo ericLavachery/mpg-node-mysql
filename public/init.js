@@ -313,6 +313,7 @@ socket.on('fightload', function(fight) {
 socket.on('unitsCRUDload', function(uTypes) {
     if (window.location.href.includes('/units')) {
         unitTypes = uTypes;
+        baseFields();
         unitsCRUD();
     }
 });

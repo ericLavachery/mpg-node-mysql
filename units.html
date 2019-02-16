@@ -26,43 +26,20 @@
                 <button type="button" class="crudButtons" title="Champs de mouvement" onclick="showMoveFields()">Mouvement</button>
                 <button type="button" class="crudButtons" title="Champs de création">Création</button>
                 <button type="button" class="crudButtons" title="Champs de production">Production</button>
-                <button type="button" class="boutonMauve crudButtons" title="Ajouter ou Remplacer les filtres?" onclick="toggleAddReplace()" id="arToggle">Remplacer</button>
+                <button type="button" class="boutonVert crudButtons" title="Refresh" onclick="refreshTable()">Refresh</button>
                 <span id="serverReturn"></span>
                 <br>
                 <button type="button" class="boutonRouge crudButtons" title="Unités">Unités</button>
-                <button type="button" class="crudButtons" title="Toutes les unités" onclick="tableShowAllUnits()">Toutes</button>
-                <button type="button" class="boutonVert crudButtons" title="Genre">genre</button>
-                <select class="crudButtons" name="genre" title="Genre" onchange="tableShowUnitsSelect(this);">
-                    <option value="" selected>tous</option>
-                    <option value="unité">unité</option>
-                    <option value="bâtiment">bâtiment</option>
-                    <option value="ressource">ressource</option>
-                    <option value="coffre">coffre</option>
-                </select>
-                <button type="button" class="boutonVert crudButtons" title="Cat">cat (icône)</button>
-                <select class="crudButtons" name="cat" title="cat (icône)" onchange="tableShowUnitsSelect(this);">
-                    <option value="" selected>tout</option>
-                    <option value="bld">bld</option>
-                    <option value="bsp">bsp</option>
-                    <option value="shp">shp</option>
-                    <option value="sld">sld</option>
-                    <option value="spy">spy</option>
-                    <option value="wrk">wrk</option>
-                    <option value="res">res</option>
-                </select>
-                <button type="button" class="boutonVert crudButtons" title="Categories">categories</button>
+                <button type="button" class="boutonMauve crudButtons" title="Ajouter ou Remplacer les filtres?" onclick="toggleAddReplace()" id="arToggle">Remplacer</button>
+                <button type="button" class="crudButtons" title="Toutes les unités" onclick="tableShowAllUnits()">toutes</button>
+                <select class="crudButtons" name="genre" title="genre" onchange="tableShowUnitsSelect(this);" id="selectGenre"></select>
+                <select class="crudButtons" name="icon" title="icon" onchange="tableShowUnitsSelect(this);" id="selectCat"></select>
                 <select class="crudButtons" name="categorie" title="categorie" onchange="tableShowUnitsSelect(this);" id="selectCategorie"></select>
-                <button type="button" class="boutonVert crudButtons" title="Nature">nature</button>
                 <select class="crudButtons" name="nature" title="nature" onchange="tableShowUnitsSelect(this);" id="selectNature"></select>
-                <button type="button" class="boutonVert crudButtons" title="Stature">stature</button>
                 <select class="crudButtons" name="stature" title="stature" onchange="tableShowUnitsSelect(this);" id="selectStature"></select>
-                <button type="button" class="boutonVert crudButtons" title="Type de mouvement">moveType</button>
                 <select class="crudButtons" name="moveType" title="type de mouvement" onchange="tableShowUnitsSelect(this);" id="selectMoveType"></select>
-                <button type="button" class="boutonVert crudButtons" title="Portée">portee</button>
                 <select class="crudButtons" name="portee" title="portée" onchange="tableShowUnitsSelect(this);" id="selectPortee"></select>
-                <button type="button" class="boutonVert crudButtons" title="Appui">appui</button>
                 <select class="crudButtons" name="appui" title="appui" onchange="tableShowUnitsSelect(this);" id="selectAppui"></select>
-                <button type="button" class="boutonVert crudButtons" title="Skills">skills</button>
                 <select class="crudButtons" name="skills" title="skills" onchange="tableShowUnitsSelect(this);" id="selectSkills"></select>
             </div>
             <table id="unitsTable"></table>

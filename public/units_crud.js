@@ -31,45 +31,57 @@ function unitsCRUDbuttons() {
     let options = [];
     options = fieldOptions('skills');
     $('#selectSkills').empty();
-    $('#selectSkills').append('<option value="" selected>tous</option>');
+    $('#selectSkills').append('<option value="" selected>skills</option>');
     options.forEach(function(option) {
         $('#selectSkills').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
     options = fieldOptions('categorie');
     $('#selectCategorie').empty();
-    $('#selectCategorie').append('<option value="" selected>toutes</option>');
+    $('#selectCategorie').append('<option value="" selected>categorie</option>');
     options.forEach(function(option) {
         $('#selectCategorie').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
     options = fieldOptions('nature');
     $('#selectNature').empty();
-    $('#selectNature').append('<option value="" selected>toutes</option>');
+    $('#selectNature').append('<option value="" selected>nature</option>');
     options.forEach(function(option) {
         $('#selectNature').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
     options = fieldOptions('stature');
     $('#selectStature').empty();
-    $('#selectStature').append('<option value="" selected>toutes</option>');
+    $('#selectStature').append('<option value="" selected>stature</option>');
     options.forEach(function(option) {
         $('#selectStature').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
     options = fieldOptions('moveType');
     $('#selectMoveType').empty();
-    $('#selectMoveType').append('<option value="" selected>tous</option>');
+    $('#selectMoveType').append('<option value="" selected>moveType</option>');
     options.forEach(function(option) {
         $('#selectMoveType').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
     options = fieldOptions('portee');
     $('#selectPortee').empty();
-    $('#selectPortee').append('<option value="" selected>toutes</option>');
+    $('#selectPortee').append('<option value="" selected>portee</option>');
     options.forEach(function(option) {
         $('#selectPortee').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
     options = fieldOptions('appui');
     $('#selectAppui').empty();
-    $('#selectAppui').append('<option value="" selected>tous</option>');
+    $('#selectAppui').append('<option value="" selected>appui</option>');
     options.forEach(function(option) {
         $('#selectAppui').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('icon');
+    $('#selectCat').empty();
+    $('#selectCat').append('<option value="" selected>icon</option>');
+    options.forEach(function(option) {
+        $('#selectCat').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('genre');
+    $('#selectGenre').empty();
+    $('#selectGenre').append('<option value="" selected>genre</option>');
+    options.forEach(function(option) {
+        $('#selectGenre').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
 };
 function toggleAddReplace() {
@@ -109,28 +121,34 @@ function tableShowUnits(field,value) {
     });
     unitsCRUD();
 };
+function refreshTable() {
+    unitsCRUD();
+};
 function removeField(field) {
     fieldsOut.push(field);
     unitsCRUD();
 };
 function showAllFields() {
-    // let fieldIn = ['id','type','typeSing','genre','cat','illu','attitude','appui','hp','stature','nature','domaine','categorie','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
+    // let fieldIn = ['id','type','typeSing','genre','icon','illu','attitude','appui','hp','stature','nature','domaine','categorie','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
     fieldsOut = ['coverAdj','moveAdj'];
     unitsCRUD();
 };
 function showBaseFields() {
+    baseFields();
+    unitsCRUD();
+};
+function baseFields() {
     fieldsOut = ['coverAdj','moveAdj'];
-    let fieldIn = ['id','type','typeSing','genre','cat','illu','attitude','appui','stature','nature','domaine','categorie','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
+    let fieldIn = ['id','type','typeSing','genre','icon','illu','attitude','appui','stature','nature','domaine','categorie','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldIn.includes(key)) {
             fieldsOut.push(key);
         }
     });
-    unitsCRUD();
 };
 function showCombatFields() {
     fieldsOut = ['coverAdj','moveAdj'];
-    let fieldIn = ['id','type','genre','cat','attitude','appui','hp','stature','nature','domaine','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','skills'];
+    let fieldIn = ['id','type','genre','icon','attitude','appui','hp','stature','nature','domaine','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','skills'];
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldIn.includes(key)) {
             fieldsOut.push(key);
@@ -140,7 +158,7 @@ function showCombatFields() {
 };
 function showMoveFields() {
     fieldsOut = ['coverAdj','moveAdj'];
-    let fieldIn = ['id','type','genre','cat','rapidite','endurance','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
+    let fieldIn = ['id','type','genre','icon','rapidite','endurance','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldIn.includes(key)) {
             fieldsOut.push(key);
@@ -153,6 +171,7 @@ function unitPromptEdit(field,unitId,number,min,max) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
     let unit = unitTypes[unitIndex];
     let newValue;
+    $('#uTableValues'+unit.id).children('td').addClass('colDataSel');
     if (!number) {
         newValue = prompt(unit.type+' : '+field,unitTypes[unitIndex][field]);
         if (newValue == '' || newValue === null) {
@@ -180,13 +199,14 @@ function unitPromptEdit(field,unitId,number,min,max) {
             unitsCRUD();
         }
     }
+    $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
 };
 function unitCheckboxEdit(field,unitId,options) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
     let unit = unitTypes[unitIndex];
     let sel = '';
     $('#modalHead').empty().append(unit.typeSing+' : '+field);
-    $('#modalFoot').empty();
+    $('#modalFoot').empty().append('<div class="hSpace"></div>');
     $('#modalBody').empty().append('<form id="'+field+'"></form>');
     let i = 0;
     options.forEach(function(option) {
@@ -194,7 +214,8 @@ function unitCheckboxEdit(field,unitId,options) {
         $('#'+field).append('<input type="checkbox" name="box'+i+'" value="'+option.value+'"'+sel+'> '+option.show+'<br>');
         i++;
     });
-    $('#'+field).append('<br><button class="boutonVert" name="'+unit.id+'" type="button" id="'+field+'" onclick="unitCheckboxOut(this)">ok</button>');
+    $('#'+field).append('<br><button class="boutonVert" name="'+unit.id+'" type="button" id="'+field+'" onclick="unitCheckboxOut(this)">ok</button><br><br>');
+    $('#uTableValues'+unit.id).children('td').addClass('colDataSel');
     modal.style.display = "block";
 };
 function unitCheckboxOut(select) {
@@ -211,6 +232,7 @@ function unitCheckboxOut(select) {
     }
     unitTypes[unitIndex][field] = newValue;
     emitSingleChange(unitId,'unitTypes',field,newValue);
+    $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
     unitsCRUD();
 };
@@ -225,6 +247,7 @@ function unitSelectEdit(field,unitId,options) {
         if (unit[field] == option.value) {sel = ' selected';} else {sel = '';}
         $('#'+field).append('<option value="'+option.value+'"'+sel+'>&nbsp;'+option.show+'</option>');
     });
+    $('#uTableValues'+unit.id).children('td').addClass('colDataSel');
     modal.style.display = "block";
 };
 function unitSelectOut(select) {
@@ -234,6 +257,7 @@ function unitSelectOut(select) {
     let field = select.id;
     unitTypes[unitIndex][field] = newValue;
     emitSingleChange(unitId,'unitTypes',field,newValue);
+    $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
     unitsCRUD();
 };

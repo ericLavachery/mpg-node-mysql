@@ -17,7 +17,7 @@ function showTileUnitList(tileId) {
     sortedOwnPopHere.forEach(function(unit) {
         squadsHere = squadsHere+1;
         ownerShort = unit.player.substring(0,4);
-        if (unit.cat != 'bld' && unit.cat != 'bsp') {
+        if (unit.icon != 'bld' && unit.icon != 'bsp') {
             ownNonBldSquadsHere = ownNonBldSquadsHere+1;
         }
         ownSquadsHere = ownSquadsHere+1;
@@ -71,12 +71,12 @@ function showTileUnitList(tileId) {
     $('#tileUnitList').append('<div class="espace"></div>');
     let isSpace = false;
     // bouton JOIN
-    if (numSameType >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp' && selectedUnit.time >= 1) {
+    if (numSameType >= 2 && selectedUnit.id >= 1 && selectedUnit.icon != 'bld' && selectedUnit.icon != 'bsp' && selectedUnit.time >= 1) {
         joinButton();
         isSpace = true;
     }
     // bouton SPLIT
-    if (selectedUnit.number >= 2 && selectedUnit.id >= 1 && selectedUnit.cat != 'bld' && selectedUnit.cat != 'bsp') {
+    if (selectedUnit.number >= 2 && selectedUnit.id >= 1 && selectedUnit.icon != 'bld' && selectedUnit.icon != 'bsp') {
         if (isSpace) {$('#tileUnitList').append('<span class="butSpace"></span>');}
         splitButton(selectedUnit.id);
         isSpace = true;

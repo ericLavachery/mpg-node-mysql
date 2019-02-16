@@ -97,7 +97,7 @@ function explore(free) {
         } else {
             thisGroup = 'xxx';
         }
-        detItem = unit.player+thisGroup+unit.cat;
+        detItem = unit.player+thisGroup+unit.icon;
         if (detItem == lastDetItem && !detItem.includes('xxx')) {
             bonus = bonus+10;
         } else {
@@ -118,8 +118,8 @@ function explore(free) {
         } else {
             thisGroup = 'xxx';
         }
-        detItem = unit.player+thisGroup+unit.cat;
-        if (unit.cat == 'bld') {
+        detItem = unit.player+thisGroup+unit.icon;
+        if (unit.icon == 'bld') {
             new_bldView.push(unit.id);
             if (unit.skills.includes('regu_')) {
                 new_bldIdent.push(unit.id);
@@ -127,7 +127,7 @@ function explore(free) {
                 // identifie les alliés
                 new_bldIdent.push(unit.id);
             }
-        } else if (unit.cat == 'bsp' || unit.cat == 'ssp' || unit.cat == 'spy') {
+        } else if (unit.icon == 'bsp' || unit.icon == 'ssp' || unit.icon == 'spy') {
             if (isDetected(free,groupDetection,unit)) {
                 new_unitView.push(unit.id);
             }
@@ -287,7 +287,7 @@ function identify() {
                 lastGroup = unit.follow;
             }
             if (isIdentified(searchSkills,unit.skills)) {
-                if (unit.cat == 'bld' || unit.cat == 'bsp') {
+                if (unit.icon == 'bld' || unit.icon == 'bsp') {
                     new_bldIdent.push(unit.id);
                 } else {
                     new_unitIdent.push(unit.id);

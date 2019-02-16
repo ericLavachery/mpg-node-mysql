@@ -12,7 +12,7 @@ function visibleUnitsOnTile(tileId) {
     let bestNumUnits = 0;
     let prioStop = false;
     sortedTilePop.forEach(function(unit) {
-        if (unit.cat == 'bld') {
+        if (unit.icon == 'bld') {
             if (perso.bldView.includes(unit.id)) {
                 if (perso.bldIdent.includes(unit.id)) {
                     vuHere.numBld = vuHere.numBld+1;
@@ -25,30 +25,30 @@ function visibleUnitsOnTile(tileId) {
                 vuHere.isMov = true;
             }
             vuHere.numPlayer = vuHere.numPlayer+unit.number;
-            if (uvp == 'res' && unit.cat == 'res') {
+            if (uvp == 'res' && unit.icon == 'res') {
                 vuHere.catPlayer = 1;
                 prioStop = true;
-            } else if (uvp == 'wrk' && unit.cat == 'wrk') {
+            } else if (uvp == 'wrk' && unit.icon == 'wrk') {
                 vuHere.catPlayer = 2;
                 prioStop = true;
-            } else if (uvp == 'spy' && unit.cat == 'spy') {
+            } else if (uvp == 'spy' && unit.icon == 'spy') {
                 vuHere.catPlayer = 3;
                 prioStop = true;
-            } else if (uvp == 'bsp' && unit.cat == 'bsp') {
+            } else if (uvp == 'bsp' && unit.icon == 'bsp') {
                 vuHere.catPlayer = 6;
                 prioStop = true;
-            } else if (uvp == 'shp' && unit.cat == 'shp') {
+            } else if (uvp == 'shp' && unit.icon == 'shp') {
                 vuHere.catPlayer = 5;
                 prioStop = true;
-            } else if (uvp == 'sld' && unit.cat == 'sld') {
+            } else if (uvp == 'sld' && unit.icon == 'sld') {
                 vuHere.catPlayer = 4;
                 prioStop = true;
-            } else if (uvp == 'bld' && unit.cat == 'bld') {
+            } else if (uvp == 'bld' && unit.icon == 'bld') {
                 vuHere.catPlayer = 7;
                 prioStop = true;
             } else if (!prioStop) {
-                if (catToPriority(unit.cat) > vuHere.catPlayer) {
-                    vuHere.catPlayer = catToPriority(unit.cat);
+                if (catToPriority(unit.icon) > vuHere.catPlayer) {
+                    vuHere.catPlayer = catToPriority(unit.icon);
                 }
             }
         } else {
@@ -56,24 +56,24 @@ function visibleUnitsOnTile(tileId) {
                 if (perso.unitIdent.includes(unit.id) || perso.bldIdent.includes(unit.id)) {
                     if (perso.enemies.includes(unit.player)) {
                         vuHere.numEnemies = vuHere.numEnemies+unit.number;
-                        if (catToPriority(unit.cat) > vuHere.catEnemies) {
-                            vuHere.catEnemies = catToPriority(unit.cat);
+                        if (catToPriority(unit.icon) > vuHere.catEnemies) {
+                            vuHere.catEnemies = catToPriority(unit.icon);
                         }
                     } else if (perso.allies.includes(unit.player)) {
                         vuHere.numAllies = vuHere.numAllies+unit.number;
-                        if (catToPriority(unit.cat) > vuHere.catAllies) {
-                            vuHere.catAllies = catToPriority(unit.cat);
+                        if (catToPriority(unit.icon) > vuHere.catAllies) {
+                            vuHere.catAllies = catToPriority(unit.icon);
                         }
                     } else {
                         vuHere.numOthers = vuHere.numOthers+unit.number;
-                        if (catToPriority(unit.cat) > vuHere.catOthers) {
-                            vuHere.catOthers = catToPriority(unit.cat);
+                        if (catToPriority(unit.icon) > vuHere.catOthers) {
+                            vuHere.catOthers = catToPriority(unit.icon);
                         }
                     }
                 } else {
                     vuHere.numOthers = vuHere.numOthers+unit.number;
-                    if (catToPriority(unit.cat) > vuHere.catOthers) {
-                        vuHere.catOthers = catToPriority(unit.cat);
+                    if (catToPriority(unit.icon) > vuHere.catOthers) {
+                        vuHere.catOthers = catToPriority(unit.icon);
                     }
                 }
             }

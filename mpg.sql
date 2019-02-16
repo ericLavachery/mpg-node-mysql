@@ -390,7 +390,7 @@ CREATE TABLE `unitTypes` (
   `type` varchar(30) COLLATE utf8_bin NOT NULL,
   `typeSing` varchar(30) COLLATE utf8_bin NOT NULL,
   `genre` enum('unité','bâtiment','ressource','coffre') COLLATE utf8_bin NOT NULL DEFAULT 'unité',
-  `cat` varchar(3) COLLATE utf8_bin NOT NULL,
+  `icon` varchar(3) COLLATE utf8_bin NOT NULL,
   `illu` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `attitude` enum('at','ass','af','amn','d','f','i') COLLATE utf8_bin NOT NULL DEFAULT 'ass',
   `apts` smallint(6) NOT NULL DEFAULT '0',
@@ -438,7 +438,7 @@ CREATE TABLE `unitTypes` (
 -- Dumping data for table `unitTypes`
 --
 
-INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `genre`, `cat`, `illu`, `attitude`, `apts`, `hp`, `stature`, `nature`, `domaine`, `categorie`, `armure`, `esquive`, `parade`, `coverAdj`, `ammo`, `rapidite`, `actions`, `portee`, `puissance`, `penetration`, `attaque`, `defense`, `degatsSurNatures`, `degatsSurDomaines`, `combatBoost`, `endurance`, `moral`, `loyaute`, `org`, `move`, `moveAdj`, `moveType`, `vegetAdj`, `escarpAdj`, `innondAdj`, `contenu`, `fardeau`, `charge`, `enk`, `detection`, `discretion`, `skills`, `prod_tempsConst`) VALUES
+INSERT INTO `unitTypes` (`id`, `type`, `typeSing`, `genre`, `icon`, `illu`, `attitude`, `apts`, `hp`, `stature`, `nature`, `domaine`, `categorie`, `armure`, `esquive`, `parade`, `coverAdj`, `ammo`, `rapidite`, `actions`, `portee`, `puissance`, `penetration`, `attaque`, `defense`, `degatsSurNatures`, `degatsSurDomaines`, `combatBoost`, `endurance`, `moral`, `loyaute`, `org`, `move`, `moveAdj`, `moveType`, `vegetAdj`, `escarpAdj`, `innondAdj`, `contenu`, `fardeau`, `charge`, `enk`, `detection`, `discretion`, `skills`, `prod_tempsConst`) VALUES
 (1, 'barbares', 'barbare', 'unité', 'sld', 'bb2.jpg', 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 8, 8, 150, -1, 40, 3, '0', 6, 100, 15, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 40, 50, 100, 'ter', 50, 40, 75, 0, 1, 0, 2, 65, 45, '', 5),
 (2, 'piquiers', 'piquier', 'unité', 'sld', 'newpiquier.jpg', 'ass', 0, 14, '3', 'Vivant', 'Terrestre', '', 35, 6, 9, 75, -1, 35, 3, '0', 5, 100, 10, 12, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 50, 35, 35, 50, 45, 100, 'ter', 115, 140, 125, 0, 1, 0, 2, 60, 25, 'regu_', 5),
 (3, 'pisteurs', 'pisteur', 'unité', 'spy', 'pisteurbarb.jpg', 'af', 0, 14, '3', 'Vivant', 'Terrestre', '', 20, 9, 7, 150, -1, 45, 3, '0', 5, 100, 12, 10, 'Vivant_Mort_Mécanique', 'Terrestre', 'null', 65, 35, 35, 40, 50, 100, 'ter', 33, 33, 33, 0, 1, 0, 2, 110, 85, 'explo_info_cland_', 5),

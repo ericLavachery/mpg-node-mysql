@@ -354,6 +354,10 @@ td {
     margin: 6px;
     padding: 0;
 }
+.hSpace {
+    height: 64px;
+    padding: 0;
+}
 .smSpace {
     width: 2px;
     display: inline-block;
@@ -386,6 +390,10 @@ td {
     font-size: 15px;
     color: #46bd92;
     background-color: #252525;
+}
+.colDataSel {
+    font-size: 15px;
+    color: #fffc00;
 }
 h1,h2,h3,h4 {
     display: inline;
