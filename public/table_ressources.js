@@ -127,15 +127,13 @@ function ressChange(ressId,field) {
         newValue = prompt(field+' : ',ress[ressIndex][field]);
         if (newValue == '' || newValue === null) {
             ok = false;
-            alert('NOM DE RESSOURCE INVALIDE !!');
         } else {
             newValue = newValue.trim().toLowerCase();
         }
     } else {
         newValue = Number(prompt(field+' : ',ress[ressIndex][field]));
-        if (newValue === null) {
+        if (newValue == '' || newValue === null) {
             ok = false;
-            alert('VALEUR INVALIDE !!');
         }
     }
     if (ok) {

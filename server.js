@@ -202,6 +202,8 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     // ANY SINGLE PROPERTY CHANGE
     socket.on('single_any_change', function(data) {
+        console.log('socket.on');
+        console.log(data);
         let prop = data.prop;
         let table = data.table;
         let arr = data.table;
@@ -233,7 +235,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE "+table+" SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log('single table change');
+            console.log(result.message);
             socket.emit('single_table_change', data);
         });
     });
@@ -248,7 +250,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE bataillons SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log('single pop changed');
+            console.log(result.message);
         });
         // broadcast
         socket.broadcast.emit('single_pop_changed', data);
@@ -264,7 +266,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE world SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log('single world changed');
+            console.log(result.message);
         });
         // broadcast
         socket.broadcast.emit('single_world_changed', data);
@@ -280,7 +282,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE terrains SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log('single ter changed');
+            console.log(result.message);
         });
     });
 
@@ -290,7 +292,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE tracks SET "+data.prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log('single tracks changed');
+            console.log(result.message);
         });
     });
 
@@ -311,6 +313,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE players SET prefs = '"+prefs+"', bldView = '"+bldView+"', bldIdent = '"+bldIdent+"', unitView = '"+unitView+"', unitIdent = '"+unitIdent+"', mapView = '"+mapView+"', mapCarto = '"+mapCarto+"', exploredTiles = '"+exploredTiles+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
+            // console.log(result.message);
             // console.log('perso updated');
         });
     });
@@ -340,7 +343,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE bataillons SET follow = "+data.groupNumber+" WHERE id = "+data.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log('group change');
+            // console.log(result.message);
+            // console.log('group change');
         });
     });
 
@@ -362,11 +366,13 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units deleted');
+            console.log(result.message);
         });
         sql = "UPDATE bataillons SET number = '"+data.totalUnits+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.joinToId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units joined');
+            console.log(result.message);
         });
         // broadcast
         socket.broadcast.emit('units_joined', data);
@@ -392,6 +398,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
             console.log('unit added');
+            console.log(result.message);
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
@@ -399,6 +406,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('unit splitted');
+            console.log(result.message);
         });
         function splitOnServerPop(data,newId) {
             newUnit.id = newId;
@@ -467,12 +475,14 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
+            console.log(result.message);
         });
         // fatigue+endurance non négative
         sql = "UPDATE bataillons SET fatigue = 0-endurance WHERE fatigue+endurance < 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
+            console.log(result.message);
         });
         // broadcast: no need?
         // socket.broadcast.emit('turn_passed', data);

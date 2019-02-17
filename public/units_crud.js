@@ -15,12 +15,16 @@ function unitsCRUD() {
     $('#unitsTable').append('<tr id="uTableFieldsSort"></tr>');
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldsOut.includes(key)) {
-            $('#uTableFieldsSort').append('<td class="colTitle klik" title="classer par '+key+'" onclick="sortByField(`'+key+'`)">'+key+'</td>');
+            $('#uTableFieldsSort').append('<td class="colTitle klik" title="classer par '+key+'" onclick="sortUnitTable(`'+key+'`)">'+key+'</td>');
         }
     });
     let rowStyle = 0;
     let rowClass = 'colData';
     let sortedUnits = _.sortBy(unitTypes,'type');
+    sortedUnits = _.sortBy(unitTypes,unitsTableSort);
+    if (unitsTableRev) {
+        sortedUnits.reverse();
+    }
     sortedUnits.forEach(function(unit) {
         if (!unitsOut.includes(unit.id)) {
             rowStyle = rowStyle+1;
@@ -104,6 +108,19 @@ function toggleAddReplace() {
         filterAddMode = true;
         $('#arToggle').empty().append('Ajouter');
     }
+};
+function sortUnitTable(field) {
+    if (unitsTableSort == field) {
+        if (unitsTableRev) {
+            unitsTableRev = false;
+        } else {
+            unitsTableRev = true;
+        }
+    } else {
+        unitsTableRev = false;
+    }
+    unitsTableSort = field;
+    unitsCRUD();
 };
 function tableShowAllUnits() {
     unitsOut = [];

@@ -89,3 +89,5 @@ let fieldsOut = ['coverAdj','moveAdj'];
 let unitsOut = [];
 let filterAddMode = false;
 let numOpt = 0;
+let unitsTableSort = 'type';
+let unitsTableRev = false;
