@@ -317,3 +317,13 @@ socket.on('unitsCRUDload', function(uTypes) {
         unitsCRUD();
     }
 });
+socket.on('skillsload', function(skillz) {
+    if (window.location.href.includes('/units')) {
+        skills = skillz;
+    }
+});
+socket.on('skillsload', function(categz) {
+    if (window.location.href.includes('/units')) {
+        categs = categz;
+    }
+});

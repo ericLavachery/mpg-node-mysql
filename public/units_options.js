@@ -2,74 +2,17 @@ function fieldOptions(field) {
     let options = [];
     let newOpt = {};
     if (field == 'skills') {
-        newOpt = {};
-        newOpt.value = 'explo';
-        newOpt.show = newOpt.value+'&nbsp; (explorateur)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'carto';
-        newOpt.show = newOpt.value+'&nbsp; (cartographe)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'info';
-        newOpt.show = newOpt.value+'&nbsp; (informateur)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'spy';
-        newOpt.show = newOpt.value+'&nbsp; (espion)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'cland';
-        newOpt.show = newOpt.value+'&nbsp; (clandestin)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'regu';
-        newOpt.show = newOpt.value+'&nbsp; (armée régulière)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'shield';
-        newOpt.show = newOpt.value+'&nbsp; (bouclier)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'shpar';
-        newOpt.show = newOpt.value+'&nbsp; (parable seulement avec un bouclier)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'nopar';
-        newOpt.show = newOpt.value+'&nbsp; (imparable)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'noesq';
-        newOpt.show = newOpt.value+'&nbsp; (inesquivable)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'crit';
-        newOpt.show = newOpt.value+'&nbsp; (coups critiques)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'noemb';
-        newOpt.show = newOpt.value+'&nbsp; (pas de tir embarqué)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'insub';
-        newOpt.show = newOpt.value+'&nbsp; (insubbordoné)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'medic';
-        newOpt.show = newOpt.value+'&nbsp; (médecin de combat)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'armarch';
-        newOpt.show = newOpt.value+'&nbsp; (arrêt marchand)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'chefchan';
-        newOpt.show = newOpt.value+'&nbsp; (chef de chantier)';
-        options.push(newOpt);
-        newOpt = {};
-        newOpt.value = 'produc';
-        newOpt.show = newOpt.value+'&nbsp; (producteur ou récolteur)';
-        options.push(newOpt);
+        let sortedSkills = _.sortBy(skills,'ordre');
+        sortedSkills.forEach(function(skill) {
+            newOpt = {};
+            newOpt.value = skill.name;
+            if (skill.expl != '') {
+                newOpt.show = newOpt.value+'&nbsp; ('+skill.expl+')';
+            } else {
+                newOpt.show = newOpt.value;
+            }
+            options.push(newOpt);
+        });
     }
     if (field == 'categorie') {
         newOpt = {};

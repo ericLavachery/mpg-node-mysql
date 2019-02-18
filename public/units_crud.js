@@ -195,7 +195,7 @@ function showMoveFields() {
     });
     unitsCRUD();
 };
-function unitPromptEdit(field,unitId,number,min,max) {
+function unitPromptEdit(field,unitId,number,min,max,options) {
     let ok = true;
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
     let unit = unitTypes[unitIndex];
@@ -206,7 +206,7 @@ function unitPromptEdit(field,unitId,number,min,max) {
         if (newValue == '' || newValue === null) {
             ok = false;
         } else {
-            newValue = newValue.trim().toLowerCase();
+            newValue = newValue.trim();
         }
     } else {
         let minMax = '';
@@ -221,14 +221,28 @@ function unitPromptEdit(field,unitId,number,min,max) {
             alert('INVALIDE : doit être compris entre '+min+' et '+max+' !!');
         }
     }
+    if (options.length >= 1) {
+        let included = false;
+        options.forEach(function(option) {
+            if (option.value.includes(newValue)) {
+                included = true;
+            }
+        });
+        if (!included) {
+            ok = false;
+            alert('INVALIDE : "'+newValue+'" ne figure pas dans les options !!');
+        }
+    }
     if (ok) {
         if (unitTypes[unitIndex][field] != newValue) {
             unitTypes[unitIndex][field] = newValue;
             emitSingleChange(unitId,'unitTypes',field,newValue);
             unitsCRUD();
         }
+        $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
+    } else {
+        loopEditStop = true;
     }
-    $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
 };
 function unitCheckboxEdit(field,unitId,options) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
@@ -316,17 +330,22 @@ function unitEdit(field,unitId,loop) {
         max = 300;
     }
     if (typeof unit[field] == 'number') {
-        unitPromptEdit(field,unitId,true,min,max);
+        unitPromptEdit(field,unitId,true,min,max,options);
         return;
     } else if (typeof unit[field] == 'string') {
-        unitPromptEdit(field,unitId,false,min,max);
+        unitPromptEdit(field,unitId,false,min,max,options);
         return;
     }
 };
 function loopEditField(field) {
+    loopEditStop = false;
     let sortedUnits = _.sortBy(unitTypes,'type');
+    sortedUnits = _.sortBy(unitTypes,unitsTableSort);
+    if (unitsTableRev) {
+        sortedUnits.reverse();
+    }
     sortedUnits.forEach(function(unit) {
-        if (!unitsOut.includes(unit.id)) {
+        if (!unitsOut.includes(unit.id) && !loopEditStop) {
             unitEdit(field,unit.id,true);
         }
     });

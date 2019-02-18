@@ -85,9 +85,12 @@ let divPApow = 700;
 let divPA = 100;
 // UNITS CRUD
 let unitTypes = [];
+let skills = [];
+let categs = [];
 let fieldsOut = ['coverAdj','moveAdj'];
 let unitsOut = [];
 let filterAddMode = false;
 let numOpt = 0;
 let unitsTableSort = 'type';
 let unitsTableRev = false;
+let loopEditStop = false;

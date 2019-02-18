@@ -17,6 +17,8 @@ let unitTypes = [];
 let tracks = [];
 let ress = [];
 let towns = [];
+let skills = [];
+let categs = [];
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -68,6 +70,18 @@ db.con.connect(function(error) {
         if (error) throw error;
         towns = JSON.parse(JSON.stringify(result));
         console.log('cities loaded');
+    });
+    sql = "SELECT * FROM skills";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        skills = JSON.parse(JSON.stringify(result));
+        console.log('skills loaded');
+    });
+    sql = "SELECT * FROM categories";
+    db.con.query(sql, function (error, result) {
+        if (error) throw error;
+        categs = JSON.parse(JSON.stringify(result));
+        console.log('categs loaded');
     });
 });
 
@@ -129,6 +143,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         improveRess();
         socket.emit('ressload', ress);
         socket.emit('fightload', true);
+        socket.emit('skillsload', skills);
+        socket.emit('categsload', categs);
         socket.emit('unitsCRUDload', unitTypes);
     });
 
@@ -234,6 +250,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change db
         let sql = "UPDATE "+table+" SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
+            console.log(result);
             if (error) throw error;
             console.log(result.message);
             socket.emit('single_table_change', data);
