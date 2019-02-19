@@ -327,3 +327,8 @@ socket.on('skillsload', function(categz) {
         categs = categz;
     }
 });
+// socket.on('unitsimgload', function(files) {
+//     if (window.location.href.includes('/units')) {
+//         unitsImg = files;
+//     }
+// });

@@ -19,6 +19,8 @@ let ress = [];
 let towns = [];
 let skills = [];
 let categs = [];
+// let unitsImg = fs.readdirSync('./public/img/units/');
+
 // charge la carte au démarage du serveur
 db.con.connect(function(error) {
     if (error) throw error;
@@ -146,6 +148,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('skillsload', skills);
         socket.emit('categsload', categs);
         socket.emit('unitsCRUDload', unitTypes);
+        // socket.emit('unitsimgload', unitsImg);
     });
 
     function correctPop() {

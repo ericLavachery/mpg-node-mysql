@@ -1,6 +1,14 @@
 function fieldOptions(field) {
     let options = [];
     let newOpt = {};
+    // if (field == 'illu') {
+    //     unitsImg.forEach(function(file) {
+    //         newOpt = {};
+    //         newOpt.value = file;
+    //         newOpt.show = newOpt.value;
+    //         options.push(newOpt);
+    //     });
+    // }
     if (field == 'skills') {
         let sortedSkills = _.sortBy(skills,'ordre');
         sortedSkills.forEach(function(skill) {
