@@ -32,6 +32,29 @@
                 <button type="button" class="boutonRouge crudButtons" title="Unités">Unités</button>
                 <button type="button" class="boutonMauve crudButtons" title="Ajouter ou Remplacer les filtres?" onclick="toggleAddReplace()" id="arToggle">Remplacer</button>
                 <button type="button" class="crudButtons" title="Toutes les unités" onclick="tableShowAllUnits()">toutes</button>
+                <select class="crudButtons" name="id" title="id" onchange="tableShowByIdRange(this);" id="selectId">
+                    <option value="9000">id</option>
+                    <option value="100">1-100</option>
+                    <option value="200">101-200</option>
+                    <option value="300">201-300</option>
+                    <option value="400">301-400</option>
+                    <option value="500">401-500</option>
+                    <option value="600">501-600</option>
+                    <option value="700">601-700</option>
+                    <option value="800">701-800</option>
+                    <option value="900">801-900</option>
+                    <option value="1000">901-1000</option>
+                    <option value="1100">1001-1100</option>
+                    <option value="1200">1101-1200</option>
+                    <option value="1300">1201-1300</option>
+                    <option value="1400">1301-1400</option>
+                    <option value="1500">1401-1500</option>
+                    <option value="1600">1501-1600</option>
+                    <option value="1700">1601-1700</option>
+                    <option value="1800">1701-1800</option>
+                    <option value="1900">1801-1900</option>
+                    <option value="2000">1901-2000</option>
+                </select>
                 <select class="crudButtons" name="genre" title="genre" onchange="tableShowUnitsSelect(this);" id="selectGenre"></select>
                 <select class="crudButtons" name="icon" title="icon" onchange="tableShowUnitsSelect(this);" id="selectCat"></select>
                 <select class="crudButtons" name="categorie" title="categorie" onchange="tableShowUnitsSelect(this);" id="selectCategorie"></select>

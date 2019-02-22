@@ -36,7 +36,11 @@ function unitsCRUD() {
             $('#unitsTable').append('<tr id="uTableValues'+unit.id+'"></tr>');
             Object.keys(unitTypes[0]).forEach(function(key,index) {
                 if (!fieldsOut.includes(key)) {
-                    $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`,false)">'+unit[key]+'</td>');
+                    if (key != 'id') {
+                        $('#uTableValues'+unit.id).append('<td class="'+rowClass+' klik" title="'+unit.type+' : '+key+'" onclick="unitEdit(`'+key+'`,`'+unit.id+'`,false)">'+unit[key]+'</td>');
+                    } else {
+                        $('#uTableValues'+unit.id).append('<td class="'+rowClass+'" title="'+unit.type+' : '+key+'">'+unit[key]+'</td>');
+                    }
                 }
             });
         }
@@ -150,6 +154,23 @@ function tableShowUnits(field,value) {
     });
     unitsCRUD();
 };
+function tableShowByIdRange(select) {
+    tableShowById(select.name,Number(select.value));
+};
+function tableShowById(field,value) {
+    if (!filterAddMode) {
+        unitsOut = [];
+    }
+    let filterUT = _.filter(unitTypes, function(unit) {
+        return (unit[field] > value || unit[field] < value-100);
+    });
+    filterUT.forEach(function(unit) {
+        if (!unitsOut.includes(unit.id)) {
+            unitsOut.push(unit.id);
+        }
+    });
+    unitsCRUD();
+};
 function refreshTable() {
     unitsCRUD();
 };
@@ -236,7 +257,7 @@ function unitPromptEdit(field,unitId,number,min,max,options) {
     if (ok) {
         if (unitTypes[unitIndex][field] != newValue) {
             unitTypes[unitIndex][field] = newValue;
-            emitSingleChange(unitId,'unitTypes',field,newValue);
+            emitSingleChange(unitId,'unites',field,newValue);
             unitsCRUD();
         }
         $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
@@ -274,7 +295,7 @@ function unitCheckboxOut(select) {
         i++;
     }
     unitTypes[unitIndex][field] = newValue;
-    emitSingleChange(unitId,'unitTypes',field,newValue);
+    emitSingleChange(unitId,'unites',field,newValue);
     $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
     unitsCRUD();
@@ -299,7 +320,32 @@ function unitSelectOut(select) {
     let newValue = select.value;
     let field = select.id;
     unitTypes[unitIndex][field] = newValue;
-    emitSingleChange(unitId,'unitTypes',field,newValue);
+    emitSingleChange(unitId,'unites',field,newValue);
+    $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
+    modal.style.display = "none";
+    unitsCRUD();
+};
+function unitImageEdit(field,unitId) {
+    let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    let unit = unitTypes[unitIndex];
+    let sel = '';
+    $('#modalHead').empty().append(unit.typeSing+' : '+field);
+    $('#modalFoot').empty();
+    $('#modalBody').empty().append('<form id="'+field+'"></form>');
+    $('#'+field).append(' <img src="/static/img/units/'+unit.illu+'" width="300"><br>');
+    $('#'+field).append('<input type="text" name="image" value="'+unit.illu+'"><br>');
+    $('#'+field).append('<br><button class="boutonVert" name="'+unit.id+'" type="button" id="'+field+'" onclick="unitImageOut(this)">ok</button><br><br>');
+    $('#uTableValues'+unit.id).children('td').addClass('colDataSel');
+    modal.style.display = "block";
+};
+function unitImageOut(select) {
+    let unitId = Number(select.name);
+    let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
+    console.log(select.form[0].value);
+    let newValue = select.form[0].value;
+    let field = select.id;
+    unitTypes[unitIndex][field] = newValue;
+    emitSingleChange(unitId,'unites',field,newValue);
     $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
     unitsCRUD();
@@ -308,7 +354,7 @@ function unitEdit(field,unitId,loop) {
     // quel type d'edit pour chaque champ?
     let options = fieldOptions(field);
     numOpt = options.length;
-    if (options.length > 1 && !loop) {
+    if (options.length >= 1 && !loop) {
         if (field == 'skills' || field == 'categorie') {
             unitCheckboxEdit(field,unitId,options);
             return;
@@ -316,6 +362,10 @@ function unitEdit(field,unitId,loop) {
             unitSelectEdit(field,unitId,options);
             return;
         }
+    }
+    if (field == 'illu' && !loop) {
+        unitImageEdit(field,unitId);
+        return;
     }
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
     let unit = unitTypes[unitIndex];

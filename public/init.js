@@ -314,7 +314,8 @@ socket.on('unitsCRUDload', function(uTypes) {
     if (window.location.href.includes('/units')) {
         unitTypes = uTypes;
         baseFields();
-        unitsCRUD();
+        tableShowById('id',100);
+        // unitsCRUD();
     }
 });
 socket.on('skillsload', function(skillz) {

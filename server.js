@@ -49,7 +49,7 @@ db.con.connect(function(error) {
         players = JSON.parse(JSON.stringify(result));
         console.log('players loaded');
     });
-    sql = "SELECT * FROM unitTypes";
+    sql = "SELECT * FROM unites";
     db.con.query(sql, function (error, result) {
         if (error) throw error;
         unitTypes = JSON.parse(JSON.stringify(result));
@@ -158,6 +158,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         pop.forEach(function(squad) {
             pIndex = players.findIndex((obj => obj.pseudo == squad.player));
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
+            // ATTENTION !!! xxxxxxx ça déconne avec les noms d'unités avec une apostrophe !
             if (squad.type != unitTypes[uIndex].type) {
                 let sql = "UPDATE bataillons SET type = '"+unitTypes[uIndex].type+"' WHERE id = "+squad.id;
                 db.con.query(sql, function (error, result) {
@@ -245,7 +246,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             let resIndex = ress.findIndex((obj => obj.id == data.id));
             ress[resIndex][prop] = data.value;
             break;
-            case 'unitTypes':
+            case 'unites':
             let unitIndex = unitTypes.findIndex((obj => obj.id == data.id));
             unitTypes[unitIndex][prop] = data.value;
             break;
