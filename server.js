@@ -160,11 +160,15 @@ io.sockets.on('connection', function (socket, pseudo) {
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
             // ATTENTION !!! xxxxxxx ça déconne avec les noms d'unités avec une apostrophe !
             if (squad.type != unitTypes[uIndex].type) {
-                let sql = "UPDATE bataillons SET type = '"+unitTypes[uIndex].type+"' WHERE id = "+squad.id;
-                db.con.query(sql, function (error, result) {
-                    if (error) throw error;
-                    console.log('change to '+squad.type+' : type');
-                });
+                if (!unitTypes[uIndex].type.includes("'")) {
+                    let sql = "UPDATE bataillons SET type = '"+unitTypes[uIndex].type+"' WHERE id = "+squad.id;
+                    db.con.query(sql, function (error, result) {
+                        if (error) throw error;
+                        console.log('change to '+squad.type+' : type');
+                    });
+                } else {
+                    console.log('NO change to '+squad.type+' : type !!!');
+                }
             }
             if (squad.endurance != unitTypes[uIndex].endurance) {
                 let sql = "UPDATE bataillons SET endurance = '"+unitTypes[uIndex].endurance+"' WHERE id = "+squad.id;
@@ -222,8 +226,7 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     // ANY SINGLE PROPERTY CHANGE
     socket.on('single_any_change', function(data) {
-        console.log('socket.on');
-        console.log(data);
+        // console.log(data);
         let prop = data.prop;
         let table = data.table;
         let arr = data.table;
@@ -254,7 +257,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         // change db
         let sql = "UPDATE "+table+" SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
-            console.log(result);
+            // console.log(result);
             if (error) throw error;
             console.log(result.message);
             socket.emit('single_table_change', data);
