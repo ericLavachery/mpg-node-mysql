@@ -323,7 +323,7 @@ socket.on('skillsload', function(skillz) {
         skills = skillz;
     }
 });
-socket.on('skillsload', function(categz) {
+socket.on('categsload', function(categz) {
     if (window.location.href.includes('/units')) {
         categs = categz;
     }
