@@ -179,7 +179,6 @@ function removeField(field) {
     unitsCRUD();
 };
 function showAllFields() {
-    // let fieldIn = ['id','type','typeSing','genre','icon','illu','attitude','appui','hp','stature','nature','domaine','categorie','armure','esquive','parade','ammo','rapidite','actions','portee','prec','puissance','maxCibles','penetration','degatsSurNatures','degatsSurDomaines','combatBoost','endurance','moral','loyaute','org','move','moveType','vegetAdj','escarpAdj','innondAdj','contenu','fardeau','charge','enk','detection','discretion','skills'];
     fieldsOut = ['coverAdj','moveAdj'];
     unitsCRUD();
 };
@@ -271,7 +270,7 @@ function unitCheckboxEdit(field,unitId,options) {
     let sel = '';
     $('#modalHead').empty().append(unit.typeSing+' : '+field);
     $('#modalFoot').empty().append('<div class="hSpace"></div>');
-    $('#modalBody').empty().append('<form id="'+field+'"></form>');
+    $('#modalBody').empty().append('<form action="" id="'+field+'" onkeypress="return event.keyCode != 13;"></form>');
     let i = 0;
     options.forEach(function(option) {
         if (unit[field].includes(option.value+'_')) {sel = ' checked';} else {sel = '';}
@@ -331,7 +330,7 @@ function unitImageEdit(field,unitId) {
     let sel = '';
     $('#modalHead').empty().append(unit.typeSing+' : '+field);
     $('#modalFoot').empty();
-    $('#modalBody').empty().append('<form id="'+field+'"></form>');
+    $('#modalBody').empty().append('<form action="" id="'+field+'" onkeypress="return event.keyCode != 13;"></form>');
     $('#'+field).append(' <img src="/static/img/units/'+unit.illu+'" width="300"><br>');
     $('#'+field).append('<input type="text" name="image" value="'+unit.illu+'"><br>');
     $('#'+field).append('<br><button class="boutonVert" name="'+unit.id+'" type="button" id="'+field+'" onclick="unitImageOut(this)">ok</button><br><br>');
