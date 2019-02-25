@@ -49,6 +49,12 @@ function unitsCRUD() {
 };
 function unitsCRUDbuttons() {
     let options = [];
+    options = fieldOptions('fuck');
+    $('#selectFuck').empty();
+    $('#selectFuck').append('<option value="" selected>fuck</option>');
+    options.forEach(function(option) {
+        $('#selectFuck').append('<option value="'+option.value+'">'+option.show+'</option>');
+    });
     options = fieldOptions('skills');
     $('#selectSkills').empty();
     $('#selectSkills').append('<option value="" selected>skills</option>');
@@ -188,7 +194,7 @@ function showBaseFields() {
 };
 function baseFields() {
     fieldsOut = ['coverAdj','moveAdj'];
-    let fieldIn = ['id','type','typeSing','genre','icon','illu','attitude','appui','stature','nature','domaine','categorie','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
+    let fieldIn = ['id','fuck','type','typeSing','genre','icon','illu','attitude','appui','stature','nature','domaine','categorie','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldIn.includes(key)) {
             fieldsOut.push(key);

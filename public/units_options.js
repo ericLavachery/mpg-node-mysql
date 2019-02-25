@@ -9,6 +9,16 @@ function fieldOptions(field) {
     //         options.push(newOpt);
     //     });
     // }
+    if (field == 'fuck') {
+        newOpt = {};
+        newOpt.value = 0;
+        newOpt.show = 'In';
+        options.push(newOpt);
+        newOpt = {};
+        newOpt.value = 1;
+        newOpt.show = 'Out';
+        options.push(newOpt);
+    }
     if (field == 'skills') {
         let sortedSkills = _.sortBy(_.sortBy(skills,'name'),'ordre');
         sortedSkills.forEach(function(skill) {

@@ -223,6 +223,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     // ANY SINGLE PROPERTY CHANGE
     socket.on('single_any_change', function(data) {
         // console.log(data);
+        let recordName = '';
         let prop = data.prop;
         let table = data.table;
         let arr = data.table;
@@ -230,24 +231,29 @@ io.sockets.on('connection', function (socket, pseudo) {
             case 'bataillons':
             let squadIndex = pop.findIndex((obj => obj.id == data.id));
             pop[squadIndex][prop] = data.value;
+            recordName = pop[squadIndex].type;
             socket.broadcast.emit('single_pop_changed', data);
             break;
             case 'terrains':
             let terIndex = ter.findIndex((obj => obj.id == data.id));
             ter[terIndex][prop] = data.value;
+            recordName = ter[terIndex].name;
             break;
             case 'world':
             let mapIndex = world.findIndex((obj => obj.id == data.id));
             world[mapIndex][prop] = data.value;
             socket.broadcast.emit('single_world_changed', data);
+            recordName = world[mapIndex].x+'.'+world[mapIndex].y;
             break;
             case 'ressources':
             let resIndex = ress.findIndex((obj => obj.id == data.id));
             ress[resIndex][prop] = data.value;
+            recordName = ress[resIndex].name;
             break;
             case 'unites':
             let unitIndex = unitTypes.findIndex((obj => obj.id == data.id));
             unitTypes[unitIndex][prop] = data.value;
+            recordName = unitTypes[unitIndex].type;
             break;
         }
         // change db
@@ -256,7 +262,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             // console.log(result);
             if (error) throw error;
             console.log(result.message);
-            console.log(data.prop+' = '+data.value);
+            console.log(recordName+' : '+data.prop+' = '+data.value);
             socket.emit('single_table_change', data);
         });
     });
