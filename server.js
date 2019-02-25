@@ -160,15 +160,11 @@ io.sockets.on('connection', function (socket, pseudo) {
             uIndex = unitTypes.findIndex((obj => obj.id == squad.typeId));
             // ATTENTION !!! xxxxxxx ça déconne avec les noms d'unités avec une apostrophe !
             if (squad.type != unitTypes[uIndex].type) {
-                if (!unitTypes[uIndex].type.includes("'")) {
-                    let sql = "UPDATE bataillons SET type = '"+unitTypes[uIndex].type+"' WHERE id = "+squad.id;
-                    db.con.query(sql, function (error, result) {
-                        if (error) throw error;
-                        console.log('change to '+squad.type+' : type');
-                    });
-                } else {
-                    console.log('NO change to '+squad.type+' : type !!!');
-                }
+                let sql = 'UPDATE bataillons SET type = "'+unitTypes[uIndex].type+'" WHERE id = '+squad.id;
+                db.con.query(sql, function (error, result) {
+                    if (error) throw error;
+                    console.log('change to '+squad.type+' : type');
+                });
             }
             if (squad.endurance != unitTypes[uIndex].endurance) {
                 let sql = "UPDATE bataillons SET endurance = '"+unitTypes[uIndex].endurance+"' WHERE id = "+squad.id;
@@ -255,11 +251,12 @@ io.sockets.on('connection', function (socket, pseudo) {
             break;
         }
         // change db
-        let sql = "UPDATE "+table+" SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        let sql = 'UPDATE '+table+' SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             // console.log(result);
             if (error) throw error;
             console.log(result.message);
+            console.log(data.prop+' = '+data.value);
             socket.emit('single_table_change', data);
         });
     });
@@ -271,7 +268,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let objIndex = pop.findIndex((obj => obj.id == data.id));
         pop[objIndex][prop] = data.value;
         // change db
-        let sql = "UPDATE bataillons SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        let sql = 'UPDATE bataillons SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log(result.message);
@@ -287,7 +284,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let objIndex = world.findIndex((obj => obj.id == data.id));
         world[objIndex][prop] = data.value;
         // change db
-        let sql = "UPDATE world SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        let sql = 'UPDATE world SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log(result.message);
@@ -303,7 +300,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let objIndex = ter.findIndex((obj => obj.id == data.id));
         ter[objIndex][prop] = data.value;
         // change db
-        let sql = "UPDATE terrains SET "+prop+" = '"+data.value+"' WHERE id = "+data.id;
+        let sql = 'UPDATE terrains SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log(result.message);
@@ -313,7 +310,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     // SINGLE PROPERTY TRACKS CHANGE
     socket.on('single_tracks_change', function(data) {
         // change db
-        let sql = "UPDATE tracks SET "+data.prop+" = '"+data.value+"' WHERE id = "+data.id;
+        let sql = 'UPDATE tracks SET '+data.prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log(result.message);
