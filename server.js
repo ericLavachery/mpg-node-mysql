@@ -261,7 +261,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             // console.log(result);
             if (error) throw error;
-            console.log(result.message);
+            console.log(result);
             console.log(recordName+' : '+data.prop+' = '+data.value);
             socket.emit('single_table_change', data);
         });
@@ -277,7 +277,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = 'UPDATE bataillons SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log(result.message);
+            console.log(result);
         });
         // broadcast
         socket.broadcast.emit('single_pop_changed', data);
@@ -293,7 +293,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = 'UPDATE world SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log(result.message);
+            console.log(result);
         });
         // broadcast
         socket.broadcast.emit('single_world_changed', data);
@@ -309,7 +309,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = 'UPDATE terrains SET '+prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log(result.message);
+            console.log(result);
         });
     });
 
@@ -319,7 +319,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = 'UPDATE tracks SET '+data.prop+' = "'+data.value+'" WHERE id = '+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            console.log(result.message);
+            console.log(result);
         });
     });
 
@@ -340,7 +340,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE players SET prefs = '"+prefs+"', bldView = '"+bldView+"', bldIdent = '"+bldIdent+"', unitView = '"+unitView+"', unitIdent = '"+unitIdent+"', mapView = '"+mapView+"', mapCarto = '"+mapCarto+"', exploredTiles = '"+exploredTiles+"' WHERE id = "+data.id;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log(result.message);
+            // console.log(result);
             // console.log('perso updated');
         });
     });
@@ -370,7 +370,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         let sql = "UPDATE bataillons SET follow = "+data.groupNumber+" WHERE id = "+data.unitId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
-            // console.log(result.message);
+            // console.log(result);
             // console.log('group change');
         });
     });
@@ -393,13 +393,13 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units deleted');
-            console.log(result.message);
+            console.log(result);
         });
         sql = "UPDATE bataillons SET number = '"+data.totalUnits+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.joinToId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units joined');
-            console.log(result.message);
+            console.log(result);
         });
         // broadcast
         socket.broadcast.emit('units_joined', data);
@@ -425,7 +425,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
             console.log('unit added');
-            console.log(result.message);
+            console.log(result);
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
@@ -433,7 +433,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('unit splitted');
-            console.log(result.message);
+            console.log(result);
         });
         function splitOnServerPop(data,newId) {
             newUnit.id = newId;
@@ -502,14 +502,14 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
-            console.log(result.message);
+            console.log(result);
         });
         // fatigue+endurance non négative
         sql = "UPDATE bataillons SET fatigue = 0-endurance WHERE fatigue+endurance < 0";
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             // console.log('turn passed');
-            console.log(result.message);
+            console.log(result);
         });
         // broadcast: no need?
         // socket.broadcast.emit('turn_passed', data);

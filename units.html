@@ -30,9 +30,9 @@
                 <span id="serverReturn"></span>
                 <br>
                 <button type="button" class="boutonRouge crudButtons" title="Unités">Unités</button>
-                <button type="button" class="boutonMauve crudButtons" title="Ajouter ou Remplacer les filtres?" onclick="toggleAddReplace()" id="arToggle">Remplacer</button>
                 <button type="button" class="crudButtons" title="Toutes les unités" onclick="tableShowAllUnits()">toutes</button>
-                <select class="crudButtons" name="fuck" title="out" onchange="tableShowUnitsSelect(this);" id="selectFuck"></select>
+                <select class="crudButtons" name="fuck" title="out" onchange="tableShowInOut(this);" id="selectFuck"></select>
+                <button type="button" class="boutonMauve crudButtons" title="Ajouter ou Remplacer les filtres?" onclick="toggleAddReplace()" id="arToggle">Remplacer</button>
                 <select class="crudButtons" name="id" title="id" onchange="tableShowByIdRange(this);" id="selectId">
                     <option value="9000">id</option>
                     <option value="100">1-100</option>

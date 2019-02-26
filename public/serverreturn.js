@@ -6,4 +6,10 @@ socket.on('single_table_change', function(data) {
     function serverMessageOut() {
         $('#serverReturn').empty();
     };
+    if (window.location.href.includes('/units')) {
+        // montrer les changements 
+        let unitIndex = unitTypes.findIndex((obj => obj.id == data.id));
+        unitTypes[unitIndex][data.prop] = data.value;
+        unitsCRUD();
+    }
 });

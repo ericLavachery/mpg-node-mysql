@@ -48,13 +48,13 @@ function unitsCRUD() {
     unitsCRUDbuttons();
 };
 function unitsCRUDbuttons() {
-    let options = [];
-    options = fieldOptions('fuck');
+    let selIn,selOut,selAll;
+    if (fuckOut === 0) {selIn = ' selected';}
+    if (fuckOut === 1) {selOut = ' selected';}
     $('#selectFuck').empty();
-    $('#selectFuck').append('<option value="" selected>fuck</option>');
-    options.forEach(function(option) {
-        $('#selectFuck').append('<option value="'+option.value+'">'+option.show+'</option>');
-    });
+    $('#selectFuck').append('<option value="0"'+selIn+'>in</option>');
+    $('#selectFuck').append('<option value="1"'+selOut+'>out</option>');
+    let options = [];
     options = fieldOptions('skills');
     $('#selectSkills').empty();
     $('#selectSkills').append('<option value="" selected>skills</option>');
@@ -136,6 +136,13 @@ function tableShowAllUnits() {
     unitsOut = [];
     unitsCRUD();
 };
+function tableShowInOut(select) {
+    if (select.value === '') {
+        fuckOut = select.value;
+    } else {
+        fuckOut = Number(select.value);
+    }
+};
 function tableShowUnitsSelect(select) {
     tableShowUnits(select.name,select.value);
 };
@@ -146,11 +153,11 @@ function tableShowUnits(field,value) {
     let filterUT = [];
     if (typeof Number(value) == 'number' && !isNaN(Number(value))) {
         filterUT = _.filter(unitTypes, function(unit) {
-            return (unit[field] != value);
+            return (unit[field] != value || unit.fuck != fuckOut);
         });
     } else {
         filterUT = _.filter(unitTypes, function(unit) {
-            return (!unit[field].includes(value));
+            return (!unit[field].includes(value) || unit.fuck != fuckOut);
         });
     }
     filterUT.forEach(function(unit) {
@@ -168,7 +175,7 @@ function tableShowById(field,value) {
         unitsOut = [];
     }
     let filterUT = _.filter(unitTypes, function(unit) {
-        return (unit[field] > value || unit[field] < value-100);
+        return (unit[field] > value || unit[field] < value-100 || unit.fuck != fuckOut);
     });
     filterUT.forEach(function(unit) {
         if (!unitsOut.includes(unit.id)) {
@@ -261,9 +268,9 @@ function unitPromptEdit(field,unitId,number,min,max,options) {
     }
     if (ok) {
         if (unitTypes[unitIndex][field] != newValue) {
-            unitTypes[unitIndex][field] = newValue;
+            // unitTypes[unitIndex][field] = newValue;
             emitSingleChange(unitId,'unites',field,newValue);
-            unitsCRUD();
+            // unitsCRUD();
         }
         $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     } else {
@@ -299,11 +306,11 @@ function unitCheckboxOut(select) {
         }
         i++;
     }
-    unitTypes[unitIndex][field] = newValue;
+    // unitTypes[unitIndex][field] = newValue;
     emitSingleChange(unitId,'unites',field,newValue);
     $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
-    unitsCRUD();
+    // unitsCRUD();
 };
 function unitSelectEdit(field,unitId,options) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
@@ -324,11 +331,11 @@ function unitSelectOut(select) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
     let newValue = select.value;
     let field = select.id;
-    unitTypes[unitIndex][field] = newValue;
+    // unitTypes[unitIndex][field] = newValue;
     emitSingleChange(unitId,'unites',field,newValue);
     $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
-    unitsCRUD();
+    // unitsCRUD();
 };
 function unitImageEdit(field,unitId) {
     let unitIndex = unitTypes.findIndex((obj => obj.id == unitId));
@@ -349,11 +356,11 @@ function unitImageOut(select) {
     console.log(select.form[0].value);
     let newValue = select.form[0].value;
     let field = select.id;
-    unitTypes[unitIndex][field] = newValue;
+    // unitTypes[unitIndex][field] = newValue;
     emitSingleChange(unitId,'unites',field,newValue);
     $('#uTableValues'+unitId).children('td').removeClass('colDataSel');
     modal.style.display = "none";
-    unitsCRUD();
+    // unitsCRUD();
 };
 function unitEdit(field,unitId,loop) {
     // quel type d'edit pour chaque champ?

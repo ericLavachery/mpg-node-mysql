@@ -94,3 +94,4 @@ let numOpt = 0;
 let unitsTableSort = 'type';
 let unitsTableRev = false;
 let loopEditStop = false;
+let fuckOut = 0;
