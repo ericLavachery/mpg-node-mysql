@@ -261,7 +261,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             // console.log(result);
             if (error) throw error;
-            console.log(result);
+            // console.log(result);
             console.log(recordName+' : '+data.prop+' = '+data.value);
             socket.emit('single_table_change', data);
         });
@@ -393,13 +393,13 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units deleted');
-            console.log(result);
+            // console.log(result);
         });
         sql = "UPDATE bataillons SET number = '"+data.totalUnits+"', fatigue = '"+data.fatigue+"' WHERE id = "+data.joinToId;
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('units joined');
-            console.log(result);
+            // console.log(result);
         });
         // broadcast
         socket.broadcast.emit('units_joined', data);
@@ -425,7 +425,7 @@ io.sockets.on('connection', function (socket, pseudo) {
             if (error) throw error;
             // result.insertId is the id given by mysql to the last inserted record (by this client)
             console.log('unit added');
-            console.log(result);
+            // console.log(result);
             splitOnServerPop(data,result.insertId);
         });
         let splitedUnitNumber = pop[unitIndex].number-data.splitValue;
@@ -433,7 +433,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         db.con.query(sql, function (error, result) {
             if (error) throw error;
             console.log('unit splitted');
-            console.log(result);
+            // console.log(result);
         });
         function splitOnServerPop(data,newId) {
             newUnit.id = newId;
