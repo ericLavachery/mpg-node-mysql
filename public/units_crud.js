@@ -67,6 +67,18 @@ function unitsCRUDbuttons() {
     options.forEach(function(option) {
         $('#selectCategorie').append('<option value="'+option.value+'">'+option.value+'</option>');
     });
+    options = fieldOptions('nation');
+    $('#selectNation').empty();
+    $('#selectNation').append('<option value="" selected>nation</option>');
+    options.forEach(function(option) {
+        $('#selectNation').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
+    options = fieldOptions('classe');
+    $('#selectClasse').empty();
+    $('#selectClasse').append('<option value="" selected>classe</option>');
+    options.forEach(function(option) {
+        $('#selectClasse').append('<option value="'+option.value+'">'+option.value+'</option>');
+    });
     options = fieldOptions('nature');
     $('#selectNature').empty();
     $('#selectNature').append('<option value="" selected>nature</option>');
@@ -201,7 +213,7 @@ function showBaseFields() {
 };
 function baseFields() {
     fieldsOut = ['coverAdj','moveAdj'];
-    let fieldIn = ['id','fuck','type','typeSing','genre','icon','illu','attitude','appui','stature','nature','domaine','categorie','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
+    let fieldIn = ['id','fuck','type','typeSing','genre','icon','illu','attitude','appui','stature','nature','domaine','categorie','nation','classe','portee','combatBoost','moral','loyaute','org','moveType','enk','detection','discretion','skills'];
     Object.keys(unitTypes[0]).forEach(function(key,index) {
         if (!fieldIn.includes(key)) {
             fieldsOut.push(key);

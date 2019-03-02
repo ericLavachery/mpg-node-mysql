@@ -33,7 +33,42 @@ function fieldOptions(field) {
         });
     }
     if (field == 'categorie') {
-        let sortedCategs = _.sortBy(_.sortBy(categs,'name'),'ordre');
+        let filteredCategs = _.filter(categs, function(cat) {
+            return (cat.catType == 'famille' || cat.catType == 'rubrique');
+        });
+        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
+        sortedCategs.forEach(function(cat) {
+            newOpt = {};
+            newOpt.value = cat.name;
+            if (cat.expl != '') {
+                newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+            } else {
+                newOpt.show = newOpt.value;
+            }
+            options.push(newOpt);
+        });
+    }
+    if (field == 'nation') {
+        let filteredCategs = _.filter(categs, function(cat) {
+            return (cat.catType == 'nation');
+        });
+        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
+        sortedCategs.forEach(function(cat) {
+            newOpt = {};
+            newOpt.value = cat.name;
+            if (cat.expl != '') {
+                newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+            } else {
+                newOpt.show = newOpt.value;
+            }
+            options.push(newOpt);
+        });
+    }
+    if (field == 'classe') {
+        let filteredCategs = _.filter(categs, function(cat) {
+            return (cat.catType == 'classe');
+        });
+        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
         sortedCategs.forEach(function(cat) {
             newOpt = {};
             newOpt.value = cat.name;
