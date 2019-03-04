@@ -20,12 +20,12 @@ function fieldOptions(field) {
         options.push(newOpt);
     }
     if (field == 'skills') {
-        let sortedSkills = _.sortBy(_.sortBy(skills,'name'),'ordre');
+        let sortedSkills = _.sortBy(_.sortBy(skills,'expl'),'ordre');
         sortedSkills.forEach(function(skill) {
             newOpt = {};
             newOpt.value = skill.name;
             if (skill.expl != '') {
-                newOpt.show = newOpt.value+'&nbsp; ('+skill.expl+')';
+                newOpt.show = skill.expl+'&nbsp; ('+newOpt.value+')';
             } else {
                 newOpt.show = newOpt.value;
             }
@@ -36,7 +36,7 @@ function fieldOptions(field) {
         let filteredCategs = _.filter(categs, function(cat) {
             return (cat.catType != 'nation' && cat.catType != 'classe');
         });
-        let sortedCategs = _.sortBy(_.sortBy(_.sortBy(filteredCategs,'name'),'ordre'),'catType');
+        let sortedCategs = _.sortBy(_.sortBy(_.sortBy(filteredCategs,'expl'),'ordre'),'catType');
         sortedCategs.forEach(function(cat) {
             newOpt = {};
             newOpt.value = cat.name;
@@ -44,7 +44,7 @@ function fieldOptions(field) {
                 newOpt.show = cat.expl;
             } else {
                 if (cat.expl != '') {
-                    newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+                    newOpt.show = cat.expl+'&nbsp; ('+newOpt.value+')';
                 } else {
                     newOpt.show = newOpt.value;
                 }
@@ -56,12 +56,12 @@ function fieldOptions(field) {
         let filteredCategs = _.filter(categs, function(cat) {
             return (cat.catType == 'nation');
         });
-        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
+        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'expl'),'ordre');
         sortedCategs.forEach(function(cat) {
             newOpt = {};
             newOpt.value = cat.name;
             if (cat.expl != '') {
-                newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+                newOpt.show = cat.expl+'&nbsp; ('+newOpt.value+')';
             } else {
                 newOpt.show = newOpt.value;
             }
@@ -72,12 +72,12 @@ function fieldOptions(field) {
         let filteredCategs = _.filter(categs, function(cat) {
             return (cat.catType == 'classe');
         });
-        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
+        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'expl'),'ordre');
         sortedCategs.forEach(function(cat) {
             newOpt = {};
             newOpt.value = cat.name;
             if (cat.expl != '') {
-                newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+                newOpt.show = cat.expl+'&nbsp; ('+newOpt.value+')';
             } else {
                 newOpt.show = newOpt.value;
             }
