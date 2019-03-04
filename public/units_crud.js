@@ -65,7 +65,11 @@ function unitsCRUDbuttons() {
     $('#selectCategorie').empty();
     $('#selectCategorie').append('<option value="" selected>categorie</option>');
     options.forEach(function(option) {
-        $('#selectCategorie').append('<option value="'+option.value+'">'+option.value+'</option>');
+        if (option.value.includes('xxx')) {
+            $('#selectCategorie').append('<option value="">&not; '+option.show+'</option>');
+        } else {
+            $('#selectCategorie').append('<option value="'+option.value+'">'+option.value+'</option>');
+        }
     });
     options = fieldOptions('nation');
     $('#selectNation').empty();
@@ -298,8 +302,12 @@ function unitCheckboxEdit(field,unitId,options) {
     $('#modalBody').empty().append('<form action="" id="'+field+'" onkeypress="return event.keyCode != 13;"></form>');
     let i = 0;
     options.forEach(function(option) {
-        if (unit[field].includes(option.value+'_')) {sel = ' checked';} else {sel = '';}
-        $('#'+field).append('<input type="checkbox" name="box'+i+'" value="'+option.value+'"'+sel+'> '+option.show+'<br>');
+        if (option.value.includes('xxx')) {
+            $('#'+field).append('<span class="espace"></span><br>'+option.show+'<br>');
+        } else {
+            if (unit[field].includes(option.value+'_')) {sel = ' checked';} else {sel = '';}
+            $('#'+field).append('<input type="checkbox" name="box'+i+'" value="'+option.value+'"'+sel+'> '+option.show+'<br>');
+        }
         i++;
     });
     $('#'+field).append('<br><button class="boutonVert" name="'+unit.id+'" type="button" id="'+field+'" onclick="unitCheckboxOut(this)">ok</button><br><br>');
@@ -313,8 +321,10 @@ function unitCheckboxOut(select) {
     let field = select.id;
     let i = 0;
     while (i < numOpt) {
-        if (select.form[i].checked) {
-            newValue = newValue+select.form[i].value+'_'
+        if (typeof select.form[i] !== 'undefined') {
+            if (select.form[i].checked) {
+                newValue = newValue+select.form[i].value+'_'
+            }
         }
         i++;
     }

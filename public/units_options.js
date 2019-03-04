@@ -34,16 +34,20 @@ function fieldOptions(field) {
     }
     if (field == 'categorie') {
         let filteredCategs = _.filter(categs, function(cat) {
-            return (cat.catType != 'nation' || cat.catType != 'classe');
+            return (cat.catType != 'nation' && cat.catType != 'classe');
         });
-        let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
+        let sortedCategs = _.sortBy(_.sortBy(_.sortBy(filteredCategs,'name'),'ordre'),'catType');
         sortedCategs.forEach(function(cat) {
             newOpt = {};
             newOpt.value = cat.name;
-            if (cat.expl != '') {
-                newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+            if (newOpt.value.includes('xxx')) {
+                newOpt.show = cat.expl;
             } else {
-                newOpt.show = newOpt.value;
+                if (cat.expl != '') {
+                    newOpt.show = newOpt.value+'&nbsp; ('+cat.expl+')';
+                } else {
+                    newOpt.show = newOpt.value;
+                }
             }
             options.push(newOpt);
         });
