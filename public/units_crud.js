@@ -379,7 +379,7 @@ function unitEdit(field,unitId,loop) {
     let options = fieldOptions(field);
     numOpt = options.length;
     if (options.length >= 1 && !loop) {
-        if (field == 'skills' || field == 'categorie') {
+        if (field == 'skills' || field == 'categorie' || field == 'classe' || field == 'nation') {
             unitCheckboxEdit(field,unitId,options);
             return;
         } else {
