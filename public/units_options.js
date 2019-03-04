@@ -34,7 +34,7 @@ function fieldOptions(field) {
     }
     if (field == 'categorie') {
         let filteredCategs = _.filter(categs, function(cat) {
-            return (cat.catType == 'famille' || cat.catType == 'rubrique');
+            return (cat.catType != 'nation' || cat.catType != 'classe');
         });
         let sortedCategs = _.sortBy(_.sortBy(filteredCategs,'name'),'ordre');
         sortedCategs.forEach(function(cat) {
