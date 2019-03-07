@@ -32,6 +32,7 @@ let selAddon = 'point';
 let selCity = '';
 let mapEditTemp = -1;
 let mode = 'inspect';
+let opChoice = false;
 let uvp = ''; // unit view priority
 let showTracks = false;
 let expSquadDetail = false;
@@ -44,10 +45,27 @@ let baseMoveCost = 40; // moveCost is x baseMoveCost /30
 let viewOutPerc = 0; // % qu'un tile soit perdu de vue en passant au jour suivant (defaut 5 / dev 0)
 // FIGHT SETTINGS
 // FALSE
-let fightMapId = 541;
-let fightOpp = 'Zorglub';
+// let attUnitId = Number(new URLSearchParams(document.location.search).get("aui"));
+// if (attUnitId == null) {
+//     attUnitId = 99;
+// }
+// let defUnitId = Number(new URLSearchParams(document.location.search).get("dui"));
+// if (defUnitId == null) {
+//     defUnitId = 126;
+// }
+// let duiIndex = pop.findIndex((obj => obj.id == defUnitId));
+// let auiIndex = pop.findIndex((obj => obj.id == attUnitId));
+// let fightOpp = pop[duiIndex].player;
+// let fightOwn = pseudo;
+// let fightMapId = pop[duiIndex].tileId;
+// if (pop[duiIndex].tileId != pop[auiIndex].tileId) {
+//     console.log('Attaquant et défenseur ne sont pas sur le même tile!');
+//     fightMapId = 0;
+// }
 let attUnitId = 99;
 let defUnitId = 126;
+let fightMapId = 541;
+let fightOpp = 'Zorglub';
 let fightOwn = 'Bob';
 // TRUE
 let cTurn = 0;

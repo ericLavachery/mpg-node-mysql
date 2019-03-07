@@ -16,15 +16,15 @@ function showTracksList(tileId) {
             }
             trackName = capitalizeFirstLetter(track.name);
             if (track.id == selectedTrack.id) {
-                $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+track.id+')"><span class="tracksList jaune">'+trackName+'</span></a><br><span class="trackFL jaune">'+track.firstTileName+' - '+track.lastTileName+'</span><br>');
+                $('#tracksList').append('<span class="klik" onclick="toggleSelectTrack('+track.id+')"><span class="tracksList jaune">'+trackName+'</span></span><br><span class="trackFL jaune">'+track.firstTileName+' - '+track.lastTileName+'</span><br>');
                 selectedTrackHere = true;
             } else {
-                $('#tracksList').append('<span class="tracksList"><a href="#" onclick="toggleSelectTrack('+track.id+')">'+trackName+'</a></span><br>');
+                $('#tracksList').append('<span class="tracksList"><span class="klik" onclick="toggleSelectTrack('+track.id+')">'+trackName+'</span></span><br>');
             }
         }
     });
     if (!selectedTrackHere && selectedTrack.id >= 1) {
-        $('#tracksList').append('<a href="#" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="tracksList jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></a><br><span class="trackFL jaune">'+selectedTrack.firstTileName+' - '+selectedTrack.lastTileName+'</span><br>');
+        $('#tracksList').append('<span class="klik" onclick="toggleSelectTrack('+selectedTrack.id+')"><span class="tracksList jaune">( '+capitalizeFirstLetter(selectedTrack.name)+' )</span></span><br><span class="trackFL jaune">'+selectedTrack.firstTileName+' - '+selectedTrack.lastTileName+'</span><br>');
     }
     $('#tracksList').append('<div class="espace"></div>');
     if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
@@ -35,7 +35,7 @@ function showTracksList(tileId) {
     if (selectedTrack.id >= 1 && selectedUnit.id >= 1) {
         $('#tracksList').append('<div class="espace"></div><span class="note">'+"Pour envoyer un bataillon ou un groupe sur cet itinéraire, faites-le d'abord avancer manuellement dans la direction choisie.</span>"+'<div class="espace"></div>');
     }
-    $('#tracksList').append('<span class="paramName"><a href="#" onclick="addTrack('+tileId+')">Nouvel itinéraire</a></span><br>');
+    $('#tracksList').append('<span class="paramName"><span class="klik" onclick="addTrack('+tileId+')">Nouvel itinéraire</span></span><br>');
 };
 function trackButtons() {
     // REMOVE TILE

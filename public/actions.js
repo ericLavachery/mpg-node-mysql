@@ -490,8 +490,26 @@ function unfogTile(tileId,save,fromMove) {
         emitPlayersChange(perso);
     }
 };
-function attack() {
-
+function attackChoiceMode() {
+    if (opChoice === true) {
+        opChoice = false;
+        cursorSwitch('#','tileUnitList','default');
+        $('#tileUnitList').css("background-image", "url(/static/img/bg-wood-dark-small.jpg)");
+    } else {
+        opChoice = true;
+        cursorSwitch('#','tileUnitList','sword');
+        $('#tileUnitList').css("background-image", "url(/static/img/blood-bg.png)");
+    }
+    showTileUnitList(selectedUnit.tileId);
+};
+function attackChoice(defendUnitId) {
+    let unitIndex = pop.findIndex((obj => obj.id == defendUnitId));
+    fightOpp = pop[unitIndex].player;
+    fightOwn = pseudo;
+    fightMapId = selectedUnit.tileId;
+    attUnitId = selectedUnit.id;
+    defUnitId = defendUnitId;
+    window.location.replace("http://localhost:8080/fight/?pseudo="+pseudo);
 };
 function fortif() {
 

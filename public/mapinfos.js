@@ -2,6 +2,8 @@ function cursorSwitch(seltype,selvalue,kur) {
     let defkur = 'default';
     if (kur == 'progress') {
         $(seltype+selvalue).css('cursor','pointer');
+    } else if (kur == 'default') {
+        $(seltype+selvalue).css('cursor','default');
     } else {
         if (kur == 'move') {
             defkur = 'nesw-resize';

@@ -48,7 +48,7 @@ function actionsButtons() {
         $('#tileUnitList').append('<button type="button" class="iconButtons" title="'+buttonInfos+'" id="identify"><i class="fas fa-map-marked-alt"></i></button><span class="butSpace"></span>');
     }
     // ATTACK
-    $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Attaquer" id="attack" onclick="attack('+selectedUnit.id+')"><i class="ra ra-crossed-swords"></i></button><span class="butSpace"></span>');
+    $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Attaquer" id="attack" onclick="attackChoiceMode()"><i class="ra ra-crossed-swords"></i></button><span class="butSpace"></span>');
     // FORTIFICATION
     $('#tileUnitList').append('<button type="button" class="iconButtonsRA" title="Fortifier" id="fortif" onclick="fortif('+selectedUnit.id+')"><i class="ra ra-tower"></i></button><span class="butSpace"></span>');
     // BARRAGE
