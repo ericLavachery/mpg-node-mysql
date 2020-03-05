@@ -1,7 +1,7 @@
 /node_modules
 /stock
 /public/img/units
-/work/.~lock.mpg.ods#
+/work
 /modules/dbconnect.js
 /modules/dbconnect_old.js
 /modules/dbconnect_remote.js
